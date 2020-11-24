@@ -1,7 +1,7 @@
 # Weasel-Game-Engine
-**Proyecto final de carrera**
+**Proyecto final de carrera**  
 
-**Como ejecutar**
+**Como ejecutar:**  
 Ejecutar el comando Make y luego main (WINDOWS)
 
 **Librerias utilizadas:**
