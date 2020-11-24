@@ -3,9 +3,9 @@
 #define WIDTH 1280
 #define HEIGHT 720
 
-void loop_function_test(void)
+void loop_function_test(float deltaTime)
 {
-    printf("This is a loop function test.\n");
+    printf("deltaTime: %f\n",deltaTime);
 }
 
 int main(void)

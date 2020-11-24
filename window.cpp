@@ -1,12 +1,10 @@
 #include "window.h"
 #include <stdio.h>
 
-/*Declaraciplayers previas de funciplayers implementadas mas abajo*/
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 float currentFrame = 0.0f;
-int window_init(int width, int height, void (*loop_function)(void))
+int window_init(int width, int height, void (*loop_function)(float))
 {
-    loop_function();
     /*=====================INICIA CREACION DE VENTANA==========================*/
     GLFWwindow* window;
     if (!glfwInit())
@@ -41,6 +39,7 @@ int window_init(int width, int height, void (*loop_function)(void))
         currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
+        loop_function(deltaTime);
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
