@@ -4,28 +4,17 @@
 #include "Quad.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "FileManager.h"
 #define WIDTH 800
 #define HEIGHT 800
 Quad* q;
-const char *fragmentShaderSource = "#version 330 core\n"
-    "out vec4 FragColor;\n"
-    "void main()\n"
-    "{\n"
-    "    FragColor = vec4(0.5f, 0.5f, 0.2f, 1.0f);\n"
-    "}\0";
-const char *vertexShaderSource = "#version 330 core\n"
-    "layout (location = 0) in vec3 aPos;\n"
-    "void main()\n"
-    "{\n"
-    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-    "}\0";
 unsigned int shaderProgram;
 void loop_function_test(float deltaTime)
 {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     float ms = deltaTime * 1000;
-    printf("render time: %fms.\n",ms);
+    //printf("render time: %fms.\n",ms);
     glUseProgram(shaderProgram);
     glBindVertexArray(q->getVAO());
     //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, q->getEBO());
@@ -35,13 +24,18 @@ void loop_function_test(float deltaTime)
 
 int main(void)
 {
-    
+    std::string dir = "Shader.shader";
     GLFWwindow* window = window_init(WIDTH,HEIGHT);
-
     q = new Quad();
+    char shaderFile[14] = "Shader.shader";
+    std::vector<std::string> shaderFiles = parse_file(dir);
+    const std::string& vertex = shaderFiles[0];
+    const std::string& fragment = shaderFiles[1];
     unsigned int vertexShader;
+    const char* vertexSource = vertex.c_str();
+    const char* fragmentSource = fragment.c_str();
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+    glShaderSource(vertexShader, 1, &vertexSource, NULL);
     glCompileShader(vertexShader);
     int  success;
     char infoLog[512];
@@ -53,7 +47,7 @@ int main(void)
     }
     unsigned int fragmentShader;
     fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
     glCompileShader(fragmentShader);
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
     if(!success)
