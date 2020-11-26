@@ -5,6 +5,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "FileManager.h"
+#include <math.h>
 #define WIDTH 800
 #define HEIGHT 800
 Quad* q;
@@ -15,11 +16,29 @@ void loop_function_test(float deltaTime)
     glClear(GL_COLOR_BUFFER_BIT);
     float ms = deltaTime * 1000;
     //printf("render time: %fms.\n",ms);
+    
+    float timeValue = glfwGetTime();
+    float green_color = (sin(timeValue) / 2.0f) + 0.5f;
+    printf("%f\n",green_color);
+    int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
     glUseProgram(shaderProgram);
+    glUniform4f(vertexColorLocation, 0.0f, green_color, 0.0f, 1.0f);
     glBindVertexArray(q->getVAO());
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, q->getEBO());
-    //glDrawArrays(GL_TRIANGLES, 0, 6);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
+
+enum Mode {vs, fs, ps};
+int check_shader_compilation_status(unsigned int shader, Mode mode)
+{
+    int  success;
+    char infoLog[512];
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+    if(!success)
+    {
+        glGetShaderInfoLog(shader, 512, NULL, infoLog);
+        printf("ERROR: Fallo en compilacion de %d, %s\n",mode,infoLog);
+    }
+    return 0;
 }
 
 int main(void)
@@ -37,34 +56,19 @@ int main(void)
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexSource, NULL);
     glCompileShader(vertexShader);
-    int  success;
-    char infoLog[512];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-    if(!success)
-    {
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        printf("ERROR::SHADER::VERTEX::COMPILATION_FAILED %s\n",infoLog);
-    }
+    check_shader_compilation_status(vertexShader,vs);
+    
     unsigned int fragmentShader;
     fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
     glCompileShader(fragmentShader);
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-    if(!success)
-    {
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        printf("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED %s\n",infoLog);
-    }
+    check_shader_compilation_status(fragmentShader,fs);
     
     shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
     glLinkProgram(shaderProgram);
-    if(!success)
-    {
-        glGetShaderInfoLog(shaderProgram, 512, NULL, infoLog);
-        printf("ERROR::SHADER::PROGRAM::COMPILATION_FAILED %s\n",infoLog);
-    }
+    check_shader_compilation_status(shaderProgram,ps);
     window_loop(window,loop_function_test);
     return 0;
 }
