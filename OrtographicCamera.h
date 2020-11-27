@@ -5,10 +5,34 @@
 class OrtographicCamera
 {
     public:
+    /**
+     * @brief Construct a new Ortographic Camera object
+     * 
+     * @param width 
+     * @param height 
+     */
     OrtographicCamera(int width, int height);
+    /**
+     * @brief Destroy the Ortographic Camera object
+     * 
+     */
     ~OrtographicCamera();
+    /**
+     * @brief Get the View Matrix object
+     * 
+     * @return glm::mat4 
+     */
     glm::mat4 getViewMatrix();
+    /**
+     * @brief Get the Projection Matrix object
+     * 
+     * @return glm::mat4 
+     */
     glm::mat4 getProjectionMatrix();
+    /**
+     * @brief actualiza la información de la cámara
+     * 
+     */
     void update();
     private:
     glm::vec3 position;
