@@ -9,15 +9,16 @@
 #include <string.h>
 #include "OrtographicCamera.h"
 #include <glm/gtc/type_ptr.hpp>
+#include "Shader.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #define DEBUG
 #define WIDTH 800
 #define HEIGHT 600
+Shader* shader;
 Quad* q;
 OrtographicCamera* camera;
 unsigned int texture;
-unsigned int shaderProgram;
 void loop_function_test(float deltaTime)
 {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -26,11 +27,11 @@ void loop_function_test(float deltaTime)
     //printf("render time: %fms.\n",ms);
     float timeValue = glfwGetTime();
     float green_color = (sin(timeValue) / 2.0f) + 0.5f;
-    int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
-    int projectionLocation = glGetUniformLocation(shaderProgram,"projection");
-    int viewLocation = glGetUniformLocation(shaderProgram,"view");
+    int vertexColorLocation = glGetUniformLocation(shader->getShaderProgram(), "ourColor");
+    int projectionLocation = glGetUniformLocation(shader->getShaderProgram(),"projection");
+    int viewLocation = glGetUniformLocation(shader->getShaderProgram(),"view");
     
-    glUseProgram(shaderProgram);
+    shader->use();
     glUniformMatrix4fv(projectionLocation,1,GL_FALSE,glm::value_ptr(camera->getProjectionMatrix()));
     glUniformMatrix4fv(viewLocation,1,GL_FALSE,glm::value_ptr(camera->getViewMatrix()));
     glUniform4f(vertexColorLocation, 0.0f, green_color, 0.0f, 1.0f);
@@ -39,58 +40,15 @@ void loop_function_test(float deltaTime)
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
-enum Mode {vs, fs, ps};
-int check_shader_compilation_status(unsigned int shader, Mode mode)
-{
-    #if defined(DEBUG)
-    
-        int  success;
-        char infoLog[512];
-        glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-        if(!success)
-        {
-            glGetShaderInfoLog(shader, 512, NULL, infoLog);
-            printf("ERROR: Fallo en compilacion de %d, %s\n",mode,infoLog);
-        }
-        else
-        {
-            printf("%d Compilado correctamente.\n",mode);
-        }
-    #endif
-    
-    return 0;
-}
-
 int main(int argc, char** argv)
 {
     std::string dir = "Shader.shader";
     GLFWwindow* window = window_init(WIDTH,HEIGHT);
     q = new Quad();
     camera = new OrtographicCamera(WIDTH,HEIGHT);
-    std::vector<std::string> shaderFiles = file_manager::parse_file(dir);
-    const std::string& vertex = shaderFiles[0];
-    const std::string& fragment = shaderFiles[1];
-    unsigned int vertexShader;
-    const char* vertexSource = vertex.c_str();
-    const char* fragmentSource = fragment.c_str();
-    vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexSource, NULL);
-    glCompileShader(vertexShader);
-    check_shader_compilation_status(vertexShader,vs);
-    
-    unsigned int fragmentShader;
-    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
-    glCompileShader(fragmentShader);
-    check_shader_compilation_status(fragmentShader,fs);
-    
-    shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-    check_shader_compilation_status(shaderProgram,ps);
-    
-    
+    shader = new Shader(dir);
+
+
     int width, height, nrChannels;
     unsigned char *data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
     
