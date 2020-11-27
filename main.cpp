@@ -7,12 +7,15 @@
 #include "FileManager.h"
 #include <math.h>
 #include <string.h>
+#include "OrtographicCamera.h"
+#include <glm/gtc/type_ptr.hpp>
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #define DEBUG
 #define WIDTH 800
-#define HEIGHT 800
+#define HEIGHT 600
 Quad* q;
+OrtographicCamera* camera;
 unsigned int texture;
 unsigned int shaderProgram;
 void loop_function_test(float deltaTime)
@@ -24,8 +27,13 @@ void loop_function_test(float deltaTime)
     float timeValue = glfwGetTime();
     float green_color = (sin(timeValue) / 2.0f) + 0.5f;
     int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+    int projectionLocation = glGetUniformLocation(shaderProgram,"projection");
+    int viewLocation = glGetUniformLocation(shaderProgram,"view");
+    
     glUseProgram(shaderProgram);
-    //glUniform4f(vertexColorLocation, 0.0f, green_color, 0.0f, 1.0f);
+    glUniformMatrix4fv(projectionLocation,1,GL_FALSE,glm::value_ptr(camera->getProjectionMatrix()));
+    glUniformMatrix4fv(viewLocation,1,GL_FALSE,glm::value_ptr(camera->getViewMatrix()));
+    glUniform4f(vertexColorLocation, 0.0f, green_color, 0.0f, 1.0f);
     glBindTexture(GL_TEXTURE_2D, texture);
     glBindVertexArray(q->getVAO());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -58,7 +66,8 @@ int main(int argc, char** argv)
     std::string dir = "Shader.shader";
     GLFWwindow* window = window_init(WIDTH,HEIGHT);
     q = new Quad();
-    std::vector<std::string> shaderFiles = parse_file(dir);
+    camera = new OrtographicCamera(WIDTH,HEIGHT);
+    std::vector<std::string> shaderFiles = file_manager::parse_file(dir);
     const std::string& vertex = shaderFiles[0];
     const std::string& fragment = shaderFiles[1];
     unsigned int vertexShader;

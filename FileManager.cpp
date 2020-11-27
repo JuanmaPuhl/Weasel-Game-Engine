@@ -1,6 +1,6 @@
 #include "FileManager.h"
 
-std::string read_file(std::string dir)
+std::string file_manager::read_file(std::string dir)
 {
     std::string s="";
     std::ifstream file(dir);
@@ -11,7 +11,7 @@ std::string read_file(std::string dir)
     return s;
 }
 
-std::vector<std::string> parse_file(std::string& source)
+std::vector<std::string> file_manager::parse_file(std::string& source)
 {
     std::ifstream file{source};
     std::string lineContent;

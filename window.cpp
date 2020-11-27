@@ -30,7 +30,7 @@ GLFWwindow* window_init(int width, int height)
     glGetError();
 
     /*====================TERMINA CREACION DE VENTANA==========================*/
-    //glViewport(0, 0, width, height);
+    glViewport(0, 0, width, height);
     //glEnable(GL_BLEND);
     //glEnable(GL_DEPTH_TEST);
     //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
