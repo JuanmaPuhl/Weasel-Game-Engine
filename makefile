@@ -15,5 +15,7 @@ clean:
 	del quad.o
 	del window.o
 	del FileManager.o
+	del OrtographicCamera.o
 	del main.exe
+
         
