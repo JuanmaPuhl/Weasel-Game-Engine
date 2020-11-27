@@ -14,8 +14,8 @@
 #include "Entity.h"
 #include "Sprite.h"
 #define DEBUG
-#define WIDTH 800
-#define HEIGHT 600
+#define WIDTH 1280
+#define HEIGHT 720
 Shader* shader;
 Entity* entity,*entity2;
 OrtographicCamera* camera;
@@ -84,20 +84,18 @@ void loop_function_test(float deltaTime)
 int main(int argc, char** argv)
 {
     std::string dir = "Shader.shader";
-    GLFWwindow* window = window_init(WIDTH,HEIGHT);
+    GLFWwindow* window = window::window_init(WIDTH,HEIGHT);
     entity = new Entity();
     entity2 = new Entity();
-    entity2->translate(glm::vec3(100.0f,0.0f,0.0f));
+    entity2->translate(glm::vec3(150.0f,0.0f,0.0f));
     camera = new OrtographicCamera(WIDTH,HEIGHT);
     shader = new Shader(dir);
     spr1 = new Sprite("container.jpg");
     spr2 = new Sprite("wall.jpg");
     entity->setSprite(spr1);
     entity2->setSprite(spr2);
-    set_key_callback(window,key_callback);
-    
-    window_loop(window,loop_function_test);
-
+    window::set_key_callback(window,key_callback);
+    window::window_loop(window,loop_function_test);
     return 0;
 }
 

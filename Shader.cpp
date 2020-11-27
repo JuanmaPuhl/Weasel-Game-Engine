@@ -1,7 +1,7 @@
 #include "Shader.h"
 #include "FileManager.h"
 #include <GL/glew.h>
-
+#define DEBUG
 enum Mode {vs, fs, ps};
 int check_shader_compilation_status(unsigned int shader, Mode mode)
 {
