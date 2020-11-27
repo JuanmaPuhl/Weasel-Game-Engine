@@ -6,6 +6,8 @@
 #include <GLFW/glfw3.h>
 #include "FileManager.h"
 #include <math.h>
+#include <string.h>
+#define DEBUG
 #define WIDTH 800
 #define HEIGHT 800
 Quad* q;
@@ -16,10 +18,8 @@ void loop_function_test(float deltaTime)
     glClear(GL_COLOR_BUFFER_BIT);
     float ms = deltaTime * 1000;
     //printf("render time: %fms.\n",ms);
-    
     float timeValue = glfwGetTime();
     float green_color = (sin(timeValue) / 2.0f) + 0.5f;
-    printf("%f\n",green_color);
     int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
     glUseProgram(shaderProgram);
     glUniform4f(vertexColorLocation, 0.0f, green_color, 0.0f, 1.0f);
@@ -30,23 +30,30 @@ void loop_function_test(float deltaTime)
 enum Mode {vs, fs, ps};
 int check_shader_compilation_status(unsigned int shader, Mode mode)
 {
-    int  success;
-    char infoLog[512];
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-    if(!success)
-    {
-        glGetShaderInfoLog(shader, 512, NULL, infoLog);
-        printf("ERROR: Fallo en compilacion de %d, %s\n",mode,infoLog);
-    }
+    #if defined(DEBUG)
+    
+        int  success;
+        char infoLog[512];
+        glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+        if(!success)
+        {
+            glGetShaderInfoLog(shader, 512, NULL, infoLog);
+            printf("ERROR: Fallo en compilacion de %d, %s\n",mode,infoLog);
+        }
+        else
+        {
+            printf("%d Compilado correctamente.\n",mode);
+        }
+    #endif
+    
     return 0;
 }
 
-int main(void)
+int main(int argc, char** argv)
 {
     std::string dir = "Shader.shader";
     GLFWwindow* window = window_init(WIDTH,HEIGHT);
     q = new Quad();
-    char shaderFile[14] = "Shader.shader";
     std::vector<std::string> shaderFiles = parse_file(dir);
     const std::string& vertex = shaderFiles[0];
     const std::string& fragment = shaderFiles[1];
