@@ -7,10 +7,13 @@
 #include "FileManager.h"
 #include <math.h>
 #include <string.h>
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 #define DEBUG
 #define WIDTH 800
 #define HEIGHT 800
 Quad* q;
+unsigned int texture;
 unsigned int shaderProgram;
 void loop_function_test(float deltaTime)
 {
@@ -22,7 +25,8 @@ void loop_function_test(float deltaTime)
     float green_color = (sin(timeValue) / 2.0f) + 0.5f;
     int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
     glUseProgram(shaderProgram);
-    glUniform4f(vertexColorLocation, 0.0f, green_color, 0.0f, 1.0f);
+    //glUniform4f(vertexColorLocation, 0.0f, green_color, 0.0f, 1.0f);
+    glBindTexture(GL_TEXTURE_2D, texture);
     glBindVertexArray(q->getVAO());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
@@ -76,7 +80,27 @@ int main(int argc, char** argv)
     glAttachShader(shaderProgram, fragmentShader);
     glLinkProgram(shaderProgram);
     check_shader_compilation_status(shaderProgram,ps);
+    
+    
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
+    
+    glGenTextures(1, &texture);  
+    glBindTexture(GL_TEXTURE_2D, texture);  
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {   
+        #if defined(DEBUG)
+            printf("No se pudo cargar la textura.\n");
+        #endif
+    }
+    stbi_image_free(data);
     window_loop(window,loop_function_test);
+
     return 0;
 }
 
