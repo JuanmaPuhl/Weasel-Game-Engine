@@ -23,7 +23,7 @@ GLFWwindow* window_init(int width, int height)
         return NULL;
     }
     
-    glfwSetKeyCallback(window, key_callback);
+    //glfwSetKeyCallback(window, key_callback);
     glfwMakeContextCurrent(window);
     glewExperimental = GL_TRUE;
     glewInit();
@@ -36,6 +36,11 @@ GLFWwindow* window_init(int width, int height)
     //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     return window;
+}
+
+void set_key_callback(GLFWwindow*window,void callback(GLFWwindow*,int,int,int,int))
+{
+    glfwSetKeyCallback(window,callback);
 }
 
 int window_loop(GLFWwindow* window,void (*loop_function)(float))
@@ -57,19 +62,3 @@ int window_loop(GLFWwindow* window,void (*loop_function)(float))
     return 0;
 }
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
-{
-  if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-  {
-    glfwSetWindowShouldClose(window, GL_TRUE);
-  }
-  if (key >= 0 && key < 1024)
-  {
-    /*
-    if (action == GLFW_PRESS)
-        Game.Keys[key] = GL_TRUE;
-    else if (action == GLFW_RELEASE)
-        Game.Keys[key] = GL_FALSE;
-    */
-  }
-}

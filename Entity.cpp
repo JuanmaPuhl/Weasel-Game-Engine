@@ -36,6 +36,16 @@ void Entity::updateModelMatrix()
     }
 }
 
+void Entity::setSprite(Sprite* sprite)
+{
+    this->sprite = sprite;
+}
+
+Sprite* Entity::getSprite()
+{
+    return this->sprite;
+}
+
 void Entity::translate(glm::vec3 position)
 {
     this->position = position;

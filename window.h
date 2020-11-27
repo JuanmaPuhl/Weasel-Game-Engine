@@ -13,3 +13,4 @@ GLFWwindow* window_init(int width, int height);
  */
 int window_loop(GLFWwindow* window, void (*loop_function)(float));
 
+void set_key_callback(GLFWwindow*window,void callback(GLFWwindow*,int,int,int,int));
