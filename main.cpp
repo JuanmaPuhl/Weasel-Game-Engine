@@ -10,13 +10,14 @@
 #include "OrtographicCamera.h"
 #include <glm/gtc/type_ptr.hpp>
 #include "Shader.h"
+#include "Entity.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #define DEBUG
 #define WIDTH 800
 #define HEIGHT 600
 Shader* shader;
-Quad* q;
+Entity* entity,*entity2;
 OrtographicCamera* camera;
 unsigned int texture;
 void loop_function_test(float deltaTime)
@@ -30,13 +31,18 @@ void loop_function_test(float deltaTime)
     int vertexColorLocation = glGetUniformLocation(shader->getShaderProgram(), "ourColor");
     int projectionLocation = glGetUniformLocation(shader->getShaderProgram(),"projection");
     int viewLocation = glGetUniformLocation(shader->getShaderProgram(),"view");
-    
+    int modelLocation = glGetUniformLocation(shader->getShaderProgram(),"model");
     shader->use();
     glUniformMatrix4fv(projectionLocation,1,GL_FALSE,glm::value_ptr(camera->getProjectionMatrix()));
     glUniformMatrix4fv(viewLocation,1,GL_FALSE,glm::value_ptr(camera->getViewMatrix()));
+    glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(entity->getModelMatrix()));
     glUniform4f(vertexColorLocation, 0.0f, green_color, 0.0f, 1.0f);
     glBindTexture(GL_TEXTURE_2D, texture);
-    glBindVertexArray(q->getVAO());
+    glBindVertexArray(entity->getQuad()->getVAO());
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+    glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(entity2->getModelMatrix()));
+    glBindVertexArray(entity2->getQuad()->getVAO());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
@@ -44,7 +50,9 @@ int main(int argc, char** argv)
 {
     std::string dir = "Shader.shader";
     GLFWwindow* window = window_init(WIDTH,HEIGHT);
-    q = new Quad();
+    entity = new Entity();
+    entity2 = new Entity();
+    entity2->translate(glm::vec3(100.0f,0.0f,0.0f));
     camera = new OrtographicCamera(WIDTH,HEIGHT);
     shader = new Shader(dir);
 

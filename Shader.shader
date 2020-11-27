@@ -10,7 +10,7 @@ out vec4 ourColor;
 out vec2 TexCoord;
 void main()
 {
-    gl_Position =projection*view*(mat4(32.0f,0.0f,0.0f,0.0f, 0.0f,32.0f,0.0f,0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f)*vec4(aPos, 1.0f));
+    gl_Position =projection*view*model*vec4(aPos, 1.0f);
     ourColor = vec4(1.0f);
     TexCoord = aTexCoord;
 }
