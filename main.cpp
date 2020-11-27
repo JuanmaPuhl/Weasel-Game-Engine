@@ -9,17 +9,17 @@
 #include <string.h>
 #include "OrtographicCamera.h"
 #include <glm/gtc/type_ptr.hpp>
+#define STB_IMAGE_IMPLEMENTATION
 #include "Shader.h"
 #include "Entity.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include "Sprite.h"
 #define DEBUG
 #define WIDTH 800
 #define HEIGHT 600
 Shader* shader;
 Entity* entity,*entity2;
 OrtographicCamera* camera;
-unsigned int texture;
+Sprite *spr1,*spr2;
 void loop_function_test(float deltaTime)
 {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -37,11 +37,14 @@ void loop_function_test(float deltaTime)
     glUniformMatrix4fv(viewLocation,1,GL_FALSE,glm::value_ptr(camera->getViewMatrix()));
     glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(entity->getModelMatrix()));
     glUniform4f(vertexColorLocation, 0.0f, green_color, 0.0f, 1.0f);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glBindTexture(GL_TEXTURE_2D, spr1->getSpriteImage());
+    //Dibujo primera entidad
     glBindVertexArray(entity->getQuad()->getVAO());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
+    //Dibujo segunda entidad
     glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(entity2->getModelMatrix()));
+    glBindTexture(GL_TEXTURE_2D, spr2->getSpriteImage());
     glBindVertexArray(entity2->getQuad()->getVAO());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
@@ -55,25 +58,10 @@ int main(int argc, char** argv)
     entity2->translate(glm::vec3(100.0f,0.0f,0.0f));
     camera = new OrtographicCamera(WIDTH,HEIGHT);
     shader = new Shader(dir);
+    spr1 = new Sprite("container.jpg");
+    spr2 = new Sprite("wall.jpg");
 
-
-    int width, height, nrChannels;
-    unsigned char *data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
     
-    glGenTextures(1, &texture);  
-    glBindTexture(GL_TEXTURE_2D, texture);  
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {   
-        #if defined(DEBUG)
-            printf("No se pudo cargar la textura.\n");
-        #endif
-    }
-    stbi_image_free(data);
     window_loop(window,loop_function_test);
 
     return 0;

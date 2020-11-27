@@ -1,8 +1,8 @@
 LIBRERIAS = -lglew32 -lglfw3 -lopengl32 
-all: main.exe quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o
+all: main.exe quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o
 .PHONY: all
-main.exe:main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o
-	g++  -o main.exe  main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o -I ./libs/ -L ./libs/ $(LIBRERIAS)
+main.exe:main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o
+	g++  -o main.exe  main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o -I ./libs/ -L ./libs/ $(LIBRERIAS)
 quad.o: quad.cpp quad.h
 	g++ -c  quad.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS) 
 window.o: window.cpp window.h
@@ -15,6 +15,8 @@ Shader.o: Shader.cpp Shader.h
 	g++ -c  Shader.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 Entity.o: Entity.cpp Entity.h
 	g++ -c  Entity.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+Sprite.o: Sprite.cpp Sprite.h
+	g++ -c  Sprite.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 clean:
 	del quad.o
 	del window.o
@@ -22,6 +24,7 @@ clean:
 	del OrtographicCamera.o
 	del Shader.o
 	del Entity.o
+	del Sprite.o
 	del main.exe
 
         
