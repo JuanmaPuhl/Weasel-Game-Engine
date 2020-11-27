@@ -17,3 +17,5 @@ namespace window
 
     void set_key_callback(GLFWwindow*window,void callback(GLFWwindow*,int,int,int,int));
 }
+    
+

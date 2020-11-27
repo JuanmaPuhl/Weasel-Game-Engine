@@ -26,14 +26,14 @@ void Entity::updateModelMatrix()
     glm::mat4 scaleMatrix = glm::mat4(1.0f);
     scaleMatrix = glm::scale(scaleMatrix,this->scaling);
     this->modelMatrix =  rotationMatrix* translationMatrix*scaleMatrix*this->modelMatrix;
-    for(int i = 0; i<4; i++)
+    /*for(int i = 0; i<4; i++)
     {
         for(int j = 0; j<4; j++)
         {
             printf("%f,",this->modelMatrix[i][j]);
         }
         printf("\n");
-    }
+    }*/
 }
 
 void Entity::setSprite(Sprite* sprite)

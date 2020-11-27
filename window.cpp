@@ -3,7 +3,7 @@
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 float currentFrame = 0.0f;
-GLFWwindow* window_init(int width, int height)
+GLFWwindow* window::window_init(int width, int height)
 {
     /*=====================INICIA CREACION DE VENTANA==========================*/
     GLFWwindow* window;
@@ -38,12 +38,12 @@ GLFWwindow* window_init(int width, int height)
     return window;
 }
 
-void set_key_callback(GLFWwindow*window,void callback(GLFWwindow*,int,int,int,int))
+void window::set_key_callback(GLFWwindow*window,void callback(GLFWwindow*,int,int,int,int))
 {
     glfwSetKeyCallback(window,callback);
 }
 
-int window_loop(GLFWwindow* window,void (*loop_function)(float))
+int window::window_loop(GLFWwindow* window,void (*loop_function)(float))
 {
     GLfloat deltaTime = 0.0f;
     GLfloat lastFrame = 0.0f;

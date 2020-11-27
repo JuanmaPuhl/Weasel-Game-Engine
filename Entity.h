@@ -22,6 +22,6 @@ class Entity
     glm::vec3 scaling;
     Quad* quad;
     glm::mat4 modelMatrix;
-    Sprite* sprite;
+    Sprite* sprite = NULL;
     void updateModelMatrix();
 };

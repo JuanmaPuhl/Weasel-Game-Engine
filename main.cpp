@@ -20,6 +20,7 @@ Shader* shader;
 Entity* entity,*entity2;
 OrtographicCamera* camera;
 Sprite *spr1,*spr2;
+Entity* lista[1000];
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
@@ -57,7 +58,7 @@ void loop_function_test(float deltaTime)
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     float ms = deltaTime * 1000;
-    //printf("render time: %fms.\n",ms);
+    printf("render time: %fms.\n",ms);
     float timeValue = glfwGetTime();
     float green_color = (sin(timeValue) / 2.0f) + 0.5f;
     int vertexColorLocation = glGetUniformLocation(shader->getShaderProgram(), "ourColor");
@@ -67,18 +68,22 @@ void loop_function_test(float deltaTime)
     shader->use();
     glUniformMatrix4fv(projectionLocation,1,GL_FALSE,glm::value_ptr(camera->getProjectionMatrix()));
     glUniformMatrix4fv(viewLocation,1,GL_FALSE,glm::value_ptr(camera->getViewMatrix()));
-    glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(entity->getModelMatrix()));
+    //glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(entity->getModelMatrix()));
     glUniform4f(vertexColorLocation, 0.0f, green_color, 0.0f, 1.0f);
-    glBindTexture(GL_TEXTURE_2D, entity->getSprite()->getSpriteImage());
+    //glBindTexture(GL_TEXTURE_2D, entity->getSprite()->getSpriteImage());
     //Dibujo primera entidad
-    glBindVertexArray(entity->getQuad()->getVAO());
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    
+    //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
     //Dibujo segunda entidad
-    glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(entity2->getModelMatrix()));
-    glBindTexture(GL_TEXTURE_2D, entity2->getSprite()->getSpriteImage());
-    glBindVertexArray(entity2->getQuad()->getVAO());
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    
+    for(int i=0;i<1000;i++)
+    {
+        glBindVertexArray(entity->getQuad()->getVAO());
+        glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(lista[i]->getModelMatrix()));
+        glBindTexture(GL_TEXTURE_2D, lista[i]->getSprite()->getSpriteImage());
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    }
 }
 
 int main(int argc, char** argv)
@@ -95,6 +100,12 @@ int main(int argc, char** argv)
     entity->setSprite(spr1);
     entity2->setSprite(spr2);
     window::set_key_callback(window,key_callback);
+    for(int i=0; i<1000; i++)
+    {
+        lista[i] = new Entity();
+        lista[i]->translate(glm::vec3(float(i%1000),float((i%1000)%10),0.0f));
+        lista[i]->setSprite(spr1);
+    }
     window::window_loop(window,loop_function_test);
     return 0;
 }
