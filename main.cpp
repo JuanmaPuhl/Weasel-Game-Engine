@@ -76,10 +76,9 @@ void loop_function_test(float deltaTime)
     //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
     //Dibujo segunda entidad
-    
+    glBindVertexArray(entity->getQuad()->getVAO());
     for(int i=0;i<1000;i++)
     {
-        glBindVertexArray(entity->getQuad()->getVAO());
         glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(lista[i]->getModelMatrix()));
         glBindTexture(GL_TEXTURE_2D, lista[i]->getSprite()->getSpriteImage());
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -92,7 +91,7 @@ int main(int argc, char** argv)
     GLFWwindow* window = window::window_init(WIDTH,HEIGHT);
     entity = new Entity();
     entity2 = new Entity();
-    entity2->translate(glm::vec3(150.0f,0.0f,0.0f));
+    entity2->translate(glm::vec3(2.0f,0.0f,0.0f));
     camera = new OrtographicCamera(WIDTH,HEIGHT);
     shader = new Shader(dir);
     spr1 = new Sprite("container.jpg");

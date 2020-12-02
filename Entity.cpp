@@ -4,7 +4,7 @@ Entity::Entity()
 {
     this->quad = new Quad();
     this->position = glm::vec3(0.0f);
-    this->scaling = glm::vec3(128.0f); //Lo hago 32 x 32
+    this->scaling = glm::vec3(32.0f); //Lo hago 32 x 32
     this->rotation = glm::vec3(0.0f,0.0f,1.0f);
     
     //Tengo que calcular la modelMatrix nueva
