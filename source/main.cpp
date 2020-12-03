@@ -26,7 +26,7 @@ Sprite *spr1,*spr2;
 Entity* lista[MAX_ENTITIES];
 Sprite** animation;
 int animation_index = 0;
-double animation_speed = 0.25;
+double animation_speed = 0.25*60.0;
 float animation_elapsed_time = 0.0f;
 double index_aux = 0.0;
 glm::vec2 camera_movement_direction = glm::vec2(0.0f);
@@ -156,7 +156,7 @@ void loop_function_test(float deltaTime)
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
       }
       animation_elapsed_time += ms;
-      index_aux+=animation_speed;
+      index_aux+=animation_speed * double(deltaTime);
       /* if(fps % animation_speed == 0)
       {
         if(animation_index< MAX_ANIMATION_SIZE - 1)
