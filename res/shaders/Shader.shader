@@ -24,7 +24,7 @@ void main()
 {
     
     FragColor =texture(ourTexture,TexCoord);
-    if(FragColor.a < 1.0f)
+    if(FragColor.a < 0.1f)
     {
         discard;
     }

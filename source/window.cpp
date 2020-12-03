@@ -49,7 +49,7 @@ int window::window_loop(GLFWwindow* window,void (*loop_function)(float))
     GLfloat lastFrame = 0.0f;
     while (!glfwWindowShouldClose(window))
     {
-        glfwSwapInterval(0);
+        //glfwSwapInterval(0);
         currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
