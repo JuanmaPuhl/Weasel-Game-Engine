@@ -30,8 +30,31 @@ glm::mat4 OrtographicCamera::getProjectionMatrix()
     return this->projectionMatrix;
 }
 
-void OrtographicCamera::update()
+void OrtographicCamera::update(float deltaTime)
 {
-//this->viewMatrix = glm::lookAt(position,position + front, up);
+    this->viewMatrix = glm::lookAt(this->position,this->position + this->front, this->up);
+    if(this->zoomOrder != 0)
+    {
+        if(this->zoomValue >=0.01f)
+        {
+            this->zoomValue -= this->zoomOrder*this->zoomVelocity*deltaTime;
+            this->projectionMatrix = glm::ortho(
+                -float(this->width/2)*this->zoomValue,
+                float(this->width/2)*this->zoomValue,
+                -float(this->height/2)*this->zoomValue,
+                float(this->height/2)*this->zoomValue,
+                -1.0f,
+                10.0f
+            );
+        }
+        else
+        {
+            this->zoomValue = 0.01f;
+        }
+    }
+}
 
+void OrtographicCamera::zoom(float factor)
+{
+    this->zoomOrder = factor;
 }

@@ -33,13 +33,14 @@ class OrtographicCamera
      * @brief actualiza la información de la cámara
      * 
      */
-    void update();
+    void update(float deltaTime);
+    void zoom(float factor);
     private:
     glm::vec3 position;
     glm::vec3 direction;
     float velocity = 50.0f;
     glm::vec3 cameraTarget;
-    float zoom = 1.0f;
+    float zoomValue = 1.0f;
     glm::vec3 front;
     int height;
     glm::vec3 up;

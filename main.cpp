@@ -16,7 +16,7 @@
 #define DEBUG
 #define WIDTH 1280
 #define HEIGHT 720
-#define MAX_ENTITIES 25
+#define MAX_ENTITIES 1000
 Shader* shader;
 Entity* entity,*entity2;
 OrtographicCamera* camera;
@@ -43,12 +43,31 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
       {
           printf("Aprete la tecla D.\n");
           entity->setSprite(spr2);
-      }  
+      }
+      if(key==GLFW_KEY_I)
+      {
+          printf("Aprete la tecla I.\n");
+          camera->zoom(1.0f);
+      } 
+      if(key==GLFW_KEY_J)
+      {
+          printf("Aprete la tecla J.\n");
+          camera->zoom(-1.0f);
+      }   
     }
     else 
         if (action == GLFW_RELEASE)
         {
-            
+          if(key==GLFW_KEY_I)
+          {
+              printf("Solte la tecla I.\n");
+              camera->zoom(0.0f);
+          }
+          if(key==GLFW_KEY_J)
+          {
+              printf("Solte la tecla J.\n");
+              camera->zoom(0.0f);
+          }  
         }
     
   }
@@ -59,7 +78,10 @@ void loop_function_test(float deltaTime)
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     float ms = deltaTime * 1000;
-    //printf("render time: %fms.\n",ms);
+    #if defined(DEBUG)
+      printf("render time: %fms.\n",ms);
+    #endif
+    camera->update(deltaTime);
     float timeValue = glfwGetTime();
     float green_color = (sin(timeValue) / 2.0f) + 0.5f;
     int vertexColorLocation = glGetUniformLocation(shader->getShaderProgram(), "ourColor");
@@ -69,13 +91,7 @@ void loop_function_test(float deltaTime)
     shader->use();
     glUniformMatrix4fv(projectionLocation,1,GL_FALSE,glm::value_ptr(camera->getProjectionMatrix()));
     glUniformMatrix4fv(viewLocation,1,GL_FALSE,glm::value_ptr(camera->getViewMatrix()));
-    //glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(entity->getModelMatrix()));
     glUniform4f(vertexColorLocation, 0.0f, green_color, 0.0f, 1.0f);
-    //glBindTexture(GL_TEXTURE_2D, entity->getSprite()->getSpriteImage());
-    //Dibujo primera entidad
-    
-    //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
     //Dibujo segunda entidad
     glBindVertexArray(entity->getQuad()->getVAO());
     for(int i=0;i<MAX_ENTITIES;i++)
@@ -107,9 +123,7 @@ int main(int argc, char** argv)
     {
         lista[i] = new Entity();
         float division = float(MAX_ENTITIES-1)/2.0f;
-        printf("Division: %f\n",division);
         float new_x = float((32.0f+5.0f)*i-(32.0f+5.0f)*division);
-        printf("NEW X: %f\n",new_x);
         lista[i]->translate(glm::vec3(new_x,0.0f,0.0f));
         lista[i]->setSprite(spr1);
     }
