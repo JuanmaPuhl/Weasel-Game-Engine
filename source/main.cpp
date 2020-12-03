@@ -17,11 +17,16 @@
 #define WIDTH 1280
 #define HEIGHT 720
 #define MAX_ENTITIES 10
+#define MAX_ANIMATION_SIZE 5
 Shader* shader;
 Entity* entity,*entity2;
 OrtographicCamera* camera;
 Sprite *spr1,*spr2;
 Entity* lista[MAX_ENTITIES];
+Sprite** animation;
+int animation_index = 0;
+float animation_speed = 1.0f;
+float animation_elapsed_time = 0.0f;
 glm::vec2 camera_movement_direction = glm::vec2(0.0f);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
@@ -127,8 +132,18 @@ void loop_function_test(float deltaTime)
       glBindTexture(GL_TEXTURE_2D, lista[i]->getSprite()->getSpriteImage());
       glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     }
+    animation_elapsed_time += ms;
+    if(animation_elapsed_time>=animation_speed *1000)
+    {
+      if(animation_index< MAX_ANIMATION_SIZE - 1)
+        animation_index++;
+      else
+        animation_index = 0;
+      animation_elapsed_time = 0.0f;
+    }
+
     glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(entity2->getModelMatrix()));
-    glBindTexture(GL_TEXTURE_2D, entity2->getSprite()->getSpriteImage());
+    glBindTexture(GL_TEXTURE_2D, animation[animation_index]->getSpriteImage());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
@@ -141,8 +156,17 @@ int main(int argc, char** argv)
     entity2->translate(glm::vec3(2.0f,64.0f,0.0f));
     camera = new OrtographicCamera(WIDTH,HEIGHT);
     shader = new Shader(dir);
-    spr1 = new Sprite("res/sprites/container.jpg");
-    spr2 = new Sprite("res/sprites/wall.jpg");
+    spr1 = new Sprite("res/sprites/container.jpg",normal);
+    spr2 = new Sprite("res/sprites/wall.jpg",normal);
+    Sprite *spr3 = new Sprite("res/Sprites/40_corrugated cardboard texture-seamless.jpg",normal);
+    Sprite *spr4 = new Sprite("res/Sprites/awesomeface.png",transparent);
+    Sprite *spr5 = new Sprite("res/Sprites/ges.png",normal);
+    animation = (Sprite**)malloc(sizeof(Sprite)*MAX_ANIMATION_SIZE);
+    animation[0] = spr1;
+    animation[1] = spr2;
+    animation[2] = spr3;
+    animation[3] = spr4;
+    animation[4] = spr5;
     entity->setSprite(spr1);
     entity2->setSprite(spr2);
     window::set_key_callback(window,key_callback);
