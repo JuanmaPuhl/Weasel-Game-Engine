@@ -31,7 +31,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
   }
   if (key >= 0 && key < 1024)
   {
-    
     if (action == GLFW_PRESS)
     {
       if(key==GLFW_KEY_A)
@@ -50,9 +49,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
       {
           camera->zoom(-1.0f);
       }
-
-      
-
       if(key==GLFW_KEY_RIGHT)
       {
         camera_movement_direction += glm::vec2(1.0f,0.0f);
