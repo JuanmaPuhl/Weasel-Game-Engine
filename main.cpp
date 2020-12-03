@@ -16,13 +16,13 @@
 #define DEBUG
 #define WIDTH 1280
 #define HEIGHT 720
-#define MAX_ENTITIES 1000
+#define MAX_ENTITIES 10
 Shader* shader;
 Entity* entity,*entity2;
 OrtographicCamera* camera;
 Sprite *spr1,*spr2;
 Entity* lista[MAX_ENTITIES];
-
+glm::vec2 camera_movement_direction = glm::vec2(0.0f);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
   if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
@@ -36,60 +36,69 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     {
       if(key==GLFW_KEY_A)
       {
-          printf("Aprete la tecla A.\n");
           entity->setSprite(spr1);
       }
       if(key==GLFW_KEY_D)
       {
-          printf("Aprete la tecla D.\n");
           entity->setSprite(spr2);
       }
       if(key==GLFW_KEY_I)
       {
-          printf("Aprete la tecla I.\n");
           camera->zoom(1.0f);
       } 
       if(key==GLFW_KEY_J)
       {
-          printf("Aprete la tecla J.\n");
           camera->zoom(-1.0f);
       }
+
+      
+
       if(key==GLFW_KEY_RIGHT)
       {
-        printf("APRETE DER");
-        camera->move(glm::vec2(1.0f,0.0f));
+        camera_movement_direction += glm::vec2(1.0f,0.0f);
       }
       if(key==GLFW_KEY_LEFT)
       {
-        printf("APRETE IZQ");
-        camera->move(glm::vec2(-1.0f,0.0f));
+        camera_movement_direction  += glm::vec2(-1.0f,0.0f);
       }
       if(key==GLFW_KEY_UP)
       {
-        camera->move(glm::vec2(0.0f,1.0f));
+        camera_movement_direction += glm::vec2(0.0f,1.0f);
       }   
       if(key==GLFW_KEY_DOWN)
       {
-        camera->move(glm::vec2(0.0f,-1.0f));
+        camera_movement_direction += glm::vec2(0.0f,-1.0f);
       }
+      camera->move(camera_movement_direction);
     }
     else 
         if (action == GLFW_RELEASE)
         {
           if(key==GLFW_KEY_I)
           {
-              printf("Solte la tecla I.\n");
               camera->zoom(0.0f);
           }
           if(key==GLFW_KEY_J)
           {
-              printf("Solte la tecla J.\n");
               camera->zoom(0.0f);
           }
-          if(key==GLFW_KEY_RIGHT || key==GLFW_KEY_LEFT || key == GLFW_KEY_UP || key == GLFW_KEY_DOWN)
+          if(key==GLFW_KEY_RIGHT)
           {
-            camera->move(glm::vec2(0.0f));
-          }  
+            camera_movement_direction += glm::vec2(-1.0f,0.0f);
+          } 
+          if(key==GLFW_KEY_LEFT )
+          {
+            camera_movement_direction += glm::vec2(1.0f,0.0f);
+          } 
+          if(key == GLFW_KEY_UP)
+          {
+            camera_movement_direction += glm::vec2(0.0f,-1.0f);
+          } 
+          if(key == GLFW_KEY_DOWN)
+          {
+            camera_movement_direction += glm::vec2(0.0f,1.0f);
+          } 
+          camera->move(camera_movement_direction); 
         }
     
   }
@@ -101,7 +110,7 @@ void loop_function_test(float deltaTime)
     glClear(GL_COLOR_BUFFER_BIT);
     float ms = deltaTime * 1000;
     #if defined(DEBUG)
-      //printf("render time: %fms.\n",ms);
+      printf("render time: %fms.\n",ms);
     #endif
     camera->update(deltaTime);
     float timeValue = glfwGetTime();
