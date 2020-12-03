@@ -21,6 +21,16 @@ void Animation::setSprites(Sprite** spr)
     this->sprites = spr;
 }
 
+Sprite** Animation::getSprites()
+{
+    return this->sprites;
+}
+
+double Animation::getSpeed()
+{
+    return this->speed;
+}
+
 Sprite* Animation::getCurrentSprite(float deltaTime)
 {
     this->index_aux += this->speed * (double)deltaTime;

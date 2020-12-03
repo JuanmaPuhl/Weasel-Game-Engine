@@ -9,6 +9,8 @@ class Animation
         ~Animation();
         void setSpeed(double speed);
         void setSprites(Sprite** spr);
+        double getSpeed();
+        Sprite** getSprites();
         Sprite* getCurrentSprite(float deltaTime);
 
     private:

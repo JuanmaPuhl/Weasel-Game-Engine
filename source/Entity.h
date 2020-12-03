@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Quad.h"
-#include "Sprite.h"
+#include "Animation.h"
 class Entity
 {
     public:
@@ -12,8 +12,8 @@ class Entity
     void translate(glm::vec3 position);
     void rotate(glm::vec3 rotation);
     void scale(glm::vec3 scaling);
-    void setSprite(Sprite* sprite);
-    Sprite* getSprite();
+    void setSprite(Animation* sprite);
+    Animation* getAnimation();
     glm::mat4 getModelMatrix();
     Quad* getQuad();
     void onUpdate();
@@ -23,6 +23,6 @@ class Entity
     glm::vec3 scaling;
     Quad* quad;
     glm::mat4 modelMatrix;
-    Sprite* sprite = NULL;
+    Animation* sprite = NULL;
     void updateModelMatrix();
 };

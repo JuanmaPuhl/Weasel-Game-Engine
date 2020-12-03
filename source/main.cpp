@@ -40,14 +40,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
   {
     if (action == GLFW_PRESS)
     {
-      if(key==GLFW_KEY_A)
-      {
-          entity->setSprite(spr1);
-      }
-      if(key==GLFW_KEY_D)
-      {
-          entity->setSprite(spr2);
-      }
       if(key==GLFW_KEY_I)
       {
           camera->zoom(1.0f);
@@ -146,7 +138,7 @@ void loop_function_test(float deltaTime)
   for(int i=0;i<MAX_ENTITIES;i++)
   {
     glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(lista[i]->getModelMatrix()));
-    glBindTexture(GL_TEXTURE_2D, lista[i]->getSprite()->getSpriteImage());
+    glBindTexture(GL_TEXTURE_2D, lista[i]->getAnimation()->getCurrentSprite(deltaTime)->getSpriteImage());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
   }
   glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(entity2->getModelMatrix()));
@@ -179,8 +171,14 @@ int main(int argc, char** argv)
     Sprite* sprites[6] = {chr1,chr2,chr3,chr4,chr5,chr6};
     animation = new Animation(6,sprites);
     animation->setSpeed(0.25*60);
-    entity->setSprite(spr1);
-    entity2->setSprite(spr2);
+    Sprite* spr1_set[1] = {spr1}; 
+    Animation* anim1 = new Animation(6,sprites);
+    anim1->setSpeed(0.25*60);
+    entity->setSprite(anim1);
+    Sprite* spr2_set[1] = {spr2}; 
+    Animation* anim2 = new Animation(1,spr2_set);
+    anim2->setSpeed(0.0);
+    entity2->setSprite(anim2);
     window::set_key_callback(window,key_callback);
     for(int i=0; i<MAX_ENTITIES; i++)
     {
@@ -188,7 +186,7 @@ int main(int argc, char** argv)
         float division = float(MAX_ENTITIES-1)/2.0f;
         float new_x = float((32.0f+5.0f)*i-(32.0f+5.0f)*division);
         lista[i]->translate(glm::vec3(new_x,0.0f,0.0f));
-        lista[i]->setSprite(spr1);
+        lista[i]->setSprite(anim1);
     }
     window::window_loop(window,loop_function_test);
     return 0;

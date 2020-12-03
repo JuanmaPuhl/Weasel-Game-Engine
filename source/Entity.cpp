@@ -36,12 +36,14 @@ void Entity::updateModelMatrix()
     }*/
 }
 
-void Entity::setSprite(Sprite* sprite)
+void Entity::setSprite(Animation* sprite)
 {
-    this->sprite = sprite;
+    Animation* a = new Animation(6,sprite->getSprites());
+    a->setSpeed(sprite->getSpeed());
+    this->sprite = a;
 }
 
-Sprite* Entity::getSprite()
+Animation* Entity::getAnimation()
 {
     return this->sprite;
 }
@@ -77,6 +79,6 @@ Quad* Entity::getQuad()
 void Entity::onUpdate()
 {
     //glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(this->getModelMatrix()));
-    glBindTexture(GL_TEXTURE_2D, this->getSprite()->getSpriteImage());
+    glBindTexture(GL_TEXTURE_2D, this->getAnimation()->getCurrentSprite(0.0)->getSpriteImage());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
