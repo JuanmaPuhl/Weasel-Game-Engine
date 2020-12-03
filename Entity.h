@@ -16,6 +16,7 @@ class Entity
     Sprite* getSprite();
     glm::mat4 getModelMatrix();
     Quad* getQuad();
+    void onUpdate();
     private:
     glm::vec3 position;
     glm::vec3 rotation;

@@ -16,11 +16,12 @@
 #define DEBUG
 #define WIDTH 1280
 #define HEIGHT 720
+#define MAX_ENTITIES 25
 Shader* shader;
 Entity* entity,*entity2;
 OrtographicCamera* camera;
 Sprite *spr1,*spr2;
-Entity* lista[1000];
+Entity* lista[MAX_ENTITIES];
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
@@ -58,7 +59,7 @@ void loop_function_test(float deltaTime)
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     float ms = deltaTime * 1000;
-    printf("render time: %fms.\n",ms);
+    //printf("render time: %fms.\n",ms);
     float timeValue = glfwGetTime();
     float green_color = (sin(timeValue) / 2.0f) + 0.5f;
     int vertexColorLocation = glGetUniformLocation(shader->getShaderProgram(), "ourColor");
@@ -77,12 +78,15 @@ void loop_function_test(float deltaTime)
 
     //Dibujo segunda entidad
     glBindVertexArray(entity->getQuad()->getVAO());
-    for(int i=0;i<1000;i++)
+    for(int i=0;i<MAX_ENTITIES;i++)
     {
-        glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(lista[i]->getModelMatrix()));
-        glBindTexture(GL_TEXTURE_2D, lista[i]->getSprite()->getSpriteImage());
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+      glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(lista[i]->getModelMatrix()));
+      glBindTexture(GL_TEXTURE_2D, lista[i]->getSprite()->getSpriteImage());
+      glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     }
+    glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(entity2->getModelMatrix()));
+    glBindTexture(GL_TEXTURE_2D, entity2->getSprite()->getSpriteImage());
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
 int main(int argc, char** argv)
@@ -91,7 +95,7 @@ int main(int argc, char** argv)
     GLFWwindow* window = window::window_init(WIDTH,HEIGHT);
     entity = new Entity();
     entity2 = new Entity();
-    entity2->translate(glm::vec3(2.0f,0.0f,0.0f));
+    entity2->translate(glm::vec3(2.0f,64.0f,0.0f));
     camera = new OrtographicCamera(WIDTH,HEIGHT);
     shader = new Shader(dir);
     spr1 = new Sprite("container.jpg");
@@ -99,10 +103,14 @@ int main(int argc, char** argv)
     entity->setSprite(spr1);
     entity2->setSprite(spr2);
     window::set_key_callback(window,key_callback);
-    for(int i=0; i<1000; i++)
+    for(int i=0; i<MAX_ENTITIES; i++)
     {
         lista[i] = new Entity();
-        lista[i]->translate(glm::vec3(float(i%1000),float((i%1000)%10),0.0f));
+        float division = float(MAX_ENTITIES-1)/2.0f;
+        printf("Division: %f\n",division);
+        float new_x = float((32.0f+5.0f)*i-(32.0f+5.0f)*division);
+        printf("NEW X: %f\n",new_x);
+        lista[i]->translate(glm::vec3(new_x,0.0f,0.0f));
         lista[i]->setSprite(spr1);
     }
     window::window_loop(window,loop_function_test);

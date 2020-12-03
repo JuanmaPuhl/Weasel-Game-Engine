@@ -73,3 +73,10 @@ Quad* Entity::getQuad()
 {
     return this->quad;
 }
+
+void Entity::onUpdate()
+{
+    //glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(this->getModelMatrix()));
+    glBindTexture(GL_TEXTURE_2D, this->getSprite()->getSpriteImage());
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
