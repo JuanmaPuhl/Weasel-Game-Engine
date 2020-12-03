@@ -18,6 +18,7 @@
 #define HEIGHT 720
 #define MAX_ENTITIES 10
 #define MAX_ANIMATION_SIZE 5
+#define MAX_FPS 60
 Shader* shader;
 Entity* entity,*entity2;
 OrtographicCamera* camera;
@@ -25,9 +26,12 @@ Sprite *spr1,*spr2;
 Entity* lista[MAX_ENTITIES];
 Sprite** animation;
 int animation_index = 0;
-float animation_speed = 1.0f;
+double animation_speed = 0.01667;
 float animation_elapsed_time = 0.0f;
+double index_aux = 0.0;
 glm::vec2 camera_movement_direction = glm::vec2(0.0f);
+float last_time = 0.0f;
+int fps = 0;
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
   if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
@@ -107,11 +111,28 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void loop_function_test(float deltaTime)
 {
+    if(fps<MAX_FPS)
+      fps++;
+    
+    float current = glfwGetTime();
+    if(current - last_time >=1.0f)
+    {
+      double fpsCount = 1000.0/double(fps);
+      
+      printf("FPS: %d\n",fps);
+      fps = 0;
+      last_time++;
+    }
+    if(fps>=MAX_FPS)
+    {
+      return;
+    }
+    //printf("ITERACION.\n");
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     float ms = deltaTime * 1000;
     #if defined(DEBUG)
-      printf("render time: %fms.\n",ms);
+      //printf("render time: %fms.\n",ms);
     #endif
     camera->update(deltaTime);
     float timeValue = glfwGetTime();
@@ -133,17 +154,23 @@ void loop_function_test(float deltaTime)
       glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     }
     animation_elapsed_time += ms;
-    if(animation_elapsed_time>=animation_speed *1000)
+    index_aux+=animation_speed;
+    /* if(fps % animation_speed == 0)
     {
       if(animation_index< MAX_ANIMATION_SIZE - 1)
         animation_index++;
       else
         animation_index = 0;
       animation_elapsed_time = 0.0f;
+    } */
+    int aux = (int)index_aux;
+    if(aux>=MAX_ANIMATION_SIZE)
+    {
+      aux = 0;
+      index_aux = 0.0;
     }
-
     glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(entity2->getModelMatrix()));
-    glBindTexture(GL_TEXTURE_2D, animation[animation_index]->getSpriteImage());
+    glBindTexture(GL_TEXTURE_2D, animation[aux]->getSpriteImage());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
