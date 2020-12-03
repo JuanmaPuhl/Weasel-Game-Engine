@@ -1,22 +1,23 @@
 LIBRERIAS = -lglew32 -lglfw3 -lopengl32 
+CODIGO = source/
 all: main.exe quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o
 .PHONY: all
-main.exe:main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o
-	g++  -o main.exe  main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o -I ./libs/ -L ./libs/ $(LIBRERIAS)
-quad.o: quad.cpp quad.h
-	g++ -c  quad.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS) 
-window.o: window.cpp window.h
-	g++ -c  window.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
-FileManager.o: FileManager.cpp FileManager.h
-	g++ -c  FileManager.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
-OrtographicCamera.o: OrtographicCamera.cpp OrtographicCamera.h
-	g++ -c  OrtographicCamera.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
-Shader.o: Shader.cpp Shader.h
-	g++ -c  Shader.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
-Entity.o: Entity.cpp Entity.h
-	g++ -c  Entity.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
-Sprite.o: Sprite.cpp Sprite.h
-	g++ -c  Sprite.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o
+	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o -I ./libs/ -L ./libs/ $(LIBRERIAS)
+quad.o: $(CODIGO)quad.cpp $(CODIGO)quad.h
+	g++ -c  $(CODIGO)quad.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS) 
+window.o: $(CODIGO)window.cpp $(CODIGO)window.h
+	g++ -c  $(CODIGO)window.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+FileManager.o: $(CODIGO)FileManager.cpp $(CODIGO)FileManager.h
+	g++ -c  $(CODIGO)FileManager.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+OrtographicCamera.o: $(CODIGO)OrtographicCamera.cpp $(CODIGO)OrtographicCamera.h
+	g++ -c  $(CODIGO)OrtographicCamera.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+Shader.o: $(CODIGO)Shader.cpp $(CODIGO)Shader.h
+	g++ -c  $(CODIGO)Shader.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+Entity.o: $(CODIGO)Entity.cpp $(CODIGO)Entity.h
+	g++ -c  $(CODIGO)Entity.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+Sprite.o: $(CODIGO)Sprite.cpp $(CODIGO)Sprite.h
+	g++ -c  $(CODIGO)Sprite.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 clean:
 	del quad.o
 	del window.o

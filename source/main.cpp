@@ -138,15 +138,15 @@ void loop_function_test(float deltaTime)
 
 int main(int argc, char** argv)
 {
-    std::string dir = "Shader.shader";
+    std::string dir = "res/shaders/Shader.shader";
     GLFWwindow* window = window::window_init(WIDTH,HEIGHT);
     entity = new Entity();
     entity2 = new Entity();
     entity2->translate(glm::vec3(2.0f,64.0f,0.0f));
     camera = new OrtographicCamera(WIDTH,HEIGHT);
     shader = new Shader(dir);
-    spr1 = new Sprite("container.jpg");
-    spr2 = new Sprite("wall.jpg");
+    spr1 = new Sprite("res/sprites/container.jpg");
+    spr2 = new Sprite("res/sprites/wall.jpg");
     entity->setSprite(spr1);
     entity2->setSprite(spr2);
     window::set_key_callback(window,key_callback);
