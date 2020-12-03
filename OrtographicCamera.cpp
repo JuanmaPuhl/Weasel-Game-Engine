@@ -52,9 +52,22 @@ void OrtographicCamera::update(float deltaTime)
             this->zoomValue = 0.01f;
         }
     }
+    if(this->movementDirection[0] != 0.0f || this->movementDirection[1] != 0.0f)
+        this->position +=   this->movementDirection[0] * glm::normalize(
+                            glm::cross(this->front,
+                            this->cameraUp))
+                            * this->velocity * deltaTime;
+        this->position +=   glm::vec3(0.0f,this->movementDirection[1],0.0f)
+                            * this->velocity * deltaTime;
 }
 
 void OrtographicCamera::zoom(float factor)
 {
     this->zoomOrder = factor;
+}
+
+void OrtographicCamera::move(glm::vec2 dir)
+{
+  this->movementDirection = dir;
+
 }

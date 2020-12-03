@@ -53,7 +53,25 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
       {
           printf("Aprete la tecla J.\n");
           camera->zoom(-1.0f);
+      }
+      if(key==GLFW_KEY_RIGHT)
+      {
+        printf("APRETE DER");
+        camera->move(glm::vec2(1.0f,0.0f));
+      }
+      if(key==GLFW_KEY_LEFT)
+      {
+        printf("APRETE IZQ");
+        camera->move(glm::vec2(-1.0f,0.0f));
+      }
+      if(key==GLFW_KEY_UP)
+      {
+        camera->move(glm::vec2(0.0f,1.0f));
       }   
+      if(key==GLFW_KEY_DOWN)
+      {
+        camera->move(glm::vec2(0.0f,-1.0f));
+      }
     }
     else 
         if (action == GLFW_RELEASE)
@@ -67,6 +85,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
           {
               printf("Solte la tecla J.\n");
               camera->zoom(0.0f);
+          }
+          if(key==GLFW_KEY_RIGHT || key==GLFW_KEY_LEFT || key == GLFW_KEY_UP || key == GLFW_KEY_DOWN)
+          {
+            camera->move(glm::vec2(0.0f));
           }  
         }
     
@@ -79,7 +101,7 @@ void loop_function_test(float deltaTime)
     glClear(GL_COLOR_BUFFER_BIT);
     float ms = deltaTime * 1000;
     #if defined(DEBUG)
-      printf("render time: %fms.\n",ms);
+      //printf("render time: %fms.\n",ms);
     #endif
     camera->update(deltaTime);
     float timeValue = glfwGetTime();

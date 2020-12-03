@@ -35,10 +35,11 @@ class OrtographicCamera
      */
     void update(float deltaTime);
     void zoom(float factor);
+    void move(glm::vec2 dir);
     private:
     glm::vec3 position;
     glm::vec3 direction;
-    float velocity = 50.0f;
+    float velocity = 32.0f*5;
     glm::vec3 cameraTarget;
     float zoomValue = 1.0f;
     glm::vec3 front;
@@ -50,7 +51,7 @@ class OrtographicCamera
     glm::vec3 cameraUp;
     float zoomVelocity = 1.0f;
     glm::mat4 projectionMatrix;
-    int movementDirection = 0;
+    glm::vec2 movementDirection = glm::vec2(0.0f);
     glm::mat4 viewMatrix;
 };
 #endif
