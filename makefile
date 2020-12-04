@@ -31,6 +31,7 @@ clean:
 	del Entity.o
 	del Sprite.o
 	del Debug.o
+	del Animation.o
 	del main.exe
 
         
