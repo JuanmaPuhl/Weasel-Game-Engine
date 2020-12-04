@@ -4,6 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Quad.h"
 #include "Animation.h"
+#include "ScriptComponent.h"
 class Entity
 {
     public:
@@ -13,6 +14,8 @@ class Entity
     void rotate(glm::vec3 rotation);
     void scale(glm::vec3 scaling);
     void setSprite(Animation* sprite);
+    void setScript(ScriptComponent* script);
+    ScriptComponent* getScript();
     Animation* getAnimation();
     glm::mat4 getModelMatrix();
     Quad* getQuad();
@@ -24,5 +27,6 @@ class Entity
     Quad* quad;
     glm::mat4 modelMatrix;
     Animation* sprite = NULL;
+    ScriptComponent* script;
     void updateModelMatrix();
 };

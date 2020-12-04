@@ -87,3 +87,13 @@ void Entity::onUpdate()
     glBindTexture(GL_TEXTURE_2D, this->getAnimation()->getCurrentSprite(0.0)->getSpriteImage());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
+
+void Entity::setScript(ScriptComponent* script)
+{
+    this->script = script;
+}
+
+ScriptComponent* Entity::getScript()
+{
+    return this->script;
+}

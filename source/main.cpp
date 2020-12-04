@@ -15,6 +15,7 @@
 #include "Sprite.h"
 #include "Debug.h"
 #include "Animation.h"
+#include "ScriptComponent.h"
 #define DEBUG
 #define WIDTH 1280
 #define HEIGHT 720
@@ -28,6 +29,32 @@ Sprite *spr1,*spr2;
 Entity* lista[MAX_ENTITIES];
 Animation* animation;
 glm::vec2 camera_movement_direction = glm::vec2(0.0f);
+
+class Prueba : public ScriptComponent
+    {
+      public: 
+        Prueba(int id)
+        {
+          this->id = id;
+        }
+        ~Prueba()
+        {
+
+        }
+
+        void onCreate()
+        {
+
+        }
+        void onUpdate()
+        {
+          float f = glfwGetTime();
+          printf("Hello World, I'm %d\n",this->id);
+        }
+      private:
+        int id = 0;
+    };
+ScriptComponent* p;
 float last_time = 0.0f;
 int fps = 0;
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
@@ -140,10 +167,12 @@ void loop_function_test(float deltaTime)
     glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(lista[i]->getModelMatrix()));
     glBindTexture(GL_TEXTURE_2D, lista[i]->getAnimation()->getCurrentSprite(deltaTime)->getSpriteImage());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    lista[i]->getScript()->onUpdate();
   }
   glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(entity2->getModelMatrix()));
   glBindTexture(GL_TEXTURE_2D, entity2->getAnimation()->getCurrentSprite(deltaTime)->getSpriteImage());
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+  p->onUpdate();
 }
 
 int main(int argc, char** argv)
@@ -161,8 +190,8 @@ int main(int argc, char** argv)
     Sprite *spr3 = new Sprite("res/Sprites/40_corrugated cardboard texture-seamless.jpg",normal);
     Sprite *spr4 = new Sprite("res/Sprites/awesomeface.png",transparent);
     Sprite *spr5 = new Sprite("res/Sprites/ges.png",normal);
-
-
+    
+    p = (ScriptComponent*)new Prueba(0);
     Sprite *chr1 = new Sprite("res/Sprites/1.png",transparent);
     Sprite *chr2 = new Sprite("res/Sprites/2.png",transparent);
     Sprite *chr3 = new Sprite("res/Sprites/3.png",transparent);
@@ -201,11 +230,13 @@ int main(int argc, char** argv)
     window::set_key_callback(window,key_callback);
     for(int i=0; i<MAX_ENTITIES; i++)
     {
+        ScriptComponent* scr =(ScriptComponent*) new Prueba(i);
         lista[i] = new Entity();
         float division = float(MAX_ENTITIES-1)/2.0f;
         float new_x = float((32.0f+5.0f)*i-(32.0f+5.0f)*division);
         lista[i]->translate(glm::vec3(new_x,0.0f,0.0f));
         lista[i]->setSprite(animJim);
+        lista[i]->setScript(scr);
     }
     window::window_loop(window,loop_function_test);
     for(int i=0; i<MAX_ENTITIES; i++)
