@@ -47,3 +47,8 @@ void Animation::setSpeed(double speed)
 {
     this->speed = speed;
 }
+
+int Animation::getSize()
+{
+    return this->size;
+}

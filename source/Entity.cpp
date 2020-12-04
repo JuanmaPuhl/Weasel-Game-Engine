@@ -6,19 +6,19 @@ Entity::Entity()
     this->position = glm::vec3(0.0f);
     this->scaling = glm::vec3(32.0f); //Lo hago 32 x 32
     this->rotation = glm::vec3(0.0f,0.0f,1.0f);
-    
+    this->modelMatrix = glm::mat4(1.0f);
     //Tengo que calcular la modelMatrix nueva
     this->updateModelMatrix();
 }
 
 Entity::~Entity()
 {
-
+    printf("ELIMINANDO");
 }
 
 void Entity::updateModelMatrix()
 {
-    this->modelMatrix = glm::mat4(1.0f);
+    //this->modelMatrix = glm::mat4(1.0f);
     glm::mat4 translationMatrix = glm::mat4(1.0f);
     translationMatrix = glm::translate(translationMatrix,this->position);
     glm::mat4 rotationMatrix = glm::mat4(1.0f);
@@ -26,6 +26,11 @@ void Entity::updateModelMatrix()
     glm::mat4 scaleMatrix = glm::mat4(1.0f);
     scaleMatrix = glm::scale(scaleMatrix,this->scaling);
     this->modelMatrix =  rotationMatrix* translationMatrix*scaleMatrix*this->modelMatrix;
+    this->scaling = glm::vec3(1.0f);
+    this->rotation = glm::vec3(0.0f,0.0f,1.0f);
+    this->position = glm::vec3(0.0f);
+    //this->rotation = glm::vec3(0.0f);
+    //this->position = glm::vec3(0.0f);
     /*for(int i = 0; i<4; i++)
     {
         for(int j = 0; j<4; j++)
@@ -38,7 +43,7 @@ void Entity::updateModelMatrix()
 
 void Entity::setSprite(Animation* sprite)
 {
-    Animation* a = new Animation(6,sprite->getSprites());
+    Animation* a = new Animation(sprite->getSize(),sprite->getSprites());
     a->setSpeed(sprite->getSpeed());
     this->sprite = a;
 }

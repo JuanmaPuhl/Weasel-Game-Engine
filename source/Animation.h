@@ -10,6 +10,7 @@ class Animation
         void setSpeed(double speed);
         void setSprites(Sprite** spr);
         double getSpeed();
+        int getSize();
         Sprite** getSprites();
         Sprite* getCurrentSprite(float deltaTime);
 

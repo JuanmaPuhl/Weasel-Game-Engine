@@ -18,7 +18,7 @@
 #define DEBUG
 #define WIDTH 1280
 #define HEIGHT 720
-#define MAX_ENTITIES 10
+#define MAX_ENTITIES 20
 #define MAX_ANIMATION_SIZE 6
 #define MAX_FPS 60
 Shader* shader;
@@ -142,7 +142,7 @@ void loop_function_test(float deltaTime)
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
   }
   glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(entity2->getModelMatrix()));
-  glBindTexture(GL_TEXTURE_2D, animation->getCurrentSprite(deltaTime)->getSpriteImage());
+  glBindTexture(GL_TEXTURE_2D, entity2->getAnimation()->getCurrentSprite(deltaTime)->getSpriteImage());
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
@@ -152,7 +152,8 @@ int main(int argc, char** argv)
     GLFWwindow* window = window::window_init(WIDTH,HEIGHT);
     entity = new Entity();
     entity2 = new Entity();
-    entity2->translate(glm::vec3(2.0f,64.0f,0.0f));
+    entity2->scale(glm::vec3(-1.0f,1.0f,1.0f));
+    entity2->translate(glm::vec3(0.0f,64.0f,0.0f));
     camera = new OrtographicCamera(WIDTH,HEIGHT);
     shader = new Shader(dir);
     spr1 = new Sprite("res/sprites/container.jpg",normal);
@@ -169,16 +170,34 @@ int main(int argc, char** argv)
     Sprite *chr5 = new Sprite("res/Sprites/5.png",transparent);
     Sprite *chr6 = new Sprite("res/Sprites/6.png",transparent);
     Sprite* sprites[6] = {chr1,chr2,chr3,chr4,chr5,chr6};
+    Sprite *e1 = new Sprite("res/Sprites/e1.png",transparent);
+    Sprite *e2 = new Sprite("res/Sprites/e2.png",transparent);
+    Sprite *e3 = new Sprite("res/Sprites/e3.png",transparent);
+    Sprite *e4 = new Sprite("res/Sprites/e4.png",transparent);
+    Sprite *e5 = new Sprite("res/Sprites/e5.png",transparent);
+    Sprite *e6 = new Sprite("res/Sprites/e6.png",transparent);
+    Sprite *e7 = new Sprite("res/Sprites/e7.png",transparent);
+    Sprite *e8 = new Sprite("res/Sprites/e8.png",transparent);
+    Sprite *e9 = new Sprite("res/Sprites/e9.png",transparent);
+    Sprite *e10 = new Sprite("res/Sprites/e10.png",transparent);
+    Sprite *e11 = new Sprite("res/Sprites/e11.png",transparent);
+    Sprite *e12 = new Sprite("res/Sprites/e12.png",transparent);
+    Sprite *e13 = new Sprite("res/Sprites/e13.png",transparent);
+    Sprite *e14 = new Sprite("res/Sprites/e14.png",transparent);
+    Sprite *e15 = new Sprite("res/Sprites/e15.png",transparent);
+    Sprite *e16 = new Sprite("res/Sprites/e16.png",transparent);
+    Sprite *e17 = new Sprite("res/Sprites/e17.png",transparent);
+    Sprite *e18 = new Sprite("res/Sprites/e18.png",transparent);
+    Sprite *e19 = new Sprite("res/Sprites/e19.png",transparent);
+    Sprite *e20 = new Sprite("res/Sprites/e20.png",transparent);
+    
+    Sprite* spritesE[20] = {e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,e12,e13,e14,e15,e16,e17,e18,e19,e20};
     animation = new Animation(6,sprites);
     animation->setSpeed(0.25*60);
-    Sprite* spr1_set[1] = {spr1}; 
-    Animation* anim1 = new Animation(6,sprites);
-    anim1->setSpeed(0.25*60);
-    entity->setSprite(anim1);
-    Sprite* spr2_set[1] = {spr2}; 
-    Animation* anim2 = new Animation(1,spr2_set);
-    anim2->setSpeed(0.0);
-    entity2->setSprite(anim2);
+    
+    Animation* animJim = new Animation(20,spritesE);
+    animJim->setSpeed(0.15*60);
+    entity2->setSprite(animation);
     window::set_key_callback(window,key_callback);
     for(int i=0; i<MAX_ENTITIES; i++)
     {
@@ -186,9 +205,31 @@ int main(int argc, char** argv)
         float division = float(MAX_ENTITIES-1)/2.0f;
         float new_x = float((32.0f+5.0f)*i-(32.0f+5.0f)*division);
         lista[i]->translate(glm::vec3(new_x,0.0f,0.0f));
-        lista[i]->setSprite(anim1);
+        lista[i]->setSprite(animJim);
     }
     window::window_loop(window,loop_function_test);
+    for(int i=0; i<MAX_ENTITIES; i++)
+    {
+      free(lista[i]);
+    }
+    free(animJim);
+    free(animation);
+    free(entity2);
+    free(chr1);
+    free(chr2);
+    free(chr3);
+    free(chr4);
+    free(chr5);
+    free(chr6);
+    free(e1);
+    free(e2);
+    free(e3);
+    free(spr3);
+    free(spr4);
+    free(spr5);
+    free(shader);
+    free(camera);
+    printf("HELOO");
     return 0;
 }
 
