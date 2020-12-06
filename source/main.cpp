@@ -17,11 +17,11 @@
 #include "Animation.h"
 #include "ScriptComponent.h"
 #define DEBUG
-#define WIDTH 1280
-#define HEIGHT 720
-#define MAX_ENTITIES 20
-#define MAX_ANIMATION_SIZE 6
-#define MAX_FPS 60
+const int WIDTH = 1280;
+const int HEIGHT = 720;
+const int MAX_ENTITIES = 20;
+const int MAX_ANIMATION_SIZE = 6;
+const int MAX_FPS = 60;
 Shader* shader;
 Entity* entity,*entity2;
 OrtographicCamera* camera;
@@ -33,23 +33,14 @@ glm::vec2 camera_movement_direction = glm::vec2(0.0f);
 class Prueba : public ScriptComponent
     {
       public: 
-        Prueba(int id)
-        {
-          this->id = id;
-        }
-        ~Prueba()
-        {
-
-        }
-
         void onCreate()
         {
-
+          printf("ONCREATE.\n");
         }
         void onUpdate()
         {
           float f = glfwGetTime();
-          printf("Hello World, I'm %d\n",this->id);
+          //printf("Hello World, I'm %d\n",this->id);
         }
       private:
         int id = 0;
@@ -191,7 +182,7 @@ int main(int argc, char** argv)
     Sprite *spr4 = new Sprite("res/Sprites/awesomeface.png",transparent);
     Sprite *spr5 = new Sprite("res/Sprites/ges.png",normal);
     
-    p = (ScriptComponent*)new Prueba(0);
+    p = (ScriptComponent*)new Prueba();
     Sprite *chr1 = new Sprite("res/Sprites/1.png",transparent);
     Sprite *chr2 = new Sprite("res/Sprites/2.png",transparent);
     Sprite *chr3 = new Sprite("res/Sprites/3.png",transparent);
@@ -230,7 +221,7 @@ int main(int argc, char** argv)
     window::set_key_callback(window,key_callback);
     for(int i=0; i<MAX_ENTITIES; i++)
     {
-        ScriptComponent* scr =(ScriptComponent*) new Prueba(i);
+        ScriptComponent* scr =(ScriptComponent*) new Prueba();
         lista[i] = new Entity();
         float division = float(MAX_ENTITIES-1)/2.0f;
         float new_x = float((32.0f+5.0f)*i-(32.0f+5.0f)*division);
@@ -260,7 +251,7 @@ int main(int argc, char** argv)
     free(spr5);
     free(shader);
     free(camera);
-    printf("HELOO");
+    delete(e5);
     return 0;
 }
 

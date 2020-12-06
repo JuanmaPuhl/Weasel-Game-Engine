@@ -13,7 +13,7 @@ Entity::Entity()
 
 Entity::~Entity()
 {
-    printf("ELIMINANDO");
+    printf("ELIMINANDO\n");
 }
 
 void Entity::updateModelMatrix()
@@ -91,6 +91,7 @@ void Entity::onUpdate()
 void Entity::setScript(ScriptComponent* script)
 {
     this->script = script;
+    this->script->onCreate();
 }
 
 ScriptComponent* Entity::getScript()

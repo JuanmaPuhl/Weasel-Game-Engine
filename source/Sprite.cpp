@@ -30,7 +30,7 @@ Sprite::Sprite(const char* dir,Mode mode)
 
 Sprite::~Sprite()
 {
-
+    printf("ELIMINANDO SPRITE.\n");
 }
 
 unsigned int Sprite::getSpriteImage()
