@@ -19,7 +19,7 @@
 #define DEBUG
 const int WIDTH = 1280;
 const int HEIGHT = 720;
-const int MAX_ENTITIES = 20;
+const int MAX_ENTITIES = 60;
 const int MAX_ANIMATION_SIZE = 6;
 const int MAX_FPS = 60;
 Shader* shader;
@@ -30,6 +30,16 @@ Entity* lista[MAX_ENTITIES];
 Animation* animation;
 glm::vec2 camera_movement_direction = glm::vec2(0.0f);
 
+
+const std::string level[6] = 
+                    { "----------",
+                      "----------",
+                      "----------",
+                      "----------",
+                      "----------",
+                      "----------"
+                    };
+
 class Prueba : public ScriptComponent
     {
       public: 
@@ -39,7 +49,6 @@ class Prueba : public ScriptComponent
         }
         void onUpdate()
         {
-          float f = glfwGetTime();
           //printf("Hello World, I'm %d\n",this->id);
         }
       private:
@@ -158,12 +167,39 @@ void loop_function_test(float deltaTime)
     glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(lista[i]->getModelMatrix()));
     glBindTexture(GL_TEXTURE_2D, lista[i]->getAnimation()->getCurrentSprite(deltaTime)->getSpriteImage());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    lista[i]->getScript()->onUpdate();
+    //lista[i]->getScript()->onUpdate();
   }
-  glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(entity2->getModelMatrix()));
+/*   glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(entity2->getModelMatrix()));
   glBindTexture(GL_TEXTURE_2D, entity2->getAnimation()->getCurrentSprite(deltaTime)->getSpriteImage());
-  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); */
   p->onUpdate();
+}
+
+void loadLevel()
+{
+  printf("Entre a cargar.\n");
+  int contador = 0;
+  float x = 0.0f;
+  float y = 0.0f;
+  for(int i=0; i<6; i++)
+  {
+    std::string linea = level[i];
+    for(int j = 0; j<linea.length(); j++)
+    {
+      float positionX = x - float((float)linea.length()/(float)2.0f)*32.0f;
+      float positionY = y + float(float(6.0) / float(2.0))*32.0;
+      float positionZ = 0.0f;
+      lista[contador] = new Entity();
+      lista[contador]->translate(glm::vec3(positionX,positionY,positionZ));
+      lista[contador]->setSprite(animation);
+      printf("%d\n",contador);
+      x += 32.0f;+
+      contador++;
+    }
+    y-=32.0f;
+    x = 0.0f;
+  }
+  
 }
 
 int main(int argc, char** argv)
@@ -218,8 +254,9 @@ int main(int argc, char** argv)
     Animation* animJim = new Animation(20,spritesE);
     animJim->setSpeed(0.15*60);
     entity2->setSprite(animation);
+    loadLevel();
     window::set_key_callback(window,key_callback);
-    for(int i=0; i<MAX_ENTITIES; i++)
+    /* for(int i=0; i<MAX_ENTITIES; i++)
     {
         ScriptComponent* scr =(ScriptComponent*) new Prueba();
         lista[i] = new Entity();
@@ -228,7 +265,7 @@ int main(int argc, char** argv)
         lista[i]->translate(glm::vec3(new_x,0.0f,0.0f));
         lista[i]->setSprite(animJim);
         lista[i]->setScript(scr);
-    }
+    } */
     window::window_loop(window,loop_function_test);
     for(int i=0; i<MAX_ENTITIES; i++)
     {
