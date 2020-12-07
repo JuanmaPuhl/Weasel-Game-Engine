@@ -19,7 +19,10 @@ class Entity
     Animation* getAnimation();
     glm::mat4 getModelMatrix();
     Quad* getQuad();
+    //TODO Deberian ejecutarse los updates de todos los componentes de la entidad.
     void onUpdate();
+    //TODO Implementar el render
+    void render();
     private:
     glm::vec3 position;
     glm::vec3 rotation;
