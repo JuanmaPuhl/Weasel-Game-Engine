@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 #include "Level.h"
+#include "Shader.h"
 class Game
 {
     public:
@@ -34,7 +35,7 @@ class Game
      * @brief Renderiza el nivel
      * 
      */
-    void render();
+    void render(Shader* shader);
     private:
     std::vector<Level*> levels;
     Level* currentLevel = NULL;

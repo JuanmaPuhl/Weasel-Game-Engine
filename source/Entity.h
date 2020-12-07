@@ -1,3 +1,4 @@
+#pragma once
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -5,6 +6,10 @@
 #include "Quad.h"
 #include "Animation.h"
 #include "ScriptComponent.h"
+#include "Shader.h"
+#include <glm/gtc/type_ptr.hpp>
+#include "Config.h"
+
 class Entity
 {
     public:
@@ -22,7 +27,7 @@ class Entity
     //TODO Deberian ejecutarse los updates de todos los componentes de la entidad.
     void onUpdate();
     //TODO Implementar el render
-    void render();
+    void render(Shader* shader);
     private:
     glm::vec3 position;
     glm::vec3 rotation;

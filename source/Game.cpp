@@ -21,9 +21,9 @@ void Game::onUpdate()
     this->currentLevel->onUpdate();
 }
 
-void Game::render()
+void Game::render(Shader* shader)
 {
-    this->currentLevel->render();
+    this->currentLevel->render(shader);
 }
 
 Level* Game::getCurrentLevel()

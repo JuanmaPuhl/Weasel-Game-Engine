@@ -7,6 +7,7 @@
 #include "FileManager.h"
 #include <math.h>
 #include <string.h>
+
 #include "OrtographicCamera.h"
 #include <glm/gtc/type_ptr.hpp>
 #define STB_IMAGE_IMPLEMENTATION
@@ -16,6 +17,10 @@
 #include "Debug.h"
 #include "Animation.h"
 #include "ScriptComponent.h"
+#include "Game.h"
+#include "Level.h"
+//#include "Config.h"
+
 #define DEBUG
 const int WIDTH = 1280;
 const int HEIGHT = 720;
@@ -29,16 +34,16 @@ Sprite *spr1,*spr2;
 Entity* lista[MAX_ENTITIES];
 Animation* animation;
 glm::vec2 camera_movement_direction = glm::vec2(0.0f);
+Game* game;
 
-
-const std::string level[6] = 
+/* const std::string level[6] = 
                     { "----------",
                       "----------",
                       "----------",
                       "----------",
                       "----------",
                       "----------"
-                    };
+                    }; */
 
 class Prueba : public ScriptComponent
     {
@@ -104,6 +109,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
           {
               camera->zoom(0.0f);
           }
+          if(key==GLFW_KEY_Q)
+          {
+            game->setLevel(1);
+          }
           if(key==GLFW_KEY_RIGHT)
           {
             camera_movement_direction += glm::vec2(-1.0f,0.0f);
@@ -149,33 +158,35 @@ void loop_function_test(float deltaTime)
   #if defined(DEBUG)
     //printf("render time: %fms.\n",ms);
   #endif
-  camera->update(deltaTime);
-  float timeValue = glfwGetTime();
+  //camera->update(deltaTime);
+  /* float timeValue = glfwGetTime();
   float green_color = (sin(timeValue) / 2.0f) + 0.5f;
-  int vertexColorLocation = glGetUniformLocation(shader->getShaderProgram(), "ourColor");
-  int projectionLocation = glGetUniformLocation(shader->getShaderProgram(),"projection");
+  int vertexColorLocation = glGetUniformLocation(shader->getShaderProgram(), "ourColor"); */
+  /* int projectionLocation = glGetUniformLocation(shader->getShaderProgram(),"projection");
   int viewLocation = glGetUniformLocation(shader->getShaderProgram(),"view");
-  int modelLocation = glGetUniformLocation(shader->getShaderProgram(),"model");
-  shader->use();
+  int modelLocation = glGetUniformLocation(shader->getShaderProgram(),"model"); */
+  /* shader->use();
   glUniformMatrix4fv(projectionLocation,1,GL_FALSE,glm::value_ptr(camera->getProjectionMatrix()));
-  glUniformMatrix4fv(viewLocation,1,GL_FALSE,glm::value_ptr(camera->getViewMatrix()));
-  glUniform4f(vertexColorLocation, 0.0f, green_color, 0.0f, 1.0f);
+  glUniformMatrix4fv(viewLocation,1,GL_FALSE,glm::value_ptr(camera->getViewMatrix())); */
+  //glUniform4f(vertexColorLocation, 0.0f, green_color, 0.0f, 1.0f);
   //Dibujo segunda entidad
   glBindVertexArray(entity->getQuad()->getVAO());
-  for(int i=0;i<MAX_ENTITIES;i++)
+/*   for(int i=0;i<MAX_ENTITIES;i++)
   {
     glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(lista[i]->getModelMatrix()));
     glBindTexture(GL_TEXTURE_2D, lista[i]->getAnimation()->getCurrentSprite(deltaTime)->getSpriteImage());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     //lista[i]->getScript()->onUpdate();
-  }
+  } */
+  //printf("A renderizar.\n");
+  game->getCurrentLevel()->render(shader);
 /*   glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(entity2->getModelMatrix()));
   glBindTexture(GL_TEXTURE_2D, entity2->getAnimation()->getCurrentSprite(deltaTime)->getSpriteImage());
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); */
-  p->onUpdate();
+  //p->onUpdate();
 }
 
-void loadLevel()
+/* void loadLevel()
 {
   printf("Entre a cargar.\n");
   int contador = 0;
@@ -200,10 +211,13 @@ void loadLevel()
     x = 0.0f;
   }
   
-}
+} */
 
 int main(int argc, char** argv)
 {
+
+    printf("QUE SE HACE.\n");
+    game = new Game();
     std::string dir = "res/shaders/Shader.shader";
     GLFWwindow* window = window::window_init(WIDTH,HEIGHT);
     entity = new Entity();
@@ -254,9 +268,11 @@ int main(int argc, char** argv)
     Animation* animJim = new Animation(20,spritesE);
     animJim->setSpeed(0.15*60);
     entity2->setSprite(animation);
-    loadLevel();
+    //loadLevel();
+
+
     window::set_key_callback(window,key_callback);
-    /* for(int i=0; i<MAX_ENTITIES; i++)
+    for(int i=0; i<MAX_ENTITIES; i++)
     {
         ScriptComponent* scr =(ScriptComponent*) new Prueba();
         lista[i] = new Entity();
@@ -265,7 +281,22 @@ int main(int argc, char** argv)
         lista[i]->translate(glm::vec3(new_x,0.0f,0.0f));
         lista[i]->setSprite(animJim);
         lista[i]->setScript(scr);
-    } */
+    } 
+    printf("A crear 1.\n");
+    Level* level1 = new Level();
+    level1->addEntity(entity2);
+    printf("A crear 2.\n");
+    Level* level2 = new Level();
+    for(int i=0;i<MAX_ENTITIES;i++)
+    {
+      level2->addEntity(lista[i]);
+    }
+    level1->setCamera(camera);
+    level2->setCamera(camera);
+    game->addLevel(level1);
+    game->addLevel(level2);
+    game->setLevel(0);
+
     window::window_loop(window,loop_function_test);
     for(int i=0; i<MAX_ENTITIES; i++)
     {
