@@ -39,6 +39,7 @@ clean:
 	del Debug.o
 	del Animation.o
 	del Game.o
+	del Level.o
 	del main.exe
 
         

@@ -33,11 +33,9 @@ void Level::render(Shader* shader, double deltaTime)
     //Tengo que pasar la camara al shader
     
     shader->use();
-    int projectionLocation = glGetUniformLocation(shader->getShaderProgram(),"projection");
-    int viewLocation = glGetUniformLocation(shader->getShaderProgram(),"view");
-    int modelLocation = glGetUniformLocation(shader->getShaderProgram(),"model");
-    glUniformMatrix4fv(projectionLocation,1,GL_FALSE,glm::value_ptr(this->camera->getProjectionMatrix()));
-    glUniformMatrix4fv(viewLocation,1,GL_FALSE,glm::value_ptr(this->camera->getViewMatrix()));
+    
+    shader->setUniform("projection",glm::value_ptr(this->camera->getProjectionMatrix()));
+    shader->setUniform("view",glm::value_ptr(this->camera->getViewMatrix()));
     //Tengo que ciclar entre todas las entidades y renderizarlas
     std::vector<Entity*>::iterator ptr;
     for(ptr = this->entities.begin(); ptr<this->entities.end(); ptr++)

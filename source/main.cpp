@@ -29,21 +29,12 @@ const int MAX_ANIMATION_SIZE = 6;
 const int MAX_FPS = 60;
 Shader* shader;
 Entity* entity,*entity2;
-OrtographicCamera* camera;
 Sprite *spr1,*spr2;
 Entity* lista[MAX_ENTITIES];
 Animation* animation;
+OrtographicCamera* camera;
 glm::vec2 camera_movement_direction = glm::vec2(0.0f);
 Game* game;
-
-/* const std::string level[6] = 
-                    { "----------",
-                      "----------",
-                      "----------",
-                      "----------",
-                      "----------",
-                      "----------"
-                    }; */
 
 class Prueba : public ScriptComponent
     {
@@ -72,64 +63,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
   {
     if (action == GLFW_PRESS)
     {
-      if(key==GLFW_KEY_I)
-      {
-          camera->zoom(1.0f);
-      } 
-      if(key==GLFW_KEY_J)
-      {
-          camera->zoom(-1.0f);
-      }
-      if(key==GLFW_KEY_RIGHT)
-      {
-        camera_movement_direction += glm::vec2(1.0f,0.0f);
-      }
-      if(key==GLFW_KEY_LEFT)
-      {
-        camera_movement_direction  += glm::vec2(-1.0f,0.0f);
-      }
-      if(key==GLFW_KEY_UP)
-      {
-        camera_movement_direction += glm::vec2(0.0f,1.0f);
-      }   
-      if(key==GLFW_KEY_DOWN)
-      {
-        camera_movement_direction += glm::vec2(0.0f,-1.0f);
-      }
-      camera->move(camera_movement_direction);
     }
     else 
         if (action == GLFW_RELEASE)
         {
-          if(key==GLFW_KEY_I)
-          {
-              camera->zoom(0.0f);
-          }
-          if(key==GLFW_KEY_J)
-          {
-              camera->zoom(0.0f);
-          }
-          if(key==GLFW_KEY_Q)
-          {
-            game->setLevel(1);
-          }
-          if(key==GLFW_KEY_RIGHT)
-          {
-            camera_movement_direction += glm::vec2(-1.0f,0.0f);
-          } 
-          if(key==GLFW_KEY_LEFT )
-          {
-            camera_movement_direction += glm::vec2(1.0f,0.0f);
-          } 
-          if(key == GLFW_KEY_UP)
-          {
-            camera_movement_direction += glm::vec2(0.0f,-1.0f);
-          } 
-          if(key == GLFW_KEY_DOWN)
-          {
-            camera_movement_direction += glm::vec2(0.0f,1.0f);
-          } 
-          camera->move(camera_movement_direction); 
         }
     
   }
@@ -161,33 +98,6 @@ void loop_function_test(float deltaTime)
   game->render(shader,deltaTime);
 
 }
-
-/* void loadLevel()
-{
-  printf("Entre a cargar.\n");
-  int contador = 0;
-  float x = 0.0f;
-  float y = 0.0f;
-  for(int i=0; i<6; i++)
-  {
-    std::string linea = level[i];
-    for(int j = 0; j<linea.length(); j++)
-    {
-      float positionX = x - float((float)linea.length()/(float)2.0f)*32.0f;
-      float positionY = y + float(float(6.0) / float(2.0))*32.0;
-      float positionZ = 0.0f;
-      lista[contador] = new Entity();
-      lista[contador]->translate(glm::vec3(positionX,positionY,positionZ));
-      lista[contador]->setSprite(animation);
-      printf("%d\n",contador);
-      x += 32.0f;+
-      contador++;
-    }
-    y-=32.0f;
-    x = 0.0f;
-  }
-  
-} */
 
 int main(int argc, char** argv)
 {
