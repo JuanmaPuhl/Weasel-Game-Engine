@@ -23,7 +23,7 @@ class Level
      * @brief Renderiza el nivel
      * 
      */
-    void render(Shader* shader);
+    void render(Shader* shader, double deltaTime);
     void addEntity(Entity* entity);
     /**
      * @brief Actualiza todas las entidades del nivel

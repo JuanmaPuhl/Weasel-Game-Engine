@@ -35,7 +35,7 @@ class Game
      * @brief Renderiza el nivel
      * 
      */
-    void render(Shader* shader);
+    void render(Shader* shader, double deltaTime);
     private:
     std::vector<Level*> levels;
     Level* currentLevel = NULL;

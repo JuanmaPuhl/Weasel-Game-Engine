@@ -158,7 +158,7 @@ void loop_function_test(float deltaTime)
   #endif
   //camera->update(deltaTime);
   glBindVertexArray(entity->getQuad()->getVAO());
-  game->render(shader);
+  game->render(shader,deltaTime);
 
 }
 

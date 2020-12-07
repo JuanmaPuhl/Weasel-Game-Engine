@@ -99,12 +99,12 @@ ScriptComponent* Entity::getScript()
     return this->script;
 }
 
-void Entity::render(Shader* shader)
+void Entity::render(Shader* shader, double deltaTime)
 {
     int projectionLocation = glGetUniformLocation(shader->getShaderProgram(),"projection");
     int viewLocation = glGetUniformLocation(shader->getShaderProgram(),"view");
     int modelLocation = glGetUniformLocation(shader->getShaderProgram(),"model");
     glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(this->modelMatrix));
-    glBindTexture(GL_TEXTURE_2D, this->sprite->getCurrentSprite(0.0)->getSpriteImage());
+    glBindTexture(GL_TEXTURE_2D, this->sprite->getCurrentSprite(deltaTime)->getSpriteImage());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

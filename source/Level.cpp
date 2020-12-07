@@ -28,7 +28,7 @@ void Level::onUpdate()
     }
 }
 
-void Level::render(Shader* shader)
+void Level::render(Shader* shader, double deltaTime)
 {
     //Tengo que pasar la camara al shader
     
@@ -42,6 +42,6 @@ void Level::render(Shader* shader)
     std::vector<Entity*>::iterator ptr;
     for(ptr = this->entities.begin(); ptr<this->entities.end(); ptr++)
     {
-        (*(ptr))->render(shader);
+        (*(ptr))->render(shader,deltaTime);
     }
 }

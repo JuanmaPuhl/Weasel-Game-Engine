@@ -27,7 +27,7 @@ class Entity
     //TODO Deberian ejecutarse los updates de todos los componentes de la entidad.
     void onUpdate();
     //TODO Implementar el render
-    void render(Shader* shader);
+    void render(Shader* shader,double deltaTime);
     private:
     glm::vec3 position;
     glm::vec3 rotation;
