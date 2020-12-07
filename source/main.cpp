@@ -152,38 +152,14 @@ void loop_function_test(float deltaTime)
     last_time++;
   }
   //printf("ITERACION.\n");
-  glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-  glClear(GL_COLOR_BUFFER_BIT);
   float ms = deltaTime * 1000;
   #if defined(DEBUG)
     //printf("render time: %fms.\n",ms);
   #endif
   //camera->update(deltaTime);
-  /* float timeValue = glfwGetTime();
-  float green_color = (sin(timeValue) / 2.0f) + 0.5f;
-  int vertexColorLocation = glGetUniformLocation(shader->getShaderProgram(), "ourColor"); */
-  /* int projectionLocation = glGetUniformLocation(shader->getShaderProgram(),"projection");
-  int viewLocation = glGetUniformLocation(shader->getShaderProgram(),"view");
-  int modelLocation = glGetUniformLocation(shader->getShaderProgram(),"model"); */
-  /* shader->use();
-  glUniformMatrix4fv(projectionLocation,1,GL_FALSE,glm::value_ptr(camera->getProjectionMatrix()));
-  glUniformMatrix4fv(viewLocation,1,GL_FALSE,glm::value_ptr(camera->getViewMatrix())); */
-  //glUniform4f(vertexColorLocation, 0.0f, green_color, 0.0f, 1.0f);
-  //Dibujo segunda entidad
   glBindVertexArray(entity->getQuad()->getVAO());
-/*   for(int i=0;i<MAX_ENTITIES;i++)
-  {
-    glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(lista[i]->getModelMatrix()));
-    glBindTexture(GL_TEXTURE_2D, lista[i]->getAnimation()->getCurrentSprite(deltaTime)->getSpriteImage());
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    //lista[i]->getScript()->onUpdate();
-  } */
-  //printf("A renderizar.\n");
-  game->getCurrentLevel()->render(shader);
-/*   glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(entity2->getModelMatrix()));
-  glBindTexture(GL_TEXTURE_2D, entity2->getAnimation()->getCurrentSprite(deltaTime)->getSpriteImage());
-  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); */
-  //p->onUpdate();
+  game->render(shader);
+
 }
 
 /* void loadLevel()
