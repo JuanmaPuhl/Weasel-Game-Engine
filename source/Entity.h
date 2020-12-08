@@ -35,6 +35,6 @@ class Entity
     Quad* quad;
     glm::mat4 modelMatrix;
     Animation* sprite = NULL;
-    ScriptComponent* script;
+    ScriptComponent* script = NULL;
     void updateModelMatrix();
 };

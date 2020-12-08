@@ -83,9 +83,7 @@ Quad* Entity::getQuad()
 
 void Entity::onUpdate()
 {
-    //glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(this->getModelMatrix()));
-    glBindTexture(GL_TEXTURE_2D, this->getAnimation()->getCurrentSprite(0.0)->getSpriteImage());
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    this->script->onUpdate();
 }
 
 void Entity::setScript(ScriptComponent* script)
@@ -101,6 +99,8 @@ ScriptComponent* Entity::getScript()
 
 void Entity::render(Shader* shader, double deltaTime)
 {
+    if(this->script != NULL)
+        this->script->onUpdate();
     shader->setUniform("model",glm::value_ptr(this->modelMatrix));
     glBindTexture(GL_TEXTURE_2D, this->sprite->getCurrentSprite(deltaTime)->getSpriteImage());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
