@@ -1,9 +1,9 @@
 LIBRERIAS = -lglew32 -lglfw3 -lopengl32 
 CODIGO = source/
-all: main.exe quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o 
+all: main.exe quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o KeyboardControl.o
 .PHONY: all
-main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o 
-	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o  -I .$(CODIGO)ScriptComponent.h  -I ./libs/ -L ./libs/ $(LIBRERIAS)
+main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o KeyboardControl.o
+	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o KeyboardControl.o -I .$(CODIGO)ScriptComponent.h  -I ./libs/ -L ./libs/ $(LIBRERIAS)
 quad.o: $(CODIGO)quad.cpp $(CODIGO)quad.h
 	g++ -c  $(CODIGO)quad.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS) 
 window.o: $(CODIGO)window.cpp $(CODIGO)window.h
@@ -28,6 +28,8 @@ Level.o: $(CODIGO)Level.cpp $(CODIGO)Level.h
 	g++ -c  $(CODIGO)Level.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 Config.o: $(CODIGO)Config.cpp $(CODIGO)Config.h
 	g++ -c  $(CODIGO)Config.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+KeyboardControl.o: $(CODIGO)KeyboardControl.cpp $(CODIGO)KeyboardControl.h
+	g++ -c  $(CODIGO)KeyboardControl.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 clean:
 	del quad.o
 	del window.o
@@ -40,6 +42,7 @@ clean:
 	del Animation.o
 	del Game.o
 	del Level.o
+	del KeyboardControl.o
 	del main.exe
 
         

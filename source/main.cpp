@@ -19,8 +19,10 @@
 #include "ScriptComponent.h"
 #include "Game.h"
 #include "Level.h"
+#include "KeyboardControl.h"
+#include "Control.h"
 //#include "Config.h"
-
+KeyboardControl* kc;
 #define DEBUG
 const int WIDTH = 1280;
 const int HEIGHT = 720;
@@ -53,24 +55,7 @@ class Prueba : public ScriptComponent
 ScriptComponent* p;
 float last_time = 0.0f;
 int fps = 0;
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
-{
-  if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-  {
-    glfwSetWindowShouldClose(window, GL_TRUE);
-  }
-  if (key >= 0 && key < 1024)
-  {
-    if (action == GLFW_PRESS)
-    {
-    }
-    else 
-        if (action == GLFW_RELEASE)
-        {
-        }
-    
-  }
-}
+
 
 const double maxPeriod  =1.0/double(MAX_FPS);
 double lastTime = 0.0f;
@@ -93,12 +78,35 @@ void loop_function_test(float deltaTime)
   #if defined(DEBUG)
     //printf("render time: %fms.\n",ms);
   #endif
+  if(kc->isPressed(kc->KEY_UP))
+  {
+    printf("A ver que onda.\n");
+  }
   //camera->update(deltaTime);
   glBindVertexArray(entity->getQuad()->getVAO());
   game->render(shader,deltaTime);
 
 }
-
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+{
+  if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+  {
+    glfwSetWindowShouldClose(window, GL_TRUE);
+  }
+  if (key >= 0 && key < 1024)
+  {
+    if (action == GLFW_PRESS)
+    {
+      kc->setKey(key,true);
+    }
+    else 
+        if (action == GLFW_RELEASE)
+        {
+          kc->setKey(key,false);
+        }
+    
+  }
+}
 int main(int argc, char** argv)
 {
 
@@ -156,8 +164,7 @@ int main(int argc, char** argv)
     entity2->setSprite(animation);
     //loadLevel();
 
-
-    window::set_key_callback(window,key_callback);
+    kc = new KeyboardControl();
     for(int i=0; i<MAX_ENTITIES; i++)
     {
         ScriptComponent* scr =(ScriptComponent*) new Prueba();
@@ -182,7 +189,7 @@ int main(int argc, char** argv)
     game->addLevel(level1);
     game->addLevel(level2);
     game->setLevel(0);
-
+    window::set_key_callback(window,key_callback);
     window::window_loop(window,loop_function_test);
     for(int i=0; i<MAX_ENTITIES; i++)
     {
