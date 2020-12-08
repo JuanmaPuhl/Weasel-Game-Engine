@@ -3,9 +3,11 @@
 #include "KeyboardControl.h"
 #include "Config.h"
 #include "stdio.h"
+#include "Game.h"
 class Prueba : public ScriptComponent
 {
       public: 
+        Game* game;
         void onCreate()
         {
           printf("ONCREATE.\n");
@@ -15,7 +17,7 @@ class Prueba : public ScriptComponent
           //printf("Hello World, I'm %d\n",this->id);
           if(keyboardControl->isPressed(keyboard::KEY_DOWN))
           {
-            printf("HOLI.\n");
+            printf("EntityGeneral::Hola.\n");
           }
         }
       private:
@@ -25,6 +27,7 @@ class Prueba : public ScriptComponent
 class EntityOriginal : public ScriptComponent
 {
     public:
+        Game* game;
         void onCreate()
         {
 
@@ -34,6 +37,7 @@ class EntityOriginal : public ScriptComponent
             if(keyboardControl->isPressed(keyboard::KEY_Q))
             {
                 printf("Entity1::Hola.\n");
+                game->setLevel(1);
             }
         }
 };

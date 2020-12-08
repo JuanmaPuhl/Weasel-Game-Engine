@@ -124,13 +124,16 @@ int main(int argc, char** argv)
   
   printf("A crear 1.\n");
   Level* level1 = new Level();
-  entity2->setScript(new EntityOriginal());
+  EntityOriginal* entityScript = new EntityOriginal();
+  entityScript->game = game;
+  entity2->setScript(entityScript);
   level1->addEntity(entity2);
   printf("A crear 2.\n");
   Level* level2 = new Level();
   for(int i=0; i<MAX_ENTITIES; i++)
   {
       ScriptComponent* scr =(ScriptComponent*) new Prueba();
+      ((Prueba*)scr)->game = game;
       lista[i] = new Entity();
       float division = float(MAX_ENTITIES-1)/2.0f;
       float new_x = float((32.0f+5.0f)*i-(32.0f+5.0f)*division);
