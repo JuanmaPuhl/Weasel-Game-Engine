@@ -2,7 +2,7 @@
 
 Game::Game()
 {
-
+    this->shader = new Shader(DEFAULT_SHADER_FILE);
 }
 
 Game::~Game()
@@ -21,11 +21,11 @@ void Game::onUpdate()
     this->currentLevel->onUpdate();
 }
 
-void Game::render(Shader* shader,double deltaTime)
+void Game::render(double deltaTime)
 {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    this->currentLevel->render(shader,deltaTime);
+    this->currentLevel->render(this->shader,deltaTime);
 }
 
 Level* Game::getCurrentLevel()

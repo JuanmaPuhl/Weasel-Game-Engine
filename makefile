@@ -1,9 +1,9 @@
 LIBRERIAS = -lglew32 -lglfw3 -lopengl32 
 CODIGO = source/
-all: main.exe quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o KeyboardControl.o
+all: main.exe quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o KeyboardControl.o Config.o
 .PHONY: all
-main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o KeyboardControl.o
-	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o KeyboardControl.o -I .$(CODIGO)ScriptComponent.h  -I ./libs/ -L ./libs/ $(LIBRERIAS)
+main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o KeyboardControl.o Config.o
+	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o KeyboardControl.o Config.o -I .$(CODIGO)ScriptComponent.h  -I ./libs/ -L ./libs/ $(LIBRERIAS)
 quad.o: $(CODIGO)quad.cpp $(CODIGO)quad.h
 	g++ -c  $(CODIGO)quad.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS) 
 window.o: $(CODIGO)window.cpp $(CODIGO)window.h

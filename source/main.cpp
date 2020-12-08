@@ -11,7 +11,6 @@
 #include "OrtographicCamera.h"
 #include <glm/gtc/type_ptr.hpp>
 #define STB_IMAGE_IMPLEMENTATION
-#include "Shader.h"
 #include "Entity.h"
 #include "Sprite.h"
 #include "Debug.h"
@@ -21,7 +20,7 @@
 #include "Level.h"
 #include "KeyboardControl.h"
 #include "Control.h"
-//#include "Config.h"
+#include "Config.h"
 KeyboardControl* kc;
 #define DEBUG
 const int WIDTH = 1280;
@@ -29,7 +28,6 @@ const int HEIGHT = 720;
 const int MAX_ENTITIES = 60;
 const int MAX_ANIMATION_SIZE = 6;
 const int MAX_FPS = 60;
-Shader* shader;
 Entity* entity,*entity2;
 Sprite *spr1,*spr2;
 Entity* lista[MAX_ENTITIES];
@@ -80,7 +78,7 @@ void loop_function_test(float deltaTime)
   #endif
   //camera->update(deltaTime);
   glBindVertexArray(entity->getQuad()->getVAO());
-  game->render(shader,deltaTime);
+  game->render(deltaTime);
 
 }
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
@@ -105,23 +103,18 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 }
 int main(int argc, char** argv)
 {
-
-    printf("QUE SE HACE.\n");
-    game = new Game();
-    std::string dir = "res/shaders/Shader.shader";
     GLFWwindow* window = window::window_init(WIDTH,HEIGHT);
+    game = new Game();
     entity = new Entity();
     entity2 = new Entity();
     entity2->scale(glm::vec3(-1.0f,1.0f,1.0f));
     entity2->translate(glm::vec3(0.0f,64.0f,0.0f));
     camera = new OrtographicCamera(WIDTH,HEIGHT);
-    shader = new Shader(dir);
     spr1 = new Sprite("res/sprites/container.jpg",normal);
     spr2 = new Sprite("res/sprites/wall.jpg",normal);
     Sprite *spr3 = new Sprite("res/Sprites/40_corrugated cardboard texture-seamless.jpg",normal);
     Sprite *spr4 = new Sprite("res/Sprites/awesomeface.png",transparent);
     Sprite *spr5 = new Sprite("res/Sprites/ges.png",normal);
-    
     p = (ScriptComponent*)new Prueba();
     Sprite *chr1 = new Sprite("res/Sprites/1.png",transparent);
     Sprite *chr2 = new Sprite("res/Sprites/2.png",transparent);
@@ -206,7 +199,6 @@ int main(int argc, char** argv)
     free(spr3);
     free(spr4);
     free(spr5);
-    free(shader);
     free(camera);
     delete(e5);
     return 0;
