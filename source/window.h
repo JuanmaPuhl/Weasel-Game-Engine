@@ -1,5 +1,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "Config.h"
 namespace window
 {
     /**
@@ -14,8 +15,6 @@ namespace window
      * @return int el codigo de finalizacion
      */
     int window_loop(GLFWwindow* window, void (*loop_function)(float));
-
-    void set_key_callback(GLFWwindow*window,void callback(GLFWwindow*,int,int,int,int));
 }
     
 

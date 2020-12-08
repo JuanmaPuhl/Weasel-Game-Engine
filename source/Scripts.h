@@ -13,7 +13,7 @@ class Prueba : public ScriptComponent
         void onUpdate()
         {
           //printf("Hello World, I'm %d\n",this->id);
-          if(kc->isPressed(keyboard::KEY_DOWN))
+          if(keyboardControl->isPressed(keyboard::KEY_DOWN))
           {
             printf("HOLI.\n");
           }
@@ -31,7 +31,7 @@ class EntityOriginal : public ScriptComponent
         }
         void onUpdate()
         {
-            if(kc->isPressed(keyboard::KEY_Q))
+            if(keyboardControl->isPressed(keyboard::KEY_Q))
             {
                 printf("Entity1::Hola.\n");
             }

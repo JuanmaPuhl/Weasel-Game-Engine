@@ -22,7 +22,7 @@
 #include "Control.h"
 #include "Config.h"
 #include "Scripts.h"
-KeyboardControl* kc;
+KeyboardControl* keyboardControl;
 #define DEBUG
 const int WIDTH = 1280;
 const int HEIGHT = 720;
@@ -68,26 +68,7 @@ void loop_function_test(float deltaTime)
   game->render(deltaTime);
 
 }
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
-{
-  if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-  {
-    glfwSetWindowShouldClose(window, GL_TRUE);
-  }
-  if (key >= 0 && key < 1024)
-  {
-    if (action == GLFW_PRESS)
-    {
-      kc->setKey(key,true);
-    }
-    else 
-        if (action == GLFW_RELEASE)
-        {
-          kc->setKey(key,false);
-        }
-    
-  }
-}
+
 int main(int argc, char** argv)
 {
   GLFWwindow* window = window::window_init(WIDTH,HEIGHT);
@@ -139,7 +120,7 @@ int main(int argc, char** argv)
   animJim->setSpeed(0.15*60);
   entity2->setSprite(animation);
 
-  kc = new KeyboardControl();
+  keyboardControl = new KeyboardControl();
   
   printf("A crear 1.\n");
   Level* level1 = new Level();
@@ -163,7 +144,6 @@ int main(int argc, char** argv)
   game->addLevel(level1);
   game->addLevel(level2);
   game->setLevel(0);
-  window::set_key_callback(window,key_callback);
   window::window_loop(window,loop_function_test);
   for(int i=0; i<MAX_ENTITIES; i++)
   {

@@ -28,7 +28,7 @@ GLFWwindow* window::window_init(int width, int height)
     glewExperimental = GL_TRUE;
     glewInit();
     glGetError();
-
+    glfwSetKeyCallback(window,key_callback);
     /*====================TERMINA CREACION DE VENTANA==========================*/
     glViewport(0, 0, width, height);
     glEnable(GL_BLEND);
@@ -38,10 +38,6 @@ GLFWwindow* window::window_init(int width, int height)
     return window;
 }
 
-void window::set_key_callback(GLFWwindow*window,void callback(GLFWwindow*,int,int,int,int))
-{
-    glfwSetKeyCallback(window,callback);
-}
 
 int window::window_loop(GLFWwindow* window,void (*loop_function)(float))
 {
@@ -63,3 +59,23 @@ int window::window_loop(GLFWwindow* window,void (*loop_function)(float))
 }
 
 
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+{
+  if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+  {
+    glfwSetWindowShouldClose(window, GL_TRUE);
+  }
+  if (key >= 0 && key < 1024)
+  {
+    if (action == GLFW_PRESS)
+    {
+      keyboardControl->setKey(key,true);
+    }
+    else 
+        if (action == GLFW_RELEASE)
+        {
+          keyboardControl->setKey(key,false);
+        }
+    
+  }
+}
