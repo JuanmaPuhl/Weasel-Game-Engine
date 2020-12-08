@@ -28,7 +28,7 @@ void KeyboardControl::setKey(int key, bool action)
     
 }
 
-bool KeyboardControl::isPressed(int key)
+bool KeyboardControl::isPressed(keyboard::Key key)
 {
     if(key>=this->MAX_KEYS)
     {

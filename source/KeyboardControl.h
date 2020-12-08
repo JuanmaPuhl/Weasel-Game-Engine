@@ -3,11 +3,8 @@
 #include "Control.h"
 #include <stdlib.h>
 #include <stdio.h>
-
-class KeyboardControl : protected Control
+namespace keyboard
 {
-    
-    public:
     enum Key
     {
         KEY_UP = 265,
@@ -15,10 +12,17 @@ class KeyboardControl : protected Control
         KEY_LEFT = 263,
         KEY_RIGHT = 262
     };
+}
+
+class KeyboardControl : protected Control<keyboard::Key>
+{
+    
+    public:
+    
     KeyboardControl();
     ~KeyboardControl();
     void setKey(int key, bool action);
-    bool isPressed(int key);
+    bool isPressed(keyboard::Key key);
     private:
         const int MAX_KEYS = 1024;
 };

@@ -78,10 +78,6 @@ void loop_function_test(float deltaTime)
   #if defined(DEBUG)
     //printf("render time: %fms.\n",ms);
   #endif
-  if(kc->isPressed(kc->KEY_UP))
-  {
-    printf("A ver que onda.\n");
-  }
   //camera->update(deltaTime);
   glBindVertexArray(entity->getQuad()->getVAO());
   game->render(shader,deltaTime);
