@@ -7,7 +7,7 @@ Game::Game()
 
 Game::~Game()
 {
-
+    free(this->shader);
 }
 
 int Game::addLevel(Level* level)
