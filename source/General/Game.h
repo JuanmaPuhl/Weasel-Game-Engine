@@ -32,7 +32,7 @@ class Game
      * @brief Actualiza el nivel
      * 
      */
-    void onUpdate();
+    void onUpdate(double deltaTime);
     /**
      * @brief Renderiza el nivel
      * 

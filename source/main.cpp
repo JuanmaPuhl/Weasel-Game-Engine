@@ -63,6 +63,7 @@ void loop_function_test(float deltaTime)
   #endif
   //camera->update(deltaTime);
   glBindVertexArray(entity->getQuad()->getVAO());
+  game->onUpdate(deltaTime);
   game->render(deltaTime);
 
 }
@@ -90,8 +91,10 @@ int main(int argc, char** argv)
   printf("A crear 1.\n");
   Level* level1 = new Level();
   EntityOriginal* entityScript = new EntityOriginal();
+  CameraController* cameraController = new CameraController();
+  cameraController->camera = camera;
   entityScript->game = game;
-  entity2->setScript(entityScript);
+  entity2->setScript(cameraController);
   level1->addEntity(entity2);
   printf("A crear 2.\n");
   Level* level2 = new Level();

@@ -16,9 +16,9 @@ int Game::addLevel(Level* level)
     return this->levels.size()-1;
 }
 
-void Game::onUpdate()
+void Game::onUpdate(double deltaTime)
 {
-    this->currentLevel->onUpdate();
+    this->currentLevel->onUpdate(deltaTime);
 }
 
 void Game::render(double deltaTime)

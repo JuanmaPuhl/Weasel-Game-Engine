@@ -19,8 +19,9 @@ void Level::setCamera(OrtographicCamera* camera)
     this->camera = camera;
 }
 
-void Level::onUpdate()
+void Level::onUpdate(double deltaTime)
 {
+    this->camera->update(deltaTime);
     std::vector<Entity*>::iterator ptr;
     for(ptr = this->entities.begin(); ptr<this->entities.end(); ptr++)
     {

@@ -29,7 +29,7 @@ class Level
      * @brief Actualiza todas las entidades del nivel
      * 
      */
-    void onUpdate();
+    void onUpdate(double deltaTime);
     /**
      * @brief Set the Camera object
      * 
