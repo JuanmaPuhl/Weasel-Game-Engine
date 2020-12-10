@@ -53,6 +53,9 @@ Sprite* Sprite::copy(Sprite* sprite)
     unsigned int* arr = sprite->getImages();
     int size = sprite->getSize();
     Sprite* spr = new Sprite(arr,size);
+    spr->setSpeed(sprite->getSpeed());
+    spr->setTransparency(sprite->getTransparency());
+    return spr;
 }
 
 int Sprite::getSize()
@@ -68,4 +71,16 @@ unsigned int* Sprite::getImages()
 double Sprite::getSpeed()
 {
     return this->speed;
+}
+
+void Sprite::setTransparency(float transparency)
+{
+    //printf("Cambiando transparencia a: %f\n",transparency);
+    this->transparency = transparency;
+    //printf("Nueva transparencia: %f\n",this->transparency);
+}
+
+float Sprite::getTransparency()
+{
+    return this->transparency;
 }

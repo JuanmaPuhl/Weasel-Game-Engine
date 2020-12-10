@@ -20,10 +20,12 @@ in vec4 ourColor;
 in vec2 TexCoord;
 out vec4 FragColor;
 uniform sampler2D ourTexture;
+uniform float transparency;
 void main()
 {
     
-    FragColor =texture(ourTexture,TexCoord);
+    vec4 tex = texture(ourTexture,TexCoord).xyza;
+    FragColor = vec4(tex.x,tex.y,tex.z,(tex.a * transparency));
     if(FragColor.a < 0.1f)
     {
         discard;

@@ -16,6 +16,8 @@ class Sprite
     void setSpeed(double speed);
     int getSize();
     unsigned int* getImages();
+    float getTransparency();
+    void setTransparency(float transparency);
     Sprite* copy(Sprite* sprite);
     double getSpeed();
     private:
@@ -23,5 +25,6 @@ class Sprite
     int size;
     double index_aux = 0.0;
     unsigned int* spriteImage;
+    float transparency = 1.0f;
 };
 #endif

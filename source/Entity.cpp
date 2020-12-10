@@ -44,7 +44,6 @@ void Entity::updateModelMatrix()
 void Entity::setSprite(Sprite* sprite)
 {
     Sprite* a = sprite->copy(sprite);
-    a->setSpeed(sprite->getSpeed());
     this->sprite = a;
 }
 
@@ -102,6 +101,8 @@ void Entity::render(Shader* shader, double deltaTime)
     if(this->script != NULL)
         this->script->onUpdate();
     shader->setUniform("model",glm::value_ptr(this->modelMatrix));
+    float transparency = this->sprite->getTransparency();
+    shader->setUniform("transparency",&transparency);
     glBindTexture(GL_TEXTURE_2D, this->sprite->getSpriteImage(this->sprite->getCurrentSprite(deltaTime)));
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

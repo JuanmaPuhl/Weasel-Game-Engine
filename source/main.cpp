@@ -83,39 +83,7 @@ int main(int argc, char** argv)
   Sprite *chr1 = new Sprite(arreglo,6);
   const char* arreglo2[20] = {"res/Sprites/e1.png","res/Sprites/e2.png","res/Sprites/e3.png","res/Sprites/e4.png","res/Sprites/e5.png","res/Sprites/e6.png","res/Sprites/e7.png","res/Sprites/e8.png","res/Sprites/e9.png","res/Sprites/e10.png","res/Sprites/e11.png","res/Sprites/e12.png","res/Sprites/e13.png","res/Sprites/e14.png","res/Sprites/e15.png","res/Sprites/e16.png","res/Sprites/e17.png","res/Sprites/e18.png","res/Sprites/e19.png","res/Sprites/e20.png"};
   Sprite *chr2 = new Sprite(arreglo2,20);
-  /* Sprite *chr2 = new Sprite("res/Sprites/2.png");
-  Sprite *chr3 = new Sprite("res/Sprites/3.png");
-  Sprite *chr4 = new Sprite("res/Sprites/4.png");
-  Sprite *chr5 = new Sprite("res/Sprites/5.png");
-  Sprite *chr6 = new Sprite("res/Sprites/6.png"); */
-  //Sprite* sprites[1] = {chr1};
-  /* Sprite *e1 = new Sprite("res/Sprites/e1.png");
-  Sprite *e2 = new Sprite("res/Sprites/e2.png");
-  Sprite *e3 = new Sprite("res/Sprites/e3.png");
-  Sprite *e4 = new Sprite("res/Sprites/e4.png");
-  Sprite *e5 = new Sprite("res/Sprites/e5.png");
-  Sprite *e6 = new Sprite("res/Sprites/e6.png");
-  Sprite *e7 = new Sprite("res/Sprites/e7.png");
-  Sprite *e8 = new Sprite("res/Sprites/e8.png");
-  Sprite *e9 = new Sprite("res/Sprites/e9.png");
-  Sprite *e10 = new Sprite("res/Sprites/e10.png");
-  Sprite *e11 = new Sprite("res/Sprites/e11.png");
-  Sprite *e12 = new Sprite("res/Sprites/e12.png");
-  Sprite *e13 = new Sprite("res/Sprites/e13.png");
-  Sprite *e14 = new Sprite("res/Sprites/e14.png");
-  Sprite *e15 = new Sprite("res/Sprites/e15.png");
-  Sprite *e16 = new Sprite("res/Sprites/e16.png");
-  Sprite *e17 = new Sprite("res/Sprites/e17.png");
-  Sprite *e18 = new Sprite("res/Sprites/e18.png");
-  Sprite *e19 = new Sprite("res/Sprites/e19.png");
-  Sprite *e20 = new Sprite("res/Sprites/e20.png"); */
-  
-  //Sprite* spritesE[20] = {e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,e12,e13,e14,e15,e16,e17,e18,e19,e20};
-  //animation = new Animation(1,sprites);
-  //animation->setSpeed(0.25*60);
-  
-  /* Animation* animJim = new Animation(20,spritesE); */
-  /* animJim->setSpeed(0.15*60); */
+  chr1->setTransparency(0.5f);
   chr1->setSpeed(0.25*60);
   entity2->setSprite(chr1);
   chr2->setSpeed(0.15*60);
@@ -139,6 +107,7 @@ int main(int argc, char** argv)
       lista[i]->translate(glm::vec3(new_x,0.0f,0.0f));
       lista[i]->setSprite(chr2);
       lista[i]->setScript(scr);
+      lista[i]->getSprite()->setTransparency((float)(i*0.15f+0.1f));
       level2->addEntity(lista[i]);
   } 
   level1->setCamera(camera);
@@ -151,22 +120,9 @@ int main(int argc, char** argv)
   {
     free(lista[i]);
   }
-/*   free(animJim);
-  free(animation);
-  free(entity2);
-  free(chr1);
-  free(chr2);
-  free(chr3);
-  free(chr4);
-  free(chr5);
-  free(chr6);
-  free(e1);
-  free(e2);
-  free(e3);
-  free(spr3);
-  free(spr4);
-  free(spr5);
-  free(camera); */
+  delete(chr1);
+  delete(chr2);
+  delete(p);
   for(int i=0; i<MAX_ENTITIES; i++)
   {
     free(lista[i]);
