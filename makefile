@@ -1,37 +1,35 @@
 LIBRERIAS = -lglew32 -lglfw3 -lopengl32 
 CODIGO = source/
-all: main.exe quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o
+all: main.exe quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o  Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o
 .PHONY: all
-main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o
-	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o -I .$(CODIGO)ScriptComponent.h  -I ./libs/ -L ./libs/ $(LIBRERIAS)
-quad.o: $(CODIGO)quad.cpp $(CODIGO)quad.h
-	g++ -c  $(CODIGO)quad.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS) 
-window.o: $(CODIGO)window.cpp $(CODIGO)window.h
-	g++ -c  $(CODIGO)window.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
-FileManager.o: $(CODIGO)FileManager.cpp $(CODIGO)FileManager.h
-	g++ -c  $(CODIGO)FileManager.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
-ImageFileManager.o: $(CODIGO)ImageFileManager.cpp $(CODIGO)ImageFileManager.h
-	g++ -c  $(CODIGO)ImageFileManager.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
-OrtographicCamera.o: $(CODIGO)OrtographicCamera.cpp $(CODIGO)OrtographicCamera.h
-	g++ -c  $(CODIGO)OrtographicCamera.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
-Shader.o: $(CODIGO)Shader.cpp $(CODIGO)Shader.h
-	g++ -c  $(CODIGO)Shader.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
-Entity.o: $(CODIGO)Entity.cpp $(CODIGO)Entity.h
-	g++ -c  $(CODIGO)Entity.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
-Sprite.o: $(CODIGO)Sprite.cpp $(CODIGO)Sprite.h
-	g++ -c  $(CODIGO)Sprite.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o
+	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o -I .$(CODIGO)ScriptComponent.h  -I ./libs/ -L ./libs/ $(LIBRERIAS)
+quad.o: $(CODIGO)/Graphics/quad.cpp $(CODIGO)/Graphics/quad.h
+	g++ -c  $(CODIGO)/Graphics/quad.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS) 
+window.o: $(CODIGO)/Graphics/window.cpp $(CODIGO)/Graphics/window.h
+	g++ -c  $(CODIGO)/Graphics/window.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+FileManager.o: $(CODIGO)/FileManagement/FileManager.cpp $(CODIGO)/FileManagement/FileManager.h
+	g++ -c  $(CODIGO)/FileManagement/FileManager.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+ImageFileManager.o: $(CODIGO)/FileManagement/ImageFileManager.cpp $(CODIGO)/FileManagement/ImageFileManager.h
+	g++ -c  $(CODIGO)/FileManagement/ImageFileManager.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+OrtographicCamera.o: $(CODIGO)/Entities/OrtographicCamera.cpp $(CODIGO)/Entities/OrtographicCamera.h
+	g++ -c  $(CODIGO)/Entities/OrtographicCamera.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+Shader.o: $(CODIGO)/Graphics/Shader.cpp $(CODIGO)/Graphics/Shader.h
+	g++ -c  $(CODIGO)/Graphics/Shader.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+Entity.o: $(CODIGO)/Entities/Entity.cpp $(CODIGO)/Entities/Entity.h
+	g++ -c  $(CODIGO)/Entities/Entity.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+Sprite.o: $(CODIGO)/Graphics/Sprite.cpp $(CODIGO)/Graphics/Sprite.h
+	g++ -c  $(CODIGO)/Graphics/Sprite.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 Debug.o: $(CODIGO)Debug.cpp $(CODIGO)Debug.h
 	g++ -c  $(CODIGO)Debug.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
-Animation.o: $(CODIGO)Animation.cpp $(CODIGO)Animation.h
-	g++ -c  $(CODIGO)Animation.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
-Game.o: $(CODIGO)Game.cpp $(CODIGO)Game.h
-	g++ -c  $(CODIGO)Game.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
-Level.o: $(CODIGO)Level.cpp $(CODIGO)Level.h
-	g++ -c  $(CODIGO)Level.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+Game.o: $(CODIGO)/General/Game.cpp $(CODIGO)/General/Game.h
+	g++ -c  $(CODIGO)/General/Game.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+Level.o: $(CODIGO)/General/Level.cpp $(CODIGO)/General/Level.h
+	g++ -c  $(CODIGO)/General/Level.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 Config.o: $(CODIGO)Config.cpp $(CODIGO)Config.h
 	g++ -c  $(CODIGO)Config.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
-KeyboardControl.o: $(CODIGO)KeyboardControl.cpp $(CODIGO)KeyboardControl.h
-	g++ -c  $(CODIGO)KeyboardControl.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+KeyboardControl.o: $(CODIGO)/Controls/KeyboardControl.cpp $(CODIGO)/Controls/KeyboardControl.h
+	g++ -c  $(CODIGO)/Controls/KeyboardControl.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 clean:
 	del quad.o
 	del window.o
@@ -41,7 +39,6 @@ clean:
 	del Entity.o
 	del Sprite.o
 	del Debug.o
-	del Animation.o
 	del Game.o
 	del Level.o
 	del KeyboardControl.o

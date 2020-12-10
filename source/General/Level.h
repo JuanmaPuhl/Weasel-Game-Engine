@@ -1,9 +1,9 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 #include <vector>
-#include "Entity.h"
-#include "OrtographicCamera.h"
-#include "Shader.h"
+#include "../Entities/Entity.h"
+#include "../Entities/OrtographicCamera.h"
+#include "../Graphics/Shader.h"
 #include <glm/gtc/type_ptr.hpp>
 
 class Level

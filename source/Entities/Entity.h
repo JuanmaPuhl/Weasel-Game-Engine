@@ -3,12 +3,12 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "Quad.h"
-#include "Animation.h"
+#include "../Graphics/Quad.h"
 #include "ScriptComponent.h"
-#include "Shader.h"
+#include "../Graphics/Shader.h"
 #include <glm/gtc/type_ptr.hpp>
-#include "Config.h"
+#include "../Config.h"
+#include "../Graphics/Sprite.h"
 
 class Entity
 {

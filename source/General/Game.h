@@ -1,8 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 #include "Level.h"
-#include "Shader.h"
-#include "Config.h"
+#include "../Graphics/Shader.h"
+#include "../Config.h"
 
 class Game
 {

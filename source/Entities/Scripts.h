@@ -1,9 +1,9 @@
 #pragma once
 #include "ScriptComponent.h"
-#include "KeyboardControl.h"
-#include "Config.h"
-#include "stdio.h"
-#include "Game.h"
+#include "../Controls/KeyboardControl.h"
+#include "../Config.h"
+#include <stdio.h>
+#include "../General/Game.h"
 class Prueba : public ScriptComponent
 {
       public: 

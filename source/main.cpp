@@ -1,38 +1,36 @@
-#include "window.h"
+#include "Graphics/window.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "Quad.h"
+#include "Graphics/Quad.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "FileManager.h"
+#include "FileManagement/FileManager.h"
 #include <math.h>
 #include <string.h>
 
-#include "OrtographicCamera.h"
+#include "Entities/OrtographicCamera.h"
 #include <glm/gtc/type_ptr.hpp>
 #define STB_IMAGE_IMPLEMENTATION
-#include "Entity.h"
-#include "Sprite.h"
+#include "Entities/Entity.h"
+#include "Graphics/Sprite.h"
 #include "Debug.h"
-#include "Animation.h"
-#include "ScriptComponent.h"
-#include "Game.h"
-#include "Level.h"
-#include "KeyboardControl.h"
-#include "Control.h"
+#include "Entities/ScriptComponent.h"
+#include "General/Game.h"
+#include "General/Level.h"
+#include "Controls/KeyboardControl.h"
+#include "Controls/Control.h"
 #include "Config.h"
-#include "Scripts.h"
+#include "Entities/Scripts.h"
 KeyboardControl* keyboardControl;
 #define DEBUG
 const int WIDTH = 1280;
 const int HEIGHT = 720;
-const int MAX_ENTITIES = 60;
+const int MAX_ENTITIES = 10;
 const int MAX_ANIMATION_SIZE = 6;
 const int MAX_FPS = 60;
 Entity* entity,*entity2;
 Sprite *spr1,*spr2;
 Entity* lista[MAX_ENTITIES];
-Animation* animation;
 OrtographicCamera* camera;
 glm::vec2 camera_movement_direction = glm::vec2(0.0f);
 Game* game;
