@@ -1,15 +1,17 @@
 LIBRERIAS = -lglew32 -lglfw3 -lopengl32 
 CODIGO = source/
-all: main.exe quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o KeyboardControl.o Config.o
+all: main.exe quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o
 .PHONY: all
-main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o KeyboardControl.o Config.o
-	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o KeyboardControl.o Config.o -I .$(CODIGO)ScriptComponent.h  -I ./libs/ -L ./libs/ $(LIBRERIAS)
+main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o
+	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Animation.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o -I .$(CODIGO)ScriptComponent.h  -I ./libs/ -L ./libs/ $(LIBRERIAS)
 quad.o: $(CODIGO)quad.cpp $(CODIGO)quad.h
 	g++ -c  $(CODIGO)quad.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS) 
 window.o: $(CODIGO)window.cpp $(CODIGO)window.h
 	g++ -c  $(CODIGO)window.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 FileManager.o: $(CODIGO)FileManager.cpp $(CODIGO)FileManager.h
 	g++ -c  $(CODIGO)FileManager.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+ImageFileManager.o: $(CODIGO)ImageFileManager.cpp $(CODIGO)ImageFileManager.h
+	g++ -c  $(CODIGO)ImageFileManager.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 OrtographicCamera.o: $(CODIGO)OrtographicCamera.cpp $(CODIGO)OrtographicCamera.h
 	g++ -c  $(CODIGO)OrtographicCamera.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 Shader.o: $(CODIGO)Shader.cpp $(CODIGO)Shader.h
@@ -44,6 +46,7 @@ clean:
 	del Level.o
 	del KeyboardControl.o
 	del Config.o
+	del ImageFileManager.o
 	del main.exe
 
         
