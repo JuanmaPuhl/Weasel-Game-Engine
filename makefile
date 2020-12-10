@@ -43,6 +43,7 @@ clean:
 	del Game.o
 	del Level.o
 	del KeyboardControl.o
+	del Config.o
 	del main.exe
 
         
