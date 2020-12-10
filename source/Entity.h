@@ -18,10 +18,10 @@ class Entity
     void translate(glm::vec3 position);
     void rotate(glm::vec3 rotation);
     void scale(glm::vec3 scaling);
-    void setSprite(Animation* sprite);
+    void setSprite(Sprite* sprite);
     void setScript(ScriptComponent* script);
     ScriptComponent* getScript();
-    Animation* getAnimation();
+    Sprite* getSprite();
     glm::mat4 getModelMatrix();
     Quad* getQuad();
     //TODO Deberian ejecutarse los updates de todos los componentes de la entidad.
@@ -34,7 +34,7 @@ class Entity
     glm::vec3 scaling;
     Quad* quad;
     glm::mat4 modelMatrix;
-    Animation* sprite = NULL;
+    Sprite* sprite = NULL;
     ScriptComponent* script = NULL;
     void updateModelMatrix();
 };

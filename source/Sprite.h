@@ -8,10 +8,20 @@ enum Mode {normal, transparent};
 class Sprite
 {
     public:
-    Sprite(const char* dir);
+    Sprite(const char** dir, int size);
+    Sprite(unsigned int*, int size);
     ~Sprite();
-    unsigned int getSpriteImage();
+    unsigned int getSpriteImage(int index);
+    int getCurrentSprite(float deltaTime);
+    void setSpeed(double speed);
+    int getSize();
+    unsigned int* getImages();
+    Sprite* copy(Sprite* sprite);
+    double getSpeed();
     private:
-    unsigned int spriteImage;
+    double speed = 0.0;
+    int size;
+    double index_aux = 0.0;
+    unsigned int* spriteImage;
 };
 #endif

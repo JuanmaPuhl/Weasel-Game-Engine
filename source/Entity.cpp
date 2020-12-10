@@ -41,14 +41,14 @@ void Entity::updateModelMatrix()
     }*/
 }
 
-void Entity::setSprite(Animation* sprite)
+void Entity::setSprite(Sprite* sprite)
 {
-    Animation* a = new Animation(sprite->getSize(),sprite->getSprites());
+    Sprite* a = sprite->copy(sprite);
     a->setSpeed(sprite->getSpeed());
     this->sprite = a;
 }
 
-Animation* Entity::getAnimation()
+Sprite* Entity::getSprite()
 {
     return this->sprite;
 }
@@ -102,6 +102,6 @@ void Entity::render(Shader* shader, double deltaTime)
     if(this->script != NULL)
         this->script->onUpdate();
     shader->setUniform("model",glm::value_ptr(this->modelMatrix));
-    glBindTexture(GL_TEXTURE_2D, this->sprite->getCurrentSprite(deltaTime)->getSpriteImage());
+    glBindTexture(GL_TEXTURE_2D, this->sprite->getSpriteImage(this->sprite->getCurrentSprite(deltaTime)));
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

@@ -78,20 +78,18 @@ int main(int argc, char** argv)
   entity2->scale(glm::vec3(-1.0f,1.0f,1.0f));
   entity2->translate(glm::vec3(0.0f,64.0f,0.0f));
   camera = new OrtographicCamera(WIDTH,HEIGHT);
-  spr1 = new Sprite("res/sprites/container.jpg");
-  spr2 = new Sprite("res/sprites/wall.jpg");
-  Sprite *spr3 = new Sprite("res/Sprites/40_corrugated cardboard texture-seamless.jpg");
-  Sprite *spr4 = new Sprite("res/Sprites/awesomeface.png");
-  Sprite *spr5 = new Sprite("res/Sprites/ges.png");
   p = (ScriptComponent*)new Prueba();
-  Sprite *chr1 = new Sprite("res/Sprites/1.png");
-  Sprite *chr2 = new Sprite("res/Sprites/2.png");
+  const char* arreglo[6] = {"res/Sprites/1.png","res/Sprites/2.png","res/Sprites/3.png","res/Sprites/4.png","res/Sprites/5.png","res/Sprites/6.png"};
+  Sprite *chr1 = new Sprite(arreglo,6);
+  const char* arreglo2[20] = {"res/Sprites/e1.png","res/Sprites/e2.png","res/Sprites/e3.png","res/Sprites/e4.png","res/Sprites/e5.png","res/Sprites/e6.png","res/Sprites/e7.png","res/Sprites/e8.png","res/Sprites/e9.png","res/Sprites/e10.png","res/Sprites/e11.png","res/Sprites/e12.png","res/Sprites/e13.png","res/Sprites/e14.png","res/Sprites/e15.png","res/Sprites/e16.png","res/Sprites/e17.png","res/Sprites/e18.png","res/Sprites/e19.png","res/Sprites/e20.png"};
+  Sprite *chr2 = new Sprite(arreglo2,20);
+  /* Sprite *chr2 = new Sprite("res/Sprites/2.png");
   Sprite *chr3 = new Sprite("res/Sprites/3.png");
   Sprite *chr4 = new Sprite("res/Sprites/4.png");
   Sprite *chr5 = new Sprite("res/Sprites/5.png");
-  Sprite *chr6 = new Sprite("res/Sprites/6.png");
-  Sprite* sprites[6] = {chr1,chr2,chr3,chr4,chr5,chr6};
-  Sprite *e1 = new Sprite("res/Sprites/e1.png");
+  Sprite *chr6 = new Sprite("res/Sprites/6.png"); */
+  //Sprite* sprites[1] = {chr1};
+  /* Sprite *e1 = new Sprite("res/Sprites/e1.png");
   Sprite *e2 = new Sprite("res/Sprites/e2.png");
   Sprite *e3 = new Sprite("res/Sprites/e3.png");
   Sprite *e4 = new Sprite("res/Sprites/e4.png");
@@ -110,16 +108,17 @@ int main(int argc, char** argv)
   Sprite *e17 = new Sprite("res/Sprites/e17.png");
   Sprite *e18 = new Sprite("res/Sprites/e18.png");
   Sprite *e19 = new Sprite("res/Sprites/e19.png");
-  Sprite *e20 = new Sprite("res/Sprites/e20.png");
+  Sprite *e20 = new Sprite("res/Sprites/e20.png"); */
   
-  Sprite* spritesE[20] = {e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,e12,e13,e14,e15,e16,e17,e18,e19,e20};
-  animation = new Animation(6,sprites);
-  animation->setSpeed(0.25*60);
+  //Sprite* spritesE[20] = {e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,e12,e13,e14,e15,e16,e17,e18,e19,e20};
+  //animation = new Animation(1,sprites);
+  //animation->setSpeed(0.25*60);
   
-  Animation* animJim = new Animation(20,spritesE);
-  animJim->setSpeed(0.15*60);
-  entity2->setSprite(animation);
-
+  /* Animation* animJim = new Animation(20,spritesE); */
+  /* animJim->setSpeed(0.15*60); */
+  chr1->setSpeed(0.25*60);
+  entity2->setSprite(chr1);
+  chr2->setSpeed(0.15*60);
   keyboardControl = new KeyboardControl();
   
   printf("A crear 1.\n");
@@ -138,7 +137,7 @@ int main(int argc, char** argv)
       float division = float(MAX_ENTITIES-1)/2.0f;
       float new_x = float((32.0f+5.0f)*i-(32.0f+5.0f)*division);
       lista[i]->translate(glm::vec3(new_x,0.0f,0.0f));
-      lista[i]->setSprite(animJim);
+      lista[i]->setSprite(chr2);
       lista[i]->setScript(scr);
       level2->addEntity(lista[i]);
   } 
@@ -152,7 +151,7 @@ int main(int argc, char** argv)
   {
     free(lista[i]);
   }
-  free(animJim);
+/*   free(animJim);
   free(animation);
   free(entity2);
   free(chr1);
@@ -167,12 +166,12 @@ int main(int argc, char** argv)
   free(spr3);
   free(spr4);
   free(spr5);
-  free(camera);
+  free(camera); */
   for(int i=0; i<MAX_ENTITIES; i++)
   {
     free(lista[i]);
   } 
-  delete(e5);
+/*   delete(e5); */
   return 0;
 }
 
