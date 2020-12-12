@@ -12,7 +12,6 @@ unsigned int imageFileManager::loadImage(const char* dir)
     glGenTextures(1, &texture);  
     
     glBindTexture(GL_TEXTURE_2D, texture);  
-    printf("dir: %s. nrChannels: %d\n",dir,nrChannels);
     if (data)
     {   
         if(nrChannels == 3)
@@ -24,7 +23,7 @@ unsigned int imageFileManager::loadImage(const char* dir)
     else
     {   
         #if defined(DEBUG)
-            printf("No se pudo cargar la textura.\n");
+            printf("No se pudo cargar la textura %s.\n",dir);
         #endif
     }
     stbi_image_free(data);

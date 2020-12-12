@@ -22,7 +22,6 @@ Sprite::Sprite(unsigned int* arr, int size)
 
 Sprite::~Sprite()
 {
-    printf("ELIMINANDO SPRITE.\n");
     free(this->spriteImage);
 }
 
@@ -75,9 +74,7 @@ double Sprite::getSpeed()
 
 void Sprite::setTransparency(float transparency)
 {
-    //printf("Cambiando transparencia a: %f\n",transparency);
     this->transparency = transparency;
-    //printf("Nueva transparencia: %f\n",this->transparency);
 }
 
 float Sprite::getTransparency()

@@ -8,12 +8,18 @@ Game::Game()
 Game::~Game()
 {
     free(this->shader);
+    std::vector<Level*>::iterator ptr;
+    for(ptr = this->levels.begin(); ptr<this->levels.end(); ptr++)
+    {
+        delete((*(ptr)));
+    }
 }
 
-int Game::addLevel(Level* level)
+Level* Game::addLevel()
 {
+    Level* level = new Level();
     this->levels.push_back(level);
-    return this->levels.size()-1;
+    return level;
 }
 
 void Game::onUpdate(double deltaTime)

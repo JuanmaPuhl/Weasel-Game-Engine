@@ -13,14 +13,11 @@ class Prueba : public ScriptComponent
         Game* game;
         void onCreate()
         {
-          printf("ONCREATE.\n");
         }
         void onUpdate()
         {
-          //printf("Hello World, I'm %d\n",this->id);
           if(keyboardControl->isPressed(keyboard::KEY_DOWN))
           {
-            printf("EntityGeneral::Hola.\n");
           }
         }
       private:
@@ -39,7 +36,6 @@ class EntityOriginal : public ScriptComponent
       {
           if(keyboardControl->isPressed(keyboard::KEY_Q))
           {
-              printf("Entity1::Hola.\n");
               game->setLevel(1);
           }
       }
@@ -51,7 +47,6 @@ class CameraController : public ScriptComponent
     OrtographicCamera* camera;
     void onCreate()
     {
-      printf("CameraController::OnCreate.\n");
       this->direction = glm::vec2(0.0f);
     }
     void onUpdate()
@@ -59,12 +54,10 @@ class CameraController : public ScriptComponent
       this->activado = false;
       if(keyboardControl->isPressed(keyboard::KEY_I))
       {
-        printf("CameraController::Presionando I.\n");
         camera->zoom(1.0f);
       }
       if (keyboardControl->isPressed(keyboard::KEY_J))
       {
-        printf("CameraController::Presionando J.\n");
         camera->zoom(-1.0f);
       }  
       if(!keyboardControl->isPressed(keyboard::KEY_I) && !keyboardControl->isPressed(keyboard::KEY_J))

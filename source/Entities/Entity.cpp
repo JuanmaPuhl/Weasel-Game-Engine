@@ -13,12 +13,11 @@ Entity::Entity()
 
 Entity::~Entity()
 {
-    printf("ELIMINANDO\n");
+    delete(this->quad);
 }
 
 void Entity::updateModelMatrix()
 {
-    //this->modelMatrix = glm::mat4(1.0f);
     glm::mat4 translationMatrix = glm::mat4(1.0f);
     translationMatrix = glm::translate(translationMatrix,this->position);
     glm::mat4 rotationMatrix = glm::mat4(1.0f);
@@ -29,16 +28,6 @@ void Entity::updateModelMatrix()
     this->scaling = glm::vec3(1.0f);
     this->rotation = glm::vec3(0.0f,0.0f,1.0f);
     this->position = glm::vec3(0.0f);
-    //this->rotation = glm::vec3(0.0f);
-    //this->position = glm::vec3(0.0f);
-    /*for(int i = 0; i<4; i++)
-    {
-        for(int j = 0; j<4; j++)
-        {
-            printf("%f,",this->modelMatrix[i][j]);
-        }
-        printf("\n");
-    }*/
 }
 
 void Entity::setSprite(Sprite* sprite)

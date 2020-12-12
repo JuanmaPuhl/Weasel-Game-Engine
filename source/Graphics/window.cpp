@@ -3,6 +3,15 @@
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 float currentFrame = 0.0f;
+
+void error_callback(int code, const char* description)
+{
+    printf("GLFW ERROR::code: %d, description: %s.\n",code, description);
+    printf("Window::Terminando ejecucion...\n");
+    exit(code);
+}
+
+
 GLFWwindow* window::window_init(int width, int height)
 {
     /*=====================INICIA CREACION DE VENTANA==========================*/
@@ -29,6 +38,7 @@ GLFWwindow* window::window_init(int width, int height)
     glewInit();
     glGetError();
     glfwSetKeyCallback(window,key_callback);
+    glfwSetErrorCallback(error_callback);
     /*====================TERMINA CREACION DE VENTANA==========================*/
     glViewport(0, 0, width, height);
     glEnable(GL_BLEND);

@@ -15,7 +15,7 @@ class Game
      * @param level el nivel que se desea añadir
      * @return el identificador del nivel
      */
-    int addLevel(Level* level);
+    Level* addLevel();
     /**
      * @brief Establece el nivel actual
      * 

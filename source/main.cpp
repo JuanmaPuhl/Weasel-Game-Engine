@@ -28,11 +28,9 @@ const int HEIGHT = 720;
 const int MAX_ENTITIES = 10;
 const int MAX_ANIMATION_SIZE = 6;
 const int MAX_FPS = 60;
-Entity* entity,*entity2;
-Sprite *spr1,*spr2;
+Entity* entity;
 Entity* lista[MAX_ENTITIES];
 OrtographicCamera* camera;
-glm::vec2 camera_movement_direction = glm::vec2(0.0f);
 Game* game;
 
 
@@ -42,7 +40,8 @@ int fps = 0;
 
 const double maxPeriod  =1.0/double(MAX_FPS);
 double lastTime = 0.0f;
-
+double lastTimeForSleep = 0.0;
+const int MAX_FRAMERATE = 120;
 void loop_function_test(float deltaTime)
 {
   float current = glfwGetTime();
@@ -56,79 +55,87 @@ void loop_function_test(float deltaTime)
     fps = 0;
     last_time++;
   }
-  //printf("ITERACION.\n");
   float ms = deltaTime * 1000;
-  #if defined(DEBUG)
-    //printf("render time: %fms.\n",ms);
-  #endif
-  //camera->update(deltaTime);
+  //printf("render time: %fms.\n",ms);
   glBindVertexArray(entity->getQuad()->getVAO());
   game->onUpdate(deltaTime);
   game->render(deltaTime);
+  //Si me paso del framerate
+  while(glfwGetTime()<lastTimeForSleep+double(1.0/MAX_FRAMERATE))
+  {
+    //No hago nada. Limito fps.
+  }
+  lastTimeForSleep += 1.0/MAX_FRAMERATE;
 
 }
-
-int main(int argc, char** argv)
+int metodoPrincipal()
 {
+  printf("Main::Creando ventana...\n");
   GLFWwindow* window = window::window_init(WIDTH,HEIGHT);
   game = new Game();
-  entity = new Entity();
-  entity2 = new Entity();
-  entity2->scale(glm::vec3(-1.0f,1.0f,1.0f));
-  entity2->translate(glm::vec3(0.0f,64.0f,0.0f));
-  camera = new OrtographicCamera(WIDTH,HEIGHT);
   p = (ScriptComponent*)new Prueba();
+  EntityOriginal* entityScript = new EntityOriginal();
+  CameraController* cameraController = new CameraController();
+  keyboardControl = new KeyboardControl();
+  entity = new Entity();
+  camera = new OrtographicCamera(WIDTH,HEIGHT);
   const char* arreglo[6] = {"res/Sprites/1.png","res/Sprites/2.png","res/Sprites/3.png","res/Sprites/4.png","res/Sprites/5.png","res/Sprites/6.png"};
   Sprite *chr1 = new Sprite(arreglo,6);
   const char* arreglo2[20] = {"res/Sprites/e1.png","res/Sprites/e2.png","res/Sprites/e3.png","res/Sprites/e4.png","res/Sprites/e5.png","res/Sprites/e6.png","res/Sprites/e7.png","res/Sprites/e8.png","res/Sprites/e9.png","res/Sprites/e10.png","res/Sprites/e11.png","res/Sprites/e12.png","res/Sprites/e13.png","res/Sprites/e14.png","res/Sprites/e15.png","res/Sprites/e16.png","res/Sprites/e17.png","res/Sprites/e18.png","res/Sprites/e19.png","res/Sprites/e20.png"};
   Sprite *chr2 = new Sprite(arreglo2,20);
-  chr1->setTransparency(0.5f);
+  chr1->setTransparency(1.0f);
   chr1->setSpeed(0.25*60);
-  entity2->setSprite(chr1);
   chr2->setSpeed(0.15*60);
-  keyboardControl = new KeyboardControl();
-  
-  printf("A crear 1.\n");
-  Level* level1 = new Level();
-  EntityOriginal* entityScript = new EntityOriginal();
-  CameraController* cameraController = new CameraController();
+  Level* level1 = game->addLevel();
   cameraController->camera = camera;
   entityScript->game = game;
+  Entity* entity2 = level1->addEntity();
   entity2->setScript(cameraController);
-  level1->addEntity(entity2);
-  printf("A crear 2.\n");
-  Level* level2 = new Level();
+  entity2->setSprite(chr1);
+  Level* level2 = game->addLevel();
   for(int i=0; i<MAX_ENTITIES; i++)
   {
       ScriptComponent* scr =(ScriptComponent*) new Prueba();
       ((Prueba*)scr)->game = game;
-      lista[i] = new Entity();
+      lista[i] = level2->addEntity();
       float division = float(MAX_ENTITIES-1)/2.0f;
       float new_x = float((32.0f+5.0f)*i-(32.0f+5.0f)*division);
       lista[i]->translate(glm::vec3(new_x,0.0f,0.0f));
       lista[i]->setSprite(chr2);
-      lista[i]->setScript(scr);
+      lista[i]->setScript(cameraController);
       lista[i]->getSprite()->setTransparency((float)(i*0.15f+0.1f));
-      level2->addEntity(lista[i]);
   } 
+  lista[MAX_ENTITIES-1]->getSprite()->setSpeed(0.0);
   level1->setCamera(camera);
   level2->setCamera(camera);
-  game->addLevel(level1);
-  game->addLevel(level2);
-  game->setLevel(0);
+  game->setLevel(1);
   window::window_loop(window,loop_function_test);
-  for(int i=0; i<MAX_ENTITIES; i++)
-  {
-    free(lista[i]);
-  }
-  delete(chr1);
+  printf("Main::Eliminando objetos...\n");
+  delete(game); //Esto elimina shader, niveles, entidades,camaras.
+  /*Elimino los sprites*/
+  delete(chr1); 
   delete(chr2);
+  /*Elimino los scripts*/
   delete(p);
-  for(int i=0; i<MAX_ENTITIES; i++)
+  delete(cameraController);
+  delete(entityScript);
+  glfwTerminate(); //Cierro glfw
+  printf("Main::Objetos eliminados. Cerrando programa.\n");
+  return 0;
+}
+
+
+int main(int argc, char** argv)
+{
+  int toReturn = metodoPrincipal();
+  switch(toReturn)
   {
-    free(lista[i]);
-  } 
-/*   delete(e5); */
+    case 0:
+      printf("Main::Ejecucion exitosa.\n");
+      break;
+    default:
+      printf("Main::ERROR. Codigo: %d.\n",toReturn);
+  }
   return 0;
 }
 

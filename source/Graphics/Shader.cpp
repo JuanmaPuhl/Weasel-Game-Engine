@@ -18,7 +18,7 @@ int check_shader_compilation_status(unsigned int shader, Mode mode)
         }
         else
         {
-            printf("%d Compilado correctamente.\n",mode);
+            printf("Shader %d compilado correctamente.\n",mode);
         }
     #endif
     

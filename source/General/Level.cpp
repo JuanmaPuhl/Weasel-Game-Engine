@@ -5,13 +5,20 @@ Level::Level()
 }
 
 Level::~Level()
-{
-
+{   
+    delete(this->camera);
+    std::vector<Entity*>::iterator ptr;
+    for(ptr = this->entities.begin(); ptr<this->entities.end(); ptr++)
+    {
+        delete((*(ptr)));
+    }
 }
 
-void Level::addEntity(Entity* entity)
+Entity* Level::addEntity()
 {
+    Entity* entity = new Entity();
     this->entities.push_back(entity);
+    return entity;
 }
 
 void Level::setCamera(OrtographicCamera* camera)
