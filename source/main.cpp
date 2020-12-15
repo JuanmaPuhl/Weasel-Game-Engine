@@ -7,7 +7,6 @@
 #include "FileManagement/FileManager.h"
 #include <math.h>
 #include <string.h>
-
 #include "Entities/OrtographicCamera.h"
 #include <glm/gtc/type_ptr.hpp>
 #define STB_IMAGE_IMPLEMENTATION
@@ -71,8 +70,8 @@ void loop_function_test(float deltaTime)
 int metodoPrincipal()
 {
   printf("Main::Creando ventana...\n");
-  GLFWwindow* window = window::window_init(WIDTH,HEIGHT);
-  game = new Game();
+  //GLFWwindow* window = window::window_init(WIDTH,HEIGHT);
+  game = new Game(WIDTH,HEIGHT);
   p = (ScriptComponent*)new Prueba();
   EntityOriginal* entityScript = new EntityOriginal();
   CameraController* cameraController = new CameraController();
@@ -109,7 +108,7 @@ int metodoPrincipal()
   level1->setCamera(camera);
   level2->setCamera(camera);
   game->setLevel(1);
-  window::window_loop(window,loop_function_test);
+  window::window_loop(game->window,loop_function_test);
   printf("Main::Eliminando objetos...\n");
   delete(game); //Esto elimina shader, niveles, entidades,camaras.
   /*Elimino los sprites*/

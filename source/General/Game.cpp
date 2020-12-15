@@ -1,7 +1,8 @@
 #include "Game.h"
 
-Game::Game()
+Game::Game(int width, int height)
 {
+    this->window = window::window_init(width,height);
     this->shader = new Shader(DEFAULT_SHADER_FILE);
 }
 

@@ -3,11 +3,11 @@
 #include "Level.h"
 #include "../Graphics/Shader.h"
 #include "../Config.h"
-
+#include "../Graphics/window.h"
 class Game
 {
     public:
-    Game();
+    Game(int width, int height);
     ~Game();
     /**
      * @brief Añadir un nivel al juego
@@ -38,9 +38,11 @@ class Game
      * 
      */
     void render(double deltaTime);
+    GLFWwindow* window = NULL;
     private:
     std::vector<Level*> levels;
     Level* currentLevel = NULL;
     Shader* shader = NULL;
+    
 };
 #endif
