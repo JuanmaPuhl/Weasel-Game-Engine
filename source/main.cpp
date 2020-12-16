@@ -10,10 +10,8 @@
 #include "Entities/ScriptComponent.h"
 #include "General/Game.h"
 #include "General/Level.h"
-#include "Controls/KeyboardControl.h"
 #include "Config.h"
 #include "Entities/Scripts.h"
-KeyboardControl* keyboardControl;
 #define DEBUG
 const int WIDTH = 1280;
 const int HEIGHT = 720;
@@ -23,55 +21,15 @@ const int MAX_FPS = 60;
 Entity* entity;
 Entity* lista[MAX_ENTITIES];
 OrtographicCamera* camera;
-/* Game* game; */
-
-
 ScriptComponent* p;
-/* float last_time = 0.0f;
-int fps = 0;
 
-const double maxPeriod  =1.0/double(MAX_FPS);
-double lastTime = 0.0f;
-double lastTimeForSleep = 0.0;
-const int MAX_FRAMERATE = 120;
-void loop_function_test(float deltaTime)
-{
-  float current = glfwGetTime();
-  double delta = current - lastTime;
-  lastTime = current;
-  fps++;
-  if(current - last_time >=1.0f)
-  {
-    double fpsCount = 1000.0/double(fps);
-    printf("FPS: %d\n",fps);
-    fps = 0;
-    last_time++;
-  }
-  float ms = deltaTime * 1000;
-  //printf("render time: %fms.\n",ms);
-  glBindVertexArray(entity->getQuad()->getVAO());
-/*   game->onUpdate(deltaTime);
-  game->render(deltaTime); */
-/*   Game::onUpdate(deltaTime);
-  Game::render(deltaTime);
-  //Si me paso del framerate
-  while(glfwGetTime()<lastTimeForSleep+double(1.0/MAX_FRAMERATE))
-  {
-    //No hago nada. Limito fps.
-  }
-  lastTimeForSleep += 1.0/MAX_FRAMERATE; 
-
-} */
 int metodoPrincipal()
 {
   printf("Main::Creando ventana...\n");
-  //GLFWwindow* window = window::window_init(WIDTH,HEIGHT);
-  //game = new Game(WIDTH,HEIGHT);
   Game::init(WIDTH,HEIGHT);
   p = (ScriptComponent*)new Prueba();
   EntityOriginal* entityScript = new EntityOriginal();
   CameraController* cameraController = new CameraController();
-  keyboardControl = new KeyboardControl();
   entity = new Entity();
   camera = new OrtographicCamera(WIDTH,HEIGHT);
   const char* arreglo[6] = {"res/Sprites/1.png","res/Sprites/2.png","res/Sprites/3.png","res/Sprites/4.png","res/Sprites/5.png","res/Sprites/6.png"};
@@ -83,7 +41,6 @@ int metodoPrincipal()
   chr2->setSpeed(0.15*60);
   Level* level1 = Game::addLevel();
   cameraController->camera = camera;
-  //entityScript->game = game;
   Entity* entity2 = level1->addEntity();
   entity2->setScript(cameraController);
   entity2->setSprite(chr1);
@@ -91,7 +48,6 @@ int metodoPrincipal()
   for(int i=0; i<MAX_ENTITIES; i++)
   {
       ScriptComponent* scr =(ScriptComponent*) new Prueba();
-      //((Prueba*)scr)->game = game;
       lista[i] = level2->addEntity();
       float division = float(MAX_ENTITIES-1)/2.0f;
       float new_x = float((32.0f+5.0f)*i-(32.0f+5.0f)*division);
@@ -120,7 +76,6 @@ int metodoPrincipal()
   return 0;
 }
 
-
 int main(int argc, char** argv)
 {
   int toReturn = metodoPrincipal();
@@ -134,5 +89,3 @@ int main(int argc, char** argv)
   }
   return 0;
 }
-
-

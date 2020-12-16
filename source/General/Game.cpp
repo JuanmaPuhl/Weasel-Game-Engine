@@ -1,27 +1,9 @@
 #include "Game.h"
 
-/* Game::Game(int width, int height)
-{
-    this->window = window::window_init(width,height);
-    this->shader = new Shader(DEFAULT_SHADER_FILE);
-}
-
-Game::~Game()
-{
-    free(this->shader);
-    std::vector<Level*>::iterator ptr;
-    for(ptr = this->levels.begin(); ptr<this->levels.end(); ptr++)
-    {
-        delete((*(ptr)));
-    }
-} */
-
-
-
 GameData* gamedata =new GameData();
+KeyboardControl* keyboardControl = new KeyboardControl();
 void Game::init(int width, int height)
 {
-    
     gamedata->window = window::window_init(width,height);
     gamedata->shader = new Shader(DEFAULT_SHADER_FILE);
 }
@@ -94,4 +76,5 @@ void Game::loop()
 void Game::close()
 {
     free(gamedata);
+    free(keyboardControl);
 }
