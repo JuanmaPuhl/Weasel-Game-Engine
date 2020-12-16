@@ -47,11 +47,8 @@ int metodoPrincipal()
   //entity2->setScript(cameraController);
   entity2->setSprite(chr1);
   Level* level2 = Game::addLevel();
-  printf("LLEGUE ACA A VER QUE ONDA");
   Component* cmp = new ComponentScript(cameraController);
-   printf("LLEGUE ACA A VER QUE ONDA");
   entity2->addComponent(cmp);
-   printf("LLEGUE ACA A VER QUE ONDA");
   for(int i=0; i<MAX_ENTITIES; i++)
   {
       ScriptComponent* scr =(ScriptComponent*) new Prueba();
@@ -68,7 +65,6 @@ int metodoPrincipal()
   level1->setCamera(camera);
   level2->setCamera(camera);
   Game::setLevel(1);
-   printf("LLEGUE ACA A VER QUE ONDA\n");
   Game::loop();
   printf("Main::Eliminando objetos...\n");
   //delete(game); //Esto elimina shader, niveles, entidades,camaras.
