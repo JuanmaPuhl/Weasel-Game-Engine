@@ -79,17 +79,6 @@ void Entity::onUpdate()
     }
 }
 
-void Entity::setScript(ScriptComponent* script)
-{
-    this->script = script;
-    this->script->onCreate();
-}
-
-ScriptComponent* Entity::getScript()
-{
-    return this->script;
-}
-
 void Entity::render(Shader* shader, double deltaTime)
 {
     /* if(this->script != NULL)
