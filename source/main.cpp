@@ -42,14 +42,18 @@ int metodoPrincipal()
   chr1->setSpeed(0.25*60);
   chr2->setSpeed(0.15*60);
   Level* level1 = Game::addLevel();
-  cameraController->camera = camera;
+  
   
   Entity* entity2 = level1->addEntity();
   //entity2->setScript(cameraController);
   entity2->setSprite(chr1);
   Level* level2 = Game::addLevel();
   Entity* cameraEntity = level2->addEntityCamera(WIDTH,HEIGHT);
+  cameraController->camera = cameraEntity;
   Component* cmp = new ComponentScript(cameraController);
+  cameraEntity->addComponent(cmp);
+
+  
   entity2->addComponent(cmp);
   for(int i=0; i<MAX_ENTITIES; i++)
   {

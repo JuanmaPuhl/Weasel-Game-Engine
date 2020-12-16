@@ -36,7 +36,7 @@ void ComponentCamera::onCreate()
 
 void ComponentCamera::onUpdate()
 {
-    float deltaTime = 0.0;
+    float deltaTime = 0.02;
     this->viewMatrix = glm::lookAt(this->position,this->position + this->front, this->up);
     if(this->zoomOrder != 0)
     {

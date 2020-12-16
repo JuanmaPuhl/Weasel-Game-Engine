@@ -7,6 +7,7 @@
 #include "OrtographicCamera.h"
 #include <GL/GLU.h>
 #include <GLFW/glfw3.h>
+#include "ComponentCamera.h"
 class Prueba : public ScriptComponent
 {
       public: 
@@ -44,25 +45,26 @@ class EntityOriginal : public ScriptComponent
 class CameraController : public ScriptComponent
 {
   public:
-    OrtographicCamera* camera;
+    Entity* camera;
     void onCreate()
     {
       this->direction = glm::vec2(0.0f);
+      this->cameraComponent = (ComponentCamera*)(camera->getComponent(0));
     }
     void onUpdate()
     {
       this->activado = false;
       if(keyboardControl->isPressed(keyboard::KEY_I))
       {
-        camera->zoom(1.0f);
+        this->cameraComponent->zoom(1.0f);
       }
       if (keyboardControl->isPressed(keyboard::KEY_J))
       {
-        camera->zoom(-1.0f);
+        this->cameraComponent->zoom(-1.0f);
       }  
       if(!keyboardControl->isPressed(keyboard::KEY_I) && !keyboardControl->isPressed(keyboard::KEY_J))
       {
-        camera->zoom(0.0f);
+        this->cameraComponent->zoom(0.0f);
       }
       if(keyboardControl->isPressed(keyboard::KEY_UP))
       {
@@ -96,9 +98,24 @@ class CameraController : public ScriptComponent
         this->direction.y = 1.0f;
       if(this->direction.y <= -1.0f)
         this->direction.y = -1.0f;
-      camera->move(this->direction);
+      this->cameraComponent->move(this->direction);
     }
   private:
     bool activado = false;
     glm::vec2 direction;
+    ComponentCamera* cameraComponent = NULL;
+};
+
+class ScriptCamera : public ScriptComponent
+{
+
+  public:
+    void onCreate()
+    {
+
+    }
+    void onUpdate()
+    {
+      printf("SCRIPT1::HOLA.\n");
+    }
 };

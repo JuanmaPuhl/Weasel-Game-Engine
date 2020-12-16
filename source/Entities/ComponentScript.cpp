@@ -3,6 +3,7 @@
 ComponentScript::ComponentScript(ScriptComponent* scr)
 {
     this->scr = scr;
+    this->onCreate();
 }
 
 ComponentScript::~ComponentScript()

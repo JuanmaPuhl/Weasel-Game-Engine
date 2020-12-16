@@ -26,6 +26,7 @@ Entity* Level::addEntityCamera(int width, int height)
     Entity* entity = new Entity();
     entity->addComponent(new ComponentCamera(width,height));
     this->cameraEntity = entity;
+    return entity;
 }
 
 void Level::setCamera(OrtographicCamera* camera)
@@ -35,11 +36,8 @@ void Level::setCamera(OrtographicCamera* camera)
 
 void Level::onUpdate(double deltaTime)
 {
-    printf("JIJILEVEL\n");
     this->cameraEntity->onUpdate();
-    printf("JIJILEVEL\n");
     std::vector<Entity*>::iterator ptr;
-    printf("JIJILEVEL\n");
     for(ptr = this->entities.begin(); ptr<this->entities.end(); ptr++)
     {
         (*(ptr))->onUpdate();
