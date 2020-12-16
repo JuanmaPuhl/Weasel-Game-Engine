@@ -1,5 +1,5 @@
 #include "Level.h"
-
+#include "../Entities/ComponentCamera.h"
 Level::Level()
 {
 }
@@ -21,6 +21,13 @@ Entity* Level::addEntity()
     return entity;
 }
 
+Entity* Level::addEntityCamera(int width, int height)
+{
+    Entity* entity = new Entity();
+    entity->addComponent(new ComponentCamera(width,height));
+    this->cameraEntity = entity;
+}
+
 void Level::setCamera(OrtographicCamera* camera)
 {
     this->camera = camera;
@@ -28,8 +35,11 @@ void Level::setCamera(OrtographicCamera* camera)
 
 void Level::onUpdate(double deltaTime)
 {
-    this->camera->update(deltaTime);
+    printf("JIJILEVEL\n");
+    this->cameraEntity->onUpdate();
+    printf("JIJILEVEL\n");
     std::vector<Entity*>::iterator ptr;
+    printf("JIJILEVEL\n");
     for(ptr = this->entities.begin(); ptr<this->entities.end(); ptr++)
     {
         (*(ptr))->onUpdate();
@@ -42,8 +52,8 @@ void Level::render(Shader* shader, double deltaTime)
     
     shader->use();
     
-    shader->setUniform("projection",glm::value_ptr(this->camera->getProjectionMatrix()));
-    shader->setUniform("view",glm::value_ptr(this->camera->getViewMatrix()));
+    shader->setUniform("projection",glm::value_ptr(((ComponentCamera*)(this->cameraEntity->getComponent(0)))->getProjectionMatrix()));
+    shader->setUniform("view",glm::value_ptr(((ComponentCamera*)(this->cameraEntity->getComponent(0)))->getViewMatrix()));
     //Tengo que ciclar entre todas las entidades y renderizarlas
     std::vector<Entity*>::iterator ptr;
     for(ptr = this->entities.begin(); ptr<this->entities.end(); ptr++)

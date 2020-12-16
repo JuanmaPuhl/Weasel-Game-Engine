@@ -72,7 +72,9 @@ Quad* Entity::getQuad()
 
 void Entity::onUpdate()
 {
+    printf("JIJIENTITY\n");
     std::vector<Component*>::iterator ptr;
+    printf("JIJIENTITY\n");
     for(ptr = this->components.begin(); ptr<this->components.end(); ptr++)
     {
         (*(ptr))->onUpdate();
@@ -106,4 +108,9 @@ void Entity::render(Shader* shader, double deltaTime)
 void Entity::addComponent(Component* component)
 {
     this->components.push_back(component);
+}
+
+Component* Entity::getComponent(int index)
+{
+    return this->components.at(index);
 }

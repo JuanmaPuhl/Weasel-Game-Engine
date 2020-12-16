@@ -31,6 +31,7 @@ class Entity
     void onUpdate();
     //TODO Implementar el render
     void render(Shader* shader,double deltaTime);
+    Component* getComponent(int index);
     private:
     glm::vec3 position;
     glm::vec3 rotation;

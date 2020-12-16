@@ -25,6 +25,7 @@ class Level
      */
     void render(Shader* shader, double deltaTime);
     Entity* addEntity();
+    Entity* addEntityCamera(int width, int height);
     /**
      * @brief Actualiza todas las entidades del nivel
      * 
@@ -39,6 +40,7 @@ class Level
     private:
     std::vector<Entity*> entities;
     OrtographicCamera* camera;
+    Entity* cameraEntity;
 };
 
 
