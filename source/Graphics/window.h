@@ -14,7 +14,7 @@ namespace window
      * @param loop_function la funcion que queremos que se ejecute en el loop
      * @return int el codigo de finalizacion
      */
-    int window_loop(GLFWwindow* window, void (*loop_function)(float));
+    int window_loop(GLFWwindow* window, void (*loop_function)(double));
 }
     
 

@@ -89,6 +89,7 @@ void Entity::render(Shader* shader, double deltaTime)
 {
     if(this->script != NULL)
         this->script->onUpdate();
+    glBindVertexArray(this->getQuad()->getVAO());
     shader->setUniform("model",glm::value_ptr(this->modelMatrix));
     float transparency = this->sprite->getTransparency();
     shader->setUniform("transparency",&transparency);

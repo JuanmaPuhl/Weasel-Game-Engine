@@ -49,7 +49,7 @@ GLFWwindow* window::window_init(int width, int height)
 }
 
 
-int window::window_loop(GLFWwindow* window,void (*loop_function)(float))
+int window::window_loop(GLFWwindow* window,void (*loop_function)(double))
 {
     GLfloat deltaTime = 0.0f;
     GLfloat lastFrame = 0.0f;

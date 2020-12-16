@@ -10,7 +10,7 @@
 class Prueba : public ScriptComponent
 {
       public: 
-        Game* game;
+        //Game* game;
         void onCreate()
         {
         }
@@ -27,7 +27,7 @@ class Prueba : public ScriptComponent
 class EntityOriginal : public ScriptComponent
 {
   public:
-      Game* game;
+      //Game* game;
       void onCreate()
       {
 
@@ -36,7 +36,7 @@ class EntityOriginal : public ScriptComponent
       {
           if(keyboardControl->isPressed(keyboard::KEY_Q))
           {
-              game->setLevel(1);
+             // game->setLevel(1);
           }
       }
 };

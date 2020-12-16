@@ -1,23 +1,16 @@
 #include "Graphics/window.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "Graphics/Quad.h"
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include "FileManagement/FileManager.h"
 #include <math.h>
 #include <string.h>
 #include "Entities/OrtographicCamera.h"
-#include <glm/gtc/type_ptr.hpp>
 #define STB_IMAGE_IMPLEMENTATION
 #include "Entities/Entity.h"
 #include "Graphics/Sprite.h"
-#include "Debug.h"
 #include "Entities/ScriptComponent.h"
 #include "General/Game.h"
 #include "General/Level.h"
 #include "Controls/KeyboardControl.h"
-#include "Controls/Control.h"
 #include "Config.h"
 #include "Entities/Scripts.h"
 KeyboardControl* keyboardControl;
@@ -30,11 +23,11 @@ const int MAX_FPS = 60;
 Entity* entity;
 Entity* lista[MAX_ENTITIES];
 OrtographicCamera* camera;
-Game* game;
+/* Game* game; */
 
 
 ScriptComponent* p;
-float last_time = 0.0f;
+/* float last_time = 0.0f;
 int fps = 0;
 
 const double maxPeriod  =1.0/double(MAX_FPS);
@@ -57,21 +50,24 @@ void loop_function_test(float deltaTime)
   float ms = deltaTime * 1000;
   //printf("render time: %fms.\n",ms);
   glBindVertexArray(entity->getQuad()->getVAO());
-  game->onUpdate(deltaTime);
-  game->render(deltaTime);
+/*   game->onUpdate(deltaTime);
+  game->render(deltaTime); */
+/*   Game::onUpdate(deltaTime);
+  Game::render(deltaTime);
   //Si me paso del framerate
   while(glfwGetTime()<lastTimeForSleep+double(1.0/MAX_FRAMERATE))
   {
     //No hago nada. Limito fps.
   }
-  lastTimeForSleep += 1.0/MAX_FRAMERATE;
+  lastTimeForSleep += 1.0/MAX_FRAMERATE; 
 
-}
+} */
 int metodoPrincipal()
 {
   printf("Main::Creando ventana...\n");
   //GLFWwindow* window = window::window_init(WIDTH,HEIGHT);
-  game = new Game(WIDTH,HEIGHT);
+  //game = new Game(WIDTH,HEIGHT);
+  Game::init(WIDTH,HEIGHT);
   p = (ScriptComponent*)new Prueba();
   EntityOriginal* entityScript = new EntityOriginal();
   CameraController* cameraController = new CameraController();
@@ -85,17 +81,17 @@ int metodoPrincipal()
   chr1->setTransparency(1.0f);
   chr1->setSpeed(0.25*60);
   chr2->setSpeed(0.15*60);
-  Level* level1 = game->addLevel();
+  Level* level1 = Game::addLevel();
   cameraController->camera = camera;
-  entityScript->game = game;
+  //entityScript->game = game;
   Entity* entity2 = level1->addEntity();
   entity2->setScript(cameraController);
   entity2->setSprite(chr1);
-  Level* level2 = game->addLevel();
+  Level* level2 = Game::addLevel();
   for(int i=0; i<MAX_ENTITIES; i++)
   {
       ScriptComponent* scr =(ScriptComponent*) new Prueba();
-      ((Prueba*)scr)->game = game;
+      //((Prueba*)scr)->game = game;
       lista[i] = level2->addEntity();
       float division = float(MAX_ENTITIES-1)/2.0f;
       float new_x = float((32.0f+5.0f)*i-(32.0f+5.0f)*division);
@@ -107,10 +103,11 @@ int metodoPrincipal()
   lista[MAX_ENTITIES-1]->getSprite()->setSpeed(0.0);
   level1->setCamera(camera);
   level2->setCamera(camera);
-  game->setLevel(1);
-  window::window_loop(game->window,loop_function_test);
+  Game::setLevel(1);
+  Game::loop();
   printf("Main::Eliminando objetos...\n");
-  delete(game); //Esto elimina shader, niveles, entidades,camaras.
+  //delete(game); //Esto elimina shader, niveles, entidades,camaras.
+  Game::close();
   /*Elimino los sprites*/
   delete(chr1); 
   delete(chr2);
