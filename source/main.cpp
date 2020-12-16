@@ -12,6 +12,8 @@
 #include "General/Level.h"
 #include "Config.h"
 #include "Entities/Scripts.h"
+#include "Entities/Component.h"
+#include "Entities/ComponentScript.h"
 #define DEBUG
 const int WIDTH = 1280;
 const int HEIGHT = 720;
@@ -42,9 +44,14 @@ int metodoPrincipal()
   Level* level1 = Game::addLevel();
   cameraController->camera = camera;
   Entity* entity2 = level1->addEntity();
-  entity2->setScript(cameraController);
+  //entity2->setScript(cameraController);
   entity2->setSprite(chr1);
   Level* level2 = Game::addLevel();
+  printf("LLEGUE ACA A VER QUE ONDA");
+  Component* cmp = new ComponentScript(cameraController);
+   printf("LLEGUE ACA A VER QUE ONDA");
+  entity2->addComponent(cmp);
+   printf("LLEGUE ACA A VER QUE ONDA");
   for(int i=0; i<MAX_ENTITIES; i++)
   {
       ScriptComponent* scr =(ScriptComponent*) new Prueba();
@@ -53,13 +60,15 @@ int metodoPrincipal()
       float new_x = float((32.0f+5.0f)*i-(32.0f+5.0f)*division);
       lista[i]->translate(glm::vec3(new_x,0.0f,0.0f));
       lista[i]->setSprite(chr2);
-      lista[i]->setScript(cameraController);
+      //lista[i]->setScript(cameraController);
+      lista[i]->addComponent(cmp);
       lista[i]->getSprite()->setTransparency((float)(i*0.15f+0.1f));
   } 
   lista[MAX_ENTITIES-1]->getSprite()->setSpeed(0.0);
   level1->setCamera(camera);
   level2->setCamera(camera);
   Game::setLevel(1);
+   printf("LLEGUE ACA A VER QUE ONDA\n");
   Game::loop();
   printf("Main::Eliminando objetos...\n");
   //delete(game); //Esto elimina shader, niveles, entidades,camaras.

@@ -14,6 +14,7 @@ Entity::Entity()
 Entity::~Entity()
 {
     delete(this->quad);
+    this->components.clear();//Limpio vector
 }
 
 void Entity::updateModelMatrix()
@@ -71,7 +72,11 @@ Quad* Entity::getQuad()
 
 void Entity::onUpdate()
 {
-    this->script->onUpdate();
+    std::vector<Component*>::iterator ptr;
+    for(ptr = this->components.begin(); ptr<this->components.end(); ptr++)
+    {
+        (*(ptr))->onUpdate();
+    }
 }
 
 void Entity::setScript(ScriptComponent* script)
@@ -87,12 +92,18 @@ ScriptComponent* Entity::getScript()
 
 void Entity::render(Shader* shader, double deltaTime)
 {
-    if(this->script != NULL)
-        this->script->onUpdate();
+    /* if(this->script != NULL)
+        this->script->onUpdate(); */
+    
     glBindVertexArray(this->getQuad()->getVAO());
     shader->setUniform("model",glm::value_ptr(this->modelMatrix));
     float transparency = this->sprite->getTransparency();
     shader->setUniform("transparency",&transparency);
     glBindTexture(GL_TEXTURE_2D, this->sprite->getSpriteImage(this->sprite->getCurrentSprite(deltaTime)));
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
+
+void Entity::addComponent(Component* component)
+{
+    this->components.push_back(component);
 }

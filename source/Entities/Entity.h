@@ -9,6 +9,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "../Config.h"
 #include "../Graphics/Sprite.h"
+#include "Component.h"
+#include <vector>
 
 class Entity
 {
@@ -20,6 +22,7 @@ class Entity
     void scale(glm::vec3 scaling);
     void setSprite(Sprite* sprite);
     void setScript(ScriptComponent* script);
+    void addComponent(Component* component);
     ScriptComponent* getScript();
     Sprite* getSprite();
     glm::mat4 getModelMatrix();
@@ -37,4 +40,5 @@ class Entity
     Sprite* sprite = NULL;
     ScriptComponent* script = NULL;
     void updateModelMatrix();
+    std::vector<Component*> components;
 };

@@ -1,9 +1,9 @@
 LIBRERIAS = -lglew32 -lglfw3 -lopengl32 
 CODIGO = source/
-all: main.exe quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o  Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o 
+all: main.exe quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o  Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o 
 .PHONY: all
-main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o $(CODIGO)Entities/Scripts.h
-	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o -I .$(CODIGO)ScriptComponent.h -I.$(CODIGO)Entities/Scripts.h  -I ./libs/ -L ./libs/ $(LIBRERIAS)
+main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o $(CODIGO)Entities/Scripts.h
+	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o OrtographicCamera.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o -I .$(CODIGO)ScriptComponent.h -I.$(CODIGO)Entities/Scripts.h  -I ./libs/ -L ./libs/ $(LIBRERIAS)
 quad.o: $(CODIGO)Graphics/quad.cpp $(CODIGO)Graphics/quad.h
 	g++ -c  $(CODIGO)Graphics/quad.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS) 
 window.o: $(CODIGO)Graphics/window.cpp $(CODIGO)Graphics/window.h
@@ -30,6 +30,8 @@ Config.o: $(CODIGO)Config.cpp $(CODIGO)Config.h
 	g++ -c  $(CODIGO)Config.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 KeyboardControl.o: $(CODIGO)Controls/KeyboardControl.cpp $(CODIGO)Controls/KeyboardControl.h
 	g++ -c  $(CODIGO)Controls/KeyboardControl.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+ComponentScript.o: $(CODIGO)Entities/ComponentScript.cpp $(CODIGO)Entities/ComponentScript.h $(CODIGO)Entities/Component.h
+	g++ -c  $(CODIGO)Entities/ComponentScript.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 clean:
 	del quad.o
 	del window.o
@@ -44,6 +46,7 @@ clean:
 	del KeyboardControl.o
 	del Config.o
 	del ImageFileManager.o
+	del ComponentScript.o
 	del main.exe
 
         
