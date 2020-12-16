@@ -6,7 +6,6 @@ Level::Level()
 
 Level::~Level()
 {   
-    delete(this->camera);
     std::vector<Entity*>::iterator ptr;
     for(ptr = this->entities.begin(); ptr<this->entities.end(); ptr++)
     {
@@ -27,11 +26,6 @@ Entity* Level::addEntityCamera(int width, int height)
     entity->addComponent(new ComponentCamera(width,height));
     this->cameraEntity = entity;
     return entity;
-}
-
-void Level::setCamera(OrtographicCamera* camera)
-{
-    this->camera = camera;
 }
 
 void Level::onUpdate(double deltaTime)

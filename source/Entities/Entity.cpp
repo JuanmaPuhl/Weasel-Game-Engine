@@ -105,9 +105,7 @@ void Entity::render(Shader* shader, double deltaTime)
 
 void Entity::addComponent(Component* component)
 {
-    printf("Entre aca.\n");
     this->components.push_back(component);
-    printf("SIZE: %d\n",this->components.capacity());
 }
 
 Component* Entity::getComponent(int index)

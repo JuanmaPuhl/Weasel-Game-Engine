@@ -4,7 +4,6 @@
 #include "../Config.h"
 #include <stdio.h>
 #include "../General/Game.h"
-#include "OrtographicCamera.h"
 #include <GL/GLU.h>
 #include <GLFW/glfw3.h>
 #include "ComponentCamera.h"

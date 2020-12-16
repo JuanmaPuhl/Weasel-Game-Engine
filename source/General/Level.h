@@ -2,7 +2,6 @@
 #define LEVEL_H
 #include <vector>
 #include "../Entities/Entity.h"
-#include "../Entities/OrtographicCamera.h"
 #include "../Graphics/Shader.h"
 #include <glm/gtc/type_ptr.hpp>
 
@@ -31,15 +30,8 @@ class Level
      * 
      */
     void onUpdate(double deltaTime);
-    /**
-     * @brief Set the Camera object
-     * 
-     * @param camera la camara a setear
-     */
-    void setCamera(OrtographicCamera* camera);
     private:
     std::vector<Entity*> entities;
-    OrtographicCamera* camera;
     Entity* cameraEntity;
 };
 
