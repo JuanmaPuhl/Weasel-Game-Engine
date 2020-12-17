@@ -70,7 +70,6 @@ int metodoPrincipal()
   BirdMovement* birdScr = new BirdMovement();
   birdScr->bird = bird;
   ComponentScript* birdScrComponent = new ComponentScript(birdScr);
-  birdScrComponent->getScript();
   bird->addComponent(birdScrComponent); 
 
 
