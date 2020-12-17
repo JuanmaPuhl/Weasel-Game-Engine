@@ -78,6 +78,7 @@ class Shader
                                 break;
         case(GL_FLOAT_MAT4):  glUniformMatrix4fv(location, 1, GL_FALSE, value);
                                 break;
+        
         }
     }
 

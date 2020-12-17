@@ -13,6 +13,8 @@
 #include "Entities/Scripts.h"
 #include "Entities/Component.h"
 #include "Entities/ComponentScript.h"
+#include "Entities/GraphicAttribute.h"
+#include "Entities/SpriteAttribute.h"
 #define DEBUG
 const int WIDTH = 1280;
 const int HEIGHT = 720;
@@ -38,13 +40,16 @@ int metodoPrincipal()
   chr2->setSpeed(0.15*60);
   Level* level1 = Game::addLevel();
   Entity* entity2 = level1->addEntity();
-  entity2->setSprite(chr1);
+  //entity2->setSprite(chr1);
   Level* level2 = Game::addLevel();
   Entity* cameraEntity = level2->addEntityCamera(WIDTH,HEIGHT);
   cameraController->camera = cameraEntity;
   Component* cmp = new ComponentScript(cameraController);
   cameraEntity->addComponent(cmp);
   entity2->addComponent(cmp);
+  GraphicAttribute* attr1 = new SpriteAttribute(chr1);
+  GraphicAttribute* attr2 = new SpriteAttribute(chr2);
+  entity2->addAttribute(attr1);
   for(int i=0; i<MAX_ENTITIES; i++)
   {
       ScriptComponent* scr =(ScriptComponent*) new Prueba();
@@ -52,10 +57,11 @@ int metodoPrincipal()
       float division = float(MAX_ENTITIES-1)/2.0f;
       float new_x = float((32.0f+5.0f)*i-(32.0f+5.0f)*division);
       lista[i]->translate(glm::vec3(new_x,0.0f,0.0f));
-      lista[i]->setSprite(chr2);
-      lista[i]->getSprite()->setTransparency((float)(i*0.15f+0.1f));
+      //lista[i]->setSprite(chr2);
+      lista[i]->addAttribute(attr2);
+      ((SpriteAttribute*)(lista[i]->getAttribute(0)))->getSprite()->setTransparency((float)(i*0.15f+0.1f));
   } 
-  lista[MAX_ENTITIES-1]->getSprite()->setSpeed(0.0);
+  ((SpriteAttribute*)(lista[MAX_ENTITIES-1]->getAttribute(0)))->getSprite()->setSpeed(0.0);
   Game::setLevel(1);
   Game::loop();
   printf("Main::Eliminando objetos...\n");

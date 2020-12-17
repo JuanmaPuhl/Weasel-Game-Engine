@@ -20,3 +20,9 @@ void ComponentScript::onUpdate()
 {
     this->scr->onUpdate();
 }
+
+Component* ComponentScript::copy()
+{
+    ComponentScript* cs = new ComponentScript(this->scr);
+    return cs;
+}

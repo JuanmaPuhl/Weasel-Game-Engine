@@ -23,6 +23,7 @@ class ComponentCamera : public Component
         void update(float deltaTime);
         void zoom(float factor);
         void move(glm::vec2 dir);
+        Component* copy();
     private:
         glm::vec3 position;
         glm::vec3 direction;

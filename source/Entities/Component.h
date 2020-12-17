@@ -6,4 +6,5 @@ class Component
     ~Component(){}
     virtual void onCreate() = 0;
     virtual void onUpdate() = 0;
+    virtual Component* copy() = 0;
 };

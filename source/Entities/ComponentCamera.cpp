@@ -76,3 +76,9 @@ void ComponentCamera::move(glm::vec2 dir)
   this->movementDirection = dir;
 
 }
+
+Component* ComponentCamera::copy()
+{
+    ComponentCamera* cc = new ComponentCamera(this->width,this->height);
+    
+}

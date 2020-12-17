@@ -10,6 +10,8 @@
 #include "../Graphics/Sprite.h"
 #include "Component.h"
 #include <vector>
+#include "GraphicAttribute.h"
+#include "SpriteAttribute.h"
 
 class Entity
 {
@@ -27,6 +29,8 @@ class Entity
     void onUpdate();
     void render(Shader* shader,double deltaTime);
     Component* getComponent(int index);
+    GraphicAttribute* getAttribute(int index);
+    void addAttribute(GraphicAttribute* attribute);
     private:
     glm::vec3 position;
     glm::vec3 rotation;
@@ -36,4 +40,5 @@ class Entity
     Sprite* sprite = NULL;
     void updateModelMatrix();
     std::vector<Component*> components;
+    std::vector<GraphicAttribute*> attributes;
 };

@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include <stdio.h>
+
 Entity::Entity()
 {
     this->quad = new Quad();
@@ -86,9 +87,14 @@ void Entity::render(Shader* shader, double deltaTime)
     
     glBindVertexArray(this->getQuad()->getVAO());
     shader->setUniform("model",glm::value_ptr(this->modelMatrix));
-    float transparency = this->sprite->getTransparency();
-    shader->setUniform("transparency",&transparency);
-    glBindTexture(GL_TEXTURE_2D, this->sprite->getSpriteImage(this->sprite->getCurrentSprite(deltaTime)));
+/*     float transparency = this->sprite->getTransparency();
+    shader->setUniform("transparency",&transparency); */
+    std::vector<GraphicAttribute*>::iterator ptr;
+    for(ptr = this->attributes.begin(); ptr<this->attributes.end(); ptr++)
+    {
+        (*(ptr))->passToShader(shader,deltaTime);
+    }
+    //glBindTexture(GL_TEXTURE_2D, this->sprite->getSpriteImage(this->sprite->getCurrentSprite(deltaTime)));
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
@@ -100,4 +106,14 @@ void Entity::addComponent(Component* component)
 Component* Entity::getComponent(int index)
 {
     return this->components.at(index);
+}
+
+GraphicAttribute* Entity::getAttribute(int index)
+{
+    return this->attributes.at(index);
+}
+void Entity::addAttribute(GraphicAttribute* attribute)
+{
+    GraphicAttribute* a = attribute->copy();
+    this->attributes.push_back(a);
 }
