@@ -24,7 +24,7 @@ void ComponentCamera::onCreate()
 {
     this->up = glm::vec3(0.0f,1.0f,0.0f);
     this->direction = glm::vec3(0.0f,0.0f,0.0f);
-    this->projectionMatrix = glm::ortho(-float(width/2), float(width/2), -float(height/2),float(height/2), -1.0f, 10.0f);
+    this->projectionMatrix = glm::ortho(-float(width/2), float(width/2), -float(height/2),float(height/2), -10.0f, 10.0f);
     this->position = glm::vec3(0.0f, 0.0f, 3.0f);
     this->front = glm::vec3(0.0f, 0.0f, -1.0f);
     

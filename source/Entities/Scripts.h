@@ -103,3 +103,25 @@ class PlayerMovement : public ScriptComponent
   double lasttime = 0.0;
 
 };
+
+class BirdMovement : public ScriptComponent
+{
+  public:
+    Entity* bird;
+    void onCreate()
+    {
+      printf("BIRD::Hello!\n");
+    }
+
+    void onUpdate()
+    {
+      double time = glfwGetTime();
+      double deltaTime = time-this->lasttime;
+      double speed = 64.0f;
+      this->lasttime = time;
+      bird->translate(glm::vec3(-speed*deltaTime,0.0f,0.0f));
+    }
+    private:
+    double lasttime = 0.0;
+
+};

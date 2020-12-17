@@ -42,7 +42,7 @@ GLFWwindow* window::window_init(int width, int height)
     /*====================TERMINA CREACION DE VENTANA==========================*/
     glViewport(0, 0, width, height);
     glEnable(GL_BLEND);
-    //glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     return window;

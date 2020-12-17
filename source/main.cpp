@@ -28,18 +28,20 @@ int metodoPrincipal()
   Game::init(WIDTH,HEIGHT);
   Level* level1 = Game::addLevel();
   Entity* cameraEntity = level1->addEntityCamera(WIDTH,HEIGHT);
+
+  //Creo el personaje
   Entity* personaje = level1->addEntity();
-  const char* arr[1] = {"res/sprites/1.png"};
+  const char* arr[1] = {"res/sprites/e20.png"};
   GraphicAttribute* attrColor1 = new SpriteAttribute(new Sprite(arr,1));
-  GraphicAttribute* attrColor = new ColorAttribute(glm::vec3(0.5f,0.1f,0.2f));
   personaje->addAttribute(attrColor1);
-  personaje->addAttribute(attrColor);
   Game::setLevel(0);
   PlayerMovement* scr = new PlayerMovement();
   Component* scriptComponent = new ComponentScript(scr);
   scr->player = personaje;
   personaje->addComponent(scriptComponent);
+
   //Creo el piso
+  GraphicAttribute* attrColor = new ColorAttribute(glm::vec3(0.5f,0.1f,0.2f));
   for(int i = 0; i < 20; i++)
   {
     Entity* piso = level1->addEntity();
@@ -48,6 +50,30 @@ int metodoPrincipal()
     piso->addAttribute(attrColor);
     piso->translate(glm::vec3(new_x,-32.0f,0.0f));
   }
+  //Creo el fondo
+  const char* bg[1] = {"res/sprites/bg3.gif"};
+  Entity* entityBg = level1->addEntity();
+  GraphicAttribute* attrFondo = new SpriteAttribute(new Sprite(bg,1));
+  entityBg->addAttribute(attrFondo);
+  entityBg->scale(glm::vec3(40.0f,22.5f,1.0f));
+  entityBg->translate(glm::vec3(0.0f,0.0f,-0.1f));
+
+  //Creo el pajaro
+  const char* birdSprite[8] = {"res/sprites/b1.png","res/sprites/b2.png","res/sprites/b3.png","res/sprites/b4.png","res/sprites/b5.png","res/sprites/b6.png","res/sprites/b7.png","res/sprites/b8.png"};
+  Entity* bird = level1->addEntity();
+  Sprite* sprBird = new Sprite(birdSprite,8);
+  sprBird->setSpeed(0.125*60);
+  GraphicAttribute* attrBird = new SpriteAttribute(sprBird);
+  bird->addAttribute(attrBird);
+  bird->scale(glm::vec3(-0.5f,0.5f,0.0f));
+  bird->translate(glm::vec3(256.0f,320.0f,0.0f));
+  BirdMovement* birdScr = new BirdMovement();
+  birdScr->bird = bird;
+  ComponentScript* birdScrComponent = new ComponentScript(birdScr);
+  birdScrComponent->getScript();
+  bird->addComponent(birdScrComponent); 
+
+
 
   Game::loop();
   printf("Main::Eliminando objetos...\n");
