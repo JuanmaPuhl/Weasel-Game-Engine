@@ -12,6 +12,7 @@ Level* Game::addLevel()
 {
     Level* level = new Level();
     gamedata->levels.push_back(level);
+    printf("Agregue nivel. La capacidad es: %d\n",gamedata->levels.capacity());
     return level;
 }
 
@@ -56,7 +57,15 @@ Level* Game::getCurrentLevel()
 
 void Game::setLevel(int level)
 {
-    gamedata->currentLevel=gamedata->levels.at(level);
+    printf("La capacidad actual es: %d\n",gamedata->levels.capacity());
+    if(level>=0 && level<gamedata->levels.capacity())
+        gamedata->currentLevel=gamedata->levels.at(level);
+    else
+    {
+        printf("ERROR: Nivel invalido.\n");
+    }
+    
+    
 }
 
 GLFWwindow* Game::getWindow()

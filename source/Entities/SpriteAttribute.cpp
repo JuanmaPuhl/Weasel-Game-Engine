@@ -34,3 +34,10 @@ GraphicAttribute* SpriteAttribute::copy()
     SpriteAttribute* a = new SpriteAttribute(this->sprite);
     return a;
 }
+
+void SpriteAttribute::unbind(Shader* shader)
+{
+    glBindTexture(GL_TEXTURE_2D, 0);
+    float transparency = 1.0f;
+    shader->setUniform("transparency",&(transparency));
+}

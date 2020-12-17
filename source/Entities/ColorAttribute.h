@@ -1,18 +1,16 @@
 #pragma once
 #include "GraphicAttribute.h"
-#include "../Graphics/Sprite.h"
 #include "../Graphics/Shader.h"
-class SpriteAttribute : public GraphicAttribute
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
+class ColorAttribute : public GraphicAttribute
 {
     public:
-    SpriteAttribute(Sprite* sprite);
-    ~SpriteAttribute();
+    ColorAttribute(glm::vec3 color);
+    ~ColorAttribute();
     void passToShader(Shader* shader, double deltaTime);
-    Sprite* getSprite();
-    void setSprite(Sprite* sprite);
     GraphicAttribute* copy();
     void unbind(Shader* shader);
     private:
-    Sprite* sprite;
-
+    glm::vec3 color = glm::vec3(0.0f);
 };

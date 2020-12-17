@@ -96,6 +96,10 @@ void Entity::render(Shader* shader, double deltaTime)
     }
     //glBindTexture(GL_TEXTURE_2D, this->sprite->getSpriteImage(this->sprite->getCurrentSprite(deltaTime)));
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    for(ptr = this->attributes.begin(); ptr<this->attributes.end(); ptr++)
+    {
+        (*(ptr))->unbind(shader);
+    }
 }
 
 void Entity::addComponent(Component* component)

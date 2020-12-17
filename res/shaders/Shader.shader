@@ -21,11 +21,13 @@ in vec2 TexCoord;
 out vec4 FragColor;
 uniform sampler2D ourTexture;
 uniform float transparency;
+uniform vec3 color;
+vec3 colorAUsar;
 void main()
 {
-    
+    colorAUsar = color;
     vec4 tex = texture(ourTexture,TexCoord).xyza;
-    FragColor = vec4(tex.x,tex.y,tex.z,(tex.a * transparency));
+    FragColor = vec4(tex.x+colorAUsar.x,tex.y+colorAUsar.y,tex.z+colorAUsar.z,(tex.a * transparency));
     if(FragColor.a < 0.1f)
     {
         discard;

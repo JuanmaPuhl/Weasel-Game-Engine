@@ -7,39 +7,8 @@
 #include <GL/GLU.h>
 #include <GLFW/glfw3.h>
 #include "ComponentCamera.h"
-class Prueba : public ScriptComponent
-{
-      public: 
-        //Game* game;
-        void onCreate()
-        {
-        }
-        void onUpdate()
-        {
-          if(keyboardControl->isPressed(keyboard::KEY_DOWN))
-          {
-          }
-        }
-      private:
-        int id = 0;
-};
+#include <glm/glm.hpp>
 
-class EntityOriginal : public ScriptComponent
-{
-  public:
-      //Game* game;
-      void onCreate()
-      {
-
-      }
-      void onUpdate()
-      {
-          if(keyboardControl->isPressed(keyboard::KEY_Q))
-          {
-             // game->setLevel(1);
-          }
-      }
-};
 
 class CameraController : public ScriptComponent
 {
@@ -105,16 +74,32 @@ class CameraController : public ScriptComponent
     ComponentCamera* cameraComponent = NULL;
 };
 
-class ScriptCamera : public ScriptComponent
+class PlayerMovement : public ScriptComponent
 {
-
   public:
-    void onCreate()
-    {
+  Entity* player;
+  void onCreate()
+  {
+    printf("Player::OnCreate");
+  }
 
-    }
-    void onUpdate()
+  void onUpdate()
+  {
+    double time = glfwGetTime();
+    double deltaTime = time-this->lasttime;
+    double speed = 64.0f;
+    this->lasttime = time;
+    if(keyboardControl->isPressed(keyboard::KEY_RIGHT))
     {
-      printf("SCRIPT1::HOLA.\n");
+      player->translate(glm::vec3(speed*deltaTime,0.0f,0.0f));
     }
+    if(keyboardControl->isPressed(keyboard::KEY_LEFT))
+    {
+      player->translate(glm::vec3(-speed*deltaTime,0.0f,0.0f));
+    }
+    
+  }
+  private:
+  double lasttime = 0.0;
+
 };
