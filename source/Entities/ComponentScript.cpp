@@ -26,3 +26,8 @@ Component* ComponentScript::copy()
     ComponentScript* cs = new ComponentScript(this->scr);
     return cs;
 }
+
+ScriptComponent* ComponentScript::getScript()
+{
+    return this->scr;
+}

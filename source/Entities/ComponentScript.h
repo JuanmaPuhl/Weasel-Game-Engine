@@ -9,6 +9,7 @@ class ComponentScript : public Component
     void onUpdate();
     void onCreate();
     Component* copy();
+    ScriptComponent* getScript();
     private:
     ScriptComponent* scr;
 };

@@ -20,6 +20,7 @@ Entity::~Entity()
 
 void Entity::updateModelMatrix()
 {
+    this->modelMatrix = glm::mat4(1.0f);
     glm::mat4 translationMatrix = glm::mat4(1.0f);
     translationMatrix = glm::translate(translationMatrix,this->position);
     glm::mat4 rotationMatrix = glm::mat4(1.0f);
@@ -27,9 +28,9 @@ void Entity::updateModelMatrix()
     glm::mat4 scaleMatrix = glm::mat4(1.0f);
     scaleMatrix = glm::scale(scaleMatrix,this->scaling);
     this->modelMatrix =  rotationMatrix* translationMatrix*scaleMatrix*this->modelMatrix;
-    this->scaling = glm::vec3(1.0f);
+/*     this->scaling = glm::vec3(1.0f);
     this->rotation = glm::vec3(0.0f,0.0f,1.0f);
-    this->position = glm::vec3(0.0f);
+    this->position = glm::vec3(0.0f); */
 }
 
 void Entity::setSprite(Sprite* sprite)
@@ -45,19 +46,19 @@ Sprite* Entity::getSprite()
 
 void Entity::translate(glm::vec3 position)
 {
-    this->position = position;
+    this->position += position;
     this->updateModelMatrix();
 }
 
 void Entity::rotate(glm::vec3 rotation)
 {
-    this->rotation = rotation;
+    this->rotation += rotation;
     this->updateModelMatrix();
 }
 
 void Entity::scale(glm::vec3 scaling)
 {
-    this->scaling = scaling;
+    this->scaling *= scaling;
     this->updateModelMatrix();
 }
 
@@ -120,4 +121,40 @@ void Entity::addAttribute(GraphicAttribute* attribute)
 {
     GraphicAttribute* a = attribute->copy();
     this->attributes.push_back(a);
+}
+
+void Entity::setPosition(glm::vec3 position)
+{
+    this->position = position;
+    this->modelMatrix = glm::mat4();
+    updateModelMatrix();
+}
+
+void Entity::setRotation(glm::vec3 rotation)
+{
+    this->rotation = rotation;
+    this->modelMatrix = glm::mat4();
+    updateModelMatrix();
+}
+
+void Entity::setScale(glm::vec3 scaling)
+{
+    this->scaling = scaling;
+    this->modelMatrix = glm::mat4();
+    updateModelMatrix();
+}
+
+glm::vec3 Entity::getPosition()
+{
+    return this->position;
+}
+
+glm::vec3 Entity::getRotation()
+{
+    return this->rotation;
+}
+
+glm::vec3 Entity::getScale()
+{
+    return this->scaling;
 }

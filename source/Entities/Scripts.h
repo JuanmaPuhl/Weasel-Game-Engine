@@ -80,7 +80,7 @@ class PlayerMovement : public ScriptComponent
   Entity* player;
   void onCreate()
   {
-    printf("Player::OnCreate");
+    printf("Player::OnCreate\n");
   }
 
   void onUpdate()
@@ -89,13 +89,14 @@ class PlayerMovement : public ScriptComponent
     double deltaTime = time-this->lasttime;
     double speed = 64.0f;
     this->lasttime = time;
+    glm::vec3 pos = player->getPosition();
     if(keyboardControl->isPressed(keyboard::KEY_RIGHT))
     {
-      player->translate(glm::vec3(speed*deltaTime,0.0f,0.0f));
+      player->translate(glm::vec3(speed*deltaTime,0.0,0.0));
     }
     if(keyboardControl->isPressed(keyboard::KEY_LEFT))
     {
-      player->translate(glm::vec3(-speed*deltaTime,0.0f,0.0f));
+      player->translate(glm::vec3(-speed*deltaTime,0.0,0.0));
     }
     
   }
@@ -119,7 +120,13 @@ class BirdMovement : public ScriptComponent
       double deltaTime = time-this->lasttime;
       double speed = 64.0f;
       this->lasttime = time;
+      glm::vec3 pos = bird->getPosition();
       bird->translate(glm::vec3(-speed*deltaTime,0.0f,0.0f));
+      printf("BIRD::pos: x:%f y:%f z:%f\n",pos.x,pos.y,pos.z);
+      if(pos.x<=-640)
+      {
+        bird->setPosition(glm::vec3(640,pos.y,pos.z));
+      }
     }
     private:
     double lasttime = 0.0;

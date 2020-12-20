@@ -31,6 +31,12 @@ class Entity
     Component* getComponent(int index);
     GraphicAttribute* getAttribute(int index);
     void addAttribute(GraphicAttribute* attribute);
+    void setPosition(glm::vec3 position);
+    void setRotation(glm::vec3 rotation);
+    void setScale(glm::vec3 scaling);
+    glm::vec3 getPosition();
+    glm::vec3 getRotation();
+    glm::vec3 getScale();
     private:
     glm::vec3 position;
     glm::vec3 rotation;
