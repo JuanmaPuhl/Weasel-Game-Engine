@@ -32,12 +32,18 @@ int metodoPrincipal()
   //Creo el personaje
   Entity* personaje = level1->addEntity();
   const char* arr[1] = {"res/sprites/e20.png"};
-  GraphicAttribute* attrColor1 = new SpriteAttribute(new Sprite(arr,1));
+  Sprite* sprIdle = new Sprite(arr,1);
+  GraphicAttribute* attrColor1 = new SpriteAttribute(sprIdle);
   personaje->addAttribute(attrColor1);
   Game::setLevel(0);
   PlayerMovement* scr = new PlayerMovement();
   Component* scriptComponent = new ComponentScript(scr);
+  const char* walkingAnimation[9] = {"res/sprites/ew1.png","res/sprites/ew2.png","res/sprites/ew3.png","res/sprites/ew4.png","res/sprites/ew5.png","res/sprites/ew6.png","res/sprites/ew7.png","res/sprites/ew8.png","res/sprites/ew9.png"};
+  Sprite* walkingSpr = new Sprite(walkingAnimation,9);
+  walkingSpr->setSpeed(0.2*60.0);
   scr->player = personaje;
+  scr->spriteIdle = sprIdle;
+  scr->spriteWalking = walkingSpr;
   personaje->addComponent(scriptComponent);
 
   //Creo el piso
@@ -71,8 +77,8 @@ int metodoPrincipal()
   birdScr->bird = bird;
   ComponentScript* birdScrComponent = new ComponentScript(birdScr);
   bird->addComponent(birdScrComponent); 
-
-
+  
+  
 
   Game::loop();
   printf("Main::Eliminando objetos...\n");

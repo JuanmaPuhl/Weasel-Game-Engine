@@ -78,29 +78,65 @@ class PlayerMovement : public ScriptComponent
 {
   public:
   Entity* player;
+  Sprite* spriteIdle;
+  Sprite* spriteWalking;
   void onCreate()
   {
+    
     printf("Player::OnCreate\n");
   }
 
   void onUpdate()
   {
+    if(this->sprAttr==NULL)
+      this->sprAttr = (SpriteAttribute*)(this->player->getAttribute(0));
     double time = glfwGetTime();
     double deltaTime = time-this->lasttime;
-    double speed = 64.0f;
+    double speed = 96.0f;
     this->lasttime = time;
     glm::vec3 pos = player->getPosition();
     if(keyboardControl->isPressed(keyboard::KEY_RIGHT))
     {
+      if(!this->walking)
+      {
+        this->sprAttr->setSprite(spriteWalking);
+        this->walking = true;
+      }
+      if(this->status == 0 || this->status == -1)
+      {
+        this->status = 1;
+        player->scale(glm::vec3(-1.0f,1.0f,1.0f));
+      }
       player->translate(glm::vec3(speed*deltaTime,0.0,0.0));
     }
     if(keyboardControl->isPressed(keyboard::KEY_LEFT))
     {
+      if(!this->walking)
+      {
+        this->sprAttr->setSprite(spriteWalking);
+        this->walking = true;
+      }
+      if(this->status == 0 || this->status == 1)
+      {
+        this->status = -1;
+        player->scale(glm::vec3(-1.0f,1.0f,1.0f));
+      }
       player->translate(glm::vec3(-speed*deltaTime,0.0,0.0));
+    }
+    if(!keyboardControl->isPressed(keyboard::KEY_RIGHT) && !keyboardControl->isPressed(keyboard::KEY_LEFT))
+    {
+      if(this->walking)
+      {
+        this->walking = false;
+        this->sprAttr->setSprite(spriteIdle);
+      }
     }
     
   }
   private:
+  int status = 1;
+  SpriteAttribute* sprAttr = NULL;
+  bool walking = false;
   double lasttime = 0.0;
 
 };
@@ -122,7 +158,7 @@ class BirdMovement : public ScriptComponent
       this->lasttime = time;
       glm::vec3 pos = bird->getPosition();
       bird->translate(glm::vec3(-speed*deltaTime,0.0f,0.0f));
-      printf("BIRD::pos: x:%f y:%f z:%f\n",pos.x,pos.y,pos.z);
+      //printf("BIRD::pos: x:%f y:%f z:%f\n",pos.x,pos.y,pos.z);
       if(pos.x<=-640)
       {
         bird->setPosition(glm::vec3(640,pos.y,pos.z));
