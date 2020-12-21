@@ -22,14 +22,24 @@ class ComponentCamera : public Component
          */
         void update(float deltaTime);
         void zoom(float factor);
-        void move(glm::vec2 dir);
+        void move(glm::vec3 dir);
+        float getZoom();
+        glm::vec3 getPosition();
+        glm::vec3 getDirection();
+        glm::vec3 getCameraTarget();
+        glm::vec3 getFront();
+        glm::vec3 getCameraRight();
+        glm::vec3 getUp();
+        int getWidth();
+        int getHeight();
+        float getVelocity();
         Component* copy();
     private:
         glm::vec3 position;
         glm::vec3 direction;
         float velocity = 32.0f*5;
         glm::vec3 cameraTarget;
-        float zoomValue = 1.0f;
+        float zoomValue;
         glm::vec3 front;
         int height;
         glm::vec3 up;

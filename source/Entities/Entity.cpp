@@ -115,14 +115,12 @@ Component* Entity::getComponent(int index)
 
 GraphicAttribute* Entity::getAttribute(int index)
 {
-    printf("La capacidad es: %d\n",this->attributes.capacity());
     return this->attributes.at(index);
 }
 void Entity::addAttribute(GraphicAttribute* attribute)
 {
     GraphicAttribute* a = attribute->copy();
     this->attributes.push_back(a);
-    printf("%d\n",this->attributes.capacity());
 }
 
 void Entity::setPosition(glm::vec3 position)

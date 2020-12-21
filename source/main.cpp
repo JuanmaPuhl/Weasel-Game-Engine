@@ -28,8 +28,13 @@ int metodoPrincipal()
   Game::init(WIDTH,HEIGHT);
   Level* level1 = Game::addLevel();
   Entity* cameraEntity = level1->addEntityCamera(WIDTH,HEIGHT);
-
+  ComponentCamera* cmpCamera = (ComponentCamera*)cameraEntity->getComponent(0);
+  //cmpCamera->zoom(0.5f);
   //Creo el personaje
+  ScriptComponent* scrCamera = new CameraController();
+  ((CameraController*)(scrCamera))->camera = cameraEntity;
+
+  //cameraEntity->addComponent(new ComponentScript(scrCamera));
   Entity* personaje = level1->addEntity();
   const char* arr[1] = {"res/sprites/e20.png"};
   Sprite* sprIdle = new Sprite(arr,1);

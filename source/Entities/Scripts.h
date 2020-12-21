@@ -21,6 +21,9 @@ class CameraController : public ScriptComponent
     }
     void onUpdate()
     {
+
+      
+
       this->activado = false;
       if(keyboardControl->isPressed(keyboard::KEY_I))
       {
@@ -32,7 +35,7 @@ class CameraController : public ScriptComponent
       }  
       if(!keyboardControl->isPressed(keyboard::KEY_I) && !keyboardControl->isPressed(keyboard::KEY_J))
       {
-        this->cameraComponent->zoom(0.0f);
+        //this->cameraComponent->zoom(0.0f);
       }
       if(keyboardControl->isPressed(keyboard::KEY_UP))
       {
@@ -66,7 +69,19 @@ class CameraController : public ScriptComponent
         this->direction.y = 1.0f;
       if(this->direction.y <= -1.0f)
         this->direction.y = -1.0f;
-      this->cameraComponent->move(this->direction);
+      glm::vec3 position = this->cameraComponent->getPosition();
+      float velocity = 32.0f;
+      float deltaTime = 0.2f;
+      if(this->direction[0] != 0.0f || this->direction[1] != 0.0f)
+      {
+        position +=   this->direction[0] * glm::normalize(
+                            glm::cross(this->cameraComponent->getFront(),
+                            this->cameraComponent->getUp()))
+                            * velocity;
+        position +=   glm::vec3(0.0f,this->direction[1],0.0f)
+                            * velocity ;
+        this->cameraComponent->move(position);
+      }
     }
   private:
     bool activado = false;
@@ -102,7 +117,7 @@ class PlayerMovement : public ScriptComponent
         this->sprAttr->setSprite(spriteWalking);
         this->walking = true;
       }
-      if(this->status == 0 || this->status == -1)
+      if(this->status == -1)
       {
         this->status = 1;
         player->scale(glm::vec3(-1.0f,1.0f,1.0f));
@@ -116,7 +131,7 @@ class PlayerMovement : public ScriptComponent
         this->sprAttr->setSprite(spriteWalking);
         this->walking = true;
       }
-      if(this->status == 0 || this->status == 1)
+      if(this->status == 1)
       {
         this->status = -1;
         player->scale(glm::vec3(-1.0f,1.0f,1.0f));
