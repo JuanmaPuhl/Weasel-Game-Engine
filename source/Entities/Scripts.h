@@ -95,6 +95,9 @@ class PlayerMovement : public ScriptComponent
   Entity* player;
   Sprite* spriteIdle;
   Sprite* spriteWalking;
+  Sprite* spriteShooting;
+  Sprite* spriteFire;
+  Entity* fire;
   void onCreate()
   {
     
@@ -109,7 +112,8 @@ class PlayerMovement : public ScriptComponent
     double deltaTime = time-this->lasttime;
     double speed = 96.0f;
     this->lasttime = time;
-    glm::vec3 pos = player->getPosition();
+    //glm::vec3 pos = player->getPosition();
+    //fire->setPosition(pos+glm::vec3(36.0f,15.0f,0.0f));
     if(keyboardControl->isPressed(keyboard::KEY_RIGHT))
     {
       if(!this->walking)
@@ -121,8 +125,13 @@ class PlayerMovement : public ScriptComponent
       {
         this->status = 1;
         player->scale(glm::vec3(-1.0f,1.0f,1.0f));
+        fire->setPosition(glm::vec3(0.0f));
+        fire->scale(glm::vec3(-1.0f,1.0f,1.0f));
       }
+      glm::vec3 pos = player->getPosition();
       player->translate(glm::vec3(speed*deltaTime,0.0,0.0));
+      glm::vec3 newPos = pos+glm::vec3(36.0f,15.0f,0.0f);
+      fire->setPosition(newPos);
     }
     if(keyboardControl->isPressed(keyboard::KEY_LEFT))
     {
@@ -135,20 +144,59 @@ class PlayerMovement : public ScriptComponent
       {
         this->status = -1;
         player->scale(glm::vec3(-1.0f,1.0f,1.0f));
+        fire->setPosition(glm::vec3(0.0f));
+        fire->scale(glm::vec3(-1.0f,1.0f,1.0f));
       }
       player->translate(glm::vec3(-speed*deltaTime,0.0,0.0));
+      glm::vec3 pos = player->getPosition();
+      glm::vec3 newPos = pos+glm::vec3(-36.0f,15.0f,0.0f);
+      fire->setPosition(newPos);
     }
-    if(!keyboardControl->isPressed(keyboard::KEY_RIGHT) && !keyboardControl->isPressed(keyboard::KEY_LEFT))
+    if(!keyboardControl->isPressed(keyboard::KEY_RIGHT) && !keyboardControl->isPressed(keyboard::KEY_LEFT) && !keyboardControl->isPressed(keyboard::KEY_Z))
     {
       if(this->walking)
       {
         this->walking = false;
         this->sprAttr->setSprite(spriteIdle);
       }
+      if(this->disparando)
+      {
+        this->disparando = false;
+        this->sprAttr->setSprite(spriteIdle);
+      }
     }
+
+    if(keyboardControl->isPressed(keyboard::KEY_DOWN))
+    {
+
+
+      player->translate(glm::vec3(0.0,-speed*deltaTime,0.0));
+    }
+    if(keyboardControl->isPressed(keyboard::KEY_UP))
+    {
+
+      player->translate(glm::vec3(0.0,speed*deltaTime,0.0));
+    }
+    if(keyboardControl->isPressed(keyboard::KEY_Z))
+    {
+      if(!this->disparando)
+      {
+        SpriteAttribute* fireAttr = (SpriteAttribute*)fire->getAttribute(0);
+        fireAttr->getSprite()->setTransparency(1.0f);
+        this->disparando = true;
+        this->sprAttr->setSprite(spriteShooting);
+      }
+    }
+    else
+      {
+        SpriteAttribute* fireAttr = (SpriteAttribute*)fire->getAttribute(0);
+        fireAttr->getSprite()->setTransparency(0.0f);
+      }
+
     
   }
   private:
+  bool disparando = false;
   int status = 1;
   SpriteAttribute* sprAttr = NULL;
   bool walking = false;
@@ -160,26 +208,44 @@ class BirdMovement : public ScriptComponent
 {
   public:
     Entity* bird;
+    
     void onCreate()
     {
       printf("BIRD::Hello!\n");
+      
     }
 
     void onUpdate()
     {
       double time = glfwGetTime();
       double deltaTime = time-this->lasttime;
-      double speed = 64.0f;
+      
       this->lasttime = time;
       glm::vec3 pos = bird->getPosition();
-      bird->translate(glm::vec3(-speed*deltaTime,0.0f,0.0f));
+      
       //printf("BIRD::pos: x:%f y:%f z:%f\n",pos.x,pos.y,pos.z);
-      if(pos.x<=-640)
+      
+      bird->translate(glm::vec3(this->speed*deltaTime,0.0f,0.0f));
+      if(pos.x<-2600)
       {
-        bird->setPosition(glm::vec3(640,pos.y,pos.z));
+        printf("Cambie");
+        bird->setPosition(glm::vec3(0.0f));
+        bird->scale(glm::vec3(-1.0f,1.0f,1.0f));
+        bird->setPosition(glm::vec3(-2600.0,pos.y,pos.z));
+        this->speed = 48.0;
       }
+      if(pos.x>=-2300)
+      {
+        printf("Cambie");
+        bird->setPosition(glm::vec3(0.0f));
+        bird->scale(glm::vec3(-1.0f,1.0f,1.0f));
+        bird->setPosition(glm::vec3(-2300.0,pos.y,pos.z));
+        this->speed = -48.0;
+      }
+      bird->translate(glm::vec3(this->speed*deltaTime,0.0,0.0));
     }
     private:
     double lasttime = 0.0;
+    double speed = -48.0;
 
 };

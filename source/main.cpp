@@ -17,8 +17,8 @@
 #include "Entities/SpriteAttribute.h"
 #include "Entities/ColorAttribute.h"
 #define DEBUG
-const int WIDTH = 1280;
-const int HEIGHT = 720;
+const int WIDTH = 920;
+const int HEIGHT = 650;
 const int MAX_ENTITIES = 10;
 
 
@@ -29,15 +29,17 @@ int metodoPrincipal()
   Level* level1 = Game::addLevel();
   Entity* cameraEntity = level1->addEntityCamera(WIDTH,HEIGHT);
   ComponentCamera* cmpCamera = (ComponentCamera*)cameraEntity->getComponent(0);
-  //cmpCamera->zoom(0.5f);
+  cmpCamera->zoom(0.35f);
+  cmpCamera->move(glm::vec3(-2610.0f,-185.5f,0.0f));
   //Creo el personaje
   ScriptComponent* scrCamera = new CameraController();
   ((CameraController*)(scrCamera))->camera = cameraEntity;
 
   //cameraEntity->addComponent(new ComponentScript(scrCamera));
   Entity* personaje = level1->addEntity();
-  const char* arr[1] = {"res/sprites/e20.png"};
-  Sprite* sprIdle = new Sprite(arr,1);
+  const char* arr[6] = {"res/sprites/e1.png","res/sprites/e2.png","res/sprites/e3.png","res/sprites/e4.png","res/sprites/e5.png","res/sprites/e6.png"};
+  Sprite* sprIdle = new Sprite(arr,6);
+  sprIdle->setSpeed(0.16*60);
   GraphicAttribute* attrColor1 = new SpriteAttribute(sprIdle);
   personaje->addAttribute(attrColor1);
   Game::setLevel(0);
@@ -45,12 +47,28 @@ int metodoPrincipal()
   Component* scriptComponent = new ComponentScript(scr);
   const char* walkingAnimation[9] = {"res/sprites/ew1.png","res/sprites/ew2.png","res/sprites/ew3.png","res/sprites/ew4.png","res/sprites/ew5.png","res/sprites/ew6.png","res/sprites/ew7.png","res/sprites/ew8.png","res/sprites/ew9.png"};
   Sprite* walkingSpr = new Sprite(walkingAnimation,9);
+  const char* shootingAnimation[2] = {"res/sprites/es1.png","res/sprites/es2.png"};
+  Sprite* shootingSpr = new Sprite(shootingAnimation,2);
+  shootingSpr->setSpeed(0.5*60.0);
+  const char* fireAnimation[3] = {"res/sprites/f1.png","res/sprites/f2.png","res/sprites/f3.png"};
+  Sprite* fireSpr = new Sprite(fireAnimation,3);
+  fireSpr->setSpeed(0.3*60.0);
   walkingSpr->setSpeed(0.2*60.0);
   scr->player = personaje;
   scr->spriteIdle = sprIdle;
   scr->spriteWalking = walkingSpr;
+  scr->spriteShooting = shootingSpr;
+  scr->spriteFire = fireSpr;
+  Entity* fireEntity = level1->addEntity();
+  scr->fire = fireEntity;
+  personaje->scale(glm::vec3(1.4f,1.8f,1.0f));
+  personaje->setPosition(glm::vec3(-2459.0f,-120.0f,0.0f));
   personaje->addComponent(scriptComponent);
 
+  
+  fireEntity->setPosition(glm::vec3(-2459.0f,-120.0f,0.0f));
+  GraphicAttribute* fireAttr = new SpriteAttribute(fireSpr);
+  fireEntity->addAttribute(fireAttr);
   //Creo el piso
   GraphicAttribute* attrColor = new ColorAttribute(glm::vec3(0.5f,0.1f,0.2f));
   for(int i = 0; i < 20; i++)
@@ -62,22 +80,29 @@ int metodoPrincipal()
     piso->translate(glm::vec3(new_x,-32.0f,0.0f));
   }
   //Creo el fondo
-  const char* bg[1] = {"res/sprites/bg3.gif"};
+  const char* bg[1] = {"res/sprites/background.png"};
   Entity* entityBg = level1->addEntity();
   GraphicAttribute* attrFondo = new SpriteAttribute(new Sprite(bg,1));
   entityBg->addAttribute(attrFondo);
-  entityBg->scale(glm::vec3(40.0f,22.5f,1.0f));
+  entityBg->scale(glm::vec3(173.625f,86.98f,1.0f));
   entityBg->translate(glm::vec3(0.0f,0.0f,-0.1f));
 
+  const char* bgLevel[1] = {"res/sprites/level-bg.png"};
+  Entity* entityLevelBg = level1->addEntity();
+  GraphicAttribute* attrFondoLevel = new SpriteAttribute(new Sprite(bgLevel,1));
+  entityLevelBg->addAttribute(attrFondoLevel);
+  entityLevelBg->scale(glm::vec3(173.625f,26.75f,1.0f));
+  entityLevelBg->translate(glm::vec3(0.0f,0.0f,-0.01f));
+
   //Creo el pajaro
-  const char* birdSprite[8] = {"res/sprites/b1.png","res/sprites/b2.png","res/sprites/b3.png","res/sprites/b4.png","res/sprites/b5.png","res/sprites/b6.png","res/sprites/b7.png","res/sprites/b8.png"};
+  const char* birdSprite[5] = {"res/sprites/c1.png","res/sprites/c2.png","res/sprites/c3.png","res/sprites/c4.png","res/sprites/c5.png"};
   Entity* bird = level1->addEntity();
-  Sprite* sprBird = new Sprite(birdSprite,8);
-  sprBird->setSpeed(0.125*60);
+  Sprite* sprBird = new Sprite(birdSprite,5);
+  sprBird->setSpeed(0.2*60);
   GraphicAttribute* attrBird = new SpriteAttribute(sprBird);
   bird->addAttribute(attrBird);
-  bird->scale(glm::vec3(-0.5f,0.5f,0.0f));
-  bird->translate(glm::vec3(256.0f,320.0f,0.0f));
+  bird->scale(glm::vec3(-1.0f,0.6f,0.0f));
+  bird->setPosition(glm::vec3(-2460.0f,-80.0f,0.0f));
   BirdMovement* birdScr = new BirdMovement();
   birdScr->bird = bird;
   ComponentScript* birdScrComponent = new ComponentScript(birdScr);
