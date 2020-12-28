@@ -21,9 +21,6 @@ class CameraController : public ScriptComponent
     }
     void onUpdate()
     {
-
-      
-
       this->activado = false;
       if(keyboardControl->isPressed(keyboard::KEY_I))
       {
@@ -102,6 +99,10 @@ class PlayerMovement : public ScriptComponent
   {
     
     printf("Player::OnCreate\n");
+    spriteIdle = Game::findSpriteByName("idle");
+    spriteWalking = Game::findSpriteByName("walking");
+    spriteShooting = Game::findSpriteByName("shooting");
+    spriteFire = Game::findSpriteByName("fire");
   }
 
   void onUpdate()
@@ -128,10 +129,7 @@ class PlayerMovement : public ScriptComponent
         fire->setPosition(glm::vec3(0.0f));
         fire->scale(glm::vec3(-1.0f,1.0f,1.0f));
       }
-      glm::vec3 pos = player->getPosition();
       player->translate(glm::vec3(speed*deltaTime,0.0,0.0));
-      glm::vec3 newPos = pos+glm::vec3(36.0f,15.0f,0.0f);
-      fire->setPosition(newPos);
     }
     if(keyboardControl->isPressed(keyboard::KEY_LEFT))
     {
@@ -148,9 +146,8 @@ class PlayerMovement : public ScriptComponent
         fire->scale(glm::vec3(-1.0f,1.0f,1.0f));
       }
       player->translate(glm::vec3(-speed*deltaTime,0.0,0.0));
-      glm::vec3 pos = player->getPosition();
-      glm::vec3 newPos = pos+glm::vec3(-36.0f,15.0f,0.0f);
-      fire->setPosition(newPos);
+      
+      
     }
     if(!keyboardControl->isPressed(keyboard::KEY_RIGHT) && !keyboardControl->isPressed(keyboard::KEY_LEFT) && !keyboardControl->isPressed(keyboard::KEY_Z))
     {
@@ -174,7 +171,6 @@ class PlayerMovement : public ScriptComponent
     }
     if(keyboardControl->isPressed(keyboard::KEY_UP))
     {
-
       player->translate(glm::vec3(0.0,speed*deltaTime,0.0));
     }
     if(keyboardControl->isPressed(keyboard::KEY_Z))
@@ -184,8 +180,11 @@ class PlayerMovement : public ScriptComponent
         SpriteAttribute* fireAttr = (SpriteAttribute*)fire->getAttribute(0);
         fireAttr->getSprite()->setTransparency(1.0f);
         this->disparando = true;
-        this->sprAttr->setSprite(spriteShooting);
+        this->sprAttr->setSprite(spriteShooting); 
       }
+      glm::vec3 pos = player->getPosition();
+      glm::vec3 newPos = pos+glm::vec3(this->status*36.0f,15.0f,0.0f);
+      fire->setPosition(newPos);
     }
     else
       {

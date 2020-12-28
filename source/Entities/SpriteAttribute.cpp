@@ -1,7 +1,7 @@
 #include "SpriteAttribute.h"
 SpriteAttribute::SpriteAttribute(Sprite* sprite)
 {
-    Sprite* a = new Sprite(sprite->getImages(),sprite->getSize());
+    Sprite* a = new Sprite(sprite->getImages(),sprite->getSize(),sprite->getName());
     a->setSpeed(sprite->getSpeed());
     //sprite->copy(sprite);
     this->sprite = a;

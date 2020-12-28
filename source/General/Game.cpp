@@ -86,3 +86,23 @@ void Game::close()
     free(gamedata);
     free(keyboardControl);
 }
+
+Sprite* Game::findSpriteByName(std::string name)
+{
+    std::vector<Sprite*>::iterator ptr;
+    for(ptr = gamedata->sprites.begin(); ptr < gamedata->sprites.end(); ptr++)
+    {
+        printf("BUSCANDING %s ENCONTRADO: %s\n",name.c_str(), (*(ptr))->getName().c_str());
+        if(strcmp((*(ptr))->getName().c_str(),name.c_str())==0)
+        {
+            return (*(ptr));
+        }
+    }
+    return NULL;
+}
+
+void Game::addSprite(Sprite* sprite)
+{
+    gamedata->sprites.push_back(sprite);
+    printf("CAPACIDAD: %d\n",gamedata->sprites.capacity());
+}

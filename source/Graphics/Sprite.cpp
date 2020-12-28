@@ -1,11 +1,11 @@
 #include "Sprite.h"
 
 
-Sprite::Sprite(const char** dir,int size)
+Sprite::Sprite(const char** dir,int size, std::string name)
 {
     this->spriteImage = (unsigned int*)malloc(sizeof(unsigned int)*20);
     this->size = size;
-    
+    this->name = name;
     //this->spriteImage = loadImage(dir,mode);
     for(int i = 0; i < size; i++)
     {
@@ -13,10 +13,11 @@ Sprite::Sprite(const char** dir,int size)
     }
 }
     
-Sprite::Sprite(unsigned int* arr, int size)
+Sprite::Sprite(unsigned int* arr, int size, std::string name)
 {
     this->spriteImage = arr;
     this->size = size;
+    this->name = name;
 }
 
 
@@ -51,7 +52,7 @@ Sprite* Sprite::copy(Sprite* sprite)
 {
     unsigned int* arr = sprite->getImages();
     int size = sprite->getSize();
-    Sprite* spr = new Sprite(arr,size);
+    Sprite* spr = new Sprite(arr,size,sprite->getName());
     spr->setSpeed(sprite->getSpeed());
     spr->setTransparency(sprite->getTransparency());
     return spr;
@@ -80,4 +81,9 @@ void Sprite::setTransparency(float transparency)
 float Sprite::getTransparency()
 {
     return this->transparency;
+}
+
+std::string Sprite::getName()
+{
+    return this->name;
 }

@@ -8,8 +8,8 @@ enum Mode {normal, transparent};
 class Sprite
 {
     public:
-    Sprite(const char** dir, int size);
-    Sprite(unsigned int*, int size);
+    Sprite(const char** dir, int size, std::string name);
+    Sprite(unsigned int*, int size, std::string name);
     ~Sprite();
     unsigned int getSpriteImage(int index);
     int getCurrentSprite(float deltaTime);
@@ -20,7 +20,9 @@ class Sprite
     void setTransparency(float transparency);
     Sprite* copy(Sprite* sprite);
     double getSpeed();
+    std::string getName();
     private:
+    std::string name;
     double speed = 0.0;
     int size;
     double index_aux = 0.0;

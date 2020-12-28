@@ -38,32 +38,35 @@ int metodoPrincipal()
   //cameraEntity->addComponent(new ComponentScript(scrCamera));
   Entity* personaje = level1->addEntity();
   const char* arr[6] = {"res/sprites/e1.png","res/sprites/e2.png","res/sprites/e3.png","res/sprites/e4.png","res/sprites/e5.png","res/sprites/e6.png"};
-  Sprite* sprIdle = new Sprite(arr,6);
+  Sprite* sprIdle = new Sprite(arr,6,"idle");
+  Game::addSprite(sprIdle);
   sprIdle->setSpeed(0.16*60);
   GraphicAttribute* attrColor1 = new SpriteAttribute(sprIdle);
   personaje->addAttribute(attrColor1);
   Game::setLevel(0);
-  PlayerMovement* scr = new PlayerMovement();
-  Component* scriptComponent = new ComponentScript(scr);
+  
   const char* walkingAnimation[9] = {"res/sprites/ew1.png","res/sprites/ew2.png","res/sprites/ew3.png","res/sprites/ew4.png","res/sprites/ew5.png","res/sprites/ew6.png","res/sprites/ew7.png","res/sprites/ew8.png","res/sprites/ew9.png"};
-  Sprite* walkingSpr = new Sprite(walkingAnimation,9);
+  Sprite* walkingSpr = new Sprite(walkingAnimation,9,"walking");
+  Game::addSprite(walkingSpr);
   const char* shootingAnimation[2] = {"res/sprites/es1.png","res/sprites/es2.png"};
-  Sprite* shootingSpr = new Sprite(shootingAnimation,2);
+  Sprite* shootingSpr = new Sprite(shootingAnimation,2,"shooting");
+  Game::addSprite(shootingSpr);
   shootingSpr->setSpeed(0.5*60.0);
   const char* fireAnimation[3] = {"res/sprites/f1.png","res/sprites/f2.png","res/sprites/f3.png"};
-  Sprite* fireSpr = new Sprite(fireAnimation,3);
+  Sprite* fireSpr = new Sprite(fireAnimation,3,"fire");
+  Game::addSprite(fireSpr);
   fireSpr->setSpeed(0.3*60.0);
   walkingSpr->setSpeed(0.2*60.0);
-  scr->player = personaje;
-  scr->spriteIdle = sprIdle;
+  
+/*   scr->spriteIdle = sprIdle;
   scr->spriteWalking = walkingSpr;
   scr->spriteShooting = shootingSpr;
-  scr->spriteFire = fireSpr;
+  scr->spriteFire = fireSpr; */
   Entity* fireEntity = level1->addEntity();
-  scr->fire = fireEntity;
+  
   personaje->scale(glm::vec3(1.4f,1.8f,1.0f));
   personaje->setPosition(glm::vec3(-2459.0f,-120.0f,0.0f));
-  personaje->addComponent(scriptComponent);
+  
 
   
   fireEntity->setPosition(glm::vec3(-2459.0f,-120.0f,0.0f));
@@ -82,14 +85,14 @@ int metodoPrincipal()
   //Creo el fondo
   const char* bg[1] = {"res/sprites/background.png"};
   Entity* entityBg = level1->addEntity();
-  GraphicAttribute* attrFondo = new SpriteAttribute(new Sprite(bg,1));
+  GraphicAttribute* attrFondo = new SpriteAttribute(new Sprite(bg,1,"fondo"));
   entityBg->addAttribute(attrFondo);
   entityBg->scale(glm::vec3(173.625f,86.98f,1.0f));
   entityBg->translate(glm::vec3(0.0f,0.0f,-0.1f));
 
   const char* bgLevel[1] = {"res/sprites/level-bg.png"};
   Entity* entityLevelBg = level1->addEntity();
-  GraphicAttribute* attrFondoLevel = new SpriteAttribute(new Sprite(bgLevel,1));
+  GraphicAttribute* attrFondoLevel = new SpriteAttribute(new Sprite(bgLevel,1,"fondo2"));
   entityLevelBg->addAttribute(attrFondoLevel);
   entityLevelBg->scale(glm::vec3(173.625f,26.75f,1.0f));
   entityLevelBg->translate(glm::vec3(0.0f,0.0f,-0.01f));
@@ -97,7 +100,7 @@ int metodoPrincipal()
   //Creo el pajaro
   const char* birdSprite[5] = {"res/sprites/c1.png","res/sprites/c2.png","res/sprites/c3.png","res/sprites/c4.png","res/sprites/c5.png"};
   Entity* bird = level1->addEntity();
-  Sprite* sprBird = new Sprite(birdSprite,5);
+  Sprite* sprBird = new Sprite(birdSprite,5,"bird");
   sprBird->setSpeed(0.2*60);
   GraphicAttribute* attrBird = new SpriteAttribute(sprBird);
   bird->addAttribute(attrBird);
@@ -107,7 +110,12 @@ int metodoPrincipal()
   birdScr->bird = bird;
   ComponentScript* birdScrComponent = new ComponentScript(birdScr);
   bird->addComponent(birdScrComponent); 
+  PlayerMovement* scr = new PlayerMovement();
+  scr->player = personaje;
+  scr->fire = fireEntity;
+  Component* scriptComponent = new ComponentScript(scr);
   
+  personaje->addComponent(scriptComponent);
   
 
   Game::loop();
