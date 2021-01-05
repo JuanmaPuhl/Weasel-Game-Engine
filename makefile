@@ -2,8 +2,8 @@ LIBRERIAS = -lglew32 -lglfw3 -lopengl32
 CODIGO = source/
 all: main.exe quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o  Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o
 .PHONY: all
-main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui_widgets.o imgui.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o $(CODIGO)Entities/Scripts.h
-	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui.o imgui_widgets.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o -I .$(CODIGO)ScriptComponent.h -I.$(CODIGO)Entities/Scripts.h  -I ./libs/  -L ./libs/ $(LIBRERIAS)
+main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui_widgets.o imgui.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o Gui.o $(CODIGO)Entities/Scripts.h
+	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui.o imgui_widgets.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o Gui.o -I .$(CODIGO)ScriptComponent.h -I.$(CODIGO)Entities/Scripts.h  -I ./libs/  -L ./libs/ $(LIBRERIAS)
 quad.o: $(CODIGO)Graphics/quad.cpp $(CODIGO)Graphics/quad.h
 	g++ -c  $(CODIGO)Graphics/quad.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS) 
 window.o: $(CODIGO)Graphics/window.cpp $(CODIGO)Graphics/window.h
@@ -50,6 +50,8 @@ imgui_impl_glfw.o:
 	g++ -c ./libs/imgui/imgui_impl_glfw.cpp -I ./libs/
 imgui_demo.o:
 	g++ -c ./libs/imgui/imgui_demo.cpp -I ./libs/
+Gui.o: $(CODIGO)Graphics/Gui.h
+	g++ -c $(CODIGO)Graphics/Gui.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 clean:
 	del quad.o
 	del window.o
@@ -74,6 +76,7 @@ clean:
 	del imgui_impl_opengl3.o
 	del imgui_impl_glfw.o
 	del imgui_demo.o
+	del Gui.o
 	del main.exe
 
         

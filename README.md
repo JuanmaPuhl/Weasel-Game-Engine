@@ -8,3 +8,4 @@ Ejecutar el comando Make y luego main (WINDOWS)
 - GLFW3
 - Glew
 - stbImage
+- Dear ImGui

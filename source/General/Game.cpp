@@ -6,12 +6,14 @@
 #include "imgui/imstb_truetype.h"
 #include "imgui/imgui_impl_opengl3.h"
 #include "imgui/imgui_impl_glfw.h"
+#include "../Graphics/Gui.h"
 GameData* gamedata =new GameData();
 KeyboardControl* keyboardControl = new KeyboardControl();
 void Game::init(int width, int height)
 {
     gamedata->window = window::window_init(width,height);
     gamedata->shader = new Shader(DEFAULT_SHADER_FILE);
+    Gui::init(gamedata->window);
 }
 
 Level* Game::addLevel()
@@ -78,12 +80,12 @@ GLFWwindow* Game::getWindow()
     return gamedata->window;
 } 
 
-void loopFunction(double deltaTime)
+void Game::loopFunction(double deltaTime)
 { 
     
     Game::onUpdate(deltaTime);
     Game::render(deltaTime);
-
+    Gui::draw();
 
 
     
