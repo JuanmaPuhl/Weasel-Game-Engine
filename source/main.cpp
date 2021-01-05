@@ -16,11 +16,11 @@
 #include "Entities/GraphicAttribute.h"
 #include "Entities/SpriteAttribute.h"
 #include "Entities/ColorAttribute.h"
+#include "Graphics/Gui.h"
 #define DEBUG
-const int WIDTH = 920;
-const int HEIGHT = 650;
+const int WIDTH = 800;
+const int HEIGHT = 600;
 const int MAX_ENTITIES = 10;
-
 
 int metodoPrincipal()
 {
@@ -57,18 +57,9 @@ int metodoPrincipal()
   Game::addSprite(fireSpr);
   fireSpr->setSpeed(0.3*60.0);
   walkingSpr->setSpeed(0.2*60.0);
-  
-/*   scr->spriteIdle = sprIdle;
-  scr->spriteWalking = walkingSpr;
-  scr->spriteShooting = shootingSpr;
-  scr->spriteFire = fireSpr; */
   Entity* fireEntity = level1->addEntity();
-  
   personaje->scale(glm::vec3(1.4f,1.8f,1.0f));
   personaje->setPosition(glm::vec3(-2459.0f,-120.0f,0.0f));
-  
-
-  
   fireEntity->setPosition(glm::vec3(-2459.0f,-120.0f,0.0f));
   GraphicAttribute* fireAttr = new SpriteAttribute(fireSpr);
   fireEntity->addAttribute(fireAttr);
@@ -114,16 +105,13 @@ int metodoPrincipal()
   scr->player = personaje;
   scr->fire = fireEntity;
   Component* scriptComponent = new ComponentScript(scr);
-  
   personaje->addComponent(scriptComponent);
-  
-
   Game::loop();
   printf("Main::Eliminando objetos...\n");
-  Game::close();
+  Game::close();  
+
   delete(level1);
   delete(attrColor);
-  glfwTerminate(); //Cierro glfw
   printf("Main::Objetos eliminados. Cerrando programa.\n");
   return 0;
 }

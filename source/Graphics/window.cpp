@@ -38,6 +38,7 @@ GLFWwindow* window::window_init(int width, int height)
     glewInit();
     glGetError();
     glfwSetKeyCallback(window,key_callback);
+    //glfwSetMouseButtonCallback(window,ImGui_ImplGlfw_MouseButtonCallback);
     glfwSetErrorCallback(error_callback);
     /*====================TERMINA CREACION DE VENTANA==========================*/
     glViewport(0, 0, width, height);
@@ -55,14 +56,17 @@ int window::window_loop(GLFWwindow* window,void (*loop_function)(double))
     GLfloat lastFrame = 0.0f;
     while (!glfwWindowShouldClose(window))
     {
-        glfwSwapInterval(0);
-        currentFrame = glfwGetTime();
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
-        //Llamo la función del usuario
-        loop_function(deltaTime);
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+      glfwPollEvents();
+      glfwSwapInterval(0);
+      currentFrame = glfwGetTime();
+      deltaTime = currentFrame - lastFrame;
+      lastFrame = currentFrame;
+      //Llamo la función del usuario
+      loop_function(deltaTime);
+      
+      
+      glfwSwapBuffers(window);
+        
     }
     glfwTerminate();
     return 0;
@@ -71,6 +75,7 @@ int window::window_loop(GLFWwindow* window,void (*loop_function)(double))
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
+  //
   if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
   {
     glfwSetWindowShouldClose(window, GL_TRUE);
@@ -88,4 +93,5 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         }
     
   }
+  //ImGui_ImplGlfw_KeyCallback(window,key,scancode,action,mode);
 }

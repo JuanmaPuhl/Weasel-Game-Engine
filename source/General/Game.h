@@ -29,6 +29,7 @@ namespace Game
     void render(double deltaTime);
     GLFWwindow* getWindow();
     void loop();
+    void loopFunction(double deltaTime);
     void close();
 }
 #endif

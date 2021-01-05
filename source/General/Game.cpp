@@ -1,11 +1,19 @@
 #include "Game.h"
-
+#include "imgui/imgui.h"
+#include "imgui/imgui_internal.h"
+#include "imgui/imstb_rectpack.h"
+#include "imgui/imstb_textedit.h"
+#include "imgui/imstb_truetype.h"
+#include "imgui/imgui_impl_opengl3.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "../Graphics/Gui.h"
 GameData* gamedata =new GameData();
 KeyboardControl* keyboardControl = new KeyboardControl();
 void Game::init(int width, int height)
 {
     gamedata->window = window::window_init(width,height);
     gamedata->shader = new Shader(DEFAULT_SHADER_FILE);
+    Gui::init(gamedata->window);
 }
 
 Level* Game::addLevel()
@@ -70,15 +78,23 @@ void Game::setLevel(int level)
 GLFWwindow* Game::getWindow()
 {
     return gamedata->window;
-}
-void loopFunction(double deltaTime)
-{
+} 
+
+void Game::loopFunction(double deltaTime)
+{ 
+    
     Game::onUpdate(deltaTime);
     Game::render(deltaTime);
+    Gui::draw();
+
+
+    
 }    
 void Game::loop()
 {
+    
     window::window_loop(gamedata->window,loopFunction);
+    
 }
 
 void Game::close()
