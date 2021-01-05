@@ -1,6 +1,7 @@
 #include "window.h"
 #include <stdio.h>
-
+#include "imgui/imgui_impl_opengl3.h"
+#include "imgui/imgui_impl_glfw.h"
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 float currentFrame = 0.0f;
 
@@ -38,6 +39,7 @@ GLFWwindow* window::window_init(int width, int height)
     glewInit();
     glGetError();
     glfwSetKeyCallback(window,key_callback);
+    glfwSetMouseButtonCallback(window,ImGui_ImplGlfw_MouseButtonCallback);
     glfwSetErrorCallback(error_callback);
     /*====================TERMINA CREACION DE VENTANA==========================*/
     glViewport(0, 0, width, height);
@@ -71,6 +73,7 @@ int window::window_loop(GLFWwindow* window,void (*loop_function)(double))
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
+  //
   if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
   {
     glfwSetWindowShouldClose(window, GL_TRUE);
@@ -88,4 +91,5 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         }
     
   }
+  //ImGui_ImplGlfw_KeyCallback(window,key,scancode,action,mode);
 }

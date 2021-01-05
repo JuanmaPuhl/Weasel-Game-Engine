@@ -4,7 +4,6 @@
 #include <GLFW/glfw3.h>
 #include <string>
 #include "../FileManagement/ImageFileManager.h"
-enum Mode {normal, transparent};
 class Sprite
 {
     public:

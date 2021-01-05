@@ -1,5 +1,11 @@
 #include "Game.h"
-
+#include "imgui/imgui.h"
+#include "imgui/imgui_internal.h"
+#include "imgui/imstb_rectpack.h"
+#include "imgui/imstb_textedit.h"
+#include "imgui/imstb_truetype.h"
+#include "imgui/imgui_impl_opengl3.h"
+#include "imgui/imgui_impl_glfw.h"
 GameData* gamedata =new GameData();
 KeyboardControl* keyboardControl = new KeyboardControl();
 void Game::init(int width, int height)
@@ -70,15 +76,23 @@ void Game::setLevel(int level)
 GLFWwindow* Game::getWindow()
 {
     return gamedata->window;
-}
+} 
+
 void loopFunction(double deltaTime)
-{
+{ 
+    
     Game::onUpdate(deltaTime);
     Game::render(deltaTime);
+
+
+
+    
 }    
 void Game::loop()
 {
+    
     window::window_loop(gamedata->window,loopFunction);
+    
 }
 
 void Game::close()
