@@ -23,7 +23,8 @@ GLFWwindow* window::window_init(int width, int height)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+    
     //glfwWindowHint(GLFW_DOUBLEBUFFER, GL_FALSE);
     window = glfwCreateWindow(width, height, "Game", NULL, NULL);
     if (!window)
@@ -31,7 +32,7 @@ GLFWwindow* window::window_init(int width, int height)
         glfwTerminate();
         return NULL;
     }
-    
+    glfwMaximizeWindow(window);
     //glfwSetKeyCallback(window, key_callback);
     glfwMakeContextCurrent(window);
     glewExperimental = GL_TRUE;
@@ -41,7 +42,11 @@ GLFWwindow* window::window_init(int width, int height)
     //glfwSetMouseButtonCallback(window,ImGui_ImplGlfw_MouseButtonCallback);
     glfwSetErrorCallback(error_callback);
     /*====================TERMINA CREACION DE VENTANA==========================*/
-    glViewport(0, 0, width, height);
+    int nwidth, nheight;
+    glfwGetFramebufferSize(window, &nwidth, &nheight);
+    glViewport(419, 200, nwidth-419-309, nheight-200);
+
+    //glViewport(width/2, height/2, width, height);
     glEnable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
