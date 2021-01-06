@@ -1,6 +1,6 @@
 #include "Shader.h"
 #include "../FileManagement/FileManager.h"
-
+#include "Gui.h"
 
 #define DEBUG
 enum Mode {vs, fs, ps};
@@ -14,11 +14,11 @@ int check_shader_compilation_status(unsigned int shader, Mode mode)
         if(!success)
         {
             glGetShaderInfoLog(shader, 512, NULL, infoLog);
-            printf("ERROR: Fallo en compilacion de %d, %s\n",mode,infoLog);
+            Gui::writeToLog("ERROR: Fallo en compilacion de "+ std::to_string(mode) + infoLog+"\n");
         }
         else
         {
-            printf("Shader %d compilado correctamente.\n",mode);
+            Gui::writeToLog("Shader "+std::to_string(mode) +" compilado correctamente.\n" );
         }
     #endif
     

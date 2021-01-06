@@ -7,6 +7,7 @@
 #include "../Graphics/Quad.h"
 #include "../Config.h"
 #include "../Controls/KeyboardControl.h"
+#include "../Graphics/Gui.h"
 
 struct GameData
     {
@@ -30,6 +31,8 @@ namespace Game
     GLFWwindow* getWindow();
     void loop();
     void loopFunction(double deltaTime);
+    void getGui();
+    
     void close();
 }
 #endif

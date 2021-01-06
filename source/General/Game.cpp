@@ -1,12 +1,5 @@
 #include "Game.h"
-#include "imgui/imgui.h"
-#include "imgui/imgui_internal.h"
-#include "imgui/imstb_rectpack.h"
-#include "imgui/imstb_textedit.h"
-#include "imgui/imstb_truetype.h"
-#include "imgui/imgui_impl_opengl3.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "../Graphics/Gui.h"
+
 GameData* gamedata =new GameData();
 KeyboardControl* keyboardControl = new KeyboardControl();
 void Game::init(int width, int height)
@@ -46,7 +39,8 @@ void Game::render(double deltaTime)
     if(current - last_time >=1.0f)
     {
         double fpsCount = 1000.0/double(fps);
-        printf("FPS: %d\n",fps);
+        std::string str;
+        //Gui::writeToLog("FPS: "+std::to_string(fps) + "\n");
         fps = 0;
         last_time++;
     }
@@ -82,13 +76,10 @@ GLFWwindow* Game::getWindow()
 
 void Game::loopFunction(double deltaTime)
 { 
-    
+
     Game::onUpdate(deltaTime);
     Game::render(deltaTime);
     Gui::draw();
-
-
-    
 }    
 void Game::loop()
 {
@@ -108,7 +99,7 @@ Sprite* Game::findSpriteByName(std::string name)
     std::vector<Sprite*>::iterator ptr;
     for(ptr = gamedata->sprites.begin(); ptr < gamedata->sprites.end(); ptr++)
     {
-        printf("BUSCANDING %s ENCONTRADO: %s\n",name.c_str(), (*(ptr))->getName().c_str());
+        Gui::writeToLog("BUSCANDING: " + name + " Encontrado: "+ (*(ptr))->getName().c_str()+ "\n");
         if(strcmp((*(ptr))->getName().c_str(),name.c_str())==0)
         {
             return (*(ptr));
@@ -120,5 +111,4 @@ Sprite* Game::findSpriteByName(std::string name)
 void Game::addSprite(Sprite* sprite)
 {
     gamedata->sprites.push_back(sprite);
-    printf("CAPACIDAD: %d\n",gamedata->sprites.capacity());
 }

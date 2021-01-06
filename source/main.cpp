@@ -44,7 +44,7 @@ int metodoPrincipal()
   GraphicAttribute* attrColor1 = new SpriteAttribute(sprIdle);
   personaje->addAttribute(attrColor1);
   Game::setLevel(0);
-  
+  Gui::writeToLog("Holiwi\n");
   const char* walkingAnimation[9] = {"res/sprites/ew1.png","res/sprites/ew2.png","res/sprites/ew3.png","res/sprites/ew4.png","res/sprites/ew5.png","res/sprites/ew6.png","res/sprites/ew7.png","res/sprites/ew8.png","res/sprites/ew9.png"};
   Sprite* walkingSpr = new Sprite(walkingAnimation,9,"walking");
   Game::addSprite(walkingSpr);
