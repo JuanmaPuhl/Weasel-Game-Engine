@@ -11,6 +11,11 @@ void error_callback(int code, const char* description)
     exit(code);
 }
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    glViewport(width/4, height/4, width*2/4, height*3/4);
+}
+
 
 GLFWwindow* window::window_init(int width, int height)
 {
@@ -41,10 +46,11 @@ GLFWwindow* window::window_init(int width, int height)
     glfwSetKeyCallback(window,key_callback);
     //glfwSetMouseButtonCallback(window,ImGui_ImplGlfw_MouseButtonCallback);
     glfwSetErrorCallback(error_callback);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     /*====================TERMINA CREACION DE VENTANA==========================*/
     int nwidth, nheight;
     glfwGetFramebufferSize(window, &nwidth, &nheight);
-    glViewport(419, 200, nwidth-419-309, nheight-200);
+    glViewport(nwidth/4, nheight/4, nwidth*2/4, nheight*3/4);
 
     //glViewport(width/2, height/2, width, height);
     glEnable(GL_BLEND);

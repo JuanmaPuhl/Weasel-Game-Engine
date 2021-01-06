@@ -1,7 +1,10 @@
 #include "Gui.h"
 
+GLFWwindow* ventana;
+int height = 0, width = 0;
 void Gui::init(GLFWwindow* window)
 {
+    ventana = window;
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -17,8 +20,8 @@ void showLog(ImGuiWindowFlags window_flags)
 {
     bool b = true;
     static ExampleAppLog log;
-    ImGui::SetNextWindowPos(ImVec2(416,817), ImGuiCond_Always);
-    ImGui::SetNextWindowSize(ImVec2(1200, 200), ImGuiCond_Always);
+    ImGui::SetNextWindowPos(ImVec2(width/4,height*3/4), ImGuiCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(width*2/4, height/4), ImGuiCond_Always);
     ImGui::Begin("Example: Log", NULL, window_flags);
     log.AddLog(str.c_str());
     str.clear();
@@ -126,6 +129,7 @@ static void ShowExampleAppMainMenuBar()
 }
 void Gui::draw()
 {
+    glfwGetFramebufferSize(ventana, &width, &height);
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
@@ -148,7 +152,7 @@ void Gui::draw()
         static float f = 0.0f;
         static int counter = 0;
         ImGui::SetNextWindowPos(ImVec2(0,0), ImGuiCond_Always);
-        ImGui::SetNextWindowSize(ImVec2(419,1017),ImGuiCond_Always);
+        ImGui::SetNextWindowSize(ImVec2(width/4,height),ImGuiCond_Always);
         ImGui::Begin("Hello, world!",NULL,window_flags);                          // Create a window called "Hello, world!" and append into it.
         ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
         ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
