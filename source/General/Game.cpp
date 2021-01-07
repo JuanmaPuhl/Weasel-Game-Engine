@@ -29,7 +29,7 @@ double lastTimeForSleep = 0.0;
 const int MAX_FRAMERATE = 120;
 void Game::render(double deltaTime)
 {
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClearColor(18.0f/255, 18.0f/255, 27.0f/255, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
     float current = glfwGetTime();
@@ -111,4 +111,9 @@ Sprite* Game::findSpriteByName(std::string name)
 void Game::addSprite(Sprite* sprite)
 {
     gamedata->sprites.push_back(sprite);
+}
+
+std::vector<Level*> Game::getLevels()
+{
+    return gamedata->levels;
 }

@@ -31,6 +31,7 @@ namespace Game
     GLFWwindow* getWindow();
     void loop();
     void loopFunction(double deltaTime);
+    std::vector<Level*> getLevels();
     void getGui();
     
     void close();

@@ -25,6 +25,7 @@ class Level
     void render(Shader* shader, double deltaTime);
     Entity* addEntity();
     Entity* addEntityCamera(int width, int height);
+    std::vector<Entity*> getEntities();
     /**
      * @brief Actualiza todas las entidades del nivel
      * 

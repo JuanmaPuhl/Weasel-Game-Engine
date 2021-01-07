@@ -1,6 +1,7 @@
 #include "Gui.h"
-
+#include "../General/Game.h"
 GLFWwindow* ventana;
+glm::vec3 vec;
 int height = 0, width = 0;
 void Gui::init(GLFWwindow* window)
 {
@@ -109,14 +110,44 @@ static void ShowExampleAppMainMenuBar()
 {
     if (ImGui::BeginMainMenuBar())
     {
-        if (ImGui::BeginMenu("File"))
+        if (ImGui::BeginMenu("Archivo"))
         {
             ShowExampleMenuFile();
             ImGui::EndMenu();
         }
-        if (ImGui::BeginMenu("Edit"))
+        if (ImGui::BeginMenu("Editar"))
         {
             if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+            if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+            ImGui::Separator();
+            if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+            if (ImGui::MenuItem("Copy", "CTRL+C")) {}
+            if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Ver"))
+        {
+            if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+            if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+            ImGui::Separator();
+            if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+            if (ImGui::MenuItem("Copy", "CTRL+C")) {}
+            if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Configuración"))
+        {
+            if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+            if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+            ImGui::Separator();
+            if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+            if (ImGui::MenuItem("Copy", "CTRL+C")) {}
+            if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Ayuda"))
+        {
+            if (ImGui::MenuItem("Acerca de")) {}
             if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
             ImGui::Separator();
             if (ImGui::MenuItem("Cut", "CTRL+X")) {}
@@ -127,6 +158,9 @@ static void ShowExampleAppMainMenuBar()
         ImGui::EndMainMenuBar();
     }
 }
+bool item_clicked = false;
+int item_index_clicked = -1;
+Entity* entityClicked;
 void Gui::draw()
 {
     glfwGetFramebufferSize(ventana, &width, &height);
@@ -151,20 +185,78 @@ void Gui::draw()
     {
         static float f = 0.0f;
         static int counter = 0;
-        ImGui::SetNextWindowPos(ImVec2(0,0), ImGuiCond_Always);
+        ImGui::SetNextWindowPos(ImVec2(0,18), ImGuiCond_Always);
         ImGui::SetNextWindowSize(ImVec2(width/4,height),ImGuiCond_Always);
         ImGui::Begin("Hello, world!",NULL,window_flags);                          // Create a window called "Hello, world!" and append into it.
         ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-        ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-        ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-        if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-            counter++;
-        ImGui::SameLine();
-        ImGui::Text("counter = %d", counter);
+        std::vector<Level*> levels = Game::getLevels();
+        std::vector<Level*>::iterator ptr;
+        int i = 0;
+        int node_clicked = -1;
+        for(ptr = levels.begin(); ptr<levels.end(); ptr++)
+        {
+            std::string str = "Nivel "+ std::to_string(i);
+            if (ImGui::TreeNode(str.c_str()))
+            {
+                if (i == 0)
+                    ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+                std::vector<Entity*> entities = (*ptr)->getEntities();
+                std::vector<Entity*>::iterator ptr2;
+                int j = 0;
+                for(ptr2 = entities.begin(); ptr2<entities.end(); ptr2++)
+                {
+                    static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
+                    ImGuiTreeNodeFlags node_flags = base_flags;
+                    node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen; // ImGuiTreeNodeFlags_Bullet
+                    std::string st = "Entidad "+std::to_string(j);
+                    bool node_open = ImGui::TreeNodeEx(st.c_str(),node_flags);
+                    if (ImGui::IsItemClicked())
+                    {
+                        Gui::writeToLog("Hice click en " + std::to_string(j)+"\n");
+                        item_clicked = true;
+                        item_index_clicked = j;
+                        entityClicked = entities.at(j);
+                    }
+                    
+                    j++;
+                }
+                i++;
+                ImGui::TreePop();
+            }
+            
+        }
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         ImGui::End();
     }
+    if(item_clicked)
+    {
+        //Tengo que abrir una ventana con datos de la entidad
+        //ImGui::SetNextWindowPos(ImVec2(width/4+50,height/2),ImGuiCond_Once);
+        ImGui::SetNextWindowSize(ImVec2(500,200),ImGuiCond_Once);
+        std::string windowName = "Entidad"+std::to_string(item_index_clicked);
+        ImGui::Begin(windowName.c_str(),&item_clicked);
+        vec = entityClicked->getPosition();
+        float vecRotacion[3] = {entityClicked->getRotation().x,entityClicked->getRotation().y,entityClicked->getRotation().z};
+        float vecScaling[3] = {entityClicked->getScale().x,entityClicked->getScale().y,entityClicked->getScale().z};
+        //Gui::writeToLog(std::to_string(vec.x));
+        float vec4f[3] = {entityClicked->getPosition().x,entityClicked->getPosition().y,entityClicked->getPosition().z};
+        //Gui::writeToLog(std::to_string(vec4f[0])+"--"+std::to_string(vec.x)+ "\n");
+        if(ImGui::DragFloat3("Posición",vec4f))
+        {
+            entityClicked->setPosition(glm::vec3(vec4f[0],vec4f[1],vec4f[2]));
+        }
+        if(ImGui::DragFloat3("Rotación",vecRotacion))
+        {
+            entityClicked->setRotation(glm::vec3(vecRotacion[0],vecRotacion[1],vecRotacion[2]));
+        }
+        if(ImGui::DragFloat3("Escala",vecScaling))
+        {
+            entityClicked->setScale(glm::vec3(vecScaling[0],vecScaling[1],vecScaling[2]));
+        }
+        //ImGui::SetWindowFocus();
+        ImGui::End();
+    }
+
     showLog(window_flags);
     ImGui::PopStyleColor();
     ImGui::Render();

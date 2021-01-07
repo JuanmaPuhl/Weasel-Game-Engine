@@ -53,3 +53,8 @@ void Level::render(Shader* shader, double deltaTime)
         (*(ptr))->render(shader,deltaTime);
     }
 }
+
+std::vector<Entity*> Level::getEntities()
+{
+    return this->entities;
+}

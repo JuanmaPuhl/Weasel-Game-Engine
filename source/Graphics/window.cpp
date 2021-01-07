@@ -13,7 +13,7 @@ void error_callback(int code, const char* description)
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    glViewport(width/4, height/4, width*2/4, height*3/4);
+    glViewport(width/4, height/4, width*2/4, height*3/4-18);
 }
 
 
@@ -50,7 +50,7 @@ GLFWwindow* window::window_init(int width, int height)
     /*====================TERMINA CREACION DE VENTANA==========================*/
     int nwidth, nheight;
     glfwGetFramebufferSize(window, &nwidth, &nheight);
-    glViewport(nwidth/4, nheight/4, nwidth*2/4, nheight*3/4);
+    glViewport(nwidth/4, nheight/4, nwidth*2/4, nheight*3/4-18);
 
     //glViewport(width/2, height/2, width, height);
     glEnable(GL_BLEND);

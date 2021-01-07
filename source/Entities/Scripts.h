@@ -191,7 +191,7 @@ class PlayerMovement : public ScriptComponent
         SpriteAttribute* fireAttr = (SpriteAttribute*)fire->getAttribute(0);
         fireAttr->getSprite()->setTransparency(0.0f);
       }
-
+    //Gui::writeToLog(std::to_string(player->getPosition().x)+"\n");
     
   }
   private:
