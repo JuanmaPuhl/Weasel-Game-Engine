@@ -58,3 +58,9 @@ std::vector<Entity*> Level::getEntities()
 {
     return this->entities;
 }
+
+bool Level::removeEntity(int entity)
+{
+    this->entities.erase(this->entities.begin()+entity);
+    return false;
+}
