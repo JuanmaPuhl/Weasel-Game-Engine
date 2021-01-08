@@ -30,7 +30,8 @@ Entity* Level::addEntityCamera(int width, int height)
 
 void Level::onUpdate(double deltaTime)
 {
-    this->cameraEntity->onUpdate();
+    if(this->cameraEntity !=NULL)
+        this->cameraEntity->onUpdate();
     std::vector<Entity*>::iterator ptr;
     for(ptr = this->entities.begin(); ptr<this->entities.end(); ptr++)
     {
@@ -43,9 +44,11 @@ void Level::render(Shader* shader, double deltaTime)
     //Tengo que pasar la camara al shader
     
     shader->use();
-    
-    shader->setUniform("projection",glm::value_ptr(((ComponentCamera*)(this->cameraEntity->getComponent(0)))->getProjectionMatrix()));
-    shader->setUniform("view",glm::value_ptr(((ComponentCamera*)(this->cameraEntity->getComponent(0)))->getViewMatrix()));
+    if(this->cameraEntity!=NULL)
+    {
+        shader->setUniform("projection",glm::value_ptr(((ComponentCamera*)(this->cameraEntity->getComponent(0)))->getProjectionMatrix()));
+        shader->setUniform("view",glm::value_ptr(((ComponentCamera*)(this->cameraEntity->getComponent(0)))->getViewMatrix()));
+    }
     //Tengo que ciclar entre todas las entidades y renderizarlas
     std::vector<Entity*>::iterator ptr;
     for(ptr = this->entities.begin(); ptr<this->entities.end(); ptr++)

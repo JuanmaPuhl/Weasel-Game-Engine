@@ -1,6 +1,6 @@
 #include "Gui.h"
 #include "../General/Game.h"
-
+#include "../FileManagement/ImageFileManager.h"
 GLFWwindow* ventana;
 glm::vec3 vec;
 int height = 0, width = 0;
@@ -23,6 +23,12 @@ void Gui::init(GLFWwindow* window)
     ImGui::StyleColorsDark();
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 130");
+    ImFont* font = io.Fonts->AddFontFromFileTTF("res/fonts/RobotoMono-Regular.ttf",16.0f);
+    unsigned char* pixels;
+    int width,height, bytes_per_pixels;
+    io.Fonts->GetTexDataAsRGBA32(&pixels,&width,&height,&bytes_per_pixels);
+
+
 }
 
 
@@ -137,7 +143,10 @@ static void ShowExampleAppMainMenuBar()
         }
         if (ImGui::BeginMenu("Insertar"))
         {
-            if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+            if (ImGui::MenuItem("Nuevo nivel")) 
+            {
+                Game::addLevel();
+            }
             if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
             ImGui::Separator();
             if (ImGui::MenuItem("Cut", "CTRL+X")) {}
@@ -222,6 +231,12 @@ void showEntityContextMenu(ImGuiTreeNodeFlags node_flags, Level* level, int j)
 
 void showLevelContextMenu(ImGuiTreeNodeFlags node_flags, Level* level, int i)
 {
+    ImGui::TreeNodeEx("Mostrar",node_flags);
+    if(ImGui::IsItemClicked())
+    {
+        Game::setLevel(i);
+        ImGui::CloseCurrentPopup();
+    }
     ImGui::TreeNodeEx("Agregar entidad",node_flags);
     if(ImGui::IsItemClicked())
     {
@@ -250,15 +265,17 @@ void showTreeView(ImGuiWindowFlags window_flags)
     {
         std::string str = "Nivel "+ std::to_string(i);
         node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen; // ImGuiTreeNodeFlags_Bullet
+        ImGui::SetNextItemOpen(true, ImGuiCond_Once);
         if (ImGui::TreeNode(str.c_str()))
         {
+            
+                
             if (ImGui::BeginPopupContextItem(str.c_str()))
             {
                 showLevelContextMenu(node_flags,(*ptr),i);
                 ImGui::EndPopup();
             }
-            if (i == 0)
-                ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+            
             std::vector<Entity*> entities = (*ptr)->getEntities();
             std::vector<Entity*>::iterator ptr2;
             int j = 0;
@@ -284,10 +301,10 @@ void showTreeView(ImGuiWindowFlags window_flags)
                     
                 j++;
             }
-            i++;
+            
             ImGui::TreePop();
         }
-        
+       i++; 
     }
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
     ImGui::End();
