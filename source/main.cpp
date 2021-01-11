@@ -18,11 +18,14 @@
 #include "Entities/ColorAttribute.h"
 #include "Graphics/Gui.h"
 #define DEBUG
+#ifndef __LUA_INC_H__
+#define __LUA_INC_H__
 extern "C" {
-  #include "lua.h"
-  #include "lualib.h"
-  #include "lauxlib.h"
+  #include "lua/include/lua.h"
+  #include "lua/include/lualib.h"
+  #include "lua/include/lauxlib.h"
 }
+#endif // __LUA_INC_H__
 const int WIDTH = 1280;
 const int HEIGHT = 720;
 const int MAX_ENTITIES = 10;
