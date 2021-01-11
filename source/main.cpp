@@ -18,12 +18,26 @@
 #include "Entities/ColorAttribute.h"
 #include "Graphics/Gui.h"
 #define DEBUG
+extern "C" {
+  #include "lua.h"
+  #include "lualib.h"
+  #include "lauxlib.h"
+}
 const int WIDTH = 1280;
 const int HEIGHT = 720;
 const int MAX_ENTITIES = 10;
 
 int metodoPrincipal()
 {
+  std::string cmd = "return 7 + 11";
+  lua_State *L = luaL_newstate();
+  luaL_loadfilex(L,"script.lua",0);
+  lua_callk(L, 0,1,0,NULL);
+  const auto result = (int) lua_tointegerx(L,1,0);
+  printf("Resultado: %d\n",result);
+
+  lua_close(L);
+
   printf("Main::Creando ventana...\n");
   Game::init(WIDTH,HEIGHT);
   Level* level1 = Game::addLevel();
