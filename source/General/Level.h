@@ -27,6 +27,7 @@ class Level
     Entity* addEntityCamera(int width, int height);
     bool removeEntity(int entity);
     std::vector<Entity*> getEntities();
+    Entity* getCamera();
     /**
      * @brief Actualiza todas las entidades del nivel
      * 
@@ -34,7 +35,7 @@ class Level
     void onUpdate(double deltaTime);
     private:
     std::vector<Entity*> entities;
-    Entity* cameraEntity;
+    Entity* cameraEntity = NULL;
 };
 
 

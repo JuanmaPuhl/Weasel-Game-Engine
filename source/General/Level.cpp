@@ -64,6 +64,15 @@ std::vector<Entity*> Level::getEntities()
 
 bool Level::removeEntity(int entity)
 {
-    this->entities.erase(this->entities.begin()+entity);
+    if(entity<this->entities.capacity())
+    {
+        this->entities.erase(this->entities.begin()+entity);
+        return true;
+    }
     return false;
+}
+
+Entity* Level::getCamera()
+{
+    return this->cameraEntity;
 }

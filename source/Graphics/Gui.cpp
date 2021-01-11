@@ -301,7 +301,24 @@ void showTreeView(ImGuiWindowFlags window_flags)
                     
                 j++;
             }
-            
+            if((*ptr)->getCamera()!=NULL)
+            {
+                ImGui::TreeNodeEx("Cámara",node_flags);
+                /* if (ImGui::IsItemClicked())
+                {
+                    //Gui::writeToLog("Hice click en " + std::to_string(j)+"\n");
+                    item_clicked = true;
+                    item_index_clicked = j;
+                    entityClicked = (*ptr)->getCamera();
+                    drawPopup = false;
+                }
+                if (ImGui::BeginPopupContextItem("Cámara"))
+                {
+                    showEntityContextMenu(node_flags,(*ptr),j);
+                    ImGui::EndPopup();
+                } */
+
+            }
             ImGui::TreePop();
         }
        i++; 

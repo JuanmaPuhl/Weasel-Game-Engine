@@ -18,8 +18,8 @@
 #include "Entities/ColorAttribute.h"
 #include "Graphics/Gui.h"
 #define DEBUG
-const int WIDTH = 800;
-const int HEIGHT = 600;
+const int WIDTH = 1280;
+const int HEIGHT = 720;
 const int MAX_ENTITIES = 10;
 
 int metodoPrincipal()
