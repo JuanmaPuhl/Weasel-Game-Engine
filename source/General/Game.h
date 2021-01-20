@@ -33,6 +33,7 @@ namespace Game
     void loopFunction(double deltaTime);
     std::vector<Level*> getLevels();
     void getGui();
+    std::vector<Sprite*> getSprites();
     
     void close();
 }

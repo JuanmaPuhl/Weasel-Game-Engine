@@ -10,9 +10,10 @@ bool item_clicked = false;
 int item_index_clicked = -1;
 Entity* entityClicked;
 bool show_demo_window = true;
+bool sprites_shown = false;
 ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 std::string str = "";
-
+double dt = 0.0;
 
 void Gui::init(GLFWwindow* window)
 {
@@ -31,6 +32,36 @@ void Gui::init(GLFWwindow* window)
 
 }
 
+
+void showSprites()
+{
+    ImGui::Begin("Sprites",&sprites_shown);
+    std::vector<Sprite*> sprites = Game::getSprites();
+    std::vector<Sprite*>::iterator ptr;
+    for(ptr = sprites.begin(); ptr<sprites.end(); ptr++)
+    {
+        ImGui::PushID(1);
+        ImGuiIO& io = ImGui::GetIO();
+        float my_tex_w = 40.0f;
+        float my_tex_h = 51.0f;
+        int frame_padding = -1 ;                             // -1 == uses default padding (style.FramePadding)
+        ImVec2 size = ImVec2(40.0f, 51.0f);                     // Size of the image we want to make visible
+        ImVec2 uv0 = ImVec2(0.0f,1.0f);                        // UV coordinates for lower-left
+        ImVec2 uv1 = ImVec2(1.0f, 0.0f);
+        ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);         // Black background
+        ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);       // No tint
+        Sprite* spr = *ptr;
+        //unsigned int tex = spr->getSpriteImage(spr->getCurrentSprite(0.0));
+        ImTextureID my_tex_id = io.Fonts->TexID;
+        ImTextureID tex = (ImTextureID)(spr->getSpriteImage(spr->getCurrentSprite(dt)));
+        ImGui::ImageButton(tex, size, uv0, uv1, frame_padding, bg_col, tint_col);
+        ImGui::PopID();
+    }
+
+
+
+    ImGui::End();  
+}
 
 
 void showLog(ImGuiWindowFlags window_flags)
@@ -147,41 +178,20 @@ static void ShowExampleAppMainMenuBar()
             {
                 Game::addLevel();
             }
-            if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
-            ImGui::Separator();
-            if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-            if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-            if (ImGui::MenuItem("Paste", "CTRL+V")) {}
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Ver"))
         {
-            if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
-            if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
-            ImGui::Separator();
-            if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-            if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-            if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+            if (ImGui::MenuItem("Sprites")) {sprites_shown = true;}
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Configuración"))
         {
-            if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
-            if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
-            ImGui::Separator();
-            if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-            if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-            if (ImGui::MenuItem("Paste", "CTRL+V")) {}
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Ayuda"))
         {
             if (ImGui::MenuItem("Acerca de")) {}
-            if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
-            ImGui::Separator();
-            if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-            if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-            if (ImGui::MenuItem("Paste", "CTRL+V")) {}
             ImGui::EndMenu();
         }
         ImGui::EndMainMenuBar();
@@ -324,8 +334,11 @@ void showTreeView(ImGuiWindowFlags window_flags)
        i++; 
     }
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-    ImGui::End();
-    
+    ImGui::End();  
+    if(sprites_shown)
+    {
+        showSprites();
+    }
 
     if(item_clicked)
     {
@@ -334,8 +347,9 @@ void showTreeView(ImGuiWindowFlags window_flags)
 }
 
 
-void Gui::draw()
+void Gui::draw(double deltaTime)
 {
+    dt = deltaTime;
     glfwGetFramebufferSize(ventana, &width, &height);
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();

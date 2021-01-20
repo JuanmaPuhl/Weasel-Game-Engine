@@ -16,6 +16,12 @@ Level* Game::addLevel()
     return level;
 }
 
+std::vector<Sprite*> Game::getSprites()
+{
+    return gamedata->sprites;
+}
+
+
 void Game::onUpdate(double deltaTime)
 {
     gamedata->currentLevel->onUpdate(deltaTime);
@@ -79,7 +85,7 @@ void Game::loopFunction(double deltaTime)
 
     Game::onUpdate(deltaTime);
     Game::render(deltaTime);
-    Gui::draw();
+    Gui::draw(deltaTime);
 }    
 void Game::loop()
 {

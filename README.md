@@ -1,6 +1,10 @@
 # Weasel-Game-Engine
 **Proyecto final de carrera**  
 
+**Requisitos:**
+- Tener instalado cmake o alguna herramienta similar.
+- Tener instalado OpenGL (Preferible última versión disponible).
+
 **Como ejecutar:**  
 Ejecutar el comando Make y luego main (WINDOWS)
 
@@ -9,3 +13,4 @@ Ejecutar el comando Make y luego main (WINDOWS)
 - Glew
 - stbImage
 - Dear ImGui
+- LUA

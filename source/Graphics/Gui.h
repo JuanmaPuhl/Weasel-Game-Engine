@@ -122,6 +122,6 @@ namespace Gui
 {
     
     void init(GLFWwindow* window);
-    void draw();
+    void draw(double deltaTime);
     void writeToLog(std::string  str);
 }
