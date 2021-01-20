@@ -42,14 +42,17 @@ void showSpriteInfo()
     float my_tex_h = 100.0f;
     ImVec2 uv_min = ImVec2(0.0f, 1.0f);
     ImVec2 uv_max = ImVec2(1.0f, 0.0f);    
-    ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   
+    
     ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); 
     std::vector<Sprite*> sprites = Game::getSprites();
     Sprite* spr = sprites.at(sprite_index_selected);
+    float transparency = spr->getTransparency();
+    ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, transparency);   
     ImTextureID tex = (ImTextureID)(spr->getSpriteImage(spr->getCurrentSprite(dt)));
+    //Muestro la preview
     ImGui::Image(tex, ImVec2(my_tex_w, my_tex_h), uv_min, uv_max, tint_col, border_col);
     ImGui::SameLine();
-    ImGui::BeginChild("ChildL", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.5f, 260), false);
+    ImGui::BeginChild("ChildL", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.8f, 100), false);
     static char buf1[64] = ""; 
     char b[64] = "";
     char* arr = (char*)malloc(sizeof(char)*64);
@@ -58,12 +61,23 @@ void showSpriteInfo()
     float  speed = spr->getSpeed();
     ImGui::DragFloat("Velocidad", &speed, 0.005f, 0.0f, FLT_MAX, "%.3f");
     spr->setSpeed(speed);
-    float transparency = spr->getTransparency();
+    
     ImGui::DragFloat("Transparencia", &transparency, 0.005f, 0.0f, 1.0f, "%.3f");
     spr->setTransparency(transparency);
     ImGui::EndChild();
-
-
+    ImGuiWindowFlags child_flags = ImGuiWindowFlags_HorizontalScrollbar;
+    ImGui::BeginChild("Images", ImVec2(ImGui::GetWindowContentRegionWidth(), 130), true, child_flags);
+    for(int i = 0; i < spr->getSize(); i++)
+    {
+        ImTextureID img = (ImTextureID)(spr->getSpriteImage(i));
+        ImGui::Image(img, ImVec2(100.0f,100.0f), uv_min, uv_max, tint_col, border_col);
+        if((i + 1) < spr->getSize())
+        {
+            ImGui::SameLine();
+        }
+    }
+    ImGui::EndChild();
+    
 
     
     ImGui::End();
