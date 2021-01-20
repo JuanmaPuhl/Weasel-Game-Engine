@@ -91,14 +91,19 @@ int metodoPrincipal()
   //Creo el fondo
   const char* bg[1] = {"res/sprites/background.png"};
   Entity* entityBg = level1->addEntity();
-  GraphicAttribute* attrFondo = new SpriteAttribute(new Sprite(bg,1,"fondo"));
+  Sprite* fondo = new Sprite(bg,1,"fondo");
+  Game::addSprite(fondo);
+  GraphicAttribute* attrFondo = new SpriteAttribute(fondo);
+
   entityBg->addAttribute(attrFondo);
   entityBg->scale(glm::vec3(173.625f,86.98f,1.0f));
   entityBg->translate(glm::vec3(0.0f,0.0f,-0.1f));
 
   const char* bgLevel[1] = {"res/sprites/level-bg.png"};
   Entity* entityLevelBg = level1->addEntity();
-  GraphicAttribute* attrFondoLevel = new SpriteAttribute(new Sprite(bgLevel,1,"fondo2"));
+  Sprite* fondo2 = new Sprite(bgLevel,1,"fondo2");
+  Game::addSprite(fondo2);
+  GraphicAttribute* attrFondoLevel = new SpriteAttribute(fondo2);
   entityLevelBg->addAttribute(attrFondoLevel);
   entityLevelBg->scale(glm::vec3(173.625f,26.75f,1.0f));
   entityLevelBg->translate(glm::vec3(0.0f,0.0f,-0.01f));

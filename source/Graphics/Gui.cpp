@@ -11,6 +11,8 @@ int item_index_clicked = -1;
 Entity* entityClicked;
 bool show_demo_window = true;
 bool sprites_shown = false;
+bool sprite_selected = false;
+int sprite_index_selected = -1;
 ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 std::string str = "";
 double dt = 0.0;
@@ -32,15 +34,53 @@ void Gui::init(GLFWwindow* window)
 
 }
 
+void showSpriteInfo()
+{
+    ImGui::Begin("Sprite Info",&sprite_selected);
+    ImVec2 pos = ImGui::GetCursorScreenPos();
+    float my_tex_w = 100.0f;
+    float my_tex_h = 100.0f;
+    ImVec2 uv_min = ImVec2(0.0f, 1.0f);
+    ImVec2 uv_max = ImVec2(1.0f, 0.0f);    
+    ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   
+    ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); 
+    std::vector<Sprite*> sprites = Game::getSprites();
+    Sprite* spr = sprites.at(sprite_index_selected);
+    ImTextureID tex = (ImTextureID)(spr->getSpriteImage(spr->getCurrentSprite(dt)));
+    ImGui::Image(tex, ImVec2(my_tex_w, my_tex_h), uv_min, uv_max, tint_col, border_col);
+    ImGui::SameLine();
+    ImGui::BeginChild("ChildL", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.5f, 260), false);
+    static char buf1[64] = ""; 
+    char b[64] = "";
+    char* arr = (char*)malloc(sizeof(char)*64);
+    arr = strdup(spr->getName().c_str());
+    ImGui::InputText("Nombre ", arr, 64);
+    float  speed = spr->getSpeed();
+    ImGui::DragFloat("Velocidad", &speed, 0.005f, 0.0f, FLT_MAX, "%.3f");
+    spr->setSpeed(speed);
+    float transparency = spr->getTransparency();
+    ImGui::DragFloat("Transparencia", &transparency, 0.005f, 0.0f, 1.0f, "%.3f");
+    spr->setTransparency(transparency);
+    ImGui::EndChild();
+
+
+
+    
+    ImGui::End();
+}
+
 
 void showSprites()
 {
+    const int max_sprites_per_row = 4;
+    ImGui::SetNextWindowSize(ImVec2(180, 500), ImGuiCond_Once);
     ImGui::Begin("Sprites",&sprites_shown);
     std::vector<Sprite*> sprites = Game::getSprites();
     std::vector<Sprite*>::iterator ptr;
+    int i = 0; 
     for(ptr = sprites.begin(); ptr<sprites.end(); ptr++)
     {
-        ImGui::PushID(1);
+        ImGui::PushID(i);
         ImGuiIO& io = ImGui::GetIO();
         float my_tex_w = 40.0f;
         float my_tex_h = 51.0f;
@@ -52,13 +92,26 @@ void showSprites()
         ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);       // No tint
         Sprite* spr = *ptr;
         //unsigned int tex = spr->getSpriteImage(spr->getCurrentSprite(0.0));
-        ImTextureID my_tex_id = io.Fonts->TexID;
-        ImTextureID tex = (ImTextureID)(spr->getSpriteImage(spr->getCurrentSprite(dt)));
+        ImTextureID tex = (ImTextureID)(spr->getSpriteImage(0.0));
         ImGui::ImageButton(tex, size, uv0, uv1, frame_padding, bg_col, tint_col);
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::BeginTooltip();
+            ImGui::Text("%s",spr->getName().c_str());
+            ImGui::EndTooltip();
+        }
+        if(ImGui::IsItemClicked())
+        {
+            sprite_index_selected = i;
+            sprite_selected = true;
+        }
         ImGui::PopID();
+        if((i + 1) % max_sprites_per_row != 0 )
+        {
+            ImGui::SameLine();
+        }
+        i++;
     }
-
-
 
     ImGui::End();  
 }
@@ -335,15 +388,8 @@ void showTreeView(ImGuiWindowFlags window_flags)
     }
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
     ImGui::End();  
-    if(sprites_shown)
-    {
-        showSprites();
-    }
 
-    if(item_clicked)
-    {
-        showEntityPopup();
-    }
+
 }
 
 
@@ -372,6 +418,18 @@ void Gui::draw(double deltaTime)
    
     showTreeView(window_flags);
     showLog(window_flags);
+    if(sprites_shown)
+    {
+        showSprites();
+    }
+    if(item_clicked)
+    {
+        showEntityPopup();
+    }
+    if(sprite_selected)
+    {
+        showSpriteInfo();
+    }
     ImGui::PopStyleColor();
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
