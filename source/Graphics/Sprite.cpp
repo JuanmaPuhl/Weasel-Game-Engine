@@ -3,17 +3,16 @@
 
 Sprite::Sprite(const char** dir,int size, std::string name)
 {
-    this->spriteImage = (unsigned int*)malloc(sizeof(unsigned int)*20);
     this->size = size;
     this->name = name;
     //this->spriteImage = loadImage(dir,mode);
     for(int i = 0; i < size; i++)
     {
-        this->spriteImage[i] = imageFileManager::loadImage(dir[i]);
+        this->spriteImage.push_back( imageFileManager::loadImage(dir[i])) ;
     }
 }
     
-Sprite::Sprite(unsigned int* arr, int size, std::string name)
+Sprite::Sprite(std::vector<unsigned int> arr, int size, std::string name)
 {
     this->spriteImage = arr;
     this->size = size;
@@ -23,7 +22,7 @@ Sprite::Sprite(unsigned int* arr, int size, std::string name)
 
 Sprite::~Sprite()
 {
-    free(this->spriteImage);
+    this->spriteImage.clear();
 }
 
 unsigned int Sprite::getSpriteImage(int index)
@@ -50,7 +49,7 @@ void Sprite::setSpeed(double speed)
 
 Sprite* Sprite::copy(Sprite* sprite)
 {
-    unsigned int* arr = sprite->getImages();
+    std::vector<unsigned int> arr = sprite->getImages();
     int size = sprite->getSize();
     Sprite* spr = new Sprite(arr,size,sprite->getName());
     spr->setSpeed(sprite->getSpeed());
@@ -63,7 +62,7 @@ int Sprite::getSize()
     return this->size;
 }
 
-unsigned int* Sprite::getImages()
+std::vector<unsigned int> Sprite::getImages()
 {
     return this->spriteImage;
 }
@@ -86,4 +85,14 @@ float Sprite::getTransparency()
 std::string Sprite::getName()
 {
     return this->name;
+}
+
+bool Sprite::removeImage(int i)
+{
+    if(i > this->spriteImage.size() || i < 0)
+        return false;
+    printf("I: %d\n",i);
+    this->spriteImage.erase(this->spriteImage.begin() + (i));
+    this->size--;
+    return true;
 }

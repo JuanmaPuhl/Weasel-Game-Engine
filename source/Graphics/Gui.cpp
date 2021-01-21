@@ -16,6 +16,18 @@ int sprite_index_selected = -1;
 ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 std::string str = "";
 double dt = 0.0;
+static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
+ImGuiTreeNodeFlags node_flags = base_flags;
+void show_image_context_menu(ImGuiTreeNodeFlags node_flags, Sprite* sprite, int i)
+{
+    ImGui::TreeNodeEx("Eliminar Imagen",node_flags);
+    if(ImGui::IsItemClicked())
+    {
+        sprite->removeImage(i);
+        ImGui::CloseCurrentPopup();
+    }
+}
+
 
 void Gui::init(GLFWwindow* window)
 {
@@ -30,8 +42,6 @@ void Gui::init(GLFWwindow* window)
     unsigned char* pixels;
     int width,height, bytes_per_pixels;
     io.Fonts->GetTexDataAsRGBA32(&pixels,&width,&height,&bytes_per_pixels);
-
-
 }
 
 void showSpriteInfo()
@@ -65,12 +75,19 @@ void showSpriteInfo()
     ImGui::DragFloat("Transparencia", &transparency, 0.005f, 0.0f, 1.0f, "%.3f");
     spr->setTransparency(transparency);
     ImGui::EndChild();
+    /*Pongo las imagenes que componen el sprite*/
     ImGuiWindowFlags child_flags = ImGuiWindowFlags_HorizontalScrollbar;
     ImGui::BeginChild("Images", ImVec2(ImGui::GetWindowContentRegionWidth(), 130), true, child_flags);
     for(int i = 0; i < spr->getSize(); i++)
     {
         ImTextureID img = (ImTextureID)(spr->getSpriteImage(i));
         ImGui::Image(img, ImVec2(100.0f,100.0f), uv_min, uv_max, tint_col, border_col);
+        std::string str = "image "+i;
+        if (ImGui::BeginPopupContextItem(str.c_str()))
+        {
+            show_image_context_menu(node_flags,spr,i);
+            ImGui::EndPopup();
+        }
         if((i + 1) < spr->getSize())
         {
             ImGui::SameLine();
@@ -321,8 +338,11 @@ void showLevelContextMenu(ImGuiTreeNodeFlags node_flags, Level* level, int i)
         ImGui::CloseCurrentPopup();
     }
 }
-static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
-ImGuiTreeNodeFlags node_flags = base_flags;
+
+
+
+
+
 
 void showTreeView(ImGuiWindowFlags window_flags)
 {
