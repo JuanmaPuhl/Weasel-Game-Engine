@@ -171,7 +171,7 @@ static void ShowExampleMenuFile()
     ImGui::MenuItem("(demo menu)", NULL, false, false);
     if (ImGui::MenuItem("New")) 
     {
-        printf("%s\n",Utils::openFileDialog());
+        printf("Direccion: %s\n",Utils::openFileDialog());
     }
     if (ImGui::MenuItem("Open", "Ctrl+O")) {}
     if (ImGui::BeginMenu("Open Recent"))

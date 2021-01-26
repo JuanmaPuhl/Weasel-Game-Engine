@@ -1,12 +1,14 @@
 #pragma once
 #include <tchar.h>
 #include <Windows.h>
+#include <stdlib.h>
+#include <string>
 namespace Utils
 {
     TCHAR* openFileDialog()
     {
         OPENFILENAME ofn;       // common dialog box structure
-        TCHAR szFile[260] = { 0 };       // if using TCHAR macros
+        TCHAR szFile[260] = {0};       // if using TCHAR macros
 
         // Initialize OPENFILENAME
         ZeroMemory(&ofn, sizeof(ofn));
@@ -23,8 +25,9 @@ namespace Utils
 
         if (GetOpenFileName(&ofn) == TRUE)
         {
-            // use ofn.lpstrFile
+            printf("%s\n",szFile);
             return szFile;
         }
+        return NULL;
     }
 }
