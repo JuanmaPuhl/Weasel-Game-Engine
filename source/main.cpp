@@ -18,6 +18,7 @@
 #include "Entities/ColorAttribute.h"
 #include "Graphics/Gui.h"
 #include "Scripts/Lua_Entity.h"
+
 #define DEBUG
 extern "C" {
   #include "lua/include/lua.h"
@@ -30,6 +31,7 @@ const int MAX_ENTITIES = 10;
 
 int metodoPrincipal()
 {
+
   std::string cmd = "return 7 + 11";
   lua_State *L = luaL_newstate();
   luaL_loadfilex(L,"script.lua",0);

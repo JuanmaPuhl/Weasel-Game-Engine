@@ -1,4 +1,4 @@
-LIBRERIAS = -llua54 -lglew32 -lglfw3 -lopengl32 
+LIBRERIAS = -llua54 -lglew32 -lglfw3 -lopengl32 -lcomdlg32 
 CODIGO = source/
 all: main.exe quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o  Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o
 .PHONY: all
