@@ -9,7 +9,7 @@ class Sprite
 {
     public:
     Sprite(const char** dir, int size, std::string name);
-    Sprite(std::vector<unsigned int> arr, int size, std::string name);
+    Sprite(std::vector<Image*> arr, int size, std::string name);
     ~Sprite();
     unsigned int getSpriteImage(int index);
     /**
@@ -22,7 +22,8 @@ class Sprite
     int getCurrentSpriteIndex();
     void setSpeed(double speed);
     int getSize();
-    std::vector<unsigned int> getImages();
+    Image* getProperties(int i);
+    std::vector<Image*> getImages();
     float getTransparency();
     void setTransparency(float transparency);
     bool removeImage(int i);
@@ -34,7 +35,7 @@ class Sprite
     double speed = 0.0;
     int size;
     double index_aux = 0.0;
-    std::vector<unsigned int> spriteImage;
+    std::vector<Image*> spriteImage;
     float transparency = 1.0f;
 };
 #endif

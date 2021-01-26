@@ -12,7 +12,7 @@ Sprite::Sprite(const char** dir,int size, std::string name)
     }
 }
     
-Sprite::Sprite(std::vector<unsigned int> arr, int size, std::string name)
+Sprite::Sprite(std::vector<Image*> arr, int size, std::string name)
 {
     this->spriteImage = arr;
     this->size = size;
@@ -27,7 +27,7 @@ Sprite::~Sprite()
 
 unsigned int Sprite::getSpriteImage(int index)
 {
-    return this->spriteImage[index];
+    return this->spriteImage[index]->image;
 }
 
 int Sprite::getCurrentSprite(float deltaTime)
@@ -54,7 +54,7 @@ void Sprite::setSpeed(double speed)
 
 Sprite* Sprite::copy(Sprite* sprite)
 {
-    std::vector<unsigned int> arr = sprite->getImages();
+    std::vector<Image*> arr = sprite->getImages();
     int size = sprite->getSize();
     Sprite* spr = new Sprite(arr,size,sprite->getName());
     spr->setSpeed(sprite->getSpeed());
@@ -67,7 +67,7 @@ int Sprite::getSize()
     return this->size;
 }
 
-std::vector<unsigned int> Sprite::getImages()
+std::vector<Image*> Sprite::getImages()
 {
     return this->spriteImage;
 }
@@ -100,4 +100,9 @@ bool Sprite::removeImage(int i)
     this->spriteImage.erase(this->spriteImage.begin() + (i));
     this->size--;
     return true;
+}
+
+Image* Sprite::getProperties(int i)
+{
+    return this->spriteImage.at(i);
 }

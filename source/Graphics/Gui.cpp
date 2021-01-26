@@ -104,7 +104,7 @@ void showSpriteInfo()
 void showSprites()
 {
     const int max_sprites_per_row = 4;
-    ImGui::SetNextWindowSize(ImVec2(180, 500), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(280, 500), ImGuiCond_Once);
     ImGui::Begin("Sprites",&sprites_shown);
     std::vector<Sprite*> sprites = Game::getSprites();
     std::vector<Sprite*>::iterator ptr;
@@ -113,16 +113,19 @@ void showSprites()
     {
         ImGui::PushID(i);
         ImGuiIO& io = ImGui::GetIO();
-        float my_tex_w = 40.0f;
-        float my_tex_h = 51.0f;
+        Sprite* spr = *ptr;
+        int current_sprite = spr->getCurrentSpriteIndex();
+        Image* image_properties = spr->getProperties(current_sprite);
+        float my_tex_w = (float)image_properties->width;
+        float my_tex_h = (float)image_properties->height;
         int frame_padding = -1 ;                             // -1 == uses default padding (style.FramePadding)
-        ImVec2 size = ImVec2(40.0f, 51.0f);                     // Size of the image we want to make visible
+        ImVec2 size = ImVec2(50.0f, 50.0f);                     // Size of the image we want to make visible
         ImVec2 uv0 = ImVec2(0.0f,1.0f);                        // UV coordinates for lower-left
         ImVec2 uv1 = ImVec2(1.0f, 0.0f);
         ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);         // Black background
         ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);       // No tint
-        Sprite* spr = *ptr;
-        ImTextureID tex = (ImTextureID)(spr->getSpriteImage(spr->getCurrentSpriteIndex()));
+        
+        ImTextureID tex = (ImTextureID)(spr->getSpriteImage(current_sprite));
         ImGui::ImageButton(tex, size, uv0, uv1, frame_padding, bg_col, tint_col);
         if (ImGui::IsItemHovered())
         {
