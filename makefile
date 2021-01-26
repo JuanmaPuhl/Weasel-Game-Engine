@@ -50,7 +50,7 @@ imgui_impl_glfw.o:
 	g++ -c ./libs/imgui/imgui_impl_glfw.cpp -I ./libs/
 imgui_demo.o:
 	g++ -c ./libs/imgui/imgui_demo.cpp -I ./libs/
-Gui.o: $(CODIGO)Graphics/Gui.h $(CODIGO)Graphics/Gui.cpp
+Gui.o: $(CODIGO)Graphics/Gui.h $(CODIGO)Graphics/Gui.cpp $(CODIGO)Utils/WindowsDialogs.h
 	g++ -c $(CODIGO)Graphics/Gui.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 clean:
 	del quad.o
