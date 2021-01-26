@@ -42,6 +42,11 @@ int Sprite::getCurrentSprite(float deltaTime)
     return aux;
 }
 
+int Sprite::getCurrentSpriteIndex()
+{
+    return (int)this->index_aux;
+}
+
 void Sprite::setSpeed(double speed)
 {
     this->speed = speed;

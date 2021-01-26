@@ -12,7 +12,14 @@ class Sprite
     Sprite(std::vector<unsigned int> arr, int size, std::string name);
     ~Sprite();
     unsigned int getSpriteImage(int index);
+    /**
+     * @brief Obtiene el indice del sprite actual, actualizando el contador interno
+     * 
+     * @param deltaTime 
+     * @return int 
+     */
     int getCurrentSprite(float deltaTime);
+    int getCurrentSpriteIndex();
     void setSpeed(double speed);
     int getSize();
     std::vector<unsigned int> getImages();

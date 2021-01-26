@@ -94,7 +94,7 @@ void showSpriteInfo()
         }
     }
     ImGui::EndChild();
-    
+    ImGui::Button("Agregar imagen",ImVec2(100.0f,32.0f));
 
     
     ImGui::End();
@@ -122,8 +122,7 @@ void showSprites()
         ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);         // Black background
         ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);       // No tint
         Sprite* spr = *ptr;
-        //unsigned int tex = spr->getSpriteImage(spr->getCurrentSprite(0.0));
-        ImTextureID tex = (ImTextureID)(spr->getSpriteImage(0.0));
+        ImTextureID tex = (ImTextureID)(spr->getSpriteImage(spr->getCurrentSpriteIndex()));
         ImGui::ImageButton(tex, size, uv0, uv1, frame_padding, bg_col, tint_col);
         if (ImGui::IsItemHovered())
         {

@@ -12,6 +12,7 @@ SpriteAttribute::~SpriteAttribute()
 }
 void SpriteAttribute::passToShader(Shader* shader, double deltaTime)
 {
+    
     unsigned int img = this->sprite->getSpriteImage(this->sprite->getCurrentSprite(deltaTime));
     glBindTexture(GL_TEXTURE_2D, img);
     float transparency = this->sprite->getTransparency();
