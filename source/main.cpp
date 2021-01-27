@@ -53,7 +53,7 @@ int metodoPrincipal()
   ((CameraController*)(scrCamera))->camera = cameraEntity;
   const char* img[1] = {"res/sprites/undefined.png"};
   Sprite* sprUndefined = new Sprite(img,1,"undefined");
-  Game::addSprite(sprUndefined);
+  Game::addSystemSprite(sprUndefined);
   //cameraEntity->addComponent(new ComponentScript(scrCamera));
   Entity* personaje = level1->addEntity();
   const char* arr[6] = {"res/sprites/e1.png","res/sprites/e2.png","res/sprites/e3.png","res/sprites/e4.png","res/sprites/e5.png","res/sprites/e6.png"};

@@ -16,6 +16,7 @@ struct GameData
         Level* currentLevel = NULL;
         Shader* shader = NULL;
         std::vector<Sprite*> sprites;
+        std::vector<Sprite*> system_sprites;
     };
     extern GameData* gamedata;
 namespace Game
@@ -34,7 +35,9 @@ namespace Game
     std::vector<Level*> getLevels();
     void getGui();
     std::vector<Sprite*> getSprites();
-    
+    std::vector<Sprite*> getSystemSprites();
+    Sprite* findSystemSpriteByName(std::string name);
+    void addSystemSprite(Sprite* sprite);
     void close();
 }
 #endif

@@ -114,6 +114,20 @@ Sprite* Game::findSpriteByName(std::string name)
     return NULL;
 }
 
+Sprite* Game::findSystemSpriteByName(std::string name)
+{
+    std::vector<Sprite*>::iterator ptr;
+    for(ptr = gamedata->system_sprites.begin(); ptr < gamedata->system_sprites.end(); ptr++)
+    {
+        Gui::writeToLog("[System] BUSCANDING: " + name + " Encontrado: "+ (*(ptr))->getName().c_str()+ "\n");
+        if(strcmp((*(ptr))->getName().c_str(),name.c_str())==0)
+        {
+            return (*(ptr));
+        }
+    }
+    return NULL;
+}
+
 void Game::addSprite(Sprite* sprite)
 {
     gamedata->sprites.push_back(sprite);
@@ -122,4 +136,14 @@ void Game::addSprite(Sprite* sprite)
 std::vector<Level*> Game::getLevels()
 {
     return gamedata->levels;
+}
+
+std::vector<Sprite*> Game::getSystemSprites()
+{
+    return gamedata->system_sprites;
+}
+
+void Game::addSystemSprite(Sprite* sprite)
+{
+    gamedata->system_sprites.push_back(sprite);
 }

@@ -21,6 +21,7 @@ std::string str = "";
 double dt = 0.0;
 static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
 ImGuiTreeNodeFlags node_flags = base_flags;
+Sprite* system_undefined = NULL;
 void show_image_context_menu(ImGuiTreeNodeFlags node_flags, Sprite* sprite, int i)
 {
     ImGui::TreeNodeEx("Eliminar Imagen",node_flags);
@@ -45,6 +46,7 @@ void Gui::init(GLFWwindow* window)
     unsigned char* pixels;
     int width,height, bytes_per_pixels;
     io.Fonts->GetTexDataAsRGBA32(&pixels,&width,&height,&bytes_per_pixels);
+    
 }
 
 void showSpriteInfo()
@@ -69,8 +71,9 @@ void showSpriteInfo()
     }
     else
     {
-        Sprite* sprUndefined = Game::findSpriteByName("undefined");
-        ImTextureID texUndefined = (ImTextureID)(sprUndefined->getSpriteImage(0));
+        if(system_undefined == NULL)
+            system_undefined = Game::findSystemSpriteByName("undefined");
+        ImTextureID texUndefined = (ImTextureID)(system_undefined->getSpriteImage(0));
         ImGui::Image(texUndefined, ImVec2(my_tex_w,my_tex_h), uv_min, uv_max, tint_col, border_col);
     }
     ImGui::SameLine();
@@ -153,8 +156,9 @@ void showSprites()
         }
         else
         {
-            Sprite* sprUndefined = Game::findSpriteByName("undefined");
-            ImTextureID texUndefined = (ImTextureID)(sprUndefined->getSpriteImage(0));
+            if(system_undefined == NULL)
+                system_undefined = Game::findSystemSpriteByName("undefined");
+            ImTextureID texUndefined = (ImTextureID)(system_undefined->getSpriteImage(0));
             ImGui::ImageButton(texUndefined, size, uv0, uv1, frame_padding, bg_col, tint_col);
         }
         if (ImGui::IsItemHovered())
