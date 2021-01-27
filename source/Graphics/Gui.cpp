@@ -69,11 +69,9 @@ void showSpriteInfo()
     }
     else
     {
-        const char* img[1] = {"res/sprites/undefined.png"};
-        Sprite* sprUndefined = new Sprite(img,1,"undefined");
+        Sprite* sprUndefined = Game::findSpriteByName("undefined");
         ImTextureID texUndefined = (ImTextureID)(sprUndefined->getSpriteImage(0));
         ImGui::Image(texUndefined, ImVec2(my_tex_w,my_tex_h), uv_min, uv_max, tint_col, border_col);
-        free(sprUndefined);
     }
     ImGui::SameLine();
     ImGui::BeginChild("ChildL", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.8f, 100), false);
@@ -155,11 +153,9 @@ void showSprites()
         }
         else
         {
-            const char* img[1] = {"res/sprites/undefined.png"};
-            Sprite* sprUndefined = new Sprite(img,1,"undefined");
+            Sprite* sprUndefined = Game::findSpriteByName("undefined");
             ImTextureID texUndefined = (ImTextureID)(sprUndefined->getSpriteImage(0));
             ImGui::ImageButton(texUndefined, size, uv0, uv1, frame_padding, bg_col, tint_col);
-            free(sprUndefined);
         }
         if (ImGui::IsItemHovered())
         {
@@ -316,12 +312,13 @@ static void ShowExampleAppMainMenuBar()
             if (ImGui::MenuItem("Nuevo sprite")) 
             {
                 //Tengo que agregar un sprite vacio y despues mostrar la ventana de edit
+                printf("A ver.\n");
                 Sprite* spr = new Sprite();
                 Game::addSprite(spr);
                 sprite_selected = true;
                 std::vector<Sprite*> sprites = Game::getSprites();
                 sprite_index_selected = sprites.size()-1;
-                free(spr);
+                //free(spr);
             }
             ImGui::EndMenu();
         }
