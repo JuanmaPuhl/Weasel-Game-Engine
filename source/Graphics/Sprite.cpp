@@ -106,3 +106,10 @@ Image* Sprite::getProperties(int i)
 {
     return this->spriteImage.at(i);
 }
+
+bool Sprite::addImage(const char* dir)
+{
+    this->spriteImage.push_back( imageFileManager::loadImage(dir)) ;
+    this->size++;
+    return true;
+}

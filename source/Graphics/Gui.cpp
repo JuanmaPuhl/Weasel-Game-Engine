@@ -97,7 +97,15 @@ void showSpriteInfo()
         }
     }
     ImGui::EndChild();
-    ImGui::Button("Agregar imagen",ImVec2(100.0f,32.0f));
+    if(ImGui::Button("Agregar imagen",ImVec2(100.0f,32.0f)))
+    {
+        TCHAR imgDir[260] = {0};
+        Utils::saveFileDialog(imgDir,260);
+        if(imgDir != NULL)
+        {
+            spr->addImage((const char*)imgDir);
+        }
+    }
 
     
     ImGui::End();

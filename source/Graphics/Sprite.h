@@ -18,6 +18,7 @@ class Sprite
      * @param deltaTime 
      * @return int 
      */
+    bool addImage(const char* dir);
     int getCurrentSprite(float deltaTime);
     int getCurrentSpriteIndex();
     void setSpeed(double speed);
