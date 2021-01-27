@@ -171,9 +171,15 @@ static void ShowExampleMenuFile()
     ImGui::MenuItem("(demo menu)", NULL, false, false);
     if (ImGui::MenuItem("New")) 
     {
-        printf("Direccion: %s\n",Utils::openFileDialog());
+        
     }
-    if (ImGui::MenuItem("Open", "Ctrl+O")) {}
+    if (ImGui::MenuItem("Open", "Ctrl+O")) 
+    {
+        TCHAR toReturn [260] = {0};
+        Utils::openFileDialog(toReturn,260);
+        if(toReturn != NULL)
+            printf("Direccion: %s\n",toReturn);
+    }
     if (ImGui::BeginMenu("Open Recent"))
     {
         ImGui::MenuItem("fish_hat.c");
@@ -192,7 +198,13 @@ static void ShowExampleMenuFile()
         }
         ImGui::EndMenu();
     }
-    if (ImGui::MenuItem("Save", "Ctrl+S")) {}
+    if (ImGui::MenuItem("Save", "Ctrl+S")) 
+    {
+        TCHAR toReturn [260] = {0};
+        Utils::saveFileDialog(toReturn,260);
+        if(toReturn != NULL)
+            printf("Direccion: %s\n",toReturn);
+    }
     if (ImGui::MenuItem("Save As..")) {}
 
     ImGui::Separator();
