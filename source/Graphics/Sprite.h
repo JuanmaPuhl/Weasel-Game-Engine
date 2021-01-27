@@ -10,6 +10,7 @@ class Sprite
     public:
     Sprite(const char** dir, int size, std::string name);
     Sprite(std::vector<Image*> arr, int size, std::string name);
+    Sprite();
     ~Sprite();
     unsigned int getSpriteImage(int index);
     /**

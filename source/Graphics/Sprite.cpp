@@ -19,6 +19,11 @@ Sprite::Sprite(std::vector<Image*> arr, int size, std::string name)
     this->name = name;
 }
 
+Sprite::Sprite()
+{
+    this->size = 0;
+    this->name = "";
+}
 
 Sprite::~Sprite()
 {
@@ -27,7 +32,10 @@ Sprite::~Sprite()
 
 unsigned int Sprite::getSpriteImage(int index)
 {
-    return this->spriteImage[index]->image;
+    if(index > -1 && index < spriteImage.size())
+        return this->spriteImage[index]->image;
+    else 
+        return -1;
 }
 
 int Sprite::getCurrentSprite(float deltaTime)
@@ -94,7 +102,7 @@ std::string Sprite::getName()
 
 bool Sprite::removeImage(int i)
 {
-    if(i > this->spriteImage.size() || i < 0)
+    if(i > this->spriteImage.size() || i < 0 || this->spriteImage.size() == 0)
         return false;
     printf("I: %d\n",i);
     this->spriteImage.erase(this->spriteImage.begin() + (i));

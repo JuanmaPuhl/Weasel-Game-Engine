@@ -62,8 +62,19 @@ void showSpriteInfo()
     float transparency = spr->getTransparency();
     ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, transparency);   
     ImTextureID tex = (ImTextureID)(spr->getSpriteImage(spr->getCurrentSprite(dt)));
+    if(tex != (ImTextureID)-1)
+    {
     //Muestro la preview
-    ImGui::Image(tex, ImVec2(my_tex_w, my_tex_h), uv_min, uv_max, tint_col, border_col);
+        ImGui::Image(tex, ImVec2(my_tex_w, my_tex_h), uv_min, uv_max, tint_col, border_col);
+    }
+    else
+    {
+        const char* img[1] = {"res/sprites/undefined.png"};
+        Sprite* sprUndefined = new Sprite(img,1,"undefined");
+        ImTextureID texUndefined = (ImTextureID)(sprUndefined->getSpriteImage(0));
+        ImGui::Image(texUndefined, ImVec2(my_tex_w,my_tex_h), uv_min, uv_max, tint_col, border_col);
+        free(sprUndefined);
+    }
     ImGui::SameLine();
     ImGui::BeginChild("ChildL", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.8f, 100), false);
     static char buf1[64] = ""; 
@@ -125,10 +136,10 @@ void showSprites()
         ImGui::PushID(i);
         ImGuiIO& io = ImGui::GetIO();
         Sprite* spr = *ptr;
-        int current_sprite = spr->getCurrentSpriteIndex();
-        Image* image_properties = spr->getProperties(current_sprite);
-        float my_tex_w = (float)image_properties->width;
-        float my_tex_h = (float)image_properties->height;
+        //int current_sprite = spr->getCurrentSpriteIndex();
+        //Image* image_properties = spr->getProperties(0);
+        //float my_tex_w = (float)image_properties->width;
+        //float my_tex_h = (float)image_properties->height;
         int frame_padding = -1 ;                             // -1 == uses default padding (style.FramePadding)
         ImVec2 size = ImVec2(50.0f, 50.0f);                     // Size of the image we want to make visible
         ImVec2 uv0 = ImVec2(0.0f,1.0f);                        // UV coordinates for lower-left
@@ -136,8 +147,20 @@ void showSprites()
         ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);         // Black background
         ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);       // No tint
         
-        ImTextureID tex = (ImTextureID)(spr->getSpriteImage(current_sprite));
-        ImGui::ImageButton(tex, size, uv0, uv1, frame_padding, bg_col, tint_col);
+        ImTextureID tex = (ImTextureID)(spr->getSpriteImage(0));
+        if(tex != (ImTextureID)-1)
+        {
+        //Muestro la preview
+            ImGui::ImageButton(tex, size, uv0, uv1, frame_padding, bg_col, tint_col);
+        }
+        else
+        {
+            const char* img[1] = {"res/sprites/undefined.png"};
+            Sprite* sprUndefined = new Sprite(img,1,"undefined");
+            ImTextureID texUndefined = (ImTextureID)(sprUndefined->getSpriteImage(0));
+            ImGui::ImageButton(texUndefined, size, uv0, uv1, frame_padding, bg_col, tint_col);
+            free(sprUndefined);
+        }
         if (ImGui::IsItemHovered())
         {
             ImGui::BeginTooltip();
@@ -289,6 +312,16 @@ static void ShowExampleAppMainMenuBar()
             if (ImGui::MenuItem("Nuevo nivel")) 
             {
                 Game::addLevel();
+            }
+            if (ImGui::MenuItem("Nuevo sprite")) 
+            {
+                //Tengo que agregar un sprite vacio y despues mostrar la ventana de edit
+                Sprite* spr = new Sprite();
+                Game::addSprite(spr);
+                sprite_selected = true;
+                std::vector<Sprite*> sprites = Game::getSprites();
+                sprite_index_selected = sprites.size()-1;
+                free(spr);
             }
             ImGui::EndMenu();
         }
