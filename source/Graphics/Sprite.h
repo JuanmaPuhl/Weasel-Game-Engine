@@ -32,6 +32,7 @@ class Sprite
     Sprite* copy(Sprite* sprite);
     double getSpeed();
     std::string getName();
+    void setName(std::string name);
     private:
     std::string name;
     double speed = 0.0;

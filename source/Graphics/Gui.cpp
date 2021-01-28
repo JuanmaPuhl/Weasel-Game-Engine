@@ -84,6 +84,7 @@ void showSpriteInfo()
     arr = strdup(spr->getName().c_str());
     ImGui::InputText("Nombre ", arr, 64);
     float  speed = spr->getSpeed();
+    spr->setName(arr);
     ImGui::DragFloat("Velocidad", &speed, 0.005f, 0.0f, FLT_MAX, "%.3f");
     spr->setSpeed(speed);
     

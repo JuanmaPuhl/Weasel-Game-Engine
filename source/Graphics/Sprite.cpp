@@ -121,3 +121,8 @@ bool Sprite::addImage(const char* dir)
     this->size++;
     return true;
 }
+
+void Sprite::setName(std::string name)
+{
+    this->name = name;
+}
