@@ -110,11 +110,15 @@ void Entity::addComponent(Component* component)
 
 Component* Entity::getComponent(int index)
 {
+    if(index >= this->components.capacity())
+        return NULL;
     return this->components.at(index);
 }
 
 GraphicAttribute* Entity::getAttribute(int index)
 {
+    if(index >= this->attributes.capacity())
+        return NULL;
     return this->attributes.at(index);
 }
 void Entity::addAttribute(GraphicAttribute* attribute)

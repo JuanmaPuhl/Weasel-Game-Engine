@@ -448,11 +448,13 @@ void showEntityPopup()
         ImGui::Button("Seleccionar Sprite");
         std::string selected_sprite = "undefined";
         GraphicAttribute* attr = entityClicked->getAttribute(0);
-        SpriteAttribute* sprAttr;
+        
+        SpriteAttribute* sprAttr = NULL;
         if(attr != NULL){
             sprAttr = (SpriteAttribute*)(entityClicked->getAttribute(0));
             selected_sprite = sprAttr->getSprite()->getName();
         }
+        
         if(ImGui::IsItemClicked())
         {
             //Abrir una ventana para seleccionar un sprite
@@ -471,7 +473,15 @@ void showEntityPopup()
                 ImGui::TreeNodeEx((*ptr)->getName().c_str(),node_flags); 
                 if(ImGui::IsItemClicked())
                 {
-                    sprAttr->setSprite((*ptr));
+                    if(sprAttr == NULL)
+                    {
+                        //Tengo que agregarle un atributo de sprite
+                        entityClicked->addAttribute(new SpriteAttribute((*ptr)));
+                    }
+                    else
+                    {
+                        sprAttr->setSprite((*ptr));
+                    }
                     ImGui::CloseCurrentPopup();
                 }
                 i++;
@@ -484,8 +494,17 @@ void showEntityPopup()
             
         ImGui::Text(selected_sprite.c_str());
         ImGui::SameLine();
-        int index = sprAttr->getSprite()->getCurrentSpriteIndex();
-        ImGui::Image((ImTextureID)(sprAttr->getSprite()->getSpriteImage(index)),ImVec2(50, 50), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
+        if(attr!=NULL)
+        {
+           
+            int index = sprAttr->getSprite()->getCurrentSpriteIndex();
+            ImGui::Image((ImTextureID)(sprAttr->getSprite()->getSpriteImage(index)),ImVec2(50, 50), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
+        }
+        else
+        {
+            /* ImTextureID texUndefined = (ImTextureID)(system_undefined->getSpriteImage(0));
+            ImGui::Image(texUndefined, ImVec2(50, 50), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f)); */
+        }
         ImGui::EndChild();
     }
 
