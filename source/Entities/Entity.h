@@ -12,6 +12,7 @@
 #include <vector>
 #include "GraphicAttribute.h"
 #include "SpriteAttribute.h"
+#include "ColorAttribute.h"
 
 class Entity
 {

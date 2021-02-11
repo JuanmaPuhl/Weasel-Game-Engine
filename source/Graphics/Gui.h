@@ -9,6 +9,7 @@
 #include "imgui/imstb_truetype.h"
 #include "imgui/imgui_impl_opengl3.h"
 #include "imgui/imgui_impl_glfw.h"
+#include "../Entities/ColorAttribute.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>

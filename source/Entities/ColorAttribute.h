@@ -11,6 +11,8 @@ class ColorAttribute : public GraphicAttribute
     void passToShader(Shader* shader, double deltaTime);
     GraphicAttribute* copy();
     void unbind(Shader* shader);
+    glm::vec3 getColor();
+    void setColor(glm::vec3 color);
     private:
     glm::vec3 color = glm::vec3(0.0f);
 };

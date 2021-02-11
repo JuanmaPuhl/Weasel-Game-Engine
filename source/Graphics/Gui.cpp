@@ -441,7 +441,7 @@ void showEntityPopup()
         entityClicked->setScale(glm::vec3(vecScaling[0],vecScaling[1],vecScaling[2]));
     }
     //Ahora tengo que mostrar la sección de Sprites
-    bool open = ImGui::CollapsingHeader("Sprite", ImGuiTreeNodeFlags_DefaultOpen);
+    bool open = ImGui::CollapsingHeader("Sprite", ImGuiTreeNodeFlags_None);
     if(open)
     {
         ImGui::BeginChild("SpriteEntity");
@@ -451,7 +451,7 @@ void showEntityPopup()
         
         SpriteAttribute* sprAttr = NULL;
         if(attr != NULL){
-            sprAttr = (SpriteAttribute*)(entityClicked->getAttribute(0));
+            sprAttr = (SpriteAttribute*)attr;
             selected_sprite = sprAttr->getSprite()->getName();
         }
         
@@ -502,6 +502,44 @@ void showEntityPopup()
         }
         else
         {
+            /* ImTextureID texUndefined = (ImTextureID)(system_undefined->getSpriteImage(0));
+            ImGui::Image(texUndefined, ImVec2(50, 50), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f)); */
+        }
+        ImGui::EndChild();
+    }
+
+    bool openColor = ImGui::CollapsingHeader("Color", ImGuiTreeNodeFlags_None);
+    if(openColor)
+    {
+        ImGui::BeginChild("ColorEntity");
+        std::string selected_sprite = "undefined";
+        GraphicAttribute* attr = entityClicked->getAttribute(1);
+        ImVec4 color;
+        ColorAttribute* colorAttr = NULL;
+        if(attr != NULL){
+            colorAttr = (ColorAttribute*)attr;
+            color = ImVec4(colorAttr->getColor().x,colorAttr->getColor().y,colorAttr->getColor().z,1.0f);
+
+        }
+        
+        if(ImGui::IsItemClicked())
+        {
+            //Abrir una ventana para seleccionar un sprite
+            spriteSelection = true;
+            Gui::writeToLog("Voy a abrir la seleccion de sprite.\n");
+            ImGui::OpenPopup("selecSprite");
+
+        }
+       
+        ImGui::ColorEdit4("MyColor##3", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel );
+        ImGui::SameLine();
+        if(attr!=NULL)
+        {   
+            colorAttr->setColor(glm::vec3(color.x,color.y,color.z));
+        }
+        else
+        {
+            entityClicked->addAttribute(new ColorAttribute(glm::vec3(color.x,color.y,color.z)));
             /* ImTextureID texUndefined = (ImTextureID)(system_undefined->getSpriteImage(0));
             ImGui::Image(texUndefined, ImVec2(50, 50), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f)); */
         }

@@ -10,6 +10,8 @@ Entity::Entity()
     this->modelMatrix = glm::mat4(1.0f);
     //Tengo que calcular la modelMatrix nueva
     this->updateModelMatrix();
+
+
 }
 
 Entity::~Entity()

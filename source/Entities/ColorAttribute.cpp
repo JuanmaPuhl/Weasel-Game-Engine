@@ -26,3 +26,12 @@ void ColorAttribute::unbind(Shader* shader)
     shader->setUniform("color",glm::value_ptr(glm::vec3(0.0f)));
 }
 
+glm::vec3 ColorAttribute::getColor()
+{
+    return this->color;
+}
+
+void ColorAttribute::setColor(glm::vec3 color)
+{
+    this-> color = color;
+}
