@@ -16,12 +16,43 @@ bool show_demo_window = true;
 bool sprites_shown = false;
 bool sprite_selected = false;
 int sprite_index_selected = -1;
+bool spriteSelection = false;
 ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 std::string str = "";
 double dt = 0.0;
 static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
 ImGuiTreeNodeFlags node_flags = base_flags;
 Sprite* system_undefined = NULL;
+
+//Dimensiones
+const int DISPLAY_GAME_WIDTH = 0;
+const int DISPLAY_GAME_HEIGHT = 0;
+int ENTITY_TREE_WIDTH = width/4;
+int ENTITY_TREE_HEIGHT = height;
+const int LOG_WIDTH = 0;
+const int LOG_HEIGHT = 0;
+float GAME_CONTROLS_WIDTH = width*3/4;
+const int GAME_CONTROLS_HEIGHT = 25;
+const float MENU_BAR_WIDTH = 0;
+const int MENU_BAR_HEIGHT = 21;
+const int SPRITES_EXPLORER_WIDTH = 280;
+const int SPRITES_EXPLORER_HEIGHT = 500;
+const int SPRITE_PROPERTIES_WIDTH = 280;
+const int SPRITE_PROPERTIES_HEIGHT = 260;
+const int ENTITY_PROPERTIES_WIDTH = 500;
+const int ENTITY_PROPERTIES_HEIGHT = 200;
+const float DEFAULT_FONT_SIZE = 16.0f;
+const int SPRITES_EXPLORER_MAX_ROW_SIZE = 4;
+
+
+void recalculate_width_height()
+{
+    GAME_CONTROLS_WIDTH = width*2/4;
+    ENTITY_TREE_WIDTH = width/4;
+    ENTITY_TREE_HEIGHT = height;
+}
+
+
 void show_image_context_menu(ImGuiTreeNodeFlags node_flags, Sprite* sprite, int i)
 {
     ImGui::TreeNodeEx("Eliminar Imagen",node_flags);
@@ -42,10 +73,11 @@ void Gui::init(GLFWwindow* window)
     ImGui::StyleColorsDark();
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 130");
-    ImFont* font = io.Fonts->AddFontFromFileTTF("res/fonts/RobotoMono-Regular.ttf",16.0f);
+    ImFont* font = io.Fonts->AddFontFromFileTTF("res/fonts/RobotoMono-Regular.ttf",DEFAULT_FONT_SIZE);
     unsigned char* pixels;
     int width,height, bytes_per_pixels;
     io.Fonts->GetTexDataAsRGBA32(&pixels,&width,&height,&bytes_per_pixels);
+    
     
 }
 
@@ -114,7 +146,7 @@ void showSpriteInfo()
     {
         TCHAR imgDir[260] = {0};
         Utils::saveFileDialog(imgDir,260);
-        if(imgDir != NULL)
+        if(imgDir != NULL && strcmp((const char*)imgDir,""))
         {
             spr->addImage((const char*)imgDir);
         }
@@ -124,11 +156,48 @@ void showSpriteInfo()
     ImGui::End();
 }
 
+void showGameControls()
+{
+    
+    ImGuiWindowFlags window_flags = 0;
+    window_flags |= ImGuiWindowFlags_NoTitleBar;
+    window_flags |= ImGuiWindowFlags_NoMove;
+    window_flags |= ImGuiWindowFlags_NoResize;
+    window_flags |= ImGuiWindowFlags_NoCollapse;
+    window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus;
+    window_flags |= ImGuiWindowFlags_NoScrollWithMouse;
+    window_flags |= ImGuiWindowFlags_NoScrollbar;
+    recalculate_width_height();
+    ImGui::SetNextWindowSize(ImVec2(GAME_CONTROLS_WIDTH, GAME_CONTROLS_HEIGHT), ImGuiCond_Always);
+    ImGui::SetNextWindowPos(ImVec2(ENTITY_TREE_WIDTH, MENU_BAR_HEIGHT),ImGuiCond_Always);
+    ImGui::Begin("GameControls",NULL,window_flags);
+    ImGui::Button("Play",ImVec2(50,18));
+    if(ImGui::IsItemClicked())
+    {
+        //Tengo que poner el juego en estado PLAY
+        Game::playGame();
+    }
+    ImGui::SameLine();
+    ImGui::Button("Pause",ImVec2(50,18));
+    if(ImGui::IsItemClicked())
+    {
+        //Tengo que poner el juego en estado PAUSE
+        Game::pauseGame();
+    }
+    ImGui::SameLine();
+    ImGui::Button("Stop",ImVec2(50,18));
+    if(ImGui::IsItemClicked())
+    {
+        //Tengo que poner el juego en estado STOPPED
+        Game::stopGame();
+    }
+    ImGui::End();
+}
+
 
 void showSprites()
 {
-    const int max_sprites_per_row = 4;
-    ImGui::SetNextWindowSize(ImVec2(280, 500), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(SPRITES_EXPLORER_WIDTH, SPRITES_EXPLORER_HEIGHT), ImGuiCond_Once);
     ImGui::Begin("Sprites",&sprites_shown);
     std::vector<Sprite*> sprites = Game::getSprites();
     std::vector<Sprite*>::iterator ptr;
@@ -174,7 +243,7 @@ void showSprites()
             sprite_selected = true;
         }
         ImGui::PopID();
-        if((i + 1) % max_sprites_per_row != 0 )
+        if((i + 1) % SPRITES_EXPLORER_MAX_ROW_SIZE != 0 )
         {
             ImGui::SameLine();
         }
@@ -348,31 +417,87 @@ static void ShowExampleAppMainMenuBar()
 void showEntityPopup()
 {
     //Tengo que abrir una ventana con datos de la entidad
-        //ImGui::SetNextWindowPos(ImVec2(width/4+50,height/2),ImGuiCond_Once);
-        ImGui::SetNextWindowSize(ImVec2(500,200),ImGuiCond_Once);
-        std::string windowName = "Entidad"+std::to_string(item_index_clicked);
-        ImGui::Begin(windowName.c_str(),&item_clicked);
-        vec = entityClicked->getPosition();
-        float vecRotacion[3] = {entityClicked->getRotation().x,entityClicked->getRotation().y,entityClicked->getRotation().z};
-        float vecScaling[3] = {entityClicked->getScale().x,entityClicked->getScale().y,entityClicked->getScale().z};
-        //Gui::writeToLog(std::to_string(vec.x));
-        float vec4f[3] = {entityClicked->getPosition().x,entityClicked->getPosition().y,entityClicked->getPosition().z};
-        //Gui::writeToLog(std::to_string(vec4f[0])+"--"+std::to_string(vec.x)+ "\n");
-        if(ImGui::DragFloat3("Posición",vec4f))
-        {
-            entityClicked->setPosition(glm::vec3(vec4f[0],vec4f[1],vec4f[2]));
+    //ImGui::SetNextWindowPos(ImVec2(width/4+50,height/2),ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(500,200),ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(width/2-250,height/2-100),ImGuiCond_Once);
+    std::string windowName = "Entidad"+std::to_string(item_index_clicked);
+    ImGui::Begin(windowName.c_str(),&item_clicked);
+    vec = entityClicked->getPosition();
+    float vecRotacion[3] = {entityClicked->getRotation().x,entityClicked->getRotation().y,entityClicked->getRotation().z};
+    float vecScaling[3] = {entityClicked->getScale().x,entityClicked->getScale().y,entityClicked->getScale().z};
+    //Gui::writeToLog(std::to_string(vec.x));
+    float vec4f[3] = {entityClicked->getPosition().x,entityClicked->getPosition().y,entityClicked->getPosition().z};
+    //Gui::writeToLog(std::to_string(vec4f[0])+"--"+std::to_string(vec.x)+ "\n");
+    if(ImGui::DragFloat3("Posición",vec4f))
+    {
+        entityClicked->setPosition(glm::vec3(vec4f[0],vec4f[1],vec4f[2]));
+    }
+    if(ImGui::DragFloat3("Rotación",vecRotacion))
+    {
+        entityClicked->setRotation(glm::vec3(vecRotacion[0],vecRotacion[1],vecRotacion[2]));
+    }
+    if(ImGui::DragFloat3("Escala",vecScaling))
+    {
+        entityClicked->setScale(glm::vec3(vecScaling[0],vecScaling[1],vecScaling[2]));
+    }
+    //Ahora tengo que mostrar la sección de Sprites
+    bool open = ImGui::CollapsingHeader("Sprite", ImGuiTreeNodeFlags_DefaultOpen);
+    if(open)
+    {
+        ImGui::BeginChild("SpriteEntity");
+        ImGui::Button("Seleccionar Sprite");
+        std::string selected_sprite = "undefined";
+        GraphicAttribute* attr = entityClicked->getAttribute(0);
+        SpriteAttribute* sprAttr;
+        if(attr != NULL){
+            sprAttr = (SpriteAttribute*)(entityClicked->getAttribute(0));
+            selected_sprite = sprAttr->getSprite()->getName();
         }
-        if(ImGui::DragFloat3("Rotación",vecRotacion))
+        if(ImGui::IsItemClicked())
         {
-            entityClicked->setRotation(glm::vec3(vecRotacion[0],vecRotacion[1],vecRotacion[2]));
+            //Abrir una ventana para seleccionar un sprite
+            spriteSelection = true;
+            Gui::writeToLog("Voy a abrir la seleccion de sprite.\n");
+            ImGui::OpenPopup("selecSprite");
+
         }
-        if(ImGui::DragFloat3("Escala",vecScaling))
+        if (ImGui::BeginPopup("selecSprite"))
         {
-            entityClicked->setScale(glm::vec3(vecScaling[0],vecScaling[1],vecScaling[2]));
+            std::vector<Sprite*> sprites = Game::getSprites();
+            std::vector<Sprite*>::iterator ptr;
+            int i = 0; 
+            for(ptr = sprites.begin(); ptr<sprites.end(); ptr++)
+            {
+                ImGui::TreeNodeEx((*ptr)->getName().c_str(),node_flags); 
+                if(ImGui::IsItemClicked())
+                {
+                    sprAttr->setSprite((*ptr));
+                    ImGui::CloseCurrentPopup();
+                }
+                i++;
+            }
+            ImGui::EndPopup();
         }
-        //ImGui::SetWindowFocus();
-        ImGui::End();
+
+        ImGui::SameLine();
+       
+            
+        ImGui::Text(selected_sprite.c_str());
+        ImGui::SameLine();
+        int index = sprAttr->getSprite()->getCurrentSpriteIndex();
+        ImGui::Image((ImTextureID)(sprAttr->getSprite()->getSpriteImage(index)),ImVec2(50, 50), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
+        ImGui::EndChild();
+    }
+
+
+    ImGui::End();
 }
+
+void showSpriteSelectionMenu(ImGuiTreeNodeFlags node_flags, Entity* entity)
+{
+    
+}
+
 
 void showEntityContextMenu(ImGuiTreeNodeFlags node_flags, Level* level, int j)
 {
@@ -527,6 +652,7 @@ void Gui::draw(double deltaTime)
     {
         showSpriteInfo();
     }
+    showGameControls();
     ImGui::PopStyleColor();
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

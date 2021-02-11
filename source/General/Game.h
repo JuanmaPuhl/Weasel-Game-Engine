@@ -8,7 +8,7 @@
 #include "../Config.h"
 #include "../Controls/KeyboardControl.h"
 #include "../Graphics/Gui.h"
-
+enum GAME_STATUS {PLAY, PAUSE, STOP};
 struct GameData
     {
         GLFWwindow* window = NULL;
@@ -17,6 +17,7 @@ struct GameData
         Shader* shader = NULL;
         std::vector<Sprite*> sprites;
         std::vector<Sprite*> system_sprites;
+        GAME_STATUS status;
     };
     extern GameData* gamedata;
 namespace Game
@@ -39,5 +40,8 @@ namespace Game
     Sprite* findSystemSpriteByName(std::string name);
     void addSystemSprite(Sprite* sprite);
     void close();
+    void playGame();
+    void pauseGame();
+    void stopGame();
 }
 #endif

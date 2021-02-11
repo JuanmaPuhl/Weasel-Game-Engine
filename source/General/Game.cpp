@@ -7,6 +7,7 @@ void Game::init(int width, int height)
     gamedata->window = window::window_init(width,height);
     gamedata->shader = new Shader(DEFAULT_SHADER_FILE);
     Gui::init(gamedata->window);
+    gamedata->status = PLAY;
 }
 
 Level* Game::addLevel()
@@ -82,8 +83,11 @@ GLFWwindow* Game::getWindow()
 
 void Game::loopFunction(double deltaTime)
 { 
-
-    Game::onUpdate(deltaTime);
+    if(gamedata->status == PLAY)
+    {
+        Game::onUpdate(deltaTime);
+        
+    }
     Game::render(deltaTime);
     Gui::draw(deltaTime);
 }    
@@ -146,4 +150,37 @@ std::vector<Sprite*> Game::getSystemSprites()
 void Game::addSystemSprite(Sprite* sprite)
 {
     gamedata->system_sprites.push_back(sprite);
+}
+
+void Game::playGame()
+{
+    GAME_STATUS status = gamedata->status;
+    Gui::writeToLog("STATUS: "+status);
+    if(status != PLAY)
+    {
+        gamedata->status = PLAY;
+    }
+}
+
+void Game::pauseGame()
+{
+    
+    GAME_STATUS status = gamedata->status;
+    Gui::writeToLog("STATUS: "+status);
+    if(status != PAUSE)
+    {
+        gamedata->status = PAUSE;
+    }
+}
+
+void Game::stopGame()
+{
+    
+    GAME_STATUS status = gamedata->status;
+    Gui::writeToLog("STATUS: "+status);
+    if(status != STOP)
+    {
+        gamedata->status = STOP;
+    }
+
 }

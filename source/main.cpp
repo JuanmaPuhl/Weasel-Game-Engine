@@ -78,20 +78,13 @@ int metodoPrincipal()
   walkingSpr->setSpeed(0.2*60.0);
   Entity* fireEntity = level1->addEntity();
   personaje->scale(glm::vec3(1.4f,1.8f,1.0f));
-  personaje->setPosition(glm::vec3(-2459.0f,-120.0f,0.0f));
-  fireEntity->setPosition(glm::vec3(-2459.0f,-120.0f,0.0f));
+  personaje->setPosition(glm::vec3(-2755.0f,-210.0f,0.0f));
+  fireEntity->setPosition(glm::vec3(-2755.0f,-210.0f,0.0f));
   GraphicAttribute* fireAttr = new SpriteAttribute(fireSpr);
   fireEntity->addAttribute(fireAttr);
   //Creo el piso
   GraphicAttribute* attrColor = new ColorAttribute(glm::vec3(0.5f,0.1f,0.2f));
-  for(int i = 0; i < 20; i++)
-  {
-    Entity* piso = level1->addEntity();
-    float division = float(20-1)/2.0f;
-    float new_x = float((32.0f)*i-(32.0f)*division);
-    piso->addAttribute(attrColor);
-    piso->translate(glm::vec3(new_x,-32.0f,0.0f));
-  }
+
   //Creo el fondo
   const char* bg[1] = {"res/sprites/background.png"};
   Entity* entityBg = level1->addEntity();
@@ -101,7 +94,7 @@ int metodoPrincipal()
 
   entityBg->addAttribute(attrFondo);
   entityBg->scale(glm::vec3(173.625f,86.98f,1.0f));
-  entityBg->translate(glm::vec3(0.0f,0.0f,-0.1f));
+  entityBg->translate(glm::vec3(-56.0f,0.0f,-0.1f));
 
   const char* bgLevel[1] = {"res/sprites/level-bg.png"};
   Entity* entityLevelBg = level1->addEntity();
@@ -110,7 +103,7 @@ int metodoPrincipal()
   GraphicAttribute* attrFondoLevel = new SpriteAttribute(fondo2);
   entityLevelBg->addAttribute(attrFondoLevel);
   entityLevelBg->scale(glm::vec3(173.625f,26.75f,1.0f));
-  entityLevelBg->translate(glm::vec3(0.0f,0.0f,-0.01f));
+  entityLevelBg->translate(glm::vec3(-56.0f,0.0f,-0.01f));
 
   //Creo el pajaro
   const char* birdSprite[5] = {"res/sprites/c1.png","res/sprites/c2.png","res/sprites/c3.png","res/sprites/c4.png","res/sprites/c5.png"};
