@@ -60,9 +60,9 @@ int metodoPrincipal()
   printf("%s\n",GetLastErrorAsString().c_str());
   std::string cmd = "return 7 + 11";
   lua_State *L = luaL_newstate();
-  luaL_loadfilex(L,"script.lua",0);
-  lua_callk(L, 0,1,0,NULL);
-  const auto result = (int) lua_tointegerx(L,1,0);
+  luaL_loadfile(L,"script.lua");
+  lua_call(L, 0,1);
+  const auto result =  lua_tointeger(L,1);
   printf("Resultado: %d\n",result);
 
   lua_close(L);
