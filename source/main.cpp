@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include "stb_image.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "Entities/Entity.h"
 #include "Graphics/Sprite.h"
@@ -18,7 +19,7 @@
 #include "Entities/ColorAttribute.h"
 #include "Graphics/Gui.h"
 #include "Scripts/Lua_Entity.h"
-
+#include "Windows.h"
 #define DEBUG
 extern "C" {
   #include "lua/include/lua.h"
@@ -29,9 +30,34 @@ const int WIDTH = 1280;
 const int HEIGHT = 720;
 const int MAX_ENTITIES = 10;
 
+//Returns the last Win32 error, in string format. Returns an empty string if there is no error.
+std::string GetLastErrorAsString()
+{
+    //Get the error message ID, if any.
+    DWORD errorMessageID = ::GetLastError();
+    if(errorMessageID == 0) {
+        return std::string(); //No error message has been recorded
+    }
+    
+    LPSTR messageBuffer = nullptr;
+
+    //Ask Win32 to give us the string version of that message ID.
+    //The parameters we pass in, tell Win32 to create the buffer that holds the message for us (because we don't yet know how long the message string will be).
+    size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+                                 NULL, errorMessageID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0, NULL);
+    
+    //Copy the error message into a std::string.
+    std::string message(messageBuffer, size);
+    
+    //Free the Win32's string's buffer.
+    LocalFree(messageBuffer);
+            
+    return message;
+}
+
 int metodoPrincipal()
 {
-
+  printf("%s\n",GetLastErrorAsString().c_str());
   std::string cmd = "return 7 + 11";
   lua_State *L = luaL_newstate();
   luaL_loadfilex(L,"script.lua",0);
@@ -43,6 +69,11 @@ int metodoPrincipal()
 
   printf("Main::Creando ventana...\n");
   Game::init(WIDTH,HEIGHT);
+  GLFWimage icons[1];
+  const char* dirIcon = "res/sprites/undefined.png";
+  icons[0].pixels = stbi_load(dirIcon, &icons[0].width, &icons[0].height, 0, 0);
+  glfwSetWindowIcon(Game::getWindow(), 1, icons);
+  stbi_image_free(icons[0].pixels);
   Level* level1 = Game::addLevel();
   Entity* cameraEntity = level1->addEntityCamera(WIDTH,HEIGHT);
   ComponentCamera* cmpCamera = (ComponentCamera*)cameraEntity->getComponent(0);

@@ -43,5 +43,6 @@ namespace Game
     void playGame();
     void pauseGame();
     void stopGame();
+    void newGame();
 }
 #endif

@@ -25,7 +25,8 @@ std::vector<Sprite*> Game::getSprites()
 
 void Game::onUpdate(double deltaTime)
 {
-    gamedata->currentLevel->onUpdate(deltaTime);
+    if(gamedata->currentLevel != NULL)
+        gamedata->currentLevel->onUpdate(deltaTime);
 }
 float last_time = 0.0f;
 int fps = 0;
@@ -56,7 +57,8 @@ void Game::render(double deltaTime)
         //No hago nada. Limito fps.
     }
     lastTimeForSleep += 1.0/MAX_FRAMERATE; 
-    gamedata->currentLevel->render(gamedata->shader,deltaTime);
+    if(gamedata->currentLevel != NULL)
+        gamedata->currentLevel->render(gamedata->shader,deltaTime);
 }
 
 Level* Game::getCurrentLevel()
@@ -182,5 +184,13 @@ void Game::stopGame()
     {
         gamedata->status = STOP;
     }
+
+}
+
+void Game::newGame()
+{
+    gamedata->levels.clear();
+    gamedata->currentLevel = NULL;
+    gamedata->sprites.clear();
 
 }

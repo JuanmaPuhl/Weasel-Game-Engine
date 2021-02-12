@@ -31,7 +31,7 @@ GLFWwindow* window::window_init(int width, int height)
     glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
     
     //glfwWindowHint(GLFW_DOUBLEBUFFER, GL_FALSE);
-    window = glfwCreateWindow(width, height, "Game", NULL, NULL);
+    window = glfwCreateWindow(width, height, "Weasel Engine", NULL, NULL);
     if (!window)
     {
         glfwTerminate();

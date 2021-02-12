@@ -272,7 +272,7 @@ static void ShowExampleMenuFile()
     ImGui::MenuItem("(demo menu)", NULL, false, false);
     if (ImGui::MenuItem("New")) 
     {
-        
+        Game::newGame();
     }
     if (ImGui::MenuItem("Open", "Ctrl+O")) 
     {
@@ -582,6 +582,18 @@ void showLevelContextMenu(ImGuiTreeNodeFlags node_flags, Level* level, int i)
         level->addEntity();
         ImGui::CloseCurrentPopup();
     }
+    ImGui::TreeNodeEx("Agregar cámara",node_flags);
+    if(ImGui::IsItemClicked())
+    {
+        if(level->getCamera() == NULL)
+            Entity* cameraEntity = level->addEntityCamera(width,height);
+        else
+        {
+            Gui::writeToLog("Ya hay una cámara creada\n");
+        }
+        
+        ImGui::CloseCurrentPopup();
+    }
 }
 
 
@@ -598,7 +610,6 @@ void showTreeView(ImGuiWindowFlags window_flags)
     ImGui::SetNextWindowPos(ImVec2(0,18), ImGuiCond_Always);
     ImGui::SetNextWindowSize(ImVec2(width/4,height),ImGuiCond_Always);
     ImGui::Begin("Hello, world!",NULL,window_flags);                          // Create a window called "Hello, world!" and append into it.
-    ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
     std::vector<Level*> levels = Game::getLevels();
     std::vector<Level*>::iterator ptr;
     int i = 0;
