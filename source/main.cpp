@@ -25,56 +25,11 @@ extern "C" {
   #include "lua/include/lua.h"
   #include "lua/include/lualib.h"
   #include "lua/include/lauxlib.h"
-  static int newEntity(lua_State *L)
-{
-    int n = lua_gettop(L);  // Number of arguments
-    if (n != 4)
-        return luaL_error(L, "Got %d arguments expected 4", n);
   
-    // Allocate memory for a pointer to to object
-    Entity **s = (Entity **)lua_newuserdata(L, sizeof(Entity *));  
-
-    double x = luaL_checknumber (L, 1);      
-    double y = luaL_checknumber (L, 2);
-    double dir = luaL_checknumber (L, 3);      
-    double speed = luaL_checknumber (L, 4);
-
-    *s = new Entity();
-    printf("JIJIJ\n");
-    lua_getglobal(L, "Entity"); // Use global table 'Sprite' as metatable
-    lua_setmetatable(L, -2);       
-    
-  return 1;
-}
-static int position(lua_State* L)
-{
-  printf("Hello my little friends\n");
-  return 1;
-}
 }
 const int WIDTH = 1280;
 const int HEIGHT = 720;
 const int MAX_ENTITIES = 10;
-
-
-// Show registration of class
-static const luaL_Reg gEntityFuncs[] = {
-  // Creation
-  {"new", newEntity},
-  {"position", position},
-  {NULL, NULL}
-};
-
-
-
-/* void registerEntity(lua_State *L)
-{
-  lua_register(L, "Entity", gEntityFuncs);  
-  lua_pushvalue(L,-1);
-  lua_setfield(L, -2, "__index");    
-} */
-
-
 
 
 //Returns the last Win32 error, in string format. Returns an empty string if there is no error.
@@ -107,29 +62,37 @@ int metodoPrincipal()
   printf("%s\n",GetLastErrorAsString().c_str());
 
   // create new Lua state
-    lua_State *lua_state;
-    lua_state = luaL_newstate();
+  lua_State *lua_state;
+  lua_state = luaL_newstate();
 
-    // load Lua libraries
-    static const luaL_Reg lualibs[] =
-    {
-        { "base", luaopen_base },
-        { "position", position},
-        { NULL, NULL}
-    };
+  // load Lua libraries
+  static const luaL_Reg lualibs[] =
+  {
+      { "base", luaopen_base },
+      { NULL, NULL}
+  };
 
-    const luaL_Reg *lib = lualibs;
-    for(; lib->func != NULL; lib++)
-    {
-        lib->func(lua_state);
-        lua_settop(lua_state, 0);
-    }
-
-    // run the Lua script
-    luaL_dofile(lua_state, "script.lua");
-
-    // close the Lua state
-    lua_close(lua_state);
+  const luaL_Reg *lib = lualibs;
+  for(; lib->func != NULL; lib++)
+  {
+      lib->func(lua_state);
+      lua_settop(lua_state, 0);
+  }
+  entity_script_init(lua_state);
+  // run the Lua script
+  luaL_dofile(lua_state, "script.lua");
+  lua_getglobal(lua_state,"entity");
+  if(lua_isuserdata(lua_state, -1))
+  {
+    printf("Obtuve entity\n");
+  }
+  else
+  {
+    printf("No obtuve entity\n");
+  }
+  
+  // close the Lua state
+  lua_close(lua_state);
 
   printf("Main::Creando ventana...\n");
   Game::init(WIDTH,HEIGHT);

@@ -2,7 +2,7 @@ LIBRERIAS = -llua54 -lglew32 -lglfw3 -lopengl32 -lcomdlg32
 CODIGO = source/
 all: main.exe quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o  Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o
 .PHONY: all
-main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui_widgets.o imgui.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o Gui.o $(CODIGO)Entities/Scripts.h
+main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui_widgets.o imgui.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o Gui.o $(CODIGO)Scripts/Lua_Entity.h $(CODIGO)Entities/Scripts.h
 	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui.o imgui_widgets.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o Gui.o -I .$(CODIGO)ScriptComponent.h -I.$(CODIGO)Entities/Scripts.h  -I ./libs/  -L ./libs/ $(LIBRERIAS)
 quad.o: $(CODIGO)Graphics/quad.cpp $(CODIGO)Graphics/quad.h
 	g++ -c  $(CODIGO)Graphics/quad.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS) 
