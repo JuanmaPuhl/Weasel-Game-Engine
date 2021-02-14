@@ -5,5 +5,10 @@ function on_update()
     entity = entity_new()
     entity_get_position(entity)
     entity_translate(entity,2,3,4)
-    entity_get_position(entity)
+    table = entity_get_position(entity)
+    --Imprime la tabla que obtuve
+    --for k,v in ipairs( table ) do
+    --    print(v)
+    --end
+    print(table[1])
 end
