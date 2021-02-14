@@ -81,16 +81,9 @@ int metodoPrincipal()
   entity_script_init(lua_state);
   // run the Lua script
   luaL_dofile(lua_state, "script.lua");
-  lua_getglobal(lua_state,"entity");
-  if(lua_isuserdata(lua_state, -1))
-  {
-    printf("Obtuve entity\n");
-  }
-  else
-  {
-    printf("No obtuve entity\n");
-  }
-  
+  lua_getglobal(lua_state, "on_update");
+  if(lua_isfunction(lua_state, -1))
+    lua_pcall(lua_state, 0, 0, 0);  
   // close the Lua state
   lua_close(lua_state);
 
