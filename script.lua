@@ -10,5 +10,8 @@ function on_update()
     --for k,v in ipairs( table ) do
     --    print(v)
     --end
+    
+    local component = entity_get_component(entity,0)
     print(table[1])
+    print(component)
 end
