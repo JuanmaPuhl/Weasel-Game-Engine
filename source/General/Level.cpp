@@ -64,7 +64,7 @@ std::vector<Entity*> Level::getEntities()
 
 bool Level::removeEntity(int entity)
 {
-    if(entity<this->entities.capacity())
+    if(entity < this->entities.capacity())
     {
         this->entities.erase(this->entities.begin()+entity);
         return true;

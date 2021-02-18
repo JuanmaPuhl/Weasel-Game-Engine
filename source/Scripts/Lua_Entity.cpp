@@ -1,15 +1,14 @@
 #include "Lua_Entity.h"
-
+#include "../Entities/ComponentScript.h"
 /*
 Gracias a DavePoo por sus tutoriales: https://www.youtube.com/channel/UCQcBTumGQK1Qqc7epDf19sQ
 */
 
 static int entity_new(lua_State *L)
 {
-  Entity* entity = (Entity*)lua_newuserdata(L, sizeof(Entity));  
-  entity->setPosition(glm::vec3(10.0f,1.0f,0.0f));
-    
-  return 1;
+    Entity* entity = (Entity*)lua_newuserdata(L, sizeof(Entity));  
+    entity->setPosition(glm::vec3(10.0f,1.0f,0.0f));
+    return 1;
 }
 
 static int entity_translate(lua_State* L)
@@ -68,9 +67,12 @@ static int entity_get_component(lua_State* L)
     if (n != 2)
         return luaL_error(L, "Got %d arguments expected 2", n);
     Entity* entity = (Entity*) lua_touserdata(L, -2);
-    int indice = luaL_checknumber(L,-1);
+    int indice = luaL_checkinteger(L,-1);
+    
     Component** component = (Component**)lua_newuserdata(L, sizeof(Component*));  
-    *component = entity->getComponent(indice);   
+
+    
+    
     return 1;
 }
 

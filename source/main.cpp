@@ -19,6 +19,7 @@
 #include "Entities/ColorAttribute.h"
 #include "Graphics/Gui.h"
 #include "Scripts/Lua_Entity.h"
+#include "Scripts/Lua_Level.h"
 #include "Windows.h"
 #define DEBUG
 extern "C" {
@@ -57,10 +58,8 @@ std::string GetLastErrorAsString()
     return message;
 }
 
-int metodoPrincipal()
+void executeLuaScript()
 {
-  printf("%s\n",GetLastErrorAsString().c_str());
-
   // create new Lua state
   lua_State *lua_state;
   lua_state = luaL_newstate();
@@ -79,13 +78,33 @@ int metodoPrincipal()
       lua_settop(lua_state, 0);
   }
   entity_script_init(lua_state);
+  //init_level(lua_state);
+  level_script_init(lua_state);
   // run the Lua script
-  luaL_dofile(lua_state, "script.lua");
+  if (luaL_dofile(lua_state, "script.lua") != LUA_OK) {
+    printf("ERROR: %s\n",lua_tostring(lua_state,-1));
+  }
+  else
+  {
+    printf("No paso nada.\n");
+  }
   lua_getglobal(lua_state, "on_update");
   if(lua_isfunction(lua_state, -1))
-    lua_pcall(lua_state, 0, 0, 0);  
+    if(lua_pcall(lua_state, 0, 0, 0) != LUA_OK)
+    {
+      printf("A ver.\n");
+      printf("error running function `f': %s",
+                 lua_tostring(lua_state, -1));  
+    }
   // close the Lua state
   lua_close(lua_state);
+}
+
+int metodoPrincipal()
+{
+  printf("%s\n",GetLastErrorAsString().c_str());
+
+  
 
   printf("Main::Creando ventana...\n");
   Game::init(WIDTH,HEIGHT);
@@ -94,6 +113,7 @@ int metodoPrincipal()
   icons[0].pixels = stbi_load(dirIcon, &icons[0].width, &icons[0].height, 0, 0);
   glfwSetWindowIcon(Game::getWindow(), 1, icons);
   stbi_image_free(icons[0].pixels);
+
   Level* level1 = Game::addLevel();
   Entity* cameraEntity = level1->addEntityCamera(WIDTH,HEIGHT);
   ComponentCamera* cmpCamera = (ComponentCamera*)cameraEntity->getComponent(0);
@@ -174,6 +194,12 @@ int metodoPrincipal()
   scr->fire = fireEntity;
   Component* scriptComponent = new ComponentScript(scr);
   personaje->addComponent(scriptComponent);
+
+
+
+  executeLuaScript();
+
+
   Game::loop();
   printf("Main::Eliminando objetos...\n");
   Game::close();  
