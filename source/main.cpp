@@ -20,6 +20,7 @@
 #include "Graphics/Gui.h"
 #include "Scripts/Lua_Entity.h"
 #include "Scripts/Lua_Level.h"
+#include "Scripts/Lua_Game.h"
 #include "Windows.h"
 #define DEBUG
 extern "C" {
@@ -80,6 +81,7 @@ void executeLuaScript()
   entity_script_init(lua_state);
   //init_level(lua_state);
   level_script_init(lua_state);
+  game_script_init(lua_state);
   // run the Lua script
   if (luaL_dofile(lua_state, "script.lua") != LUA_OK) {
     printf("ERROR: %s\n",lua_tostring(lua_state,-1));
