@@ -59,11 +59,9 @@ std::string GetLastErrorAsString()
     return message;
 }
 
-void executeLuaScript()
+void executeLuaScript(lua_State* lua_state)
 {
-  // create new Lua state
-  lua_State *lua_state;
-  lua_state = luaL_newstate();
+  
 
   // load Lua libraries
   static const luaL_Reg lualibs[] =
@@ -98,8 +96,7 @@ void executeLuaScript()
       printf("error running function `f': %s",
                  lua_tostring(lua_state, -1));  
     }
-  // close the Lua state
-  lua_close(lua_state);
+  
 }
 
 int metodoPrincipal()
@@ -198,8 +195,10 @@ int metodoPrincipal()
   personaje->addComponent(scriptComponent);
 
 
-
-  executeLuaScript();
+  // create new Lua state
+  lua_State *lua_state;
+  lua_state = luaL_newstate();
+  executeLuaScript(lua_state);
 
 
   Game::loop();
@@ -208,6 +207,9 @@ int metodoPrincipal()
 
   delete(level1);
   delete(attrColor);
+  printf("Main::Cerrando estado de LUA...\n");
+  // close the Lua state
+  lua_close(lua_state);
   printf("Main::Objetos eliminados. Cerrando programa.\n");
   return 0;
 }
