@@ -1,8 +1,9 @@
 #include "LuaScriptComponent.h"
 
-    LuaScriptComponent::LuaScriptComponent(std::string scr)
+    LuaScriptComponent::LuaScriptComponent(std::string scr, lua_State* L)
     {
         this->scr = scr; //La dirección del script
+        this->lua_state = L;
         this->onCreate();
     }
     LuaScriptComponent::~LuaScriptComponent()
@@ -11,30 +12,32 @@
     }
     void LuaScriptComponent::onUpdate()
     {
-        if (luaL_dofile(lua_state, this->scr.c_str() ) != LUA_OK) {
-            printf("ERROR: %s\n",lua_tostring(lua_state,-1));
+        if (luaL_dofile(this->lua_state, this->scr.c_str() ) != LUA_OK) {
+            printf("ERROR: %s\n",lua_tostring(this->lua_state,-1));
         }
-        else
-        {
-            printf("No paso nada.\n");
-        }
-        lua_getglobal(lua_state, "on_update");
-        if(lua_isfunction(lua_state, -1))
-            if(lua_pcall(lua_state, 0, 0, 0) != LUA_OK)
+        lua_getglobal(this->lua_state, "on_update");
+        if(lua_isfunction(this->lua_state, -1))
+            if(lua_pcall(this->lua_state, 0, 0, 0) != LUA_OK)
             {
-            printf("A ver.\n");
-            printf("error running function `f': %s",
-                        lua_tostring(lua_state, -1));  
+                printf("error running function `f': %s", lua_tostring(this->lua_state, -1));  
             }
   
     }
     void LuaScriptComponent::onCreate()
     {
-        
+        if (luaL_dofile(this->lua_state, this->scr.c_str() ) != LUA_OK) {
+            printf("ERROR: %s\n",lua_tostring(this->lua_state,-1));
+        }
+        lua_getglobal(this->lua_state, "on_create");
+        if(lua_isfunction(this->lua_state, -1))
+            if(lua_pcall(this->lua_state, 0, 0, 0) != LUA_OK)
+            {
+                printf("error running function `f': %s", lua_tostring(this->lua_state, -1));  
+            }
     }
     Component* LuaScriptComponent::copy()
     {
-        LuaScriptComponent* cs = new LuaScriptComponent(this->scr);
+        LuaScriptComponent* cs = new LuaScriptComponent(this->scr,this->lua_state);
         return cs;
     }
     std::string LuaScriptComponent::getScript()

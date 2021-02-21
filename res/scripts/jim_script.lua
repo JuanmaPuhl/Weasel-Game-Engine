@@ -1,3 +1,7 @@
+function on_create()
+    print("JIM::OnCreate")
+end
+
 function on_update()
-    entity_translate(entity,200,0,0)
+    print("JIM::OnUpdate")
 end

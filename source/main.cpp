@@ -21,6 +21,7 @@
 #include "Scripts/Lua_Entity.h"
 #include "Scripts/Lua_Level.h"
 #include "Scripts/Lua_Game.h"
+#include "Entities/LuaScriptComponent.h"
 #include "Windows.h"
 #define DEBUG
 extern "C" {
@@ -63,23 +64,7 @@ void executeLuaScript(lua_State* lua_state)
 {
   
 
-  // load Lua libraries
-  static const luaL_Reg lualibs[] =
-  {
-      { "base", luaopen_base },
-      { NULL, NULL}
-  };
 
-  const luaL_Reg *lib = lualibs;
-  for(; lib->func != NULL; lib++)
-  {
-      lib->func(lua_state);
-      lua_settop(lua_state, 0);
-  }
-  entity_script_init(lua_state);
-  //init_level(lua_state);
-  level_script_init(lua_state);
-  game_script_init(lua_state);
   // run the Lua script
   if (luaL_dofile(lua_state, "script.lua") != LUA_OK) {
     printf("ERROR: %s\n",lua_tostring(lua_state,-1));
@@ -102,8 +87,28 @@ void executeLuaScript(lua_State* lua_state)
 int metodoPrincipal()
 {
   printf("%s\n",GetLastErrorAsString().c_str());
+  // create new Lua state
+  printf("MAIN::Creando nuevo estado de LUA...\n");
+  lua_State *lua_state;
+  lua_state = luaL_newstate();
+    // load Lua libraries
+  static const luaL_Reg lualibs[] =
+  {
+      { "base", luaopen_base },
+      { NULL, NULL}
+  };
 
-  
+  const luaL_Reg *lib = lualibs;
+  for(; lib->func != NULL; lib++)
+  {
+      lib->func(lua_state);
+      lua_settop(lua_state, 0);
+  }
+  entity_script_init(lua_state);
+  //init_level(lua_state);
+  level_script_init(lua_state);
+  game_script_init(lua_state);
+  printf("MAIN::Estado de LUA creado.\n");
 
   printf("Main::Creando ventana...\n");
   Game::init(WIDTH,HEIGHT);
@@ -192,12 +197,11 @@ int metodoPrincipal()
   scr->player = personaje;
   scr->fire = fireEntity;
   Component* scriptComponent = new ComponentScript(scr);
-  personaje->addComponent(scriptComponent);
+  //personaje->addComponent(scriptComponent);
 
+  personaje->addComponent(new LuaScriptComponent("res/scripts/jim_script.lua", lua_state));
 
-  // create new Lua state
-  lua_State *lua_state;
-  lua_state = luaL_newstate();
+  
   executeLuaScript(lua_state);
 
 
