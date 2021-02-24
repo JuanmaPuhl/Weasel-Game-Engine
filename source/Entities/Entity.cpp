@@ -8,6 +8,8 @@ Entity::Entity()
     this->scaling = glm::vec3(32.0f); //Lo hago 32 x 32
     this->rotation = glm::vec3(0.0f,0.0f,1.0f);
     this->modelMatrix = glm::mat4(1.0f);
+    this->name = "entity";
+    //printf("setee nombre.\n");
     //Tengo que calcular la modelMatrix nueva
     this->updateModelMatrix();
 
@@ -74,6 +76,12 @@ Quad* Entity::getQuad()
     return this->quad;
 }
 
+void Entity::onCollision(Entity* other)
+{
+    //Si tengo script llamo al metodo onTrigger
+    //Sino no hago nada
+}
+
 void Entity::onUpdate()
 {
     std::vector<Component*>::iterator ptr;
@@ -110,11 +118,14 @@ void Entity::addComponent(Component* component)
     this->components.push_back(component);
 }
 
-Component* Entity::getComponent(int index)
+Component* Entity::getComponent(std::string name)
 {
-    if(index >= this->components.capacity())
-        return NULL;
-    return this->components.at(index);
+    for(int i = 0; i < this->components.capacity(); i++)
+    {
+        if(strcmp((this->components.at(i))->getName().c_str(),name.c_str())==0)
+            return this->components.at(i);
+    }
+    return NULL;
 }
 
 GraphicAttribute* Entity::getAttribute(int index)
@@ -163,4 +174,14 @@ glm::vec3 Entity::getRotation()
 glm::vec3 Entity::getScale()
 {
     return this->scaling;
+}
+
+std::string Entity::getName()
+{
+    return this->name;
+}
+
+void Entity::setName(std::string name)
+{
+    this->name = name;
 }

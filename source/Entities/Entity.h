@@ -31,9 +31,10 @@ class Entity
     glm::mat4 getModelMatrix();
     //TODO: Quitar Entity.getQuad
     Quad* getQuad();
+    void onCollision(Entity* other);
     void onUpdate();
     void render(Shader* shader,double deltaTime);
-    Component* getComponent(int index);
+    Component* getComponent(std::string name);
     GraphicAttribute* getAttribute(int index);
     void addAttribute(GraphicAttribute* attribute);
     void setPosition(glm::vec3 position);
@@ -42,6 +43,8 @@ class Entity
     glm::vec3 getPosition();
     glm::vec3 getRotation();
     glm::vec3 getScale();
+    void setName(std::string name);
+    std::string getName();
     private:
     glm::vec3 position;
     glm::vec3 rotation;
@@ -52,4 +55,5 @@ class Entity
     void updateModelMatrix();
     std::vector<Component*> components;
     std::vector<GraphicAttribute*> attributes;
+    std::string name;
 };

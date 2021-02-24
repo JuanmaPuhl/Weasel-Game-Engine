@@ -67,7 +67,7 @@ static int entity_get_component(lua_State* L)
     if (n != 2)
         return luaL_error(L, "Got %d arguments expected 2", n);
     Entity** entity = (Entity**) lua_touserdata(L, -2);
-    int indice = luaL_checkinteger(L,-1);
+    std::string indice = lua_tostring(L,-1);
     Component** component = (Component**)lua_newuserdata(L, sizeof(Component*));  
     *component = (*entity)->getComponent(indice);
     return 1;

@@ -4,8 +4,11 @@ ComponentCamera::ComponentCamera(int width, int height)
 {
     this->width = width;
     this->height = height;
-
+    printf("Voy a setear nombre\n");
+    this->setName("camera");
+    
     this->onCreate();
+    printf("Cambie nombre a %s.\n",this->getName().c_str());
 }
 
 ComponentCamera::~ComponentCamera()

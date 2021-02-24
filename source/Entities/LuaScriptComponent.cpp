@@ -4,6 +4,7 @@
     {
         this->scr = scr; //La dirección del script
         this->lua_state = L;
+        this->setName("lua_script");
         this->onCreate();
     }
     LuaScriptComponent::~LuaScriptComponent()

@@ -110,7 +110,7 @@ int metodoPrincipal()
   level_script_init(lua_state);
   game_script_init(lua_state);
   printf("MAIN::Estado de LUA creado.\n");
-
+  
   printf("Main::Creando ventana...\n");
   Game::init(WIDTH,HEIGHT);
   GLFWimage icons[1];
@@ -118,18 +118,21 @@ int metodoPrincipal()
   icons[0].pixels = stbi_load(dirIcon, &icons[0].width, &icons[0].height, 0, 0);
   glfwSetWindowIcon(Game::getWindow(), 1, icons);
   stbi_image_free(icons[0].pixels);
-
+   printf("Pase\n");
   Level* level1 = Game::addLevel();
   Entity* cameraEntity = level1->addEntityCamera(WIDTH,HEIGHT);
-  ComponentCamera* cmpCamera = (ComponentCamera*)cameraEntity->getComponent(0);
+  printf("Pase\n");
+  ComponentCamera* cmpCamera = (ComponentCamera*)cameraEntity->getComponent("camera");
   cmpCamera->zoom(0.35f);
   cmpCamera->move(glm::vec3(-2610.0f,-185.5f,0.0f));
+   printf("Pase\n");
   //Creo el personaje
   ScriptComponent* scrCamera = new CameraController();
   ((CameraController*)(scrCamera))->camera = cameraEntity;
   const char* img[1] = {"res/sprites/undefined.png"};
   Sprite* sprUndefined = new Sprite(img,1,"undefined");
   Game::addSystemSprite(sprUndefined);
+   printf("Pase\n");
   //cameraEntity->addComponent(new ComponentScript(scrCamera));
   Entity* personaje = level1->addEntity();
   const char* arr[6] = {"res/sprites/e1.png","res/sprites/e2.png","res/sprites/e3.png","res/sprites/e4.png","res/sprites/e5.png","res/sprites/e6.png"};
@@ -139,6 +142,7 @@ int metodoPrincipal()
   GraphicAttribute* attrColor1 = new SpriteAttribute(sprIdle);
   personaje->addAttribute(attrColor1);
   Game::setLevel(0);
+   printf("Pase\n");
   Gui::writeToLog("Holiwi\n");
   const char* walkingAnimation[9] = {"res/sprites/ew1.png","res/sprites/ew2.png","res/sprites/ew3.png","res/sprites/ew4.png","res/sprites/ew5.png","res/sprites/ew6.png","res/sprites/ew7.png","res/sprites/ew8.png","res/sprites/ew9.png"};
   Sprite* walkingSpr = new Sprite(walkingAnimation,9,"walking");
@@ -146,18 +150,22 @@ int metodoPrincipal()
   const char* shootingAnimation[2] = {"res/sprites/es1.png","res/sprites/es2.png"};
   Sprite* shootingSpr = new Sprite(shootingAnimation,2,"shooting");
   Game::addSprite(shootingSpr);
+   printf("Pase\n");
   shootingSpr->setSpeed(0.5*60.0);
   const char* fireAnimation[3] = {"res/sprites/f1.png","res/sprites/f2.png","res/sprites/f3.png"};
   Sprite* fireSpr = new Sprite(fireAnimation,3,"fire");
   Game::addSprite(fireSpr);
   fireSpr->setSpeed(0.3*60.0);
+   printf("Pase\n");
   walkingSpr->setSpeed(0.2*60.0);
   Entity* fireEntity = level1->addEntity();
+   printf("Pase\n");
   personaje->scale(glm::vec3(1.4f,1.8f,1.0f));
   personaje->setPosition(glm::vec3(-2755.0f,-210.0f,0.0f));
   fireEntity->setPosition(glm::vec3(-2755.0f,-210.0f,0.0f));
   GraphicAttribute* fireAttr = new SpriteAttribute(fireSpr);
   fireEntity->addAttribute(fireAttr);
+   printf("Pase\n");
   //Creo el piso
   GraphicAttribute* attrColor = new ColorAttribute(glm::vec3(0.5f,0.1f,0.2f));
 
@@ -199,10 +207,11 @@ int metodoPrincipal()
   scr->fire = fireEntity;
   Component* scriptComponent = new ComponentScript(scr);
   //personaje->addComponent(scriptComponent);
+ 
   personaje->addComponent(new ComponentCollisionBox(personaje->getPosition().x,personaje->getPosition().y,personaje->getScale().x,personaje->getScale().y,personaje));
   bird->addComponent(new ComponentCollisionBox(bird->getPosition().x,bird->getPosition().y,bird->getScale().x,bird->getScale().y,bird));
   personaje->addComponent(new LuaScriptComponent("res/scripts/jim_script.lua", lua_state));
-  
+  personaje->setName("JIM");
   
   executeLuaScript(lua_state);
 

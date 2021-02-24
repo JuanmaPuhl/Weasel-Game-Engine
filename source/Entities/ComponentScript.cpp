@@ -3,7 +3,9 @@
 ComponentScript::ComponentScript(ScriptComponent* scr)
 {
     this->scr = scr;
+    this->setName("script");
     this->onCreate();
+    
 }
 
 ComponentScript::~ComponentScript()

@@ -7,6 +7,7 @@ ComponentCollisionBox::ComponentCollisionBox(Entity* entity)
     this->width = 32.0f;
     this->height = 32.0f;
     this->entity = entity;
+    this->setName("collider");
 }
 
 ComponentCollisionBox::ComponentCollisionBox(float x, float y, float width, float height, Entity* entity)
@@ -16,6 +17,7 @@ ComponentCollisionBox::ComponentCollisionBox(float x, float y, float width, floa
     this->width = width;
     this->height = height;
     this->entity = entity;
+    this->setName("collider");
 }
 
 ComponentCollisionBox::~ComponentCollisionBox()
@@ -95,9 +97,16 @@ void ComponentCollisionBox::onUpdate()
     for(ptr = (this->list).begin(); ptr<(this->list).end(); ptr++)
     {   
         //TODO: Tengo que hacer el metodo de buscar componente en la entidad
-        Component* comp = (*ptr)->getComponent(1);
-        if(comp!=NULL)
-            this->checkCollision((ComponentCollisionBox*)comp);
+        if(*ptr != this->entity)
+        {
+            Component* comp = (*ptr)->getComponent("collider");
+            if(comp!=NULL)
+                if(this->checkCollision((ComponentCollisionBox*)comp))
+                {
+                    printf("NOMBRE ENTIDAD 1: %s, NOMBRE ENTIDAD 2: %s\n",this->entity->getName().c_str(),(*ptr)->getName().c_str());
+                }
+        }
+        
     }
 }
 

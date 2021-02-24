@@ -46,8 +46,8 @@ void Level::render(Shader* shader, double deltaTime)
     shader->use();
     if(this->cameraEntity!=NULL)
     {
-        shader->setUniform("projection",glm::value_ptr(((ComponentCamera*)(this->cameraEntity->getComponent(0)))->getProjectionMatrix()));
-        shader->setUniform("view",glm::value_ptr(((ComponentCamera*)(this->cameraEntity->getComponent(0)))->getViewMatrix()));
+        shader->setUniform("projection",glm::value_ptr(((ComponentCamera*)(this->cameraEntity->getComponent("camera")))->getProjectionMatrix()));
+        shader->setUniform("view",glm::value_ptr(((ComponentCamera*)(this->cameraEntity->getComponent("camera")))->getViewMatrix()));
     }
     //Tengo que ciclar entre todas las entidades y renderizarlas
     std::vector<Entity*>::iterator ptr;
