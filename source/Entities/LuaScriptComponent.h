@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string>
 #include "Component.h"
+#include "Entity.h"
 
 class LuaScriptComponent : public Component
 {
@@ -11,6 +12,7 @@ class LuaScriptComponent : public Component
     ~LuaScriptComponent();
     void onUpdate();
     void onCreate();
+    void onCollision(Entity* other);
     Component* copy();
     std::string getScript();
     private:

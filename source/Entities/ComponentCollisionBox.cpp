@@ -104,6 +104,7 @@ void ComponentCollisionBox::onUpdate()
             if(comp!=NULL)
                 if(this->checkCollision((ComponentCollisionBox*)comp))
                 {
+                    this->entity->onCollision(*ptr);
                     //printf("NOMBRE ENTIDAD 1: %s, NOMBRE ENTIDAD 2: %s\n",this->entity->getName().c_str(),(*ptr)->getName().c_str());
                 }
         }

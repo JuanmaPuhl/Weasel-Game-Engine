@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include <stdio.h>
+#include "LuaScriptComponent.h"
 
 Entity::Entity()
 {
@@ -59,6 +60,9 @@ void Entity::onCollision(Entity* other)
 {
     //Si tengo script llamo al metodo onTrigger
     //Sino no hago nada
+    LuaScriptComponent* c = (LuaScriptComponent*)this->getComponent("lua_script");
+    if(c!=NULL)
+        c->onCollision(other);
 }
 
 void Entity::onUpdate()
