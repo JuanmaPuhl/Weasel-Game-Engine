@@ -3,5 +3,5 @@ function on_create()
 end
 
 function on_update()
-    print("JIM::OnUpdate")
+    
 end

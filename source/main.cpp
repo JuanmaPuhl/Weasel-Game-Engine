@@ -22,6 +22,7 @@
 #include "Scripts/Lua_Level.h"
 #include "Scripts/Lua_Game.h"
 #include "Entities/LuaScriptComponent.h"
+#include "Entities/ComponentCollisionBox.h"
 #include "Windows.h"
 #define DEBUG
 extern "C" {
@@ -198,9 +199,10 @@ int metodoPrincipal()
   scr->fire = fireEntity;
   Component* scriptComponent = new ComponentScript(scr);
   //personaje->addComponent(scriptComponent);
-
+  personaje->addComponent(new ComponentCollisionBox(personaje->getPosition().x,personaje->getPosition().y,personaje->getScale().x,personaje->getScale().y,personaje));
+  bird->addComponent(new ComponentCollisionBox(bird->getPosition().x,bird->getPosition().y,bird->getScale().x,bird->getScale().y,bird));
   personaje->addComponent(new LuaScriptComponent("res/scripts/jim_script.lua", lua_state));
-
+  
   
   executeLuaScript(lua_state);
 
