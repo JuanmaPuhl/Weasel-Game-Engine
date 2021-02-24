@@ -22,15 +22,7 @@ class Entity
     void translate(glm::vec3 position);
     void rotate(glm::vec3 rotation);
     void scale(glm::vec3 scaling);
-    //TODO: Quitar Entity.setSprite
-    void setSprite(Sprite* sprite);
     void addComponent(Component* component);
-    //TODO: Quitar Entity.getSprite
-    Sprite* getSprite();
-    //TODO: Quitar Entity.getModelMatrix
-    glm::mat4 getModelMatrix();
-    //TODO: Quitar Entity.getQuad
-    Quad* getQuad();
     void onCollision(Entity* other);
     void onUpdate();
     void render(Shader* shader,double deltaTime);

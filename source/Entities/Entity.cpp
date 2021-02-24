@@ -37,17 +37,6 @@ void Entity::updateModelMatrix()
     this->position = glm::vec3(0.0f); */
 }
 
-void Entity::setSprite(Sprite* sprite)
-{
-    Sprite* a = sprite->copy(sprite);
-    this->sprite = a;
-}
-
-Sprite* Entity::getSprite()
-{
-    return this->sprite;
-}
-
 void Entity::translate(glm::vec3 position)
 {
     this->position += position;
@@ -64,16 +53,6 @@ void Entity::scale(glm::vec3 scaling)
 {
     this->scaling *= scaling;
     this->updateModelMatrix();
-}
-
-glm::mat4 Entity::getModelMatrix()
-{
-    return this->modelMatrix;
-}
-
-Quad* Entity::getQuad()
-{
-    return this->quad;
 }
 
 void Entity::onCollision(Entity* other)
@@ -96,7 +75,7 @@ void Entity::render(Shader* shader, double deltaTime)
     /* if(this->script != NULL)
         this->script->onUpdate(); */
     
-    glBindVertexArray(this->getQuad()->getVAO());
+    glBindVertexArray(this->quad->getVAO());
     shader->setUniform("model",glm::value_ptr(this->modelMatrix));
 /*     float transparency = this->sprite->getTransparency();
     shader->setUniform("transparency",&transparency); */

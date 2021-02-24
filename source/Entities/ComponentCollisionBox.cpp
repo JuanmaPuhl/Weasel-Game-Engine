@@ -77,7 +77,9 @@ bool ComponentCollisionBox::checkCollision(ComponentCollisionBox* b)
     //Colision en eje y
     bool collisionY = this->y + this->height >= b->getY() && b->getY() + b->getHeight() >= this->y;
     if(collisionX && collisionY)
-        printf("Colision.\n");
+    {
+        //printf("Colision.\n");
+    }
     return collisionX && collisionY;
 }
 
@@ -96,14 +98,13 @@ void ComponentCollisionBox::onUpdate()
     std::vector<Entity*>::iterator ptr;
     for(ptr = (this->list).begin(); ptr<(this->list).end(); ptr++)
     {   
-        //TODO: Tengo que hacer el metodo de buscar componente en la entidad
         if(*ptr != this->entity)
         {
             Component* comp = (*ptr)->getComponent("collider");
             if(comp!=NULL)
                 if(this->checkCollision((ComponentCollisionBox*)comp))
                 {
-                    printf("NOMBRE ENTIDAD 1: %s, NOMBRE ENTIDAD 2: %s\n",this->entity->getName().c_str(),(*ptr)->getName().c_str());
+                    //printf("NOMBRE ENTIDAD 1: %s, NOMBRE ENTIDAD 2: %s\n",this->entity->getName().c_str(),(*ptr)->getName().c_str());
                 }
         }
         
