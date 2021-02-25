@@ -16,7 +16,7 @@ void main()
     float scale = 5.0f;
     TexCoords = aTexCoord;
     ParticleColor = color;
-    gl_Position = projection*vec4((aPos.xyz * scale)+offset, 1.0);
+    gl_Position = projection*view*vec4((aPos.xyz * scale)+offset, 1.0);
 }
 <Shader>Fragment
 #version 410 core

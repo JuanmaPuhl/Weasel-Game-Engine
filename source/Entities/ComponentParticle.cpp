@@ -29,9 +29,9 @@ void ComponentParticle::respawnParticle(Particle* particle, glm::vec3 offset)
     float rColorR = ((rand() % 100) / 100.0f);
     float rColorG = ((rand() % 100) / 100.0f);
     float rColorB =  ((rand() % 100) / 100.0f);
-    particle->setPosition( glm::vec3(random) + glm::vec3(offset.x,offset.y,0.0f));
+    particle->setPosition(this->generator->getPosition() + glm::vec3(random,random,0.0f) + glm::vec3(offset.x,offset.y,0.0f));
     particle->setColor(glm::vec4(rColorR,rColorG,rColorB,1.0f));
-    particle->setLife(2.0f);
+    particle->setLife(0.5f);
     particle->setSpeed(particle->getSpeed()*0.1f);
 }
 
@@ -77,7 +77,7 @@ void ComponentParticle::onUpdate()
         {
             particle->setPosition(particle->getPosition() - (particle->getSpeed() * (float)Game::getDeltaTime()));
             glm::vec4 colorViejo = particle->getColor();
-            particle->setColor(glm::vec4(colorViejo.x,colorViejo.y,colorViejo.z,particle->getLife()) );
+            particle->setColor(glm::vec4(colorViejo.x,colorViejo.y,colorViejo.z,particle->getLife()*2.0f) );
         }
     }
 }
