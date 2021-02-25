@@ -45,7 +45,6 @@ class KeyboardControl : protected Control<keyboard::Key>
 {
     
     public:
-    
     KeyboardControl();
     ~KeyboardControl();
     void setKey(int key, bool action);

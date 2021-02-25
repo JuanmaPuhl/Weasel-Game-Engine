@@ -28,7 +28,7 @@ class Entity
     void onUpdate();
     void render(Shader* shader,double deltaTime);
     Component* getComponent(std::string name);
-    GraphicAttribute* getAttribute(int index);
+    GraphicAttribute* getAttribute(std::string name);
     void addAttribute(GraphicAttribute* attribute);
     void setPosition(glm::vec3 position);
     void setRotation(glm::vec3 rotation);

@@ -3,6 +3,7 @@
 ColorAttribute::ColorAttribute(glm::vec3 color)
 {
     this->color = color;
+    this->setName("color");
 }
 
 ColorAttribute::~ColorAttribute()

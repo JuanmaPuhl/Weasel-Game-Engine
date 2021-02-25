@@ -5,6 +5,7 @@ SpriteAttribute::SpriteAttribute(Sprite* sprite)
     a->setSpeed(sprite->getSpeed());
     //sprite->copy(sprite);
     this->sprite = a;
+    this->setName("sprite");
 }
 SpriteAttribute::~SpriteAttribute()
 {

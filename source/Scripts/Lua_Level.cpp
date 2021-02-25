@@ -44,7 +44,6 @@ static int level_get_entities(lua_State *L)
     std::vector<Entity*> lista = (*level)->getEntities();
     std::vector<Entity*>::iterator ptr;
     lua_createtable(L, lista.capacity(), 0);
-    printf("Capacidad: %d\n",lista.capacity());
     int newTable = lua_gettop(L);
     int indice = 1;
     for(ptr = lista.begin(); ptr < lista.end(); ptr++)

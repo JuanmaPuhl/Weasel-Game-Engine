@@ -149,11 +149,14 @@ Component* Entity::getComponent(std::string name)
     return NULL;
 }
 
-GraphicAttribute* Entity::getAttribute(int index)
+GraphicAttribute* Entity::getAttribute(std::string name)
 {
-    if(index >= this->attributes.capacity())
-        return NULL;
-    return this->attributes.at(index);
+    for(int i = 0; i < this->attributes.capacity(); i++)
+    {
+        if(strcmp((this->attributes.at(i))->getName().c_str(),name.c_str())==0)
+            return this->attributes.at(i);
+    }
+    return NULL;
 }
 void Entity::addAttribute(GraphicAttribute* attribute)
 {

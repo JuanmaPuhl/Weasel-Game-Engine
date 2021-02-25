@@ -79,7 +79,7 @@ static int entity_get_attribute(lua_State* L)
     if (n != 2)
         return luaL_error(L, "Got %d arguments expected 2", n);
     Entity** entity = (Entity**) lua_touserdata(L, -2);
-    int indice = luaL_checknumber(L,-1);
+    std::string indice = lua_tostring(L,-1);
     GraphicAttribute** attribute = (GraphicAttribute**)lua_newuserdata(L, sizeof(GraphicAttribute*));  
     *attribute = (*entity)->getAttribute(indice);   
     return 1;
