@@ -15,9 +15,11 @@ struct GameData
         std::vector<Level*> levels;
         Level* currentLevel = NULL;
         Shader* shader = NULL;
+        Shader* shaderParticles = NULL;
         std::vector<Sprite*> sprites;
         std::vector<Sprite*> system_sprites;
         GAME_STATUS status;
+        double deltaTime;
     };
     extern GameData* gamedata;
 namespace Game
@@ -44,5 +46,7 @@ namespace Game
     void pauseGame();
     void stopGame();
     void newGame();
+    double getDeltaTime();
+    Shader* getParticleShader();
 }
 #endif

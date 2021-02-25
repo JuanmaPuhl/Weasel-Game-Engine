@@ -23,6 +23,7 @@
 #include "Scripts/Lua_Game.h"
 #include "Entities/LuaScriptComponent.h"
 #include "Entities/ComponentCollisionBox.h"
+#include "Entities/ComponentParticle.h"
 #include "Windows.h"
 #define DEBUG
 extern "C" {
@@ -212,7 +213,7 @@ int metodoPrincipal()
   bird->addComponent(new ComponentCollisionBox(bird->getPosition().x,bird->getPosition().y,bird->getScale().x,bird->getScale().y,bird));
   personaje->addComponent(new LuaScriptComponent("res/scripts/jim_script.lua", lua_state));
   personaje->setName("JIM");
-  
+  personaje->addComponent(new ComponentParticle(500,200,personaje));
   executeLuaScript(lua_state);
 
 

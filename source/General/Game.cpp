@@ -6,6 +6,7 @@ void Game::init(int width, int height)
 {
     gamedata->window = window::window_init(width,height);
     gamedata->shader = new Shader(DEFAULT_SHADER_FILE);
+    gamedata->shaderParticles = new Shader(PARTICLE_SHADER_FILE);
     Gui::init(gamedata->window);
     gamedata->status = PLAY;
 }
@@ -85,6 +86,7 @@ GLFWwindow* Game::getWindow()
 
 void Game::loopFunction(double deltaTime)
 { 
+    gamedata->deltaTime = deltaTime;
     if(gamedata->status == PLAY)
     {
         Game::onUpdate(deltaTime);
@@ -193,4 +195,14 @@ void Game::newGame()
     gamedata->currentLevel = NULL;
     gamedata->sprites.clear();
 
+}
+
+double Game::getDeltaTime()
+{
+    return gamedata->deltaTime;
+}
+
+Shader* Game::getParticleShader()
+{
+    return gamedata->shaderParticles;
 }

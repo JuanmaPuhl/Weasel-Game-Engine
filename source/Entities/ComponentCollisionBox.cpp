@@ -90,7 +90,6 @@ void ComponentCollisionBox::onCreate()
 
 void ComponentCollisionBox::onUpdate()
 {
-    //printf("OnUpdate.\n");
     this->x = this->entity->getPosition().x;
     this->y = this->entity->getPosition().y;
     Level* level = Game::getCurrentLevel();
@@ -105,10 +104,8 @@ void ComponentCollisionBox::onUpdate()
                 if(this->checkCollision((ComponentCollisionBox*)comp))
                 {
                     this->entity->onCollision(*ptr);
-                    //printf("NOMBRE ENTIDAD 1: %s, NOMBRE ENTIDAD 2: %s\n",this->entity->getName().c_str(),(*ptr)->getName().c_str());
                 }
         }
-        
     }
 }
 

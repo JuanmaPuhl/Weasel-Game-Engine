@@ -1,9 +1,9 @@
 LIBRERIAS = -llua54 -lglew32 -lglfw3 -lopengl32 -lcomdlg32 
 CODIGO = source/
-all: main.exe quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o  Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o ComponentCollisionBox.o
+all: main.exe quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o  Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o ComponentCollisionBox.o ComponentParticle.o Particle.o
 .PHONY: all
-main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui_widgets.o imgui.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o Gui.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o  ComponentCollisionBox.o $(CODIGO)Entities/Scripts.h 
-	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui.o imgui_widgets.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o Gui.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o ComponentCollisionBox.o -I .$(CODIGO)ScriptComponent.h -I.$(CODIGO)Entities/Scripts.h -I ./libs/  -L ./libs/ $(LIBRERIAS)
+main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui_widgets.o imgui.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o Gui.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o  ComponentCollisionBox.o  ComponentParticle.o Particle.o $(CODIGO)Entities/Scripts.h 
+	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui.o imgui_widgets.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o Gui.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o ComponentCollisionBox.o ComponentParticle.o Particle.o -I .$(CODIGO)ScriptComponent.h -I.$(CODIGO)Entities/Scripts.h -I ./libs/  -L ./libs/ $(LIBRERIAS)
 quad.o: $(CODIGO)Graphics/quad.cpp $(CODIGO)Graphics/quad.h
 	g++ -c  $(CODIGO)Graphics/quad.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS) 
 window.o: $(CODIGO)Graphics/window.cpp $(CODIGO)Graphics/window.h
@@ -62,6 +62,10 @@ Lua_Game.o: $(CODIGO)Scripts/Lua_Game.h $(CODIGO)Scripts/Lua_Game.cpp
 	g++ -c $(CODIGO)Scripts/Lua_Game.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 ComponentCollisionBox.o: $(CODIGO)Entities/ComponentCollisionBox.h $(CODIGO)Entities/ComponentCollisionBox.cpp
 	g++ -c $(CODIGO)Entities/ComponentCollisionBox.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+ComponentParticle.o: $(CODIGO)Entities/ComponentParticle.h $(CODIGO)Entities/ComponentParticle.cpp
+	g++ -c $(CODIGO)Entities/ComponentParticle.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+Particle.o: $(CODIGO)Entities/Particle.h $(CODIGO)Entities/Particle.cpp
+	g++ -c $(CODIGO)Entities/Particle.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 clean:
 	del quad.o
 	del window.o
@@ -92,6 +96,8 @@ clean:
 	del Lua_Game.o
 	del LuaScriptComponent.o
 	del ComponentCollisionBox.o
+	del ComponentParticle.o
+	del Particle.o
 	del main.exe
 
         

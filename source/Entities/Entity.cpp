@@ -1,6 +1,11 @@
 #include "Entity.h"
 #include <stdio.h>
 #include "LuaScriptComponent.h"
+#include "../General/Game.h"
+#include "ComponentCamera.h"
+#include "ComponentParticle.h"
+#include "Particle.h"
+
 
 Entity::Entity()
 {
@@ -94,6 +99,39 @@ void Entity::render(Shader* shader, double deltaTime)
     {
         (*(ptr))->unbind(shader);
     }
+
+    ComponentParticle* cp = (ComponentParticle*)this->getComponent("particle");
+    if(cp!=NULL)
+    {
+        
+        Shader* particleShader = Game::getParticleShader();
+        particleShader->use();
+        
+        glBindVertexArray(this->quad->getVAO());
+        Entity* camera = Game::getCurrentLevel()->getCamera();
+        if(camera != NULL)
+        {
+            particleShader->setUniform("projection",glm::value_ptr(((ComponentCamera*)(camera->getComponent("camera")))->getProjectionMatrix()));
+            particleShader->setUniform("view",glm::value_ptr(((ComponentCamera*)(camera->getComponent("camera")))->getViewMatrix()));
+        }
+        for(Particle* particle : cp->getParticles())
+        {
+
+            if(particle->getLife()>0.0f)
+            {
+                particleShader->setUniform("color",glm::value_ptr(particle->getColor()));
+                particleShader->setUniform("offset",glm::value_ptr(particle->getPosition()));
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+            
+        }
+        glBindVertexArray(0);
+        shader->use();
+        //particleShader->setUniform();
+    }
+    
+
+
 }
 
 void Entity::addComponent(Component* component)
