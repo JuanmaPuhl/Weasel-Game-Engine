@@ -3,6 +3,7 @@
 Particle::Particle()
 {
     this->life = 0.0f;
+    
 }
 
 Particle::~Particle()

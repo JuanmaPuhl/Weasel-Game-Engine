@@ -213,7 +213,7 @@ int metodoPrincipal()
   bird->addComponent(new ComponentCollisionBox(bird->getPosition().x,bird->getPosition().y,bird->getScale().x,bird->getScale().y,bird));
   personaje->addComponent(new LuaScriptComponent("res/scripts/jim_script.lua", lua_state));
   personaje->setName("JIM");
-  personaje->addComponent(new ComponentParticle(500,200,personaje));
+  personaje->addComponent(new ComponentParticle(500,2,personaje));
   executeLuaScript(lua_state);
 
 

@@ -30,14 +30,14 @@ void ComponentParticle::respawnParticle(Particle* particle, glm::vec3 offset)
     float rColorG = ((rand() % 100) / 100.0f);
     float rColorB =  ((rand() % 100) / 100.0f);
     particle->setPosition(this->generator->getPosition() + glm::vec3(random,random,0.0f) + glm::vec3(offset.x,offset.y,0.0f));
-    particle->setColor(glm::vec4(rColorR,rColorG,rColorB,1.0f));
-    particle->setLife(0.5f);
-    particle->setSpeed(particle->getSpeed()*0.1f);
+    particle->setColor(glm::vec4(1.0f,0.78f,0.07f,0.5f));
+    particle->setLife(1.0f);
+    particle->setSpeed(glm::vec3(1.0f,8.0f,1.0f));
 }
 
 int ComponentParticle::firstUnusedParticle()
 {
-    for(int i = this->lastUsedParticle; i < this->maxParticles; i++)
+    for(int i = this->lastUsedParticle; i < this->maxParticles; ++i)
     {
         if(this->particles.at(i)->getLife() <= 0.0f)
         {
@@ -45,7 +45,7 @@ int ComponentParticle::firstUnusedParticle()
             return i;
         }
     }
-    for(int i = 0; i < this->lastUsedParticle; i++)
+    for(int i = 0; i < this->lastUsedParticle; ++i)
     {
         if(this->particles.at(i)->getLife() <= 0.0f)
         {
@@ -61,23 +61,27 @@ int ComponentParticle::firstUnusedParticle()
 void ComponentParticle::onUpdate()
 {
     //Tengo que spawnear las particulas
-    for(int i = 0; i < this->newparticles; i++)
+    for(int i = 0; i < this->newparticles; ++i)
     {
         int firstUnusedParticle = this->firstUnusedParticle();
-        float x = rand()%100*pow(-1.0f,rand()%2);
-        float y = rand()%100*pow(-1.0f,rand()%2);
+        float x = rand()%15*pow(-1.0f,rand()%2);
+        float y = rand()%30*pow(-1.0f,rand()%2)+80.0f;
         this->respawnParticle(this->particles.at(firstUnusedParticle), glm::vec3(x,y,0.0f));
     }
 
-    for(int i = 0; i < this->maxParticles; i++)
+    for(int i = 0; i < this->maxParticles; ++i)
     {
         Particle* particle = this->particles.at(i);
         particle->setLife(particle->getLife() - Game::getDeltaTime());
         if(particle->getLife() > 0.0f)
         {
-            particle->setPosition(particle->getPosition() - (particle->getSpeed() * (float)Game::getDeltaTime()));
+            particle->setPosition(particle->getPosition() + glm::vec3(0.0f,1.0f,0.0f)* (particle->getSpeed() * (float)Game::getDeltaTime()));
             glm::vec4 colorViejo = particle->getColor();
-            particle->setColor(glm::vec4(colorViejo.x,colorViejo.y,colorViejo.z,particle->getLife()*2.0f) );
+            if(particle->getPosition().y - this->generator->getPosition().y <= 70.0f)
+                particle->setColor(glm::vec4(colorViejo.x,((colorViejo.y) - 0.1*Game::getDeltaTime()-(1.0f-particle->getLife())*0.05f) ,colorViejo.z,particle->getLife() + 0.2f) );
+            else
+                particle->setColor(glm::vec4(colorViejo.x,0.1f,colorViejo.z,particle->getLife()) );
+            
         }
     }
 }
