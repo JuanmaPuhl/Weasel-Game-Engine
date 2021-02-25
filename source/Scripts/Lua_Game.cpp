@@ -33,6 +33,11 @@ static int game_set_current_level(lua_State* L)
     Game::setLevel(i);
     return 1;
 }
+static int game_get_delta_time(lua_State* L)
+{
+    lua_pushnumber(L,(float)Game::getDeltaTime());
+    return 1;
+}
 
 void game_script_init(lua_State* L)
 {
@@ -44,4 +49,6 @@ void game_script_init(lua_State* L)
     lua_setglobal(L, "game_set_current_level");
     lua_pushcfunction(L, game_add_level);
     lua_setglobal(L, "game_add_level");
+    lua_pushcfunction(L, game_get_delta_time);
+    lua_setglobal(L, "game_get_delta_time");
 }

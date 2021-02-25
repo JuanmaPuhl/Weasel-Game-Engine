@@ -20,8 +20,10 @@
 #include "Graphics/Gui.h"
 #include "Scripts/Lua_Entity.h"
 #include "Scripts/Lua_Level.h"
+#include "Scripts/Lua_Sprite.h"
 #include "Scripts/Lua_Game.h"
 #include "Scripts/Lua_Keyboard.h"
+#include "Scripts/Lua_Attribute.h"
 #include "Entities/LuaScriptComponent.h"
 #include "Entities/ComponentCollisionBox.h"
 #include "Entities/ComponentParticle.h"
@@ -111,7 +113,9 @@ int metodoPrincipal()
   //init_level(lua_state);
   level_script_init(lua_state);
   game_script_init(lua_state);
+  attribute_script_init(lua_state);
   keyboard_script_init(lua_state);
+  sprite_script_init(lua_state);
   printf("MAIN::Estado de LUA creado.\n");
   
   printf("Main::Creando ventana...\n");

@@ -447,7 +447,7 @@ void showEntityPopup()
         ImGui::BeginChild("SpriteEntity");
         ImGui::Button("Seleccionar Sprite");
         std::string selected_sprite = "undefined";
-        GraphicAttribute* attr = entityClicked->getAttribute(0);
+        GraphicAttribute* attr = entityClicked->getAttribute("sprite");
         
         SpriteAttribute* sprAttr = NULL;
         if(attr != NULL){
@@ -513,7 +513,7 @@ void showEntityPopup()
     {
         ImGui::BeginChild("ColorEntity");
         std::string selected_sprite = "undefined";
-        GraphicAttribute* attr = entityClicked->getAttribute(1);
+        GraphicAttribute* attr = entityClicked->getAttribute("color");
         ImVec4 color;
         ColorAttribute* colorAttr = NULL;
         if(attr != NULL){
