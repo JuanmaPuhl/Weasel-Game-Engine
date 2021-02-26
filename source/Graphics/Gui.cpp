@@ -582,7 +582,7 @@ void showEntityPopup()
                     scriptComponent->setScript(buffer);
                 }
             }
-            //ImGui::EndChild();
+            
 
         }
     }
