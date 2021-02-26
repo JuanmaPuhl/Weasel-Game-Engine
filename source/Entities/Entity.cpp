@@ -209,3 +209,8 @@ void Entity::setName(std::string name)
 {
     this->name = name;
 }
+
+std::vector<Component*> Entity::getAllComponents()
+{
+    return this->components;
+}

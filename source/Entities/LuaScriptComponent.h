@@ -10,6 +10,7 @@ class LuaScriptComponent : public Component
     public:
     LuaScriptComponent(std::string scr, lua_State* L);
     ~LuaScriptComponent();
+    void setScript(std::string script);
     void onUpdate();
     void onCreate();
     void onCollision(Entity* other);

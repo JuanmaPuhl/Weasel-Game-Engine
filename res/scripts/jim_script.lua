@@ -18,7 +18,6 @@ function on_create()
 end
 
 function on_update()
-    print(sprite_get_transparency(sprite_fire))
     local deltaTime = game_get_delta_time()
     local speed = 96.0
     if is_pressed(KEY_RIGHT) then

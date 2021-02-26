@@ -4,6 +4,9 @@
 #include <windows.h>
 #include <shobjidl.h> 
 #include "../Utils/WindowsDialogs.h"
+#include "../Entities/ComponentCollisionBox.h"
+#include "../Entities/LuaScriptComponent.h"
+#include "../Entities/ComponentParticle.h"
 GLFWwindow* ventana;
 glm::vec3 vec;
 int height = 0, width = 0;
@@ -544,6 +547,68 @@ void showEntityPopup()
             ImGui::Image(texUndefined, ImVec2(50, 50), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f)); */
         }
         ImGui::EndChild();
+    }
+    for(Component* component : entityClicked->getAllComponents())
+    {
+        bool openComponent = ImGui::CollapsingHeader(component->getName().c_str(), ImGuiTreeNodeFlags_None);
+        if(openComponent)
+        {
+            //ImGui::BeginChild(component->getName().c_str());
+            if(strcmp(component->getName().c_str(),"collider") == 0)
+            {
+                ComponentCollisionBox* collComp = ((ComponentCollisionBox*)component);
+                float collider_numbers[4] = {collComp->getX(),collComp->getY(),collComp->getWidth(),collComp->getHeight()};
+                if(ImGui::DragFloat4("x,y,width,height",collider_numbers))
+                {
+                    ((ComponentCollisionBox*)component)->setX(collider_numbers[0]);
+                    ((ComponentCollisionBox*)component)->setY(collider_numbers[1]);
+                    ((ComponentCollisionBox*)component)->setWidth(collider_numbers[2]);
+                    ((ComponentCollisionBox*)component)->setHeight(collider_numbers[3]);
+                }
+            }
+            if(strcmp(component->getName().c_str(),"lua_script") == 0)
+            {
+                LuaScriptComponent* scriptComponent = ((LuaScriptComponent*)component);
+                ImGui::Text(scriptComponent->getScript().c_str());
+                ImGui::Button("Seleccionar");
+                if(ImGui::IsItemClicked())
+                {
+                    TCHAR scriptReturn [260] = {0};
+                    Utils::openFileDialog(scriptReturn,260);
+                    char buffer [261];
+                    sprintf (buffer, "%s",scriptReturn);
+                    //std::string test2 (&(scriptReturn[0])); //and convert to string.
+                    printf("Script nuevo: %s\n",buffer);
+                    scriptComponent->setScript(buffer);
+                }
+            }
+            //ImGui::EndChild();
+
+        }
+    }
+    ImGui::Button("Insertar...");
+    if(ImGui::IsItemClicked())
+    {
+        //Abrir una ventana para seleccionar un sprite
+        spriteSelection = true;
+        Gui::writeToLog("Voy a abrir la seleccion de sprite.\n");
+        ImGui::OpenPopup("addCompAttr");
+
+    }
+    if (ImGui::BeginPopup("addCompAttr"))
+    {
+        std::string compsAttrs[3] = {"collider","lua_script","particle"};
+        for(int i = 0; i < 3; i++)
+        {
+            ImGui::TreeNodeEx(compsAttrs[i].c_str(),node_flags); 
+            if(ImGui::IsItemClicked())
+            {
+                ImGui::CloseCurrentPopup();
+            }
+        }
+            
+    
+        ImGui::EndPopup();
     }
 
 

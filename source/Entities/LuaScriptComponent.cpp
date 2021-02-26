@@ -63,3 +63,8 @@ std::string LuaScriptComponent::getScript()
 {
     return this->scr;
 }
+
+void LuaScriptComponent::setScript(std::string script)
+{
+    this->scr = script;
+}
