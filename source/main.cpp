@@ -28,7 +28,7 @@
 #include "Entities/ComponentCollisionBox.h"
 #include "Entities/ComponentParticle.h"
 #include "Windows.h"
-#include "irrklang/include/irrKlang.h"
+#include "Entities/ComponentMusic.h"
 #define DEBUG
 extern "C" {
   #include "lua/include/lua.h"
@@ -96,7 +96,7 @@ int metodoPrincipal()
   // create new Lua state
 
   irrklang::ISoundEngine *SoundEngine = irrklang::createIrrKlangDevice();
-  SoundEngine->play2D("res/audio/breakout.mp3", true);
+  //SoundEngine->play2D("res/audio/breakout.mp3", true);
   printf("MAIN::Creando nuevo estado de LUA...\n");
   lua_State *lua_state;
   lua_state = luaL_newstate();
@@ -209,14 +209,20 @@ int metodoPrincipal()
   scr->fire = fireEntity;
   Component* scriptComponent = new ComponentScript(scr);
   //personaje->addComponent(scriptComponent);
- 
+  fireEntity->addComponent(new ComponentMusic(SoundEngine));
+  ((ComponentMusic*)(fireEntity->getComponent("music")))->setMusic("res/audio/disparo.wav");
+  //((ComponentMusic*)(fireEntity->getComponent("music")))->playMusic();
   personaje->addComponent(new ComponentCollisionBox(personaje->getPosition().x,personaje->getPosition().y,personaje->getScale().x,personaje->getScale().y,personaje));
   bird->addComponent(new ComponentCollisionBox(bird->getPosition().x,bird->getPosition().y,bird->getScale().x,bird->getScale().y,bird));
+
   personaje->setName("JIM");
   personaje->addComponent(new ComponentParticle(500,2,personaje));
   personaje->addAttribute(new ColorAttribute(glm::vec3(0.0f)));
   //executeLuaScript(lua_state);
   personaje->addComponent(new LuaScriptComponent("res/scripts/jim_script.lua", lua_state));
+  personaje->addComponent(new ComponentMusic(SoundEngine));
+  ((ComponentMusic*)(personaje->getComponent("music")))->setMusic("res/audio/01 - New Junk City.mp3");
+  ((ComponentMusic*)(personaje->getComponent("music")))->playMusic();
 
 
   Game::loop();
