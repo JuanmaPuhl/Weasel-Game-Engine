@@ -14,3 +14,4 @@ Ejecutar el comando Make y luego main (WINDOWS)
 - stbImage
 - Dear ImGui
 - LUA
+- irrKlang

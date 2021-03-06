@@ -28,6 +28,7 @@
 #include "Entities/ComponentCollisionBox.h"
 #include "Entities/ComponentParticle.h"
 #include "Windows.h"
+#include "irrklang/include/irrKlang.h"
 #define DEBUG
 extern "C" {
   #include "lua/include/lua.h"
@@ -93,6 +94,9 @@ int metodoPrincipal()
 {
   printf("%s\n",GetLastErrorAsString().c_str());
   // create new Lua state
+
+  irrklang::ISoundEngine *SoundEngine = irrklang::createIrrKlangDevice();
+  SoundEngine->play2D("res/audio/breakout.mp3", true);
   printf("MAIN::Creando nuevo estado de LUA...\n");
   lua_State *lua_state;
   lua_state = luaL_newstate();

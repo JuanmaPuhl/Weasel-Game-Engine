@@ -1,4 +1,4 @@
-LIBRERIAS = -llua54 -lglew32 -lglfw3 -lopengl32 -lcomdlg32 
+LIBRERIAS = -llua54 -lglew32 -lglfw3 -lopengl32 -lcomdlg32 -lirrKlang
 CODIGO = source/
 all: main.exe quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o  Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o ComponentCollisionBox.o ComponentParticle.o Particle.o Lua_Keyboard.o Lua_Attribute.o Lua_Sprite.o
 .PHONY: all
