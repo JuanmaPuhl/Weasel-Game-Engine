@@ -29,7 +29,7 @@ int attribute_set_color(lua_State* L)
 {
     int n = lua_gettop(L);  // Number of arguments
     if (n != 4)
-        return luaL_error(L, "Got %d arguments expected 2", n);
+        return luaL_error(L, "Got %d arguments expected 4", n);
     ColorAttribute** colAttr = (ColorAttribute**) lua_touserdata(L, -4);
     float r = luaL_checknumber(L, -3);
     float g = luaL_checknumber(L, -2);

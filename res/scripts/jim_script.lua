@@ -14,10 +14,16 @@ function on_create()
     sprite_attribute = entity_get_attribute(entity,"sprite")
     fire_attr = entity_get_attribute(fire, "sprite")
     sprite_fire = attribute_get_sprite(fire_attr)
+    col_attr = entity_get_attribute(entity,"color")
+    print(col_attr)
     sprite_set_transparency(sprite_fire,0.0)
+    collision = false
 end
 
 function on_update()
+    if collision then
+        attribute_set_color(col_attr,1.0,0.0,0.0)
+    end
     local deltaTime = game_get_delta_time()
     local speed = 96.0
     if is_pressed(KEY_RIGHT) then
@@ -82,4 +88,5 @@ end
 
 function on_collision(other)
     print("JIM::COLISION")
+    collision = true
 end

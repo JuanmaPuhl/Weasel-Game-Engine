@@ -208,10 +208,11 @@ int metodoPrincipal()
  
   personaje->addComponent(new ComponentCollisionBox(personaje->getPosition().x,personaje->getPosition().y,personaje->getScale().x,personaje->getScale().y,personaje));
   bird->addComponent(new ComponentCollisionBox(bird->getPosition().x,bird->getPosition().y,bird->getScale().x,bird->getScale().y,bird));
-  personaje->addComponent(new LuaScriptComponent("res/scripts/jim_script.lua", lua_state));
   personaje->setName("JIM");
   personaje->addComponent(new ComponentParticle(500,2,personaje));
+  personaje->addAttribute(new ColorAttribute(glm::vec3(0.0f)));
   //executeLuaScript(lua_state);
+  personaje->addComponent(new LuaScriptComponent("res/scripts/jim_script.lua", lua_state));
 
 
   Game::loop();
