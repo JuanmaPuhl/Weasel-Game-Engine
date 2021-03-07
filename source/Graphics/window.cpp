@@ -50,7 +50,7 @@ GLFWwindow* window::window_init(int width, int height)
     /*====================TERMINA CREACION DE VENTANA==========================*/
     int nwidth, nheight;
     glfwGetFramebufferSize(window, &nwidth, &nheight);
-    glViewport(nwidth/4, nheight/4, nwidth*2/4, nheight*3/4-18);
+    //glViewport(nwidth/4, nheight/4, nwidth*2/4, nheight*3/4-18);
 
     //glViewport(width/2, height/2, width, height);
     glEnable(GL_BLEND);

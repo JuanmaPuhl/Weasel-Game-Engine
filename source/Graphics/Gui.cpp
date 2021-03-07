@@ -785,10 +785,23 @@ void Gui::draw(double deltaTime)
     {
         showSpriteInfo();
     }
+    int nwidth, nheight;
+    glfwGetFramebufferSize(gamedata->window, &nwidth, &nheight);
+    ImGui::SetNextWindowPos(ImVec2(width/4,MENU_BAR_HEIGHT+GAME_CONTROLS_HEIGHT),ImGuiCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(width*2/4,height*2/4),ImGuiCond_Always);
+    ImVec2 wsize = ImVec2(width*2/4,height*2/4-18);
+    ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+    ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
+    ImGui::Begin("JUEGO",NULL,window_flags);
+    //ImGui::SetCursorPos((ImVec2((ImGui::GetWindowSize().x*0.5f - wsize.x*0.5f),(ImGui::GetWindowSize().y*0.5f - wsize.y*0.5f))));
+    ImGui::Image((ImTextureID)gamedata->texture,wsize, ImVec2(0, 1), ImVec2(1, 0),tint_col,border_col);
+    ImGui::End();
     showGameControls();
     ImGui::PopStyleColor();
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    
+
 }
 
 

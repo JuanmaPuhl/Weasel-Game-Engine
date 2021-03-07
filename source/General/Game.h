@@ -21,6 +21,7 @@ struct GameData
         std::vector<Sprite*> system_sprites;
         GAME_STATUS status;
         double deltaTime;
+        unsigned int texture;
     };
     extern GameData* gamedata;
 namespace Game

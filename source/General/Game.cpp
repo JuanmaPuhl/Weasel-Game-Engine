@@ -2,7 +2,6 @@
 
 GameData* gamedata =new GameData();
 unsigned int fbo;
-unsigned int textureFbo;
 int w,h;
 KeyboardControl* keyboardControl = new KeyboardControl();
 void Game::init(int width, int height)
@@ -15,22 +14,24 @@ void Game::init(int width, int height)
     gamedata->status = PLAY;
     w = width;
     h = height;
+    int nwidth, nheight;
+    glfwGetFramebufferSize(gamedata->window, &nwidth, &nheight);
     glGenFramebuffers(1,&fbo);
     
     glBindFramebuffer(GL_FRAMEBUFFER, fbo); 
     glEnable(GL_DEPTH_TEST);
-    glGenTextures(1, &textureFbo);
-    glBindTexture(GL_TEXTURE_2D, textureFbo);
+    glGenTextures(1, &gamedata->texture);
+    glBindTexture(GL_TEXTURE_2D, gamedata->texture);
     
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);  
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureFbo, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gamedata->texture, 0);
     unsigned int rbo;
     glGenRenderbuffers(1, &rbo);
     glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height); // use a single renderbuffer object for both a depth AND stencil buffer.
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h); // use a single renderbuffer object for both a depth AND stencil buffer.
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo); // now actually attach it
     glBindFramebuffer(GL_FRAMEBUFFER,0);
 
@@ -98,11 +99,13 @@ void Game::render(double deltaTime)
     glClearColor(18.0f/255, 18.0f/255, 27.0f/255, 1.0f);
     //glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_COLOR_BUFFER_BIT);
-    //glViewport(0,0,w,h);
-    gamedata->shaderGeneral->use();   
+    //int nwidth, nheight;
+    //glfwGetFramebufferSize(gamedata->window, &nwidth, &nheight);
+    //glViewport(nwidth/4, nheight/4, nwidth*2/4, nheight*3/4-18);
+    /* gamedata->shaderGeneral->use();   
     glBindVertexArray((new Quad())->getVAO());
-    glBindTexture(GL_TEXTURE_2D, textureFbo);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glBindTexture(GL_TEXTURE_2D, gamedata->texture);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); */
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
 }
