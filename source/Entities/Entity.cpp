@@ -78,12 +78,16 @@ void Entity::onUpdate()
         (*(ptr))->onUpdate();
     }
 }
-
+Quad* Entity::getQuad()
+{
+    return this->quad;
+}
 void Entity::render(Shader* shader, double deltaTime)
 {
     /* if(this->script != NULL)
         this->script->onUpdate(); */
-    
+    LuaScriptComponent* ls = (LuaScriptComponent*)this->getComponent("lua_script");
+
     glBindVertexArray(this->quad->getVAO());
     shader->setUniform("model",glm::value_ptr(this->modelMatrix));
 /*     float transparency = this->sprite->getTransparency();

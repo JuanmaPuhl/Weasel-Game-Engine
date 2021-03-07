@@ -7,4 +7,5 @@
 extern int ayuda;
 extern std::string DEFAULT_SHADER_FILE;
 extern std::string PARTICLE_SHADER_FILE;
+extern std::string GENERAL_SHADER_FILE;
 extern KeyboardControl* keyboardControl;

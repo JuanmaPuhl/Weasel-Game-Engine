@@ -16,6 +16,7 @@ struct GameData
         Level* currentLevel = NULL;
         Shader* shader = NULL;
         Shader* shaderParticles = NULL;
+        Shader* shaderGeneral = NULL;
         std::vector<Sprite*> sprites;
         std::vector<Sprite*> system_sprites;
         GAME_STATUS status;

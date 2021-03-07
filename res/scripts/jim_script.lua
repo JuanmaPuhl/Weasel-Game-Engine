@@ -76,6 +76,7 @@ function on_update()
             attribute_set_sprite(sprite_attribute, sprite_shooting)
         end
         pos = entity_get_position(entity)
+        print(pos[3])
         entity_set_position(fire, pos[1] + status * 36.0, pos[2] + 15.0, pos[3])
     else
         disparando = false

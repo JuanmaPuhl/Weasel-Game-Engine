@@ -180,7 +180,7 @@ int metodoPrincipal()
 
   entityBg->addAttribute(attrFondo);
   entityBg->scale(glm::vec3(173.625f,86.98f,1.0f));
-  entityBg->translate(glm::vec3(-56.0f,0.0f,-0.1f));
+  entityBg->setPosition(glm::vec3(-56.0f,0.0f,-2.0f));
 
   const char* bgLevel[1] = {"res/sprites/level-bg.png"};
   Entity* entityLevelBg = level1->addEntity();
@@ -189,7 +189,7 @@ int metodoPrincipal()
   GraphicAttribute* attrFondoLevel = new SpriteAttribute(fondo2);
   entityLevelBg->addAttribute(attrFondoLevel);
   entityLevelBg->scale(glm::vec3(173.625f,26.75f,1.0f));
-  entityLevelBg->translate(glm::vec3(-56.0f,0.0f,-0.01f));
+  entityLevelBg->setPosition(glm::vec3(-56.0f,0.0f,-1.0f));
 
   //Creo el pajaro
   const char* birdSprite[5] = {"res/sprites/c1.png","res/sprites/c2.png","res/sprites/c3.png","res/sprites/c4.png","res/sprites/c5.png"};

@@ -37,6 +37,7 @@ class Entity
     glm::vec3 getPosition();
     glm::vec3 getRotation();
     glm::vec3 getScale();
+    Quad* getQuad();
     void setName(std::string name);
     std::string getName();
     private:
