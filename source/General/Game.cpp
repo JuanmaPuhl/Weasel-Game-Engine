@@ -2,6 +2,8 @@
 
 GameData* gamedata =new GameData();
 unsigned int fbo;
+unsigned int fbo2;
+unsigned int tex;
 int w,h;
 KeyboardControl* keyboardControl = new KeyboardControl();
 void Game::init(int width, int height)
@@ -16,9 +18,30 @@ void Game::init(int width, int height)
     h = height;
     int nwidth, nheight;
     glfwGetFramebufferSize(gamedata->window, &nwidth, &nheight);
+    
+    
     glGenFramebuffers(1,&fbo);
     
     glBindFramebuffer(GL_FRAMEBUFFER, fbo); 
+    glEnable(GL_DEPTH_TEST);
+    glGenTextures(1, &tex);
+    glBindTexture(GL_TEXTURE_2D, tex);
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);  
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex, 0);
+    unsigned int rbo;
+    glGenRenderbuffers(1, &rbo);
+    glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h); // use a single renderbuffer object for both a depth AND stencil buffer.
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo); // now actually attach it
+    glBindFramebuffer(GL_FRAMEBUFFER,0);
+
+    glGenFramebuffers(1,&fbo2);
+    
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo2); 
     glEnable(GL_DEPTH_TEST);
     glGenTextures(1, &gamedata->texture);
     glBindTexture(GL_TEXTURE_2D, gamedata->texture);
@@ -28,11 +51,7 @@ void Game::init(int width, int height)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);  
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gamedata->texture, 0);
-    unsigned int rbo;
-    glGenRenderbuffers(1, &rbo);
-    glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h); // use a single renderbuffer object for both a depth AND stencil buffer.
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo); // now actually attach it
+
     glBindFramebuffer(GL_FRAMEBUFFER,0);
 
 }
@@ -93,21 +112,27 @@ void Game::render(double deltaTime)
     
     
     //printf("Cambio de buffer.\n");
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo2);
     glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
     //glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
     glClearColor(18.0f/255, 18.0f/255, 27.0f/255, 1.0f);
     //glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_COLOR_BUFFER_BIT);
-    //int nwidth, nheight;
-    //glfwGetFramebufferSize(gamedata->window, &nwidth, &nheight);
-    //glViewport(nwidth/4, nheight/4, nwidth*2/4, nheight*3/4-18);
-    /* gamedata->shaderGeneral->use();   
+    int nwidth, nheight;
+    glfwGetFramebufferSize(gamedata->window, &nwidth, &nheight);
+    //glViewport(0, 0, nwidth, nheight);
+    gamedata->shaderGeneral->use();   
     glBindVertexArray((new Quad())->getVAO());
-    glBindTexture(GL_TEXTURE_2D, gamedata->texture);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); */
+    glBindTexture(GL_TEXTURE_2D, tex);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glClearColor(18.0f/255, 18.0f/255, 27.0f/255, 1.0f);
+    //glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glfwGetFramebufferSize(gamedata->window, &nwidth, &nheight);
+    //glViewport(0, 0, nwidth, nheight);
 }
 
 Level* Game::getCurrentLevel()
