@@ -6,7 +6,7 @@ layout (location = 2) in vec2 aTexCoord;
 out vec2 TexCoord;
 void main()
 {
-    gl_Position =vec4(aPos.x,aPos.y,aPos.z, 1.0f);
+    gl_Position =vec4(2.0f*aPos.x,2.0f*aPos.y,aPos.z, 1.0f);
     TexCoord = aTexCoord;
 }
 <Shader>Fragment
@@ -20,7 +20,7 @@ void main()
 
     //Pixelization
     vec2 texSize  = textureSize(ourTexture, 0).xy;
-    /* 
+     
     int pixelSize = 5;
     float x = int(gl_FragCoord.x) % pixelSize;
     float y = int(gl_FragCoord.y) % pixelSize;
@@ -29,12 +29,12 @@ void main()
     y = floor(pixelSize / 2.0) - y;
 
     x = gl_FragCoord.x + x;
-    y = gl_FragCoord.y + y;*/
+    y = gl_FragCoord.y + y;
 
     vec4 tex = texture(ourTexture,TexCoord).xyza;
-    FragColor = tex;
+    //FragColor = tex;
     //FragColor = vec4(1.0f);
-    //FragColor = texture(ourTexture, vec2(x, y)/texSize); 
+    FragColor = texture(ourTexture, vec2(x, y)/texSize); 
 
 
 
