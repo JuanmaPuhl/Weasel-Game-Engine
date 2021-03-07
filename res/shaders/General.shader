@@ -6,6 +6,9 @@ layout (location = 2) in vec2 aTexCoord;
 out vec2 TexCoord;
 void main()
 {
+    //Se multiplica por dos porque el quad va de -0.5 a 0.5, de forma que el cuadrado tenga
+    //tamaño 1 y pueda escalar lo que quiera.
+    //Para que sea de pantalla completa entonces tiene que ser de -1 a 1.
     gl_Position =vec4(2.0f*aPos.x,2.0f*aPos.y,aPos.z, 1.0f);
     TexCoord = aTexCoord;
 }
