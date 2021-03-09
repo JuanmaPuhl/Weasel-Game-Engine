@@ -18,7 +18,7 @@ int component_camera_get_zoom(lua_State* L)
     if (n != 1)
         return luaL_error(L, "Got %d arguments expected 1", n);
     ComponentCamera** cc = (ComponentCamera**) lua_touserdata(L, -1);
-    if(cc != NULL && strcmp((*cc)->getName().c_str(),"camera"))
+    if(cc != NULL && !strcmp((*cc)->getName().c_str(),"camera"))
         lua_pushnumber(L, (*cc)->getZoom());
     else
         lua_pushnumber(L, 0);
@@ -33,7 +33,7 @@ int component_camera_set_zoom(lua_State* L)
         return luaL_error(L, "Got %d arguments expected 2", n);
     ComponentCamera** cc = (ComponentCamera**) lua_touserdata(L, -2);
     float zoom = luaL_checknumber(L, -1);
-    if(cc != NULL && strcmp((*cc)->getName().c_str(),"camera"))
+    if(cc != NULL && !strcmp((*cc)->getName().c_str(),"camera"))
         (*cc)->zoom(zoom);
     return 1;
 }
@@ -151,6 +151,70 @@ int component_particle_set_max_particles(lua_State* L)
 
 }
 
+int component_music_set_track(lua_State* L)
+{
+    int n = lua_gettop(L);  // Number of arguments
+    if (n != 2)
+        return luaL_error(L, "Got %d arguments expected 2", n);
+    ComponentMusic** cc = (ComponentMusic**) lua_touserdata(L, -2);
+    std::string music_dir = lua_tostring(L,-1);
+    printf("DIRECCION: %s\n",music_dir.c_str());
+    if(cc != NULL && (*cc) != NULL && !strcmp((*cc)->getName().c_str(),"music"))
+        (*cc)->setMusic(music_dir);
+    printf("HOLIWI %s\n",(*cc)->getMusic().c_str());
+}
+
+int component_music_get_track(lua_State* L)
+{
+    int n = lua_gettop(L);  // Number of arguments
+    if (n != 1)
+        return luaL_error(L, "Got %d arguments expected 1", n);
+    ComponentMusic** cc = (ComponentMusic**) lua_touserdata(L, -1);
+    if(cc != NULL && (*cc) != NULL && !strcmp((*cc)->getName().c_str(),"music"))
+        lua_pushstring(L, (*cc)->getMusic().c_str());
+}
+
+int component_music_play_track(lua_State* L)
+{
+    int n = lua_gettop(L);  // Number of arguments
+    if (n != 1)
+        return luaL_error(L, "Got %d arguments expected 1", n);
+    ComponentMusic** cc = (ComponentMusic**) lua_touserdata(L, -1);
+    if(cc != NULL && (*cc) != NULL && !strcmp((*cc)->getName().c_str(),"music"))
+        (*cc)->playMusic();
+}
+
+int component_music_stop_track(lua_State* L)
+{
+    int n = lua_gettop(L);  // Number of arguments
+    if (n != 1)
+        return luaL_error(L, "Got %d arguments expected 1", n);
+    ComponentMusic** cc = (ComponentMusic**) lua_touserdata(L, -1);
+    if(cc != NULL && (*cc) != NULL && !strcmp((*cc)->getName().c_str(),"music"))
+        (*cc)->stopMusic();
+}
+
+int component_music_pause_track(lua_State* L)
+{
+    int n = lua_gettop(L);  // Number of arguments
+    if (n != 1)
+        return luaL_error(L, "Got %d arguments expected 1", n);
+    ComponentMusic** cc = (ComponentMusic**) lua_touserdata(L, -1);
+    if(cc != NULL && (*cc) != NULL && !strcmp((*cc)->getName().c_str(),"music"))
+        (*cc)->pauseMusic();
+}
+
+int component_music_set_volume(lua_State* L)
+{
+    int n = lua_gettop(L);  // Number of arguments
+    if (n != 2)
+        return luaL_error(L, "Got %d arguments expected 2", n);
+    ComponentMusic** cc = (ComponentMusic**) lua_touserdata(L, -2);
+    float volume = luaL_checknumber(L, -1);
+    if(cc != NULL && (*cc) != NULL && !strcmp((*cc)->getName().c_str(),"music"))
+        (*cc)->setVolume(volume);
+}
+
 void component_init(lua_State* L)
 {
     lua_pushcfunction(L, component_camera_get_zoom);
@@ -203,4 +267,17 @@ void component_init(lua_State* L)
     lua_setglobal(L, "component_particle_set_new_particles");
     lua_pushcfunction(L, component_particle_set_max_particles);
     lua_setglobal(L, "component_particle_set_max_particles");
+
+    lua_pushcfunction(L, component_music_set_track);
+    lua_setglobal(L, "component_music_set_track");
+    lua_pushcfunction(L, component_music_get_track);
+    lua_setglobal(L, "component_music_get_track");
+    lua_pushcfunction(L, component_music_play_track);
+    lua_setglobal(L, "component_music_play_track");
+    lua_pushcfunction(L, component_music_stop_track);
+    lua_setglobal(L, "component_music_stop_track");
+    lua_pushcfunction(L, component_music_pause_track);
+    lua_setglobal(L, "component_music_pause_track");
+    lua_pushcfunction(L, component_music_set_volume);
+    lua_setglobal(L, "component_music_set_volume");
 }

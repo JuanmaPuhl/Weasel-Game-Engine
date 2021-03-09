@@ -16,6 +16,15 @@ class Component
     {
         return name;
     }
+    void setVisibleName(std::string n)
+    {
+        visible_name = n;
+    }
+    std::string getVisibleName()
+    {
+        return visible_name;
+    }
     private: 
     std::string name;
+    std::string visible_name = "";
 };

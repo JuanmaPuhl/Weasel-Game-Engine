@@ -15,6 +15,7 @@ function on_create()
     fire_attr = entity_get_attribute(fire, "sprite")
     sprite_fire = attribute_get_sprite(fire_attr)
     col_attr = entity_get_attribute(entity,"color")
+    music_component = entity_get_component(entity, "music1");
     print(col_attr)
     sprite_set_transparency(sprite_fire,0.0)
     collision = false
@@ -71,16 +72,22 @@ function on_update()
     end
     if is_pressed(KEY_Z) then
         if not disparando then
+            component_music_set_track(music_component, "res/audio/disparo.wav")
+            print("la direccion es: ")
+            component_music_get_track(music_component)
+            
+            --print(track)
+            
             sprite_set_transparency(sprite_fire,1.0)
             disparando = true
             attribute_set_sprite(sprite_attribute, sprite_shooting)
         end
+        component_music_play_track(music_component)
         pos = entity_get_position(entity)
-        print(pos[3])
         entity_set_position(fire, pos[1] + status * 36.0, pos[2] + 15.0, pos[3])
     else
         disparando = false
-        
+        component_music_stop_track(music_component)
         sprite_set_transparency(sprite_fire,0.0)
 
     end

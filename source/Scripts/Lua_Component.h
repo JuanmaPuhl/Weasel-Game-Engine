@@ -1,6 +1,10 @@
 #pragma once
 #include "lua/include/lua.hpp"
 #include "../Entities/ComponentCamera.h"
+#include "../Entities/ComponentMusic.h"
+#include <string>
+#include <string.h>
+#include <stdio.h>
 /*SCRIPT*/
 int component_add_script(lua_State* L);
 int component_enable_script(lua_State* L);
@@ -35,5 +39,15 @@ int component_particle_get_max_particles(lua_State* L);
 int component_particle_get_new_particles(lua_State* L);
 int component_particle_set_new_particles(lua_State* L);
 int component_particle_set_max_particles(lua_State* L);
+
+/*MUSIC*/
+int component_music_set_track(lua_State* L);
+int component_music_get_track(lua_State* L);
+int component_music_play_track(lua_State* L);
+int component_music_stop_track(lua_State* L);
+int component_music_pause_track(lua_State* L);
+int component_music_set_volume(lua_State* L);
+
+
 
 void component_init(lua_State* L);

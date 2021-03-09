@@ -140,14 +140,23 @@ void Entity::render(Shader* shader, double deltaTime)
 
 void Entity::addComponent(Component* component)
 {
+    printf("Entro aca.%s\n",component->getName().c_str());
+    int i = getCantComponentsSameType(component->getName());
+    std::string newName;
+    if(i == 0)
+        newName = component->getName();
+    else
+        newName = component->getName()+""+std::to_string(i);
+    component->setVisibleName(newName);
     this->components.push_back(component);
+    printf("%d\n",this->components.capacity());
 }
 
 Component* Entity::getComponent(std::string name)
 {
     for(int i = 0; i < this->components.capacity(); i++)
     {
-        if(strcmp((this->components.at(i))->getName().c_str(),name.c_str())==0)
+        if(strcmp((this->components.at(i))->getVisibleName().c_str(),name.c_str())==0)
             return this->components.at(i);
     }
     return NULL;
@@ -217,4 +226,17 @@ void Entity::setName(std::string name)
 std::vector<Component*> Entity::getAllComponents()
 {
     return this->components;
+}
+
+int Entity::getCantComponentsSameType(std::string type)
+{
+    int i = 0;
+    for(Component* c : this->components)
+    {
+        if(c != NULL && !strcmp(type.c_str(),c->getName().c_str()))
+        {
+            i++;
+        }
+    }
+    return i;
 }

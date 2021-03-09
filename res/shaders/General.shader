@@ -42,7 +42,7 @@ void main()
 
 
     //Sharpen
-    /* float amount = 0.8;
+    float amount = 0.8;
     float neighbor = amount * -1;
     float center   = amount * 4 + 1;
     vec3 color =
@@ -59,5 +59,5 @@ void main()
         + texture(ourTexture, vec2(gl_FragCoord.x + 0, gl_FragCoord.y - 1) / texSize).rgb
         * neighbor
         ;
-    FragColor = vec4(color, texture(ourTexture, TexCoord).a);  */
+    FragColor = vec4(color, texture(ourTexture, TexCoord).a);  
 } 

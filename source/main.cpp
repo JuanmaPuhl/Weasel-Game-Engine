@@ -25,6 +25,7 @@
 #include "Scripts/Lua_Keyboard.h"
 #include "Scripts/Lua_Attribute.h"
 #include "Entities/LuaScriptComponent.h"
+#include "Scripts/Lua_Component.h"
 #include "Entities/ComponentCollisionBox.h"
 #include "Entities/ComponentParticle.h"
 #include "Windows.h"
@@ -120,6 +121,7 @@ int metodoPrincipal()
   attribute_script_init(lua_state);
   keyboard_script_init(lua_state);
   sprite_script_init(lua_state);
+  component_init(lua_state);
   printf("MAIN::Estado de LUA creado.\n");
   
   printf("Main::Creando ventana...\n");
@@ -219,11 +221,12 @@ int metodoPrincipal()
   personaje->addComponent(new ComponentParticle(500,2,personaje));
   personaje->addAttribute(new ColorAttribute(glm::vec3(0.0f)));
   //executeLuaScript(lua_state);
-  personaje->addComponent(new LuaScriptComponent("res/scripts/jim_script.lua", lua_state));
   personaje->addComponent(new ComponentMusic(SoundEngine));
   ((ComponentMusic*)(personaje->getComponent("music")))->setMusic("res/audio/01 - New Junk City.mp3");
   ((ComponentMusic*)(personaje->getComponent("music")))->playMusic();
-
+  personaje->addComponent(new ComponentMusic(irrklang::createIrrKlangDevice()));
+  personaje->addComponent(new LuaScriptComponent("res/scripts/jim_script.lua", lua_state));
+  
 
   Game::loop();
   printf("Main::Eliminando objetos...\n");

@@ -550,7 +550,7 @@ void showEntityPopup()
     }
     for(Component* component : entityClicked->getAllComponents())
     {
-        bool openComponent = ImGui::CollapsingHeader(component->getName().c_str(), ImGuiTreeNodeFlags_None);
+        bool openComponent = ImGui::CollapsingHeader(component->getVisibleName().c_str(), ImGuiTreeNodeFlags_None);
         if(openComponent)
         {
             //ImGui::BeginChild(component->getName().c_str());

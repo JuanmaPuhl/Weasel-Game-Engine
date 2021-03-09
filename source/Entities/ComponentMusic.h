@@ -14,6 +14,7 @@ class ComponentMusic : public Component
     void playMusic();
     void stopMusic();
     void pauseMusic();
+    void setVolume(float volume);
 
     private:
     std::string music;

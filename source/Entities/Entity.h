@@ -48,6 +48,7 @@ class Entity
     glm::mat4 modelMatrix;
     Sprite* sprite = NULL;
     void updateModelMatrix();
+    int getCantComponentsSameType(std::string type);
     std::vector<Component*> components;
     std::vector<GraphicAttribute*> attributes;
     std::string name;

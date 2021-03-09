@@ -92,20 +92,29 @@ std::vector<Sprite*> Game::getSprites()
 {
     return gamedata->sprites;
 }
-
-
-void Game::onUpdate(double deltaTime)
-{
-    if(gamedata->currentLevel != NULL)
-        gamedata->currentLevel->onUpdate(deltaTime);
-}
 float last_time = 0.0f;
 int fps = 0;
 const int MAX_FPS = 120;
 const double maxPeriod  =1.0/double(MAX_FPS);
 double lastTime = 0.0f;
 double lastTimeForSleep = 0.0;
+double lastTimeForSleep2 = 0.0;
 const int MAX_FRAMERATE = 120;
+
+void Game::onUpdate(double deltaTime)
+{
+    if(glfwGetTime()<lastTimeForSleep2+double(1.0/45))
+    {
+        //No hago nada. Limito fps.
+    }
+    else{
+        lastTimeForSleep2 += 1.0/45; 
+        if(gamedata->currentLevel != NULL)
+            gamedata->currentLevel->onUpdate(deltaTime);
+    }
+    
+}
+
 void Game::render(double deltaTime)
 {
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);   

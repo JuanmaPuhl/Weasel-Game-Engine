@@ -29,16 +29,18 @@ Component* ComponentMusic::copy()
 void ComponentMusic::setMusic(std::string dir)
 {
     this->music = dir;
+    printf("La nueva direccion es: %s\n",this->music.c_str());
 }
 
 std::string ComponentMusic::getMusic()
 {
+    printf("La direccion actual es: %s\n",this->music.c_str());
     return this->music;
 }
 
 void ComponentMusic::playMusic()
 {
-    this->SoundEngine->play2D(this->music.c_str(), true);
+    this->SoundEngine->play2D(this->music.c_str(), false);
 }   
 
 void ComponentMusic::stopMusic()
@@ -49,6 +51,12 @@ void ComponentMusic::stopMusic()
 void ComponentMusic::pauseMusic()
 {
     this->SoundEngine->setAllSoundsPaused(true);
+}
+
+void ComponentMusic::setVolume(float volume)
+{
+    if(volume<=1.0f && volume >=0.0f)
+        this->SoundEngine->setSoundVolume(volume);
 }
 
 
