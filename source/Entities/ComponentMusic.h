@@ -11,7 +11,7 @@ class ComponentMusic : public Component
     Component* copy();
     void setMusic(std::string dir);
     std::string getMusic();
-    void playMusic();
+    void playMusic(bool loop);
     void stopMusic();
     void pauseMusic();
     void setVolume(float volume);

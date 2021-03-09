@@ -64,21 +64,6 @@ void Game::init(int width, int height)
     }
     
     glBindFramebuffer(GL_FRAMEBUFFER,0);
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
 }
 
 Level* Game::addLevel()
@@ -103,16 +88,8 @@ const int MAX_FRAMERATE = 120;
 
 void Game::onUpdate(double deltaTime)
 {
-    if(glfwGetTime()<lastTimeForSleep2+double(1.0/45))
-    {
-        //No hago nada. Limito fps.
-    }
-    else{
-        lastTimeForSleep2 += 1.0/45; 
-        if(gamedata->currentLevel != NULL)
-            gamedata->currentLevel->onUpdate(deltaTime);
-    }
-    
+    if(gamedata->currentLevel != NULL)
+        gamedata->currentLevel->onUpdate(deltaTime);
 }
 
 void Game::render(double deltaTime)

@@ -223,7 +223,7 @@ int metodoPrincipal()
   //executeLuaScript(lua_state);
   personaje->addComponent(new ComponentMusic(SoundEngine));
   ((ComponentMusic*)(personaje->getComponent("music")))->setMusic("res/audio/01 - New Junk City.mp3");
-  ((ComponentMusic*)(personaje->getComponent("music")))->playMusic();
+  ((ComponentMusic*)(personaje->getComponent("music")))->playMusic(true);
   personaje->addComponent(new ComponentMusic(irrklang::createIrrKlangDevice()));
   personaje->addComponent(new LuaScriptComponent("res/scripts/jim_script.lua", lua_state));
   

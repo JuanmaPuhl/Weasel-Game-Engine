@@ -75,14 +75,14 @@ function on_update()
             component_music_set_track(music_component, "res/audio/disparo.wav")
             print("la direccion es: ")
             component_music_get_track(music_component)
-            
+            component_music_play_track(music_component,true)
             --print(track)
             
             sprite_set_transparency(sprite_fire,1.0)
             disparando = true
             attribute_set_sprite(sprite_attribute, sprite_shooting)
         end
-        component_music_play_track(music_component)
+        
         pos = entity_get_position(entity)
         entity_set_position(fire, pos[1] + status * 36.0, pos[2] + 15.0, pos[3])
     else

@@ -38,9 +38,9 @@ std::string ComponentMusic::getMusic()
     return this->music;
 }
 
-void ComponentMusic::playMusic()
+void ComponentMusic::playMusic(bool loop)
 {
-    this->SoundEngine->play2D(this->music.c_str(), false);
+    this->SoundEngine->play2D(this->music.c_str(), loop);
 }   
 
 void ComponentMusic::stopMusic()

@@ -177,11 +177,12 @@ int component_music_get_track(lua_State* L)
 int component_music_play_track(lua_State* L)
 {
     int n = lua_gettop(L);  // Number of arguments
-    if (n != 1)
-        return luaL_error(L, "Got %d arguments expected 1", n);
-    ComponentMusic** cc = (ComponentMusic**) lua_touserdata(L, -1);
+    if (n != 2)
+        return luaL_error(L, "Got %d arguments expected 2", n);
+    ComponentMusic** cc = (ComponentMusic**) lua_touserdata(L, -2);
+    bool loop = lua_toboolean(L,-1);
     if(cc != NULL && (*cc) != NULL && !strcmp((*cc)->getName().c_str(),"music"))
-        (*cc)->playMusic();
+        (*cc)->playMusic(loop);
 }
 
 int component_music_stop_track(lua_State* L)
