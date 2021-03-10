@@ -15,7 +15,6 @@ Entity::Entity()
     this->rotation = glm::vec3(0.0f,0.0f,1.0f);
     this->modelMatrix = glm::mat4(1.0f);
     this->name = "entity";
-    //printf("setee nombre.\n");
     //Tengo que calcular la modelMatrix nueva
     this->updateModelMatrix();
 
@@ -140,7 +139,6 @@ void Entity::render(Shader* shader, double deltaTime)
 
 void Entity::addComponent(Component* component)
 {
-    printf("Entro aca.%s\n",component->getName().c_str());
     int i = getCantComponentsSameType(component->getName());
     std::string newName;
     if(i == 0)
@@ -149,12 +147,10 @@ void Entity::addComponent(Component* component)
         newName = component->getName()+""+std::to_string(i);
     component->setVisibleName(newName);
     this->components.push_back(component);
-    printf("%d\n",this->components.capacity());
 }
 
 Component* Entity::getComponent(std::string name)
 {
-    printf("CANTIDAD %s: %d %d\n",this->getName().c_str(),this->components.size(),this->components.capacity());
     for(int i = 0; i < this->components.size(); i++)
     {
         if(strcmp((this->components.at(i))->getVisibleName().c_str(),name.c_str())==0)

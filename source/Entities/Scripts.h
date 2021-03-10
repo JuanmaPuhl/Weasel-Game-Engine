@@ -227,7 +227,6 @@ class BirdMovement : public ScriptComponent
       bird->translate(glm::vec3(this->speed*deltaTime,0.0f,0.0f));
       if(pos.x<-2600)
       {
-        //printf("Cambie");
         bird->setPosition(glm::vec3(0.0f));
         bird->scale(glm::vec3(-1.0f,1.0f,1.0f));
         bird->setPosition(glm::vec3(-2600.0,pos.y,pos.z));
@@ -235,7 +234,6 @@ class BirdMovement : public ScriptComponent
       }
       if(pos.x>=-2300)
       {
-        //printf("Cambie");
         bird->setPosition(glm::vec3(0.0f));
         bird->scale(glm::vec3(-1.0f,1.0f,1.0f));
         bird->setPosition(glm::vec3(-2300.0,pos.y,pos.z));

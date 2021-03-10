@@ -29,6 +29,7 @@
 #include "Entities/ComponentCollisionBox.h"
 #include "Entities/ComponentParticle.h"
 #include "Windows.h"
+#include "FileManagement/FileManager.h"
 #include "Entities/ComponentMusic.h"
 #define DEBUG
 extern "C" {
@@ -226,7 +227,7 @@ int metodoPrincipal()
   //((ComponentMusic*)(personaje->getComponent("music")))->playMusic(true);
   personaje->addComponent(new ComponentMusic(irrklang::createIrrKlangDevice()));
   personaje->addComponent(new LuaScriptComponent("res/scripts/jim_script.lua", lua_state));
-  
+  file_manager::save_project("savedproject.wsl");
 
   Game::loop();
   printf("Main::Eliminando objetos...\n");

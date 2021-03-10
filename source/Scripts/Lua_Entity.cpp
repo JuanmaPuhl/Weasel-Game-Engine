@@ -70,7 +70,6 @@ static int entity_get_component(lua_State* L)
     std::string indice = lua_tostring(L,-1);
     Component** component = (Component**)lua_newuserdata(L, sizeof(Component*));  
     *component = (*entity)->getComponent(indice);
-    printf("NOMBRE: %s\n",(*component)->getName().c_str());
     return 1;
 }
 

@@ -12,7 +12,6 @@ ComponentParticle::ComponentParticle(int maxParticles, int newParticles, Entity*
         this->particles.push_back(new Particle());
     }
     this->generator = generator;
-    printf("Ya se creo");
 }
 
 ComponentParticle::~ComponentParticle()

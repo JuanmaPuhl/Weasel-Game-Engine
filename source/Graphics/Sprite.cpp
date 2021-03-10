@@ -104,7 +104,6 @@ bool Sprite::removeImage(int i)
 {
     if(i > this->spriteImage.size() || i < 0 || this->spriteImage.size() == 0)
         return false;
-    printf("I: %d\n",i);
     this->spriteImage.erase(this->spriteImage.begin() + (i));
     this->size--;
     return true;

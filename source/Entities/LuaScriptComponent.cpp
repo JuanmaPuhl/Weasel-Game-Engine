@@ -67,7 +67,5 @@ std::string LuaScriptComponent::getScript()
 void LuaScriptComponent::setScript(std::string script)
 {
     this->scr = script;
-    printf("Aver");
     this->onCreate();
-    printf("Ya sali");
 }

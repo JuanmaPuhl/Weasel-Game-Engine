@@ -22,6 +22,8 @@ namespace file_manager
      * @return std::vector<std::string> El texto convertido
      */
     std::vector<std::string> parse_file(std::string& source);
+
+    void save_project(std::string output_dir);
 }
 
 

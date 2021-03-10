@@ -1,4 +1,5 @@
 #include "FileManager.h"
+#include "../General/Game.h"
 
 std::string file_manager::read_file(std::string dir)
 {
@@ -45,4 +46,15 @@ std::vector<std::string> file_manager::parse_file(std::string& source)
     vectorSource.push_back(ss[0].str());
     vectorSource.push_back(ss[1].str());
     return vectorSource;
+}
+
+
+void file_manager::save_project(std::string output_dir)
+{
+    //Tengo que empezar a guardar todo en un archivo json
+    std::ofstream MyFile(output_dir.c_str());
+    MyFile << "{Game: {";
+    Game::save(MyFile);
+    MyFile << "}}";
+    MyFile.close();
 }

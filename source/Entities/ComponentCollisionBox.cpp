@@ -78,7 +78,7 @@ bool ComponentCollisionBox::checkCollision(ComponentCollisionBox* b)
     bool collisionY = this->y + this->height >= b->getY() && b->getY() + b->getHeight() >= this->y;
     if(collisionX && collisionY)
     {
-        //printf("Colision.\n");
+       
     }
     return collisionX && collisionY;
 }

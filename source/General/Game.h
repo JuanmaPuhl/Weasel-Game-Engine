@@ -9,6 +9,8 @@
 #include "../Controls/KeyboardControl.h"
 #include "../Graphics/Gui.h"
 #include "lua/include/lua.hpp"
+#include <iostream>
+#include <fstream>
 enum GAME_STATUS {PLAY, PAUSE, STOP};
 struct GameData
     {
@@ -24,6 +26,7 @@ struct GameData
         lua_State* L;
         double deltaTime;
         unsigned int texture;
+        int width, height;
     };
     extern GameData* gamedata;
 namespace Game
@@ -46,6 +49,7 @@ namespace Game
     Sprite* findSystemSpriteByName(std::string name);
     void addSystemSprite(Sprite* sprite);
     lua_State* getLuaState();
+    void save(std::ofstream& output_dir);
     void close();
     void playGame();
     void pauseGame();

@@ -8,6 +8,8 @@ int w,h;
 KeyboardControl* keyboardControl = new KeyboardControl();
 void Game::init(int width, int height)
 {
+    gamedata->width = width;
+    gamedata->height = height;
     gamedata->window = window::window_init(width,height);
     gamedata->shader = new Shader(DEFAULT_SHADER_FILE);
     gamedata->shaderParticles = new Shader(PARTICLE_SHADER_FILE);
@@ -287,4 +289,43 @@ double Game::getDeltaTime()
 Shader* Game::getParticleShader()
 {
     return gamedata->shaderParticles;
+}
+
+void Game::save(std::ofstream& output)
+{
+    output << "width : " << gamedata->width <<" , height: " << gamedata->height << " , "; //Con esto puedo restaurar ventana
+    //Los shaders deberían crearse automaticamente desde el codigo.
+     //Ahora vienen los sprites primero porque despues busco la referencia cuando cargo los componentes
+    output << "cant_sprites : " << gamedata->sprites.size() << " , ";
+    output << "sprites : [ ";
+    int spr_index = 0;
+    for(Sprite* spr : gamedata->sprites)
+    {
+        output << spr_index << " : {}";
+        if(spr_index + 1 < gamedata->sprites.size())
+            output << " , ";
+        spr_index++;
+    }
+    output << "] , ";
+    output << "cant_niveles : " << gamedata->levels.size() << " , ";
+    //Ahora tengo que imprimir los niveles
+    output << "niveles : [ ";
+    int lv_index = 0;
+    for(Level* lv : gamedata->levels)
+    {
+        output << lv_index << " : {}";
+        if(lv_index + 1 < gamedata->levels.size())
+            output << " , ";
+        lv_index++;
+    } 
+    output << "] , ";
+    output << "nivel_actual : ";
+    //Busco el indice del nivel actual para meterlo en el json
+    for(int i = 0; i < gamedata->levels.size(); i++)
+    {
+        if(gamedata->levels.at(i) == gamedata->currentLevel)
+            output << i;
+    }
+    //Creo que ya está todo de Game
+   
 }

@@ -29,7 +29,6 @@ Component* ComponentMusic::copy()
 void ComponentMusic::setMusic(std::string dir)
 {
     this->music = dir;
-    printf("La nueva direccion es: %s\n",this->music.c_str());
 }
 
 std::string ComponentMusic::getMusic()
