@@ -8,6 +8,7 @@
 #include "../Config.h"
 #include "../Controls/KeyboardControl.h"
 #include "../Graphics/Gui.h"
+#include "lua/include/lua.hpp"
 enum GAME_STATUS {PLAY, PAUSE, STOP};
 struct GameData
     {
@@ -20,6 +21,7 @@ struct GameData
         std::vector<Sprite*> sprites;
         std::vector<Sprite*> system_sprites;
         GAME_STATUS status;
+        lua_State* L;
         double deltaTime;
         unsigned int texture;
     };
@@ -43,6 +45,7 @@ namespace Game
     std::vector<Sprite*> getSystemSprites();
     Sprite* findSystemSpriteByName(std::string name);
     void addSystemSprite(Sprite* sprite);
+    lua_State* getLuaState();
     void close();
     void playGame();
     void pauseGame();

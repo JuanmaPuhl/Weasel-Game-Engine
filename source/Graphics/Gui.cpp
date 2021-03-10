@@ -7,6 +7,7 @@
 #include "../Entities/ComponentCollisionBox.h"
 #include "../Entities/LuaScriptComponent.h"
 #include "../Entities/ComponentParticle.h"
+#include "../Entities/ComponentMusic.h"
 GLFWwindow* ventana;
 glm::vec3 vec;
 int height = 0, width = 0;
@@ -577,32 +578,96 @@ void showEntityPopup()
                     Utils::openFileDialog(scriptReturn,260);
                     char buffer [261];
                     sprintf (buffer, "%s",scriptReturn);
-                    //std::string test2 (&(scriptReturn[0])); //and convert to string.
-                    printf("Script nuevo: %s\n",buffer);
                     scriptComponent->setScript(buffer);
                 }
             }
-            
+            if(strcmp(component->getName().c_str(),"particle") == 0)
+            {
+                ComponentParticle* particleComponent = ((ComponentParticle*)component);
+                ImGui::Text("Particulas máximas: ");
+                ImGui::SameLine();
+                int max_particles = particleComponent->getMaxParticles();
+                if(ImGui::DragInt("Max_particles",&max_particles,1,1,9999,"%d"))
+                {
+
+                }
+                ImGui::Text("Particulas por paso: ");
+                ImGui::SameLine();
+                int step_particles = particleComponent->getNewParticles();
+                if(ImGui::DragInt("Step_particles", &step_particles, 1, 1, max_particles, "%d"))
+                {
+                    
+                }
+
+            }
+            if(strcmp(component->getName().c_str(),"music") == 0)
+            {
+                ComponentMusic* componentMusic = (ComponentMusic*)component;
+                ImGui::Text("Pista: ");
+                ImGui::SameLine();
+                ImGui::Text(componentMusic->getMusic().c_str());
+                ImGui::Button("Seleccionar pista");
+                if(ImGui::IsItemClicked())
+                {
+                    TCHAR scriptReturn [260] = {0};
+                    Utils::openFileDialog(scriptReturn,260);
+                    char buffer [261];
+                    sprintf (buffer, "%s",scriptReturn);
+                    componentMusic->setMusic(buffer);
+                }
+                ImGui::Text("Volumen: ");
+                ImGui::SameLine();
+                float volumen = 1.0f;
+                if(ImGui::SliderFloat("SliderFloat (0 -> 1)", &volumen, 0.0f, 1.0f, "%.3f"))
+                {
+                    componentMusic->setVolume(volumen);
+                }
+            }
+            ImGui::Button("Eliminar componente");
+            if(ImGui::IsItemClicked())
+            {
+                entityClicked->removeComponent(component->getVisibleName());
+            }
 
         }
     }
-    ImGui::Button("Insertar...");
+    ImGui::Button("Insertar componente...");
     if(ImGui::IsItemClicked())
     {
         //Abrir una ventana para seleccionar un sprite
         spriteSelection = true;
         Gui::writeToLog("Voy a abrir la seleccion de sprite.\n");
         ImGui::OpenPopup("addCompAttr");
-
     }
     if (ImGui::BeginPopup("addCompAttr"))
     {
-        std::string compsAttrs[3] = {"collider","lua_script","particle"};
-        for(int i = 0; i < 3; i++)
+        const int max_components = 4;
+        std::string compsAttrs[max_components] = {"collider","lua_script","particle","music"};
+        for(int i = 0; i < max_components; i++)
         {
             ImGui::TreeNodeEx(compsAttrs[i].c_str(),node_flags); 
             if(ImGui::IsItemClicked())
             {
+                if(i == 0)
+                {
+                    //Collider
+                    entityClicked->addComponent(new ComponentCollisionBox(entityClicked));
+                }
+                if(i == 1)
+                {
+                    //lua_script
+                    entityClicked->addComponent(new LuaScriptComponent("",Game::getLuaState()));
+                }
+                if(i == 2)
+                {
+                    //particle
+                    entityClicked->addComponent(new ComponentParticle(500,2,entityClicked));
+                }
+                if(i == 3)
+                {
+                    //music
+                    entityClicked->addComponent(new ComponentMusic(irrklang::createIrrKlangDevice()));
+                }
                 ImGui::CloseCurrentPopup();
             }
         }

@@ -154,7 +154,8 @@ void Entity::addComponent(Component* component)
 
 Component* Entity::getComponent(std::string name)
 {
-    for(int i = 0; i < this->components.capacity(); i++)
+    printf("CANTIDAD %s: %d %d\n",this->getName().c_str(),this->components.size(),this->components.capacity());
+    for(int i = 0; i < this->components.size(); i++)
     {
         if(strcmp((this->components.at(i))->getVisibleName().c_str(),name.c_str())==0)
             return this->components.at(i);
@@ -164,7 +165,7 @@ Component* Entity::getComponent(std::string name)
 
 GraphicAttribute* Entity::getAttribute(std::string name)
 {
-    for(int i = 0; i < this->attributes.capacity(); i++)
+    for(int i = 0; i < this->attributes.size(); i++)
     {
         if(strcmp((this->attributes.at(i))->getName().c_str(),name.c_str())==0)
             return this->attributes.at(i);
@@ -239,4 +240,15 @@ int Entity::getCantComponentsSameType(std::string type)
         }
     }
     return i;
+}
+
+bool Entity::removeComponent(std::string name)
+{
+    for(int i = 0; i < this->components.size(); i++)
+    {
+        if(strcmp(name.c_str(),this->components.at(i)->getVisibleName().c_str()) == 0)
+        {
+            this->components.erase(this->components.begin()+i);
+        }
+    }
 }

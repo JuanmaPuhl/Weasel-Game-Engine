@@ -43,7 +43,7 @@ static int level_get_entities(lua_State *L)
     //Level* level = Game::getCurrentLevel();
     std::vector<Entity*> lista = (*level)->getEntities();
     std::vector<Entity*>::iterator ptr;
-    lua_createtable(L, lista.capacity(), 0);
+    lua_createtable(L, lista.size(), 0);
     int newTable = lua_gettop(L);
     int indice = 1;
     for(ptr = lista.begin(); ptr < lista.end(); ptr++)

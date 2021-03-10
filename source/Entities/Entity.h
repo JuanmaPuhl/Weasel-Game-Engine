@@ -26,6 +26,7 @@ class Entity
     void addComponent(Component* component);
     void onCollision(Entity* other);
     void onUpdate();
+    bool removeComponent(std::string name);
     void render(Shader* shader,double deltaTime);
     Component* getComponent(std::string name);
     std::vector<Component*> getAllComponents();

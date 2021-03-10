@@ -139,6 +139,11 @@ void Game::render(double deltaTime)
     glBindVertexArray(0);
 }
 
+lua_State* Game::getLuaState()
+{
+    return gamedata->L;
+}
+
 Level* Game::getCurrentLevel()
 {
     return gamedata->currentLevel;
@@ -146,7 +151,7 @@ Level* Game::getCurrentLevel()
 
 void Game::setLevel(int level)
 {
-    if(level>=0 && level<gamedata->levels.capacity())
+    if(level>=0 && level<gamedata->levels.size())
         gamedata->currentLevel=gamedata->levels.at(level);
     else
     {

@@ -34,7 +34,6 @@ void ComponentMusic::setMusic(std::string dir)
 
 std::string ComponentMusic::getMusic()
 {
-    printf("La direccion actual es: %s\n",this->music.c_str());
     return this->music;
 }
 

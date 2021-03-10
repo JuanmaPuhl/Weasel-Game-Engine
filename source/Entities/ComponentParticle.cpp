@@ -6,11 +6,13 @@ ComponentParticle::ComponentParticle(int maxParticles, int newParticles, Entity*
     this->setName("particle");
     this->maxParticles = maxParticles;
     this->newparticles = newParticles;
+    this->lastUsedParticle = 0;
     for(int i = 0; i < this->maxParticles; i++)
     {
         this->particles.push_back(new Particle());
     }
     this->generator = generator;
+    printf("Ya se creo");
 }
 
 ComponentParticle::~ComponentParticle()
@@ -95,6 +97,11 @@ Component* ComponentParticle::copy()
 int ComponentParticle::getMaxParticles()
 {
     return this->maxParticles;
+}
+
+int ComponentParticle::getNewParticles()
+{
+    return this->newparticles;
 }
 
 void ComponentParticle::setMaxParticles(int maxParticles)
