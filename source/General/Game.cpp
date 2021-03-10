@@ -293,15 +293,15 @@ Shader* Game::getParticleShader()
 
 void Game::save(std::ofstream& output)
 {
-    output << "width : " << gamedata->width <<" , height: " << gamedata->height << " , "; //Con esto puedo restaurar ventana
+    output << "\"width\" : " << gamedata->width <<" , \"height\": " << gamedata->height << " , "; //Con esto puedo restaurar ventana
     //Los shaders deberían crearse automaticamente desde el codigo.
      //Ahora vienen los sprites primero porque despues busco la referencia cuando cargo los componentes
-    output << "cant_sprites : " << gamedata->sprites.size() << " , ";
-    output << "sprites : [ ";
+    output << "\"cant_sprites\" : " << gamedata->sprites.size() << " , ";
+    output << "\"sprites\" : [ ";
     int spr_index = 0;
     for(Sprite* spr : gamedata->sprites)
     {
-        output << spr_index << " : {";
+        output << "{";
         spr->save(output);
         output << "} ";
         if(spr_index + 1 < gamedata->sprites.size())
@@ -309,21 +309,21 @@ void Game::save(std::ofstream& output)
         spr_index++;
     }
     output << "] , ";
-    output << "cant_niveles : " << gamedata->levels.size() << " , ";
+    output << "\"cant_niveles\" : " << gamedata->levels.size() << " , ";
     //Ahora tengo que imprimir los niveles
-    output << "niveles : [ ";
+    output << "\"niveles\" : [ ";
     int lv_index = 0;
     for(Level* lv : gamedata->levels)
     {
-        output << lv_index << " : {";
+        output << "{";
         lv->save(output);
-        output << "} , ";
+        output << "} ";
         if(lv_index + 1 < gamedata->levels.size())
             output << " , ";
         lv_index++;
     } 
     output << "] , ";
-    output << "nivel_actual : ";
+    output << "\"nivel_actual\" : ";
     //Busco el indice del nivel actual para meterlo en el json
     for(int i = 0; i < gamedata->levels.size(); i++)
     {

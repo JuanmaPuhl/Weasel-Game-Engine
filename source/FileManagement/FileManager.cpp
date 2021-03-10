@@ -53,7 +53,7 @@ void file_manager::save_project(std::string output_dir)
 {
     //Tengo que empezar a guardar todo en un archivo json
     std::ofstream MyFile(output_dir.c_str());
-    MyFile << "{Game: {";
+    MyFile << "{\"Game\": {";
     Game::save(MyFile);
     MyFile << "}}";
     MyFile.close();

@@ -252,18 +252,18 @@ bool Entity::removeComponent(std::string name)
 void Entity::save(std::ofstream& output)
 {
     //El quad se hace solo sin problemas
-    output << "position : {" << "x : " << this->position.x << " , y : " << this->position.y << " , z : " << this->position.z << "} , ";
-    output << "scaling : {" << "x : " << this->scaling.x << " , y : " << this->scaling.y << " , z : " << this->scaling.z << "} , ";
-    output << "rotation : {" << "x : " << this->rotation.x << " , y : " << this->rotation.y << " , z : " << this->rotation.z << "} , ";
+    output << "\"position\" : {" << "\"x\" : " << this->position.x << " , \"y\" : " << this->position.y << " , \"z\" : " << this->position.z << "} , ";
+    output << "\"scaling\" : {" << "\"x\" : " << this->scaling.x << " , \"y\" : " << this->scaling.y << " , \"z\" : " << this->scaling.z << "} , ";
+    output << "\"rotation\" : {" << "\"x\" : " << this->rotation.x << " , \"y\" : " << this->rotation.y << " , \"z\" : " << this->rotation.z << "} , ";
     //La model matrix se va a actualizar sola
-    output << "name : " << this->name << " , ";
+    output << "\"name\" : \"" << this->name << "\" , ";
     //Ahora guardo los componentes
-    output << "cant_componentes : " << this->components.size() << " , ";
-    output << "componentes : [";
+    output << "\"cant_componentes\" : " << this->components.size() << " , ";
+    output << "\"componentes\" : [";
     int cmp_index = 0;
     for(Component* cmp : this->components)
     {
-        output << cmp_index << " : {";
+        output << "{";
         //cmp->save();
         output << "}";
         if(cmp_index + 1 < this->components.size())
@@ -272,12 +272,12 @@ void Entity::save(std::ofstream& output)
     }
     output << "] , ";
     //Ahora guardo los atributos
-    output << "cant_atributos : " << this->attributes.size() << " , ";
-    output << "atributos: [";
+    output << "\"cant_atributos\" : " << this->attributes.size() << " , ";
+    output << "\"atributos\": [";
     int attr_index = 0;
     for(GraphicAttribute* attr : this->attributes)
     {
-        output << attr_index << " : {";
+        output <<  "{";
         //attr->save();
         output << "}";
         if(attr_index + 1 < this->attributes.size())
