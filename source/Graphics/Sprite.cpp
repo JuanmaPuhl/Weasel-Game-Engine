@@ -125,3 +125,24 @@ void Sprite::setName(std::string name)
 {
     this->name = name;
 }
+
+void Sprite::save(std::ofstream& output)
+{
+    output << "name : " << this->name << " , ";
+    output << "speed : " << this->speed << " , ";
+    output << "transparency : " << this->transparency << " , ";
+    output << "cant_imagenes : " << this->size << " , ";
+    //Ahora tengo que guardar las imagenes
+    output << "imagenes : [";
+    int img_index = 0;
+    for(Image* img : this->spriteImage)
+    {
+        output << img_index << " : \"" << img->dir << "\"";
+        if(img_index + 1 < this->spriteImage.size())
+            output << " , ";
+        img_index++;
+    }
+    output << " ] ";
+
+
+}

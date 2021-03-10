@@ -301,7 +301,9 @@ void Game::save(std::ofstream& output)
     int spr_index = 0;
     for(Sprite* spr : gamedata->sprites)
     {
-        output << spr_index << " : {}";
+        output << spr_index << " : {";
+        spr->save(output);
+        output << "} ";
         if(spr_index + 1 < gamedata->sprites.size())
             output << " , ";
         spr_index++;

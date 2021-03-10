@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 #include "../FileManagement/ImageFileManager.h"
+#include <iostream>
+#include <fstream>
 class Sprite
 {
     public:
@@ -31,6 +33,7 @@ class Sprite
     bool removeImage(int i);
     Sprite* copy(Sprite* sprite);
     double getSpeed();
+    void save(std::ofstream& output);
     std::string getName();
     void setName(std::string name);
     private:
