@@ -4,7 +4,8 @@
 #include "../Entities/Entity.h"
 #include "../Graphics/Shader.h"
 #include <glm/gtc/type_ptr.hpp>
-
+#include <iostream>
+#include <fstream>
 
 class Level
 {
@@ -34,6 +35,7 @@ class Level
      * 
      */
     void onUpdate(double deltaTime);
+    void save(std::ofstream& output_dir);
     private:
     std::vector<Entity*> entities;
     Entity* cameraEntity = NULL;

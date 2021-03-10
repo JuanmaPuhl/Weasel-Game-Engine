@@ -76,3 +76,25 @@ Entity* Level::getCamera()
 {
     return this->cameraEntity;
 }
+
+void Level::save(std::ofstream& output)
+{
+    //Tengo que imprimir los datos de la entidad camara
+    output << "camera : {";
+    this->cameraEntity->save(output);
+    output << "} , ";
+    output << "cant_entidades : " << this->entities.size() << " , ";
+    output << "entidades : [";
+    //Ahora imprimo todas las entidades restantes
+    int ent_index = 0;
+    for(Entity* e : this->entities)
+    {
+        output << ent_index << " : {";
+        e->save(output);
+        output << "}";
+        if(ent_index + 1 < this->entities.size())
+            output << " , ";
+        ent_index++;
+    }
+    output << "]";
+}

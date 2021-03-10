@@ -13,7 +13,8 @@
 #include "GraphicAttribute.h"
 #include "SpriteAttribute.h"
 #include "ColorAttribute.h"
-
+#include <iostream>
+#include <fstream>
 
 class Entity
 {
@@ -41,6 +42,7 @@ class Entity
     Quad* getQuad();
     void setName(std::string name);
     std::string getName();
+    void save(std::ofstream& output_dir);
     private:
     glm::vec3 position;
     glm::vec3 rotation;

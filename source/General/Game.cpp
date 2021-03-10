@@ -315,7 +315,9 @@ void Game::save(std::ofstream& output)
     int lv_index = 0;
     for(Level* lv : gamedata->levels)
     {
-        output << lv_index << " : {}";
+        output << lv_index << " : {";
+        lv->save(output);
+        output << "} , ";
         if(lv_index + 1 < gamedata->levels.size())
             output << " , ";
         lv_index++;
