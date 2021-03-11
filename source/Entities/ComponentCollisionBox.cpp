@@ -8,7 +8,11 @@ ComponentCollisionBox::ComponentCollisionBox(Entity* entity)
     this->height = 32.0f;
     this->entity = entity;
     this->setName("collider");
-    this->iniState = (initialState*)malloc(sizeof(initialState));
+    //this->iniState = (initialState*)malloc(sizeof(initialState));
+/*     initialState iniState{
+        0.0,0.0,0.0,0.0,""
+    };
+    this->iniState = &iniState; */
 }
 
 ComponentCollisionBox::ComponentCollisionBox(float x, float y, float width, float height, Entity* entity)
@@ -19,7 +23,11 @@ ComponentCollisionBox::ComponentCollisionBox(float x, float y, float width, floa
     this->height = height;
     this->entity = entity;
     this->setName("collider");
-    this->iniState = (initialState*)malloc(sizeof(initialState));
+    //this->iniState = (initialState*)malloc(sizeof(initialState));
+    initialState iniStateAux{
+        0.0,0.0,0.0,0.0,""
+    };
+    this->iniState = &iniStateAux;
 }
 
 ComponentCollisionBox::~ComponentCollisionBox()
@@ -134,20 +142,19 @@ void ComponentCollisionBox::save(std::ofstream& output)
 
 bool ComponentCollisionBox::registerInitialState()
 {
-    printf("Collision\n");
-    this->iniState->initial_visibleName = this->getVisibleName().c_str();
-    this->iniState->initial_x = this->x;
-    this->iniState->initial_y = this->y;
-    this->iniState->initial_width = this->width;
-    this->iniState->initial_height = this->height;
+    this->initial_visibleName = this->getVisibleName().c_str();
+    this->initial_x = this->x;
+    this->initial_y = this->y;
+    this->initial_width = this->width;
+    this->initial_height = this->height;
     return true;
 }
 bool ComponentCollisionBox::recoverInitialState()
 {
-    this->setVisibleName(this->iniState->initial_visibleName);
-    this->x = this->iniState->initial_x;
-    this->y = this->iniState->initial_y;
-    this->height = this->iniState->initial_height;
-    this->width = this->iniState->initial_width;
+    this->setVisibleName(this->initial_visibleName);
+    this->x = this->initial_x;
+    this->y = this->initial_y;
+    this->height = this->initial_height;
+    this->width = this->initial_width;
     return true;
 }

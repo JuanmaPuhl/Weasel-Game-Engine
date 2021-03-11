@@ -146,3 +146,20 @@ void Sprite::save(std::ofstream& output)
 
 
 }
+
+bool Sprite::registerInitialState()
+{
+    this->initial_index_aux = this->index_aux;
+    this->initial_transparency = this->transparency;
+    this->initial_speed = this->speed;
+    this->initial_name = this->name;
+    return true;
+}
+bool Sprite::recoverInitialState()
+{
+    this->index_aux = this->initial_index_aux;
+    this->transparency = this->initial_transparency;
+    this->speed = this->initial_speed;
+    this->name = this->initial_name;
+    return true;
+}

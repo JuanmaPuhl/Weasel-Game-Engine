@@ -29,6 +29,7 @@ Entity* Level::addEntityCamera(int width, int height)
     Entity* entity = new Entity();
     entity->addComponent(new ComponentCamera(width,height));
     this->cameraEntity = entity;
+    this->cameraEntity->onUpdate();
     return entity;
 }
 
@@ -107,8 +108,6 @@ bool Level::registerInitialState()
 {
     //Primero tengo que agarrar todas las entidades y agregarlas al estado inicial
     this->initial_entities.clear();
-    
-    printf("Capacidad: %d\n", this->initial_entities.capacity());
      for(Entity* e : this->entities)
     {
         e->registerInitialState();
@@ -128,6 +127,6 @@ bool Level::recoverInitialState()
         this->entities.push_back(e);
     }
     this->cameraEntity = NULL;
-    //this->iniState->initial_cameraEntity->recoverInitialState();
+    this->iniState->initial_cameraEntity->recoverInitialState();
     this->cameraEntity = this->iniState->initial_cameraEntity;
 }

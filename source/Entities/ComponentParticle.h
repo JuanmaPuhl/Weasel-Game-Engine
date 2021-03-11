@@ -27,6 +27,8 @@ class ComponentParticle : public Component
     int maxParticles, newparticles;
     int lastUsedParticle = 0;
     Entity* generator;
+    std::string initial_visibleName;
+    int initial_maxParticles, initial_newParticles;
     struct initialState
     {
         std::string initial_visibleName;

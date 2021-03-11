@@ -36,6 +36,8 @@ class Sprite
     void save(std::ofstream& output);
     std::string getName();
     void setName(std::string name);
+    bool registerInitialState();
+    bool recoverInitialState();
     private:
     std::string name;
     double speed = 0.0;
@@ -43,5 +45,9 @@ class Sprite
     double index_aux = 0.0;
     std::vector<Image*> spriteImage;
     float transparency = 1.0f;
+    double initial_index_aux;
+    float initial_transparency;
+    double initial_speed;
+    std::string initial_name;
 };
 #endif

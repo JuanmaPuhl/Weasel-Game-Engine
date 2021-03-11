@@ -46,11 +46,11 @@ void ColorAttribute::save(std::ofstream& output)
 
 bool ColorAttribute::registerInitialState()
 {
-    this->iniState->color = this->color;
+    this->initial_color = this->color;
     return true;
 }
 bool ColorAttribute::recoverInitialState()
 {
-    this->color = this->iniState->color;
+    this->color = this->initial_color;
     return true;
 }

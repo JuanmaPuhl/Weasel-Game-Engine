@@ -6,7 +6,9 @@ ComponentCamera::ComponentCamera(int width, int height)
     this->height = height;
     this->setName("camera");
     this->onCreate();
-    this->iniState = (initialState*)malloc(sizeof(initialState));
+    //this->iniState = (initialState*)malloc(sizeof(initialState));
+    initialState iniStateAux{glm::vec3(0.0f)};
+    this->iniState = &iniStateAux;
 }
 
 ComponentCamera::~ComponentCamera()
@@ -126,7 +128,6 @@ void ComponentCamera::save(std::ofstream& output)
 
 bool ComponentCamera::registerInitialState()
 {
-    printf("Camera\n");
     //Hasta que no haga el refactor no voy a tocar nada
 }
 bool ComponentCamera::recoverInitialState()

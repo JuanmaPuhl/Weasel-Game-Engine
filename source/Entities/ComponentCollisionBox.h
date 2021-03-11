@@ -32,6 +32,8 @@ class ComponentCollisionBox : public Component
     float x,y,width,height;
     std::vector<Entity*> list;
     Entity* entity;
+    float initial_x, initial_y, initial_width, initial_height;
+    std::string initial_visibleName;
     struct initialState
     {
         float initial_x, initial_y, initial_width, initial_height;

@@ -18,9 +18,10 @@ class ColorAttribute : public GraphicAttribute
     bool recoverInitialState();
     private:
     glm::vec3 color = glm::vec3(0.0f);
+    glm::vec3 initial_color;
     struct initialState
     {
-        glm::vec3 color;
+        glm::vec3 initial_color;
     };
     initialState* iniState;
 };

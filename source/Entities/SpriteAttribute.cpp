@@ -53,9 +53,11 @@ void SpriteAttribute::save(std::ofstream& output)
 
 bool SpriteAttribute::registerInitialState()
 {
-    this->iniState->initial_sprite = this->sprite;
+    this->sprite->registerInitialState();
+    this->initial_sprite = this->sprite;
 }
 bool SpriteAttribute::recoverInitialState()
 {
-    this->sprite = this->iniState->initial_sprite;
+    this->sprite = this->initial_sprite;
+    this->sprite->recoverInitialState();
 }

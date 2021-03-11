@@ -17,6 +17,7 @@ class SpriteAttribute : public GraphicAttribute
     bool recoverInitialState();
     private:
     Sprite* sprite;
+    Sprite* initial_sprite;
     struct initialState
     {
         Sprite* initial_sprite;

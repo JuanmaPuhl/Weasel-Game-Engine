@@ -21,6 +21,9 @@ class ComponentMusic : public Component
     private:
     std::string music;
     irrklang::ISoundEngine *SoundEngine;
+    std::string initial_visibleName;
+    std::string initial_track;
+    float initial_volume;
     struct initialState
     {
         std::string initial_visibleName;

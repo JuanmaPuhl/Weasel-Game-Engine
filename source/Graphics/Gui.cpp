@@ -396,7 +396,6 @@ static void ShowExampleAppMainMenuBar()
             if (ImGui::MenuItem("Nuevo sprite")) 
             {
                 //Tengo que agregar un sprite vacio y despues mostrar la ventana de edit
-                printf("A ver.\n");
                 Sprite* spr = new Sprite();
                 Game::addSprite(spr);
                 sprite_selected = true;

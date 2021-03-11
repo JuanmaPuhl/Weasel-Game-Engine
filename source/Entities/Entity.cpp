@@ -266,7 +266,6 @@ void Entity::save(std::ofstream& output)
     for(Component* cmp : this->components)
     {
         output << "{";
-        //printf("Entidad: %s, componente: %d \n",this->name, cmp_index);
         cmp->save(output);
         output << "}";
         if(cmp_index + 1 < this->components.size())
@@ -299,13 +298,13 @@ bool Entity::registerInitialState()
     this->initial_components.clear();
     for(Component* c : this->components)
     {
-        //c->registerInitialState();
+        c->registerInitialState();
         this->initial_components.push_back(c);    
     }
     this->initial_attributes.clear();
     for(GraphicAttribute* a : this->attributes)
     {
-        //a->registerInitialState();
+        a->registerInitialState();
         this->initial_attributes.push_back(a);
     }
     return true;
@@ -316,18 +315,17 @@ bool Entity::recoverInitialState()
     this->setPosition(this->initial_position);
     this->setRotation(this->initial_rotation);
     this->setScale(this->initial_scaling);
-    printf("pos = %f,%f,%f\n",this->position.x,this->position.y,this->position.z);
     this->setName(this->initial_name);
     this->components.clear();
     for(Component* c : this->initial_components)
     {
-        //c->recoverInitialState();
+        c->recoverInitialState();
         this->components.push_back(c);
     }
     this->attributes.clear();
     for(GraphicAttribute* a : this->initial_attributes)
     {
-        //a->recoverInitialState();
+        a->recoverInitialState();
         this->attributes.push_back(a);
     }
     return true;

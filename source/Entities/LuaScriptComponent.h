@@ -22,9 +22,12 @@ class LuaScriptComponent : public Component
     private:
     lua_State* lua_state;
     std::string scr;
+    std::string initial_visibleName;
+    std::string initial_scr;
     struct initialState
     {
-        std::string initial_visibleName = "", initial_scr ="";
+        std::string initial_visibleName;
+        std::string initial_scr;
     };
     initialState* iniState;
 };

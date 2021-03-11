@@ -12,7 +12,9 @@ ComponentParticle::ComponentParticle(int maxParticles, int newParticles, Entity*
         this->particles.push_back(new Particle());
     }
     this->generator = generator;
-    this->iniState = (initialState*)malloc(sizeof(initialState*));
+    //this->iniState = (initialState*)malloc(sizeof(initialState*));
+    initialState iniState{"",0,0};
+    //this->iniState = &iniStateAux;
 }
 
 ComponentParticle::~ComponentParticle()
@@ -129,17 +131,21 @@ void ComponentParticle::save(std::ofstream& output)
 
 bool ComponentParticle::registerInitialState()
 {
-    printf("Particle\n");
-    this->iniState->initial_visibleName = this->getVisibleName().c_str();
-    printf("PARTICLE NAME: %s\n",this->iniState->initial_visibleName.c_str());
-    this->iniState->initial_maxParticles = this->maxParticles;
-    this->iniState->initial_newParticles = this->newparticles;
+    this->initial_visibleName = this->getVisibleName().c_str();
+    this->initial_maxParticles = this->maxParticles;
+    this->initial_newParticles = this->newparticles;
     return true;
 }
 bool ComponentParticle::recoverInitialState()
 {
-    this->setVisibleName(this->iniState->initial_visibleName);
-    this->maxParticles = this->iniState->initial_maxParticles;
-    this->newparticles = this->iniState->initial_newParticles;
+    this->setVisibleName(this->initial_visibleName);
+    this->maxParticles = this->initial_maxParticles;
+    this->newparticles = this->initial_newParticles;
+    this->particles.clear();
+    this->lastUsedParticle = 0;
+    for(int i = 0; i < this->maxParticles; i++)
+    {
+        this->particles.push_back(new Particle());
+    }
     return true;
 }

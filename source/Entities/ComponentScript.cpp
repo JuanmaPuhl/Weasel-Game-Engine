@@ -5,8 +5,9 @@ ComponentScript::ComponentScript(ScriptComponent* scr)
     this->scr = scr;
     this->setName("script");
     this->onCreate();
-    this->iniState = (initialState*)malloc(sizeof(initialState));
-    
+    //this->iniState = (initialState*)malloc(sizeof(initialState));
+    initialState iniStateAux{NULL,""};
+    this->iniState = &iniStateAux;
 }
 
 ComponentScript::~ComponentScript()
@@ -45,14 +46,13 @@ void ComponentScript::save(std::ofstream& output)
 
 bool ComponentScript::registerInitialState()
 {
-    printf("Script\n");
-    this->iniState->initial_name = this->getVisibleName();
-    this->iniState->initial_scr = this->scr;
+    this->initial_name = this->getVisibleName();
+    this->initial_scr = this->scr;
     return true;
 }
 bool ComponentScript::recoverInitialState()
 {
-    this->setVisibleName(this->iniState->initial_name);
-    this->scr = this->iniState->initial_scr;
+    this->setVisibleName(this->initial_name);
+    this->scr = this->initial_scr;
     return true;
 }

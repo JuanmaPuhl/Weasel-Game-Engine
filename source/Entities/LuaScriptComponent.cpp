@@ -6,7 +6,8 @@ LuaScriptComponent::LuaScriptComponent(std::string scr, lua_State* L)
     this->lua_state = L;
     this->setName("lua_script");
     this->onCreate();
-    this->iniState = (initialState*)malloc(sizeof(initialState));
+    initialState iniState{"",""};
+    //this->iniState = &iniStateAux;
 }
 LuaScriptComponent::~LuaScriptComponent()
 {
@@ -83,16 +84,13 @@ void LuaScriptComponent::save(std::ofstream& output)
 
 bool LuaScriptComponent::registerInitialState()
 {
-    printf("LuaScript\n");
-    this->iniState->initial_visibleName = this->getVisibleName().c_str();
-    printf("LuaScript1\n");
-    this->iniState->initial_scr = this->scr.c_str();
-    printf("LuaScript2\n");
+    this->initial_visibleName = this->getVisibleName().c_str();
+    this->initial_scr = this->scr.c_str();
     return true;
 }
 bool LuaScriptComponent::recoverInitialState()
 {
-    this->scr = this->iniState->initial_scr;
-    this->setVisibleName(this->iniState->initial_visibleName);
+    this->scr = this->initial_scr;
+    this->setVisibleName(this->initial_visibleName);
     return true;
 }
