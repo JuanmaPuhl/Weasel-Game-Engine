@@ -12,11 +12,13 @@ ComponentParticle::ComponentParticle(int maxParticles, int newParticles, Entity*
         this->particles.push_back(new Particle());
     }
     this->generator = generator;
+    this->iniState = (initialState*)malloc(sizeof(initialState*));
 }
 
 ComponentParticle::~ComponentParticle()
 {
     this->particles.clear();
+    free(this->iniState);
 }
 
 void ComponentParticle::onCreate()
@@ -122,4 +124,22 @@ void ComponentParticle::save(std::ofstream& output)
     //Despues tienen que ir más variables, como color, velocidad, distancia, etc. Pero primero tengo que refactorizar un toque
     //El generador está claro que es la entidad actual
 
+}
+
+
+bool ComponentParticle::registerInitialState()
+{
+    printf("Particle\n");
+    this->iniState->initial_visibleName = this->getVisibleName().c_str();
+    printf("PARTICLE NAME: %s\n",this->iniState->initial_visibleName.c_str());
+    this->iniState->initial_maxParticles = this->maxParticles;
+    this->iniState->initial_newParticles = this->newparticles;
+    return true;
+}
+bool ComponentParticle::recoverInitialState()
+{
+    this->setVisibleName(this->iniState->initial_visibleName);
+    this->maxParticles = this->iniState->initial_maxParticles;
+    this->newparticles = this->iniState->initial_newParticles;
+    return true;
 }

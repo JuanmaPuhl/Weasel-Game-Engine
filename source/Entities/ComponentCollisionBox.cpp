@@ -8,6 +8,7 @@ ComponentCollisionBox::ComponentCollisionBox(Entity* entity)
     this->height = 32.0f;
     this->entity = entity;
     this->setName("collider");
+    this->iniState = (initialState*)malloc(sizeof(initialState));
 }
 
 ComponentCollisionBox::ComponentCollisionBox(float x, float y, float width, float height, Entity* entity)
@@ -18,6 +19,7 @@ ComponentCollisionBox::ComponentCollisionBox(float x, float y, float width, floa
     this->height = height;
     this->entity = entity;
     this->setName("collider");
+    this->iniState = (initialState*)malloc(sizeof(initialState));
 }
 
 ComponentCollisionBox::~ComponentCollisionBox()
@@ -28,6 +30,7 @@ ComponentCollisionBox::~ComponentCollisionBox()
     this->height = 0.0f;
     this->list.clear();
     this->entity = NULL;
+    free(this->iniState);
 }
 
 float ComponentCollisionBox::getX()
@@ -127,4 +130,24 @@ void ComponentCollisionBox::save(std::ofstream& output)
     output << "\"height\" : " << this->height;
     //La entidad está claro que es la actual
 
+}
+
+bool ComponentCollisionBox::registerInitialState()
+{
+    printf("Collision\n");
+    this->iniState->initial_visibleName = this->getVisibleName().c_str();
+    this->iniState->initial_x = this->x;
+    this->iniState->initial_y = this->y;
+    this->iniState->initial_width = this->width;
+    this->iniState->initial_height = this->height;
+    return true;
+}
+bool ComponentCollisionBox::recoverInitialState()
+{
+    this->setVisibleName(this->iniState->initial_visibleName);
+    this->x = this->iniState->initial_x;
+    this->y = this->iniState->initial_y;
+    this->height = this->iniState->initial_height;
+    this->width = this->iniState->initial_width;
+    return true;
 }

@@ -6,10 +6,11 @@ SpriteAttribute::SpriteAttribute(Sprite* sprite)
     //sprite->copy(sprite);
     this->sprite = a;
     this->setName("sprite");
+    this->iniState = (initialState*)malloc(sizeof(initialState));
 }
 SpriteAttribute::~SpriteAttribute()
 {
-
+    free(this->iniState);
 }
 void SpriteAttribute::passToShader(Shader* shader, double deltaTime)
 {
@@ -48,4 +49,13 @@ void SpriteAttribute::save(std::ofstream& output)
 {
     output << "\"name\" : \"sprite\" , ";
     output << "\"sprite\" : \"" << this->sprite->getName().c_str() << "\""; 
+}
+
+bool SpriteAttribute::registerInitialState()
+{
+    this->iniState->initial_sprite = this->sprite;
+}
+bool SpriteAttribute::recoverInitialState()
+{
+    this->sprite = this->iniState->initial_sprite;
 }

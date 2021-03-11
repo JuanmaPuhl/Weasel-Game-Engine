@@ -34,6 +34,8 @@ class ComponentCamera : public Component
         int getHeight();
         float getVelocity();
         void save(std::ofstream& output_dir);
+        bool registerInitialState();
+        bool recoverInitialState();
         Component* copy();
     private:
         glm::vec3 position;
@@ -52,5 +54,10 @@ class ComponentCamera : public Component
         glm::mat4 projectionMatrix;
         glm::vec2 movementDirection = glm::vec2(0.0f);
         glm::mat4 viewMatrix;
+        struct initialState
+        {
+            glm::vec3 initial_direction;
+        };
+        initialState* iniState;
 
 };

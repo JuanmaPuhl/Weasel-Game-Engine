@@ -25,9 +25,17 @@ class ComponentCollisionBox : public Component
     void setWidth(float width);
     void setHeight(float height);
     bool checkCollision(ComponentCollisionBox* b);
+    bool registerInitialState();
+    bool recoverInitialState();
     Component* copy();
     private:
     float x,y,width,height;
     std::vector<Entity*> list;
     Entity* entity;
+    struct initialState
+    {
+        float initial_x, initial_y, initial_width, initial_height;
+        std::string initial_visibleName;
+    };
+    initialState* iniState;
 };

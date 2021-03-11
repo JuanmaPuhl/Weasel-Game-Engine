@@ -15,9 +15,16 @@ class LuaScriptComponent : public Component
     void onCreate();
     void onCollision(Entity* other);
     void save(std::ofstream& output_dir);
+    bool registerInitialState();
+    bool recoverInitialState();
     Component* copy();
     std::string getScript();
     private:
     lua_State* lua_state;
     std::string scr;
+    struct initialState
+    {
+        std::string initial_visibleName = "", initial_scr ="";
+    };
+    initialState* iniState;
 };

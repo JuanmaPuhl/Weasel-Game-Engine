@@ -18,6 +18,8 @@ class ComponentParticle : public Component
     void setMaxParticles(int maxParticles);
     std::vector<Particle*> getParticles();
     void save(std::ofstream& output_dir);
+    bool registerInitialState();
+    bool recoverInitialState();
     private:
     int firstUnusedParticle();
     void respawnParticle(Particle* particle, glm::vec3 offset);
@@ -25,4 +27,10 @@ class ComponentParticle : public Component
     int maxParticles, newparticles;
     int lastUsedParticle = 0;
     Entity* generator;
+    struct initialState
+    {
+        std::string initial_visibleName;
+        int initial_maxParticles, initial_newParticles;
+    };
+    initialState* iniState;
 };

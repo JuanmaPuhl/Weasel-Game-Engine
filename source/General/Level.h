@@ -29,6 +29,8 @@ class Level
     Entity* addEntityCamera(int width, int height);
     bool removeEntity(int entity);
     std::vector<Entity*> getEntities();
+    bool registerInitialState();
+    bool recoverInitialState();
     Entity* getCamera();
     /**
      * @brief Actualiza todas las entidades del nivel
@@ -36,9 +38,18 @@ class Level
      */
     void onUpdate(double deltaTime);
     void save(std::ofstream& output_dir);
+    
     private:
     std::vector<Entity*> entities;
     Entity* cameraEntity = NULL;
+    std::vector<Entity*> initial_entities;
+    struct initialState
+    {
+        std::vector<Entity*> initial_entities;
+        Entity* initial_cameraEntity;
+    };
+    initialState* iniState;
+
 };
 
 

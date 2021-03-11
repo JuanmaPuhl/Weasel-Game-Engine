@@ -4,11 +4,12 @@ ColorAttribute::ColorAttribute(glm::vec3 color)
 {
     this->color = color;
     this->setName("color");
+    this->iniState = (initialState*)malloc(sizeof(initialState));
 }
 
 ColorAttribute::~ColorAttribute()
 {
-
+    free(this->iniState);
 }
 
 void ColorAttribute::passToShader(Shader* shader, double deltaTime)
@@ -41,4 +42,15 @@ void ColorAttribute::save(std::ofstream& output)
 {
     output << "\"name\" : \"color\" , ";
     output << "\"color\" : {\"x\" : " << this->color.x << " , \"y\" : " << this->color.y << " , \"z\" : " << this->color.z << "}"; 
+}
+
+bool ColorAttribute::registerInitialState()
+{
+    this->iniState->color = this->color;
+    return true;
+}
+bool ColorAttribute::recoverInitialState()
+{
+    this->color = this->iniState->color;
+    return true;
 }

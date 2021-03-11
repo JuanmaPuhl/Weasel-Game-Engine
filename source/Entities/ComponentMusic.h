@@ -16,8 +16,16 @@ class ComponentMusic : public Component
     void pauseMusic();
     void setVolume(float volume);
     void save(std::ofstream& output_dir);
-
+    bool registerInitialState();
+    bool recoverInitialState();
     private:
     std::string music;
     irrklang::ISoundEngine *SoundEngine;
+    struct initialState
+    {
+        std::string initial_visibleName;
+        std::string initial_track;
+        float initial_volume;
+    };
+    initialState* iniState;
 };

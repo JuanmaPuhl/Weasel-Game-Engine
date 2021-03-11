@@ -15,7 +15,7 @@ void Game::init(int width, int height)
     gamedata->shaderParticles = new Shader(PARTICLE_SHADER_FILE);
     gamedata->shaderGeneral = new Shader(GENERAL_SHADER_FILE);
     Gui::init(gamedata->window);
-    gamedata->status = PLAY;
+    gamedata->status = STOP;
     w = width;
     h = height;
    
@@ -240,6 +240,8 @@ void Game::playGame()
 {
     GAME_STATUS status = gamedata->status;
     Gui::writeToLog("STATUS: "+status);
+    if(gamedata->status == STOP)
+        gamedata->currentLevel->registerInitialState();
     if(status != PLAY)
     {
         gamedata->status = PLAY;
@@ -262,6 +264,7 @@ void Game::stopGame()
     
     GAME_STATUS status = gamedata->status;
     Gui::writeToLog("STATUS: "+status);
+    gamedata->currentLevel->recoverInitialState();
     if(status != STOP)
     {
         gamedata->status = STOP;

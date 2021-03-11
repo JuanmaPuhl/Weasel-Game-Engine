@@ -13,7 +13,14 @@ class SpriteAttribute : public GraphicAttribute
     GraphicAttribute* copy();
     void unbind(Shader* shader);
     void save(std::ofstream& output_dir);
+    bool registerInitialState();
+    bool recoverInitialState();
     private:
     Sprite* sprite;
+    struct initialState
+    {
+        Sprite* initial_sprite;
+    };
+    initialState* iniState;
 
 };

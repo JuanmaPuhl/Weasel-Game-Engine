@@ -5,13 +5,13 @@ ComponentCamera::ComponentCamera(int width, int height)
     this->width = width;
     this->height = height;
     this->setName("camera");
-    
     this->onCreate();
+    this->iniState = (initialState*)malloc(sizeof(initialState));
 }
 
 ComponentCamera::~ComponentCamera()
 {
-    
+    free(this->iniState);
 }
 glm::mat4 ComponentCamera::getViewMatrix()
 {
@@ -122,4 +122,14 @@ void ComponentCamera::save(std::ofstream& output)
     //output << "\"direction\" : {" << "\"x\" : " << this->direction.x << " , \"y\" : " << this->direction.y << " , \"z\" : " << this->direction.z << "} , ";
     
     
+}
+
+bool ComponentCamera::registerInitialState()
+{
+    printf("Camera\n");
+    //Hasta que no haga el refactor no voy a tocar nada
+}
+bool ComponentCamera::recoverInitialState()
+{
+    //Hasta que no haga el refactor no voy a tocar nada
 }

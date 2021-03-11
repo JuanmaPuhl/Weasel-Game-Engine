@@ -17,6 +17,7 @@ Entity::Entity()
     this->name = "entity";
     //Tengo que calcular la modelMatrix nueva
     this->updateModelMatrix();
+    this->iniState = (initialState*)malloc(sizeof(initialState));
 
 
 }
@@ -25,6 +26,7 @@ Entity::~Entity()
 {
     delete(this->quad);
     this->components.clear();//Limpio vector
+    free(this->iniState);
 }
 
 void Entity::updateModelMatrix()
@@ -286,4 +288,47 @@ void Entity::save(std::ofstream& output)
         attr_index++; 
     }
     output << "]";
+}
+
+bool Entity::registerInitialState()
+{
+    this->initial_position = this->position;
+    this->initial_rotation = this->rotation;
+    this->initial_scaling = this->scaling;
+    this->initial_name = this->name;
+    this->initial_components.clear();
+    for(Component* c : this->components)
+    {
+        //c->registerInitialState();
+        this->initial_components.push_back(c);    
+    }
+    this->initial_attributes.clear();
+    for(GraphicAttribute* a : this->attributes)
+    {
+        //a->registerInitialState();
+        this->initial_attributes.push_back(a);
+    }
+    return true;
+}
+
+bool Entity::recoverInitialState()
+{
+    this->setPosition(this->initial_position);
+    this->setRotation(this->initial_rotation);
+    this->setScale(this->initial_scaling);
+    printf("pos = %f,%f,%f\n",this->position.x,this->position.y,this->position.z);
+    this->setName(this->initial_name);
+    this->components.clear();
+    for(Component* c : this->initial_components)
+    {
+        //c->recoverInitialState();
+        this->components.push_back(c);
+    }
+    this->attributes.clear();
+    for(GraphicAttribute* a : this->initial_attributes)
+    {
+        //a->recoverInitialState();
+        this->attributes.push_back(a);
+    }
+    return true;
 }

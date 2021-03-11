@@ -2,6 +2,9 @@
 #include "../Entities/ComponentCamera.h"
 Level::Level()
 {
+    //Asigno espacio para el estado inicial
+    this->iniState = (initialState*)malloc(sizeof(initialState));
+    
 }
 
 Level::~Level()
@@ -11,6 +14,7 @@ Level::~Level()
     {
         delete((*(ptr)));
     }
+    free(this->iniState);
 }
 
 Entity* Level::addEntity()
@@ -97,4 +101,33 @@ void Level::save(std::ofstream& output)
         ent_index++;
     }
     output << "]";
+}
+
+bool Level::registerInitialState()
+{
+    //Primero tengo que agarrar todas las entidades y agregarlas al estado inicial
+    this->initial_entities.clear();
+    
+    printf("Capacidad: %d\n", this->initial_entities.capacity());
+     for(Entity* e : this->entities)
+    {
+        e->registerInitialState();
+        this->initial_entities.push_back(e);
+    } 
+    this->cameraEntity->registerInitialState();
+    this->iniState->initial_cameraEntity = this->cameraEntity;
+    return true;
+}
+
+bool Level::recoverInitialState()
+{
+    this->entities.clear();
+    for(Entity* e : this->initial_entities)
+    {
+        e->recoverInitialState();
+        this->entities.push_back(e);
+    }
+    this->cameraEntity = NULL;
+    //this->iniState->initial_cameraEntity->recoverInitialState();
+    this->cameraEntity = this->iniState->initial_cameraEntity;
 }

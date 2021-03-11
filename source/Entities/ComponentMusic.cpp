@@ -3,12 +3,14 @@
 ComponentMusic::ComponentMusic(irrklang::ISoundEngine* soundEngine)
 {
     this->setName("music");
+    this->music = " ";
     this->SoundEngine = soundEngine;
+    this->iniState = (initialState*)malloc(sizeof(initialState));
 }
 
 ComponentMusic::~ComponentMusic()
 {
-    
+    free(this->iniState);
 }
 
 void ComponentMusic::onCreate()
@@ -64,3 +66,19 @@ void ComponentMusic::save(std::ofstream& output)
     output << "\"track\" : \"" << this->music << "\"";
 }
 
+bool ComponentMusic::registerInitialState()
+{
+    printf("Music\n");
+    this->iniState->initial_visibleName = this->getVisibleName().c_str();
+    printf("Music1\n");
+    this->iniState->initial_track = this->music.c_str();
+    printf("Music2\n");
+    //this->iniState->initial_volume = this->volume;
+    return true;
+}
+bool ComponentMusic::recoverInitialState()
+{
+    this->setVisibleName(this->iniState->initial_visibleName);
+    this->music = this->iniState->initial_track;
+    return true;
+}

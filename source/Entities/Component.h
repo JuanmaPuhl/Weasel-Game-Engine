@@ -27,6 +27,8 @@ class Component
         return visible_name;
     }
     virtual void save(std::ofstream& output_dir) = 0;
+    virtual bool registerInitialState() = 0;
+    virtual bool recoverInitialState() = 0;
     private: 
     std::string name;
     std::string visible_name = "";

@@ -12,6 +12,8 @@ class GraphicAttribute
     virtual GraphicAttribute* copy() = 0;
     virtual void unbind(Shader* shader) = 0;
     virtual void save(std::ofstream& output_dir) = 0;
+    virtual bool registerInitialState() = 0;
+    virtual bool recoverInitialState() = 0;
     void setName(std::string n)
     {
         name = n;
