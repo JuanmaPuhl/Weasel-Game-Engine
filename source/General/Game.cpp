@@ -164,7 +164,7 @@ void Game::loopFunction(double deltaTime)
     if(gamedata->status == PLAY)
     {
         Game::onUpdate(deltaTime);
-        Game::render(deltaTime);
+        
     }
     else
     {
@@ -172,8 +172,8 @@ void Game::loopFunction(double deltaTime)
         
     
     }
-    
-    Gui::draw(deltaTime);
+    Game::render(gamedata->deltaTime);
+    Gui::draw(gamedata->deltaTime);
 }    
 void Game::loop()
 {
