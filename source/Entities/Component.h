@@ -1,5 +1,7 @@
 #pragma once
 #include "string"
+#include <iostream>
+#include <fstream>
 class Component
 {
     public:
@@ -24,6 +26,7 @@ class Component
     {
         return visible_name;
     }
+    virtual void save(std::ofstream& output_dir) = 0;
     private: 
     std::string name;
     std::string visible_name = "";

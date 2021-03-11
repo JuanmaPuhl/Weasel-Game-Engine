@@ -33,6 +33,7 @@ class ComponentCamera : public Component
         int getWidth();
         int getHeight();
         float getVelocity();
+        void save(std::ofstream& output_dir);
         Component* copy();
     private:
         glm::vec3 position;

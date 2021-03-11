@@ -21,6 +21,7 @@ class ComponentCollisionBox : public Component
     void onUpdate();
     void setX(float x);
     void setY(float y);
+    void save(std::ofstream& output_dir);
     void setWidth(float width);
     void setHeight(float height);
     bool checkCollision(ComponentCollisionBox* b);

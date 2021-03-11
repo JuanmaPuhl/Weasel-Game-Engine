@@ -112,3 +112,14 @@ std::vector<Particle*> ComponentParticle::getParticles()
 {
     return this->particles;
 }
+
+void ComponentParticle::save(std::ofstream& output)
+{
+    output << "\"name\" : \"" << this->getName() << "\" , ";
+    output << "\"visible_name\" : \"" << this->getVisibleName() << "\" , ";
+    output << "\"max_particles\" : " << this->maxParticles << " , ";
+    output << "\"step_particles\" : " << this->newparticles;
+    //Despues tienen que ir más variables, como color, velocidad, distancia, etc. Pero primero tengo que refactorizar un toque
+    //El generador está claro que es la entidad actual
+
+}

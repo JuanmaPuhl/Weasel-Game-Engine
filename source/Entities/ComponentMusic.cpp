@@ -57,4 +57,10 @@ void ComponentMusic::setVolume(float volume)
         this->SoundEngine->setSoundVolume(volume);
 }
 
+void ComponentMusic::save(std::ofstream& output)
+{
+    output << "\"name\" : \"" << this->getName() << "\" , ";
+    output << "\"visible_name\" : \"" << this->getVisibleName() << "\" , ";
+    output << "\"track\" : \"" << this->music << "\"";
+}
 

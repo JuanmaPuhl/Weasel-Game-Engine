@@ -15,6 +15,7 @@ class ComponentMusic : public Component
     void stopMusic();
     void pauseMusic();
     void setVolume(float volume);
+    void save(std::ofstream& output_dir);
 
     private:
     std::string music;

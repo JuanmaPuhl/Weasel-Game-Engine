@@ -112,3 +112,14 @@ float ComponentCamera::getVelocity()
 {
 
 }
+
+void ComponentCamera::save(std::ofstream& output)
+{
+    //Guardo el nombre para poder diferenciar el componente
+    output << "\"name\" : \"" << this->getName().c_str() << "\" , ";
+    output << "\"visible_name\" : \"" << this->getVisibleName().c_str() << "\" ";
+    //output << "\"position\" : {" << "\"x\" : " << this->position.x << " , \"y\" : " << this->position.y << " , \"z\" : " << this->position.z << "} , ";
+    //output << "\"direction\" : {" << "\"x\" : " << this->direction.x << " , \"y\" : " << this->direction.y << " , \"z\" : " << this->direction.z << "} , ";
+    
+    
+}

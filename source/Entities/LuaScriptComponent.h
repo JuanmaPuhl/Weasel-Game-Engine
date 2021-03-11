@@ -14,6 +14,7 @@ class LuaScriptComponent : public Component
     void onUpdate();
     void onCreate();
     void onCollision(Entity* other);
+    void save(std::ofstream& output_dir);
     Component* copy();
     std::string getScript();
     private:

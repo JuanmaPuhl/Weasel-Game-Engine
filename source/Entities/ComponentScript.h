@@ -8,6 +8,7 @@ class ComponentScript : public Component
     ~ComponentScript();
     void onUpdate();
     void onCreate();
+    void save(std::ofstream& output_dir);
     Component* copy();
     ScriptComponent* getScript();
     private:

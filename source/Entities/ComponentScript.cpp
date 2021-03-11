@@ -33,3 +33,10 @@ ScriptComponent* ComponentScript::getScript()
 {
     return this->scr;
 }
+
+void ComponentScript::save(std::ofstream& output)
+{
+    output << "\"name\" : \"" << this->getName() << "\" , ";
+    output << "\"visible_name\" : \"" << this->getVisibleName() << "\" , ";
+    output << "\"script\" : \"" << this->scr << "\"";
+}

@@ -69,3 +69,12 @@ void LuaScriptComponent::setScript(std::string script)
     this->scr = script;
     this->onCreate();
 }
+
+
+void LuaScriptComponent::save(std::ofstream& output)
+{
+    output << "\"name\" : \"" << this->getName() << "\" , ";
+    output << "\"visible_name\" : \"" << this->getVisibleName() << "\" , ";
+    output << "\"script\" : \"" << this->scr << "\"";
+    //El estado lo genero por codigo automaticamente.
+}

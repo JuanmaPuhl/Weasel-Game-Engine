@@ -116,3 +116,15 @@ Component* ComponentCollisionBox::copy()
     ComponentCollisionBox* cs = new ComponentCollisionBox(this->x,this->y,this->width,this->height, this->entity);
     return cs;
 }
+
+void ComponentCollisionBox::save(std::ofstream& output)
+{
+    output << "\"name\" : \"" << this->getName() << "\" , ";
+    output << "\"visible_name\" : \"" << this->getVisibleName() << "\" , ";
+    output << "\"x\" : " << this->x << " , ";
+    output << "\"y\" : " << this->y << " , ";
+    output << "\"width\" : " << this->width << " , ";
+    output << "\"height\" : " << this->height;
+    //La entidad está claro que es la actual
+
+}

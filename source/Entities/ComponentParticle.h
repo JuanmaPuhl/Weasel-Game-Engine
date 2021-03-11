@@ -17,6 +17,7 @@ class ComponentParticle : public Component
     void setNewParticles(int newParticles);
     void setMaxParticles(int maxParticles);
     std::vector<Particle*> getParticles();
+    void save(std::ofstream& output_dir);
     private:
     int firstUnusedParticle();
     void respawnParticle(Particle* particle, glm::vec3 offset);

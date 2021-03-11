@@ -158,10 +158,8 @@ int component_music_set_track(lua_State* L)
         return luaL_error(L, "Got %d arguments expected 2", n);
     ComponentMusic** cc = (ComponentMusic**) lua_touserdata(L, -2);
     std::string music_dir = lua_tostring(L,-1);
-    printf("DIRECCION: %s\n",music_dir.c_str());
     if(cc != NULL && (*cc) != NULL && !strcmp((*cc)->getName().c_str(),"music"))
         (*cc)->setMusic(music_dir);
-    printf("HOLIWI %s\n",(*cc)->getMusic().c_str());
 }
 
 int component_music_get_track(lua_State* L)
