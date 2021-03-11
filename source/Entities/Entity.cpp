@@ -279,7 +279,7 @@ void Entity::save(std::ofstream& output)
     for(GraphicAttribute* attr : this->attributes)
     {
         output <<  "{";
-        //attr->save(output);
+        attr->save(output);
         output << "}";
         if(attr_index + 1 < this->attributes.size())
             output << " , ";

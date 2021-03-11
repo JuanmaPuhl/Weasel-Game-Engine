@@ -43,3 +43,9 @@ void SpriteAttribute::unbind(Shader* shader)
     float transparency = 1.0f;
     shader->setUniform("transparency",&(transparency));
 }
+
+void SpriteAttribute::save(std::ofstream& output)
+{
+    output << "\"name\" : \"sprite\" , ";
+    output << "\"sprite\" : \"" << this->sprite->getName().c_str() << "\""; 
+}

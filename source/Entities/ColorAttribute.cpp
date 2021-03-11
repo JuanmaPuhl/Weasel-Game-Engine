@@ -36,3 +36,9 @@ void ColorAttribute::setColor(glm::vec3 color)
 {
     this-> color = color;
 }
+
+void ColorAttribute::save(std::ofstream& output)
+{
+    output << "\"name\" : \"color\" , ";
+    output << "\"color\" : {\"x\" : " << this->color.x << " , \"y\" : " << this->color.y << " , \"z\" : " << this->color.z << "}"; 
+}

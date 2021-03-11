@@ -12,6 +12,7 @@ class ColorAttribute : public GraphicAttribute
     GraphicAttribute* copy();
     void unbind(Shader* shader);
     glm::vec3 getColor();
+    void save(std::ofstream& output_dir);
     void setColor(glm::vec3 color);
     private:
     glm::vec3 color = glm::vec3(0.0f);

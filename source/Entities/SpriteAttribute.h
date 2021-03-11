@@ -12,6 +12,7 @@ class SpriteAttribute : public GraphicAttribute
     void setSprite(Sprite* sprite);
     GraphicAttribute* copy();
     void unbind(Shader* shader);
+    void save(std::ofstream& output_dir);
     private:
     Sprite* sprite;
 
