@@ -27,6 +27,8 @@ struct GameData
         double deltaTime;
         unsigned int texture;
         int width, height;
+        std::string saveFile = "";
+        bool unsavedChanges = false;
     };
     extern GameData* gamedata;
 namespace Game
