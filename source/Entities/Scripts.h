@@ -217,7 +217,7 @@ class BirdMovement : public ScriptComponent
     void onUpdate()
     {
       double time = glfwGetTime();
-      double deltaTime = time-this->lasttime;
+      double deltaTime = Game::getDeltaTime();
       
       this->lasttime = time;
       glm::vec3 pos = bird->getPosition();

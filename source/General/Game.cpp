@@ -102,17 +102,7 @@ void Game::render(double deltaTime)
     glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
     gamedata->shader->use();
-    float current = glfwGetTime();
-    double delta = current - lastTime;
-    lastTime = current;
-    fps++;
-    if(current - last_time >=1.0f)
-    {
-        double fpsCount = 1000.0/double(fps);
-        std::string str;
-        fps = 0;
-        last_time++;
-    }
+
     while(glfwGetTime()<lastTimeForSleep+double(1.0/MAX_FRAMERATE))
     {
         //No hago nada. Limito fps.
@@ -174,9 +164,15 @@ void Game::loopFunction(double deltaTime)
     if(gamedata->status == PLAY)
     {
         Game::onUpdate(deltaTime);
-        
+        Game::render(deltaTime);
     }
-    Game::render(deltaTime);
+    else
+    {
+        gamedata->deltaTime = 0.0;
+        
+    
+    }
+    
     Gui::draw(deltaTime);
 }    
 void Game::loop()

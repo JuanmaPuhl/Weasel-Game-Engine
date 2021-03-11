@@ -19,6 +19,7 @@ function on_create()
     print(col_attr)
     sprite_set_transparency(sprite_fire,0.0)
     collision = false
+    log_print("Esto es una prueba desde LUA")
 end
 
 function on_update()

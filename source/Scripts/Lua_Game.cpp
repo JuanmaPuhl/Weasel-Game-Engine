@@ -39,6 +39,16 @@ static int game_get_delta_time(lua_State* L)
     return 1;
 }
 
+static int log_print(lua_State* L)
+{
+    int n = lua_gettop(L);  // Number of arguments
+    if (n != 1)
+        return luaL_error(L, "Got %d arguments expected 1", n);
+    std::string str = lua_tostring(L, -1);
+    Gui::writeToLog(str.c_str());
+    return 1;
+}
+
 void game_script_init(lua_State* L)
 {
     lua_pushcfunction(L, game_get_current_level);
@@ -51,4 +61,6 @@ void game_script_init(lua_State* L)
     lua_setglobal(L, "game_add_level");
     lua_pushcfunction(L, game_get_delta_time);
     lua_setglobal(L, "game_get_delta_time");
+    lua_pushcfunction(L, log_print);
+    lua_setglobal(L, "log_print");
 }

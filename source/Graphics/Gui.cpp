@@ -8,6 +8,7 @@
 #include "../Entities/LuaScriptComponent.h"
 #include "../Entities/ComponentParticle.h"
 #include "../Entities/ComponentMusic.h"
+#include "../FileManagement/FileManager.h"
 GLFWwindow* ventana;
 glm::vec3 vec;
 int height = 0, width = 0;
@@ -308,7 +309,12 @@ static void ShowExampleMenuFile()
         TCHAR toReturn [260] = {0};
         Utils::saveFileDialog(toReturn,260);
         if(toReturn != NULL)
-            printf("Direccion: %s\n",toReturn);
+        {
+            char buffer [261];
+            sprintf (buffer, "%s",toReturn);
+            file_manager::save_project(buffer);
+        }
+            
     }
     if (ImGui::MenuItem("Save As..")) {}
 
