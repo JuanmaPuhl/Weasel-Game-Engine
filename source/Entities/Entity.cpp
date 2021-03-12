@@ -172,8 +172,13 @@ GraphicAttribute* Entity::getAttribute(std::string name)
 }
 void Entity::addAttribute(GraphicAttribute* attribute)
 {
-    GraphicAttribute* a = attribute->copy();
-    this->attributes.push_back(a);
+    int i = getCantAttributesSameType(attribute->getName());
+    if(i == 0)
+    {
+        GraphicAttribute* a = attribute->copy();
+        this->attributes.push_back(a);
+    }
+    
 }
 
 void Entity::setPosition(glm::vec3 position)
@@ -222,6 +227,11 @@ void Entity::setName(std::string name)
     this->name = name;
 }
 
+std::vector<GraphicAttribute*> Entity::getAllAttributes()
+{
+    return this->attributes;
+}
+
 std::vector<Component*> Entity::getAllComponents()
 {
     return this->components;
@@ -231,6 +241,19 @@ int Entity::getCantComponentsSameType(std::string type)
 {
     int i = 0;
     for(Component* c : this->components)
+    {
+        if(c != NULL && !strcmp(type.c_str(),c->getName().c_str()))
+        {
+            i++;
+        }
+    }
+    return i;
+}
+
+int Entity::getCantAttributesSameType(std::string type)
+{
+    int i = 0;
+    for(GraphicAttribute* c : this->attributes)
     {
         if(c != NULL && !strcmp(type.c_str(),c->getName().c_str()))
         {

@@ -417,7 +417,70 @@ void showEntityPopup()
         entityClicked->setScale(glm::vec3(vecScaling[0],vecScaling[1],vecScaling[2]));
     }
     //Ahora tengo que mostrar la sección de Sprites
-    bool open = ImGui::CollapsingHeader("Sprite", ImGuiTreeNodeFlags_None);
+    for(GraphicAttribute* attr : entityClicked->getAllAttributes())
+    {
+        bool openAttribute = ImGui::CollapsingHeader(attr->getName().c_str(), ImGuiTreeNodeFlags_None);
+        if(openAttribute)
+        {
+            if(strcmp(attr->getName().c_str(),"sprite") == 0)
+            {
+                SpriteAttribute* sprAttr = ((SpriteAttribute*)attr);
+                ImGui::Button("Seleccionar Sprite");
+                if(ImGui::IsItemClicked())
+                {
+                    //Abrir una ventana para seleccionar un sprite
+                    spriteSelection = true;
+                    Gui::writeToLog("Voy a abrir la seleccion de sprite.\n");
+                    ImGui::OpenPopup("selecSprite");
+
+                }
+                if (ImGui::BeginPopup("selecSprite"))
+                {
+                    std::vector<Sprite*> sprites = Game::getSprites();
+                    std::vector<Sprite*>::iterator ptr;
+                    int i = 0; 
+                    for(ptr = sprites.begin(); ptr<sprites.end(); ptr++)
+                    {
+                        ImGui::TreeNodeEx((*ptr)->getName().c_str(),node_flags); 
+                        if(ImGui::IsItemClicked())
+                        {
+                            if(sprAttr == NULL)
+                            {
+                                //Tengo que agregarle un atributo de sprite
+                                entityClicked->addAttribute(new SpriteAttribute((*ptr)));
+                            }
+                            else
+                            {
+                                sprAttr->setSprite((*ptr));
+                            }
+                            ImGui::CloseCurrentPopup();
+                        }
+                        i++;
+                    }
+                    ImGui::EndPopup();
+                }
+                std::string selected_sprite = "undefined";
+                if(strcmp(sprAttr->getName().c_str(),""))
+                    selected_sprite = sprAttr->getName();
+                ImGui::SameLine();
+                ImGui::Text(selected_sprite.c_str());
+                ImGui::SameLine();
+                if(sprAttr!=NULL)
+                {
+                    int index = sprAttr->getSprite()->getCurrentSpriteIndex();
+                    ImGui::Image((ImTextureID)(sprAttr->getSprite()->getSpriteImage(index)),ImVec2(50, 50), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
+                }
+                else
+                {
+                    /* ImTextureID texUndefined = (ImTextureID)(system_undefined->getSpriteImage(0));
+                    ImGui::Image(texUndefined, ImVec2(50, 50), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f)); */
+                }
+            }
+        }
+    }
+
+
+    /* bool open = ImGui::CollapsingHeader("Sprite", ImGuiTreeNodeFlags_None);
     if(open)
     {
         ImGui::BeginChild("SpriteEntity");
@@ -480,15 +543,18 @@ void showEntityPopup()
         {
             /* ImTextureID texUndefined = (ImTextureID)(system_undefined->getSpriteImage(0));
             ImGui::Image(texUndefined, ImVec2(50, 50), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f)); */
-        }
+       /* }
         ImGui::EndChild();
-    }
+    } */
 
     bool openColor = ImGui::CollapsingHeader("Color", ImGuiTreeNodeFlags_None);
     if(openColor)
     {
         ImGui::BeginChild("ColorEntity");
         std::string selected_sprite = "undefined";
+
+        
+
         GraphicAttribute* attr = entityClicked->getAttribute("color");
         ImVec4 color;
         ColorAttribute* colorAttr = NULL;

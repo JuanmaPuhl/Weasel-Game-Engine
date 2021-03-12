@@ -130,3 +130,13 @@ bool Level::recoverInitialState()
     this->iniState->initial_cameraEntity->recoverInitialState();
     this->cameraEntity = this->iniState->initial_cameraEntity;
 }
+
+std::vector<GraphicAttribute*> Level::getAttributes()
+{
+    return this->attributes;
+}
+
+void Level::addAttribute(GraphicAttribute* attr)
+{
+    this->attributes.push_back(attr);
+}

@@ -31,6 +31,7 @@
 #include "Windows.h"
 #include "FileManagement/FileManager.h"
 #include "Entities/ComponentMusic.h"
+#include "Entities/PixelizationAttribute.h"
 #define DEBUG
 extern "C" {
   #include "lua/include/lua.h"
@@ -221,6 +222,8 @@ int metodoPrincipal()
   personaje->setName("JIM");
   personaje->addComponent(new ComponentParticle(500,2,personaje));
   personaje->addAttribute(new ColorAttribute(glm::vec3(0.0f)));
+  level1->addAttribute(new PixelizationAttribute());
+  
   //executeLuaScript(lua_state);
   personaje->addComponent(new ComponentMusic(SoundEngine));
   ((ComponentMusic*)(personaje->getComponent("music")))->setMusic("res/audio/01 - New Junk City.mp3");

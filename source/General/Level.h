@@ -31,6 +31,8 @@ class Level
     std::vector<Entity*> getEntities();
     bool registerInitialState();
     bool recoverInitialState();
+    void addAttribute(GraphicAttribute* attr);
+    std::vector<GraphicAttribute*> getAttributes();
     Entity* getCamera();
     /**
      * @brief Actualiza todas las entidades del nivel
@@ -49,6 +51,7 @@ class Level
         Entity* initial_cameraEntity;
     };
     initialState* iniState;
+    std::vector<GraphicAttribute*> attributes;
 
 };
 

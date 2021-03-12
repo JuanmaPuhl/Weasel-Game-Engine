@@ -31,6 +31,7 @@ class Entity
     void render(Shader* shader,double deltaTime);
     Component* getComponent(std::string name);
     std::vector<Component*> getAllComponents();
+    std::vector<GraphicAttribute*> getAllAttributes();
     GraphicAttribute* getAttribute(std::string name);
     void addAttribute(GraphicAttribute* attribute);
     void setPosition(glm::vec3 position);
@@ -54,6 +55,7 @@ class Entity
     Sprite* sprite = NULL;
     void updateModelMatrix();
     int getCantComponentsSameType(std::string type);
+    int getCantAttributesSameType(std::string type);
     std::vector<Component*> components;
     std::vector<GraphicAttribute*> attributes;
     std::string name;

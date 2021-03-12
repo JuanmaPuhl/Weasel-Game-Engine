@@ -119,7 +119,18 @@ void Game::render(double deltaTime)
     gamedata->shaderGeneral->use();   
     glBindVertexArray((new Quad())->getVAO());
     glBindTexture(GL_TEXTURE_2D, tex);
+    GLint pixelizationLocation = glGetUniformLocation(gamedata->shaderGeneral->getShaderProgram(), "pixelization");
+    //glUniform1i(pixelizationLocation, b);
+
+    for(GraphicAttribute* attr : gamedata->currentLevel->getAttributes())
+    {
+        attr->passToShader(gamedata->shaderGeneral, gamedata->deltaTime);
+    }
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    for(GraphicAttribute* attr : gamedata->currentLevel->getAttributes())
+    {
+        attr->unbind(gamedata->shaderGeneral);
+    }
     gamedata->texture = tex2;
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
