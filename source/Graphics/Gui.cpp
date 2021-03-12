@@ -9,6 +9,8 @@
 #include "../Entities/ComponentParticle.h"
 #include "../Entities/ComponentMusic.h"
 #include "../FileManagement/FileManager.h"
+#include "../Entities/PixelizationAttribute.h"
+#include "../Entities/Sharpen.h"
 GLFWwindow* ventana;
 glm::vec3 vec;
 int height = 0, width = 0;
@@ -28,7 +30,8 @@ double dt = 0.0;
 static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
 ImGuiTreeNodeFlags node_flags = base_flags;
 Sprite* system_undefined = NULL;
-
+Level* levelClicked;
+bool showLevelInfo = false;
 //Dimensiones
 const int DISPLAY_GAME_WIDTH = 0;
 const int DISPLAY_GAME_HEIGHT = 0;
@@ -82,7 +85,8 @@ void Gui::init(GLFWwindow* window)
     unsigned char* pixels;
     int width,height, bytes_per_pixels;
     io.Fonts->GetTexDataAsRGBA32(&pixels,&width,&height,&bytes_per_pixels);
-    
+    if(system_undefined == NULL)
+            system_undefined = Game::findSystemSpriteByName("undefined");
     
 }
 
@@ -476,117 +480,24 @@ void showEntityPopup()
                     ImGui::Image(texUndefined, ImVec2(50, 50), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f)); */
                 }
             }
-        }
-    }
 
 
-    /* bool open = ImGui::CollapsingHeader("Sprite", ImGuiTreeNodeFlags_None);
-    if(open)
-    {
-        ImGui::BeginChild("SpriteEntity");
-        ImGui::Button("Seleccionar Sprite");
-        std::string selected_sprite = "undefined";
-        GraphicAttribute* attr = entityClicked->getAttribute("sprite");
-        
-        SpriteAttribute* sprAttr = NULL;
-        if(attr != NULL){
-            sprAttr = (SpriteAttribute*)attr;
-            selected_sprite = sprAttr->getSprite()->getName();
-        }
-        
-        if(ImGui::IsItemClicked())
-        {
-            //Abrir una ventana para seleccionar un sprite
-            spriteSelection = true;
-            Gui::writeToLog("Voy a abrir la seleccion de sprite.\n");
-            ImGui::OpenPopup("selecSprite");
 
-        }
-        if (ImGui::BeginPopup("selecSprite"))
-        {
-            std::vector<Sprite*> sprites = Game::getSprites();
-            std::vector<Sprite*>::iterator ptr;
-            int i = 0; 
-            for(ptr = sprites.begin(); ptr<sprites.end(); ptr++)
+            if(strcmp(attr->getName().c_str(),"color") == 0)
             {
-                ImGui::TreeNodeEx((*ptr)->getName().c_str(),node_flags); 
-                if(ImGui::IsItemClicked())
-                {
-                    if(sprAttr == NULL)
-                    {
-                        //Tengo que agregarle un atributo de sprite
-                        entityClicked->addAttribute(new SpriteAttribute((*ptr)));
-                    }
-                    else
-                    {
-                        sprAttr->setSprite((*ptr));
-                    }
-                    ImGui::CloseCurrentPopup();
+                ColorAttribute* colAttr = ((ColorAttribute*)attr);
+                ImVec4 color = ImVec4(colAttr->getColor().x,colAttr->getColor().y,colAttr->getColor().z,1.0f);
+                ImGui::ColorEdit4("MyColor##3", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel );
+                if(colAttr!=NULL)
+                {   
+                    colAttr->setColor(glm::vec3(color.x,color.y,color.z));
                 }
-                i++;
+
             }
-            ImGui::EndPopup();
         }
-
-        ImGui::SameLine();
-       
-            
-        ImGui::Text(selected_sprite.c_str());
-        ImGui::SameLine();
-        if(attr!=NULL)
-        {
-           
-            int index = sprAttr->getSprite()->getCurrentSpriteIndex();
-            ImGui::Image((ImTextureID)(sprAttr->getSprite()->getSpriteImage(index)),ImVec2(50, 50), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
-        }
-        else
-        {
-            /* ImTextureID texUndefined = (ImTextureID)(system_undefined->getSpriteImage(0));
-            ImGui::Image(texUndefined, ImVec2(50, 50), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f)); */
-       /* }
-        ImGui::EndChild();
-    } */
-
-    bool openColor = ImGui::CollapsingHeader("Color", ImGuiTreeNodeFlags_None);
-    if(openColor)
-    {
-        ImGui::BeginChild("ColorEntity");
-        std::string selected_sprite = "undefined";
-
-        
-
-        GraphicAttribute* attr = entityClicked->getAttribute("color");
-        ImVec4 color;
-        ColorAttribute* colorAttr = NULL;
-        if(attr != NULL){
-            colorAttr = (ColorAttribute*)attr;
-            color = ImVec4(colorAttr->getColor().x,colorAttr->getColor().y,colorAttr->getColor().z,1.0f);
-
-        }
-        
-        if(ImGui::IsItemClicked())
-        {
-            //Abrir una ventana para seleccionar un sprite
-            spriteSelection = true;
-            Gui::writeToLog("Voy a abrir la seleccion de sprite.\n");
-            ImGui::OpenPopup("selecSprite");
-
-        }
-       
-        ImGui::ColorEdit4("MyColor##3", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel );
-        ImGui::SameLine();
-        if(attr!=NULL)
-        {   
-            colorAttr->setColor(glm::vec3(color.x,color.y,color.z));
-        }
-        else
-        {
-            entityClicked->addAttribute(new ColorAttribute(glm::vec3(color.x,color.y,color.z)));
-            /* ImTextureID texUndefined = (ImTextureID)(system_undefined->getSpriteImage(0));
-            ImGui::Image(texUndefined, ImVec2(50, 50), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f)); */
-        }
-        ImGui::EndChild();
     }
+
+
     for(Component* component : entityClicked->getAllComponents())
     {
         bool openComponent = ImGui::CollapsingHeader(component->getVisibleName().c_str(), ImGuiTreeNodeFlags_None);
@@ -669,7 +580,7 @@ void showEntityPopup()
 
         }
     }
-    ImGui::Button("Insertar componente...");
+    ImGui::Button("Insertar...");
     if(ImGui::IsItemClicked())
     {
         //Abrir una ventana para seleccionar un sprite
@@ -679,8 +590,8 @@ void showEntityPopup()
     }
     if (ImGui::BeginPopup("addCompAttr"))
     {
-        const int max_components = 4;
-        std::string compsAttrs[max_components] = {"collider","lua_script","particle","music"};
+        const int max_components = 6;
+        std::string compsAttrs[max_components] = {"collider","lua_script","particle","music","color","sprite"};
         for(int i = 0; i < max_components; i++)
         {
             ImGui::TreeNodeEx(compsAttrs[i].c_str(),node_flags); 
@@ -705,6 +616,14 @@ void showEntityPopup()
                 {
                     //music
                     entityClicked->addComponent(new ComponentMusic(irrklang::createIrrKlangDevice()));
+                }
+                if(i == 4)
+                {
+                    entityClicked->addAttribute(new ColorAttribute(glm::vec3(0.0f)));
+                }
+                if(i == 5)
+                {
+                    entityClicked->addAttribute(new SpriteAttribute(Game::findSystemSpriteByName("undefined")));
                 }
                 ImGui::CloseCurrentPopup();
             }
@@ -789,7 +708,12 @@ void showTreeView(ImGuiWindowFlags window_flags)
         ImGui::SetNextItemOpen(true, ImGuiCond_Once);
         if (ImGui::TreeNode(str.c_str()))
         {
-            
+            if(ImGui::IsItemClicked())
+            {
+                levelClicked = (*ptr);
+                showLevelInfo = true;
+
+            }
                 
             if (ImGui::BeginPopupContextItem(str.c_str()))
             {
@@ -851,6 +775,82 @@ void showTreeView(ImGuiWindowFlags window_flags)
 }
 
 
+void showLevelPopup()
+{
+     //Tengo que abrir una ventana con datos de la entidad
+    //ImGui::SetNextWindowPos(ImVec2(width/4+50,height/2),ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(500,200),ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(width/2-250,height/2-100),ImGuiCond_Once);
+    std::string windowName = "Nivel";//+std::to_string(item_index_clicked);
+    ImGui::Begin(windowName.c_str(),&showLevelInfo);
+
+    for(GraphicAttribute* attr : levelClicked->getAttributes())
+    {
+        bool openAttribute = ImGui::CollapsingHeader(attr->getName().c_str(), ImGuiTreeNodeFlags_None);
+        if(openAttribute)
+        {
+            if(strcmp(attr->getName().c_str(),"pixelization") == 0)
+            {
+                PixelizationAttribute* sprAttr = ((PixelizationAttribute*)attr);
+                int pixelSize = sprAttr->getPixelSize();
+                ImGui::DragInt("Pixel Size", &pixelSize, 1, 0, 100, "%.3f");
+                sprAttr->setPixelSize(pixelSize);
+            }
+
+
+
+            if(strcmp(attr->getName().c_str(),"sharpen") == 0)
+            {
+                Sharpen* colAttr = ((Sharpen*)attr);
+                float amount = colAttr->getAmount();
+                ImGui::DragFloat("Amount", &amount, 0.05f, 0.0f, FLT_MAX, "%.3f");
+                colAttr->setAmount(amount);
+            }
+            ImGui::Button("Remover atributo");
+            if(ImGui::IsItemClicked())
+            {
+                levelClicked->removeAttribute(attr->getName());
+            }
+        }
+        
+    }
+
+
+
+    ImGui::Button("Insertar...");
+    if(ImGui::IsItemClicked())
+    {
+        ImGui::OpenPopup("addLevelAttr");
+    }
+    if (ImGui::BeginPopup("addLevelAttr"))
+    {
+        const int max_components = 2;
+        std::string compsAttrs[max_components] = {"pixelization","sharpen"};
+        for(int i = 0; i < max_components; i++)
+        {
+            ImGui::TreeNodeEx(compsAttrs[i].c_str(),node_flags); 
+            if(ImGui::IsItemClicked())
+            {
+                if(i == 0)
+                {
+                    //Collider
+                    levelClicked->addAttribute(new PixelizationAttribute());
+                }
+                if(i == 1)
+                {
+                    //lua_script
+                    levelClicked->addAttribute(new Sharpen());
+                }
+                ImGui::CloseCurrentPopup();
+            }
+        }
+            
+    
+        ImGui::EndPopup();
+    }
+    ImGui::End();
+}
+
 void Gui::draw(double deltaTime)
 {
     dt = deltaTime;
@@ -900,6 +900,8 @@ void Gui::draw(double deltaTime)
     ImGui::Image((ImTextureID)gamedata->texture,wsize, ImVec2(0, 1), ImVec2(1, 0),tint_col,border_col);
     ImGui::End();
     showGameControls();
+    if(showLevelInfo)
+        showLevelPopup();
     ImGui::PopStyleColor();
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

@@ -86,6 +86,7 @@ bool LuaScriptComponent::registerInitialState()
 {
     this->initial_visibleName = this->getVisibleName().c_str();
     this->initial_scr = this->scr.c_str();
+    this->onCreate(); //Tengo que llamar a eso cada vez que se inicia
     return true;
 }
 bool LuaScriptComponent::recoverInitialState()

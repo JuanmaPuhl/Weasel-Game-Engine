@@ -6,6 +6,7 @@ class SpriteAttribute : public GraphicAttribute
 {
     public:
     SpriteAttribute(Sprite* sprite);
+    SpriteAttribute();
     ~SpriteAttribute();
     void passToShader(Shader* shader, double deltaTime);
     Sprite* getSprite();

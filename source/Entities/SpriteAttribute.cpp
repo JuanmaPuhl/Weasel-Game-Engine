@@ -8,17 +8,26 @@ SpriteAttribute::SpriteAttribute(Sprite* sprite)
     this->setName("sprite");
     this->iniState = (initialState*)malloc(sizeof(initialState));
 }
+SpriteAttribute::SpriteAttribute()
+{
+    this->sprite = NULL;
+    this->setName("sprite");
+    this->iniState = (initialState*)malloc(sizeof(initialState));
+}
 SpriteAttribute::~SpriteAttribute()
 {
     free(this->iniState);
 }
 void SpriteAttribute::passToShader(Shader* shader, double deltaTime)
 {
+    if(this->sprite != NULL)
+    {
+        unsigned int img = this->sprite->getSpriteImage(this->sprite->getCurrentSprite(deltaTime));
+        glBindTexture(GL_TEXTURE_2D, img);
+        float transparency = this->sprite->getTransparency();
+        shader->setUniform("transparency",&transparency);
+    }
     
-    unsigned int img = this->sprite->getSpriteImage(this->sprite->getCurrentSprite(deltaTime));
-    glBindTexture(GL_TEXTURE_2D, img);
-    float transparency = this->sprite->getTransparency();
-    shader->setUniform("transparency",&transparency);
 }
 
 void SpriteAttribute::setSprite(Sprite* sprite)

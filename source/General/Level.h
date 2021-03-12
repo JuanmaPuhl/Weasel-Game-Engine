@@ -33,6 +33,7 @@ class Level
     bool recoverInitialState();
     void addAttribute(GraphicAttribute* attr);
     std::vector<GraphicAttribute*> getAttributes();
+    void removeAttribute(std::string name);
     Entity* getCamera();
     /**
      * @brief Actualiza todas las entidades del nivel
@@ -53,6 +54,7 @@ class Level
     initialState* iniState;
     std::vector<GraphicAttribute*> attributes;
     std::vector<GraphicAttribute*> initial_attributes;
+    int getCantAttributesSameType(std::string type);
 
 };
 

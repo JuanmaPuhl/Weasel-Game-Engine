@@ -162,5 +162,30 @@ std::vector<GraphicAttribute*> Level::getAttributes()
 
 void Level::addAttribute(GraphicAttribute* attr)
 {
-    this->attributes.push_back(attr);
+    if(getCantAttributesSameType(attr->getName().c_str()) == 0)
+        this->attributes.push_back(attr);
+}
+
+void Level::removeAttribute(std::string name)
+{
+    for(int i = 0; i < this->attributes.size(); i++)
+    {
+        if(strcmp(name.c_str(),this->attributes.at(i)->getName().c_str()) == 0)
+        {
+            this->attributes.erase(this->attributes.begin()+i);
+        }
+    }
+}
+
+int Level::getCantAttributesSameType(std::string type)
+{
+    int i = 0;
+    for(GraphicAttribute* c : this->attributes)
+    {
+        if(c != NULL && !strcmp(type.c_str(),c->getName().c_str()))
+        {
+            i++;
+        }
+    }
+    return i;
 }
