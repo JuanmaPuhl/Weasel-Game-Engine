@@ -6,17 +6,14 @@ SpriteAttribute::SpriteAttribute(Sprite* sprite)
     //sprite->copy(sprite);
     this->sprite = a;
     this->setName("sprite");
-    this->iniState = (initialState*)malloc(sizeof(initialState));
 }
 SpriteAttribute::SpriteAttribute()
 {
     this->sprite = NULL;
     this->setName("sprite");
-    this->iniState = (initialState*)malloc(sizeof(initialState));
 }
 SpriteAttribute::~SpriteAttribute()
 {
-    free(this->iniState);
 }
 void SpriteAttribute::passToShader(Shader* shader, double deltaTime)
 {

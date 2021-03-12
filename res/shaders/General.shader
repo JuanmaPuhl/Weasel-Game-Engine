@@ -21,7 +21,12 @@ uniform int pixelization;
 uniform int pixelSize;
 uniform int sharpen;
 uniform float amount;
-
+uniform int dilation;
+uniform int size;
+uniform float separation;
+uniform float minThreshold;
+uniform float maxThreshold;
+uniform int gammaCorrection;
 uniform sampler2D ourTexture;
 void main()
 {
@@ -70,7 +75,7 @@ void main()
 
 
     /* int   size       = 5;
-    float separation = 0.5f;
+    float separation = 0.1f;
     float threshold  = 0.1f;
     float amountbloom = 1.0f;
     //vec2 texSize = textureSize(colorTexture, 0).xy;
@@ -104,4 +109,53 @@ void main()
 
     //FragColor = mix(vec4(0.0f,0.0f,0.0f,1.0f), result, amountbloom);
     FragColor = result; */
+
+    if(dilation == 1)
+    {
+        /* int   size         = 5;
+        float separation   =     1.0f;
+        float minThreshold = 0.2f;
+        float maxThreshold = 0.4f; */
+
+        vec2 fragCoord = gl_FragCoord.xy;
+
+        FragColor = texture(ourTexture, fragCoord / texSize);
+
+
+        float  mx = 0.0;
+        vec4  cmx = FragColor;
+
+        for (int i = -size; i <= size; ++i) {
+            for (int j = -size; j <= size; ++j) {
+                // For a rectangular shape.
+                //if (false);
+
+                // For a diamond shape;
+                if (!(abs(i) <= size - abs(j))) { continue; }
+
+                // For a circular shape.
+
+                vec4 c =
+                    texture
+                    ( ourTexture
+                    ,   ( gl_FragCoord.xy
+                        + (vec2(i, j) * separation)
+                        )
+                        / texSize
+                    );
+
+                float mxt = dot(c.rgb, vec3(0.3, 0.59, 0.11));
+
+                if (mxt > mx) {
+                    mx = mxt;
+                    cmx = c;
+                }
+            }
+        }
+
+        FragColor.rgb = mix( FragColor.rgb, cmx.rgb, smoothstep(minThreshold, maxThreshold, mx));
+    }
+    if(gammaCorrection == 1)
+        FragColor = vec4(pow(FragColor.r, 1.0f / 2.2f),pow(FragColor.g, 1.0f / 2.2f),pow(FragColor.b, 1.0f / 2.2f),FragColor.a); 
+  
 } 

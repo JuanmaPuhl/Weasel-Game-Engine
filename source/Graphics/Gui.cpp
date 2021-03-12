@@ -12,6 +12,7 @@
 #include "../Entities/PixelizationAttribute.h"
 #include "../Entities/Sharpen.h"
 #include "../Entities/ComponentCamera.h"
+#include "../Entities/DilationAttribute.h"
 GLFWwindow* ventana;
 glm::vec3 vec;
 int height = 0, width = 0;
@@ -817,7 +818,9 @@ void showLevelPopup()
     ImGui::SetNextWindowPos(ImVec2(width/2-250,height/2-100),ImGuiCond_Once);
     std::string windowName = "Nivel";//+std::to_string(item_index_clicked);
     ImGui::Begin(windowName.c_str(),&showLevelInfo);
-
+    bool gc = levelClicked->getGammaCorrection();
+    ImGui::Checkbox("gammaCorrection",&gc);
+    levelClicked->setGammaCorrection(gc);
     for(GraphicAttribute* attr : levelClicked->getAttributes())
     {
         bool openAttribute = ImGui::CollapsingHeader(attr->getName().c_str(), ImGuiTreeNodeFlags_None);
@@ -840,6 +843,24 @@ void showLevelPopup()
                 ImGui::DragFloat("Amount", &amount, 0.05f, 0.0f, FLT_MAX, "%.3f");
                 colAttr->setAmount(amount);
             }
+
+            if(strcmp(attr->getName().c_str(),"dilation") == 0)
+            {
+                DilationAttribute* colAttr = ((DilationAttribute*)attr);
+                int size = colAttr->getSize();
+                ImGui::DragInt("size",&size, 1,0,999);
+                colAttr->setSize(size);
+                float separation = colAttr->getSeparation();
+                ImGui::DragFloat("Separacion", &separation, 0.05f, 0.0f, FLT_MAX, "%.3f");
+                colAttr->setSeparation(separation);
+                float minThreshold = colAttr->getMinThreshold();
+                ImGui::DragFloat("limite minimo", &minThreshold, 0.05f, 0.0f, FLT_MAX, "%.3f");
+                colAttr->setMinThreshold(minThreshold);
+                float maxThreshold = colAttr->getMaxThreshold();
+                ImGui::DragFloat("limite maximo", &maxThreshold, 0.05f, 0.0f, FLT_MAX, "%.3f");
+                colAttr->setMaxThreshold(maxThreshold);
+            }
+            
             ImGui::Button("Remover atributo");
             if(ImGui::IsItemClicked())
             {
@@ -858,8 +879,8 @@ void showLevelPopup()
     }
     if (ImGui::BeginPopup("addLevelAttr"))
     {
-        const int max_components = 2;
-        std::string compsAttrs[max_components] = {"pixelization","sharpen"};
+        const int max_components = 3;
+        std::string compsAttrs[max_components] = {"pixelization","sharpen","dilation"};
         for(int i = 0; i < max_components; i++)
         {
             ImGui::TreeNodeEx(compsAttrs[i].c_str(),node_flags); 
@@ -874,6 +895,10 @@ void showLevelPopup()
                 {
                     //lua_script
                     levelClicked->addAttribute(new Sharpen());
+                }
+                if(i == 2)
+                {
+                    levelClicked->addAttribute(new DilationAttribute());
                 }
                 ImGui::CloseCurrentPopup();
             }

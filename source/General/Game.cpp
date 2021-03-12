@@ -117,7 +117,7 @@ void Game::render(double deltaTime)
     glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
     gamedata->shaderGeneral->use();   
-    glBindVertexArray((new Quad())->getVAO());
+    glBindVertexArray((gamedata->currentLevel->getEntities().at(0)->getQuad())->getVAO());
     glBindTexture(GL_TEXTURE_2D, tex);
     GLint pixelizationLocation = glGetUniformLocation(gamedata->shaderGeneral->getShaderProgram(), "pixelization");
     //glUniform1i(pixelizationLocation, b);
@@ -126,10 +126,21 @@ void Game::render(double deltaTime)
     {
         attr->passToShader(gamedata->shaderGeneral, gamedata->deltaTime);
     }
+    if(gamedata->currentLevel->getGammaCorrection())
+    {
+        GLint gammaCorrectionLocalization = glGetUniformLocation(gamedata->shaderGeneral->getShaderProgram(), "gammaCorrection");
+        glUniform1i(gammaCorrectionLocalization, 1);
+    }
+
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     for(GraphicAttribute* attr : gamedata->currentLevel->getAttributes())
     {
         attr->unbind(gamedata->shaderGeneral);
+    }
+    if(gamedata->currentLevel->getGammaCorrection())
+    {
+        GLint gammaCorrectionLocalization = glGetUniformLocation(gamedata->shaderGeneral->getShaderProgram(), "gammaCorrection");
+        glUniform1i(gammaCorrectionLocalization, 0);
     }
     gamedata->texture = tex2;
 

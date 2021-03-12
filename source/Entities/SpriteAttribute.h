@@ -19,10 +19,6 @@ class SpriteAttribute : public GraphicAttribute
     private:
     Sprite* sprite;
     Sprite* initial_sprite;
-    struct initialState
-    {
-        Sprite* initial_sprite;
-    };
-    initialState* iniState;
+
 
 };

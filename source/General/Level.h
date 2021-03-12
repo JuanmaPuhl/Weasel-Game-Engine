@@ -41,21 +41,17 @@ class Level
      */
     void onUpdate(double deltaTime);
     void save(std::ofstream& output_dir);
-    
+    void setGammaCorrection(bool b);
+    bool getGammaCorrection();
     private:
     std::vector<Entity*> entities;
     Entity* cameraEntity = NULL;
     std::vector<Entity*> initial_entities;
-    struct initialState
-    {
-        std::vector<Entity*> initial_entities;
-        Entity* initial_cameraEntity;
-    };
-    initialState* iniState;
+    Entity* initial_cameraEntity;
     std::vector<GraphicAttribute*> attributes;
     std::vector<GraphicAttribute*> initial_attributes;
     int getCantAttributesSameType(std::string type);
-
+    bool gammaCorrection = false, initial_gammaCorrection;
 };
 
 

@@ -6,13 +6,10 @@ LuaScriptComponent::LuaScriptComponent(std::string scr, lua_State* L)
     this->lua_state = L;
     this->setName("lua_script");
     this->onCreate();
-    initialState iniState{"",""};
-    //this->iniState = &iniStateAux;
 }
 LuaScriptComponent::~LuaScriptComponent()
 {
     this->scr.clear();
-    free(this->iniState);
 }
 void LuaScriptComponent::onUpdate()
 {

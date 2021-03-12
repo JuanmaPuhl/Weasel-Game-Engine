@@ -17,16 +17,12 @@ Entity::Entity()
     this->name = "entity";
     //Tengo que calcular la modelMatrix nueva
     this->updateModelMatrix();
-    this->iniState = (initialState*)malloc(sizeof(initialState));
-
-
 }
 
 Entity::~Entity()
 {
     delete(this->quad);
     this->components.clear();//Limpio vector
-    free(this->iniState);
 }
 
 void Entity::updateModelMatrix()

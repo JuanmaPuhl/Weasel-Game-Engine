@@ -41,10 +41,5 @@ class ComponentParticle : public Component
     Entity* generator;
     std::string initial_visibleName;
     int initial_maxParticles, initial_newParticles;
-    struct initialState
-    {
-        std::string initial_visibleName;
-        int initial_maxParticles, initial_newParticles;
-    };
-    initialState* iniState;
+
 };

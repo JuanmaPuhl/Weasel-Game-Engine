@@ -65,14 +65,5 @@ class Entity
     glm::vec3 initial_rotation = glm::vec3(0.0f);
     glm::vec3 initial_scaling = glm::vec3(0.0f);
     std::string initial_name = "";
-    struct initialState
-    {
-        glm::vec3 initial_position;
-        glm::vec3 initial_rotation;
-        glm::vec3 initial_scaling;
-        std::vector<Component*> initial_components = std::vector<Component*>(10);
-        std::vector<GraphicAttribute*> initial_attributes = std::vector<GraphicAttribute*>(10);
-        std::string initial_name;
-    };
-    initialState* iniState;
+
 };

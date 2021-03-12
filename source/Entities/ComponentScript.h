@@ -17,10 +17,5 @@ class ComponentScript : public Component
     ScriptComponent* scr;
     ScriptComponent* initial_scr;
     std::string initial_name;
-    struct initialState
-    {
-        ScriptComponent* initial_scr;
-        std::string initial_name;
-    };
-    initialState* iniState;
+
 };

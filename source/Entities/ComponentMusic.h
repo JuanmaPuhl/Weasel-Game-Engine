@@ -28,14 +28,9 @@ class ComponentMusic : public Component
     std::string initial_visibleName;
     std::string initial_track;
     float initial_volume;
-    struct initialState
-    {
-        std::string initial_visibleName;
-        std::string initial_track;
-        float initial_volume;
-    };
+
     float volume = 1.0f;
     bool isPlaying = false;
     bool isLooping = false;
-    initialState* iniState;
+
 };

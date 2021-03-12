@@ -12,15 +12,11 @@ ComponentParticle::ComponentParticle(int maxParticles, int newParticles, Entity*
         this->particles.push_back(new Particle());
     }
     this->generator = generator;
-    //this->iniState = (initialState*)malloc(sizeof(initialState*));
-    initialState iniState{"",0,0};
-    //this->iniState = &iniStateAux;
 }
 
 ComponentParticle::~ComponentParticle()
 {
     this->particles.clear();
-    free(this->iniState);
 }
 
 void ComponentParticle::onCreate()

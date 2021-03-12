@@ -10,7 +10,6 @@ ComponentCamera::ComponentCamera(int width, int height)
 
 ComponentCamera::~ComponentCamera()
 {
-    free(this->iniState);
 }
 glm::mat4 ComponentCamera::getViewMatrix()
 {

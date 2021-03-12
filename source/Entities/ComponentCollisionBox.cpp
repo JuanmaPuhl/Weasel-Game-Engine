@@ -8,11 +8,7 @@ ComponentCollisionBox::ComponentCollisionBox(Entity* entity)
     this->height = 32.0f;
     this->entity = entity;
     this->setName("collider");
-    //this->iniState = (initialState*)malloc(sizeof(initialState));
-/*     initialState iniState{
-        0.0,0.0,0.0,0.0,""
-    };
-    this->iniState = &iniState; */
+
 }
 
 ComponentCollisionBox::ComponentCollisionBox(float x, float y, float width, float height, Entity* entity)
@@ -23,11 +19,6 @@ ComponentCollisionBox::ComponentCollisionBox(float x, float y, float width, floa
     this->height = height;
     this->entity = entity;
     this->setName("collider");
-    //this->iniState = (initialState*)malloc(sizeof(initialState));
-    initialState iniStateAux{
-        0.0,0.0,0.0,0.0,""
-    };
-    this->iniState = &iniStateAux;
 }
 
 ComponentCollisionBox::~ComponentCollisionBox()
@@ -38,7 +29,6 @@ ComponentCollisionBox::~ComponentCollisionBox()
     this->height = 0.0f;
     this->list.clear();
     this->entity = NULL;
-    free(this->iniState);
 }
 
 float ComponentCollisionBox::getX()

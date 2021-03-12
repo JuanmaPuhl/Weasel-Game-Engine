@@ -57,10 +57,6 @@ class ComponentCamera : public Component
         glm::mat4 viewMatrix;
         float initial_zoom;
         glm::vec3 initial_position;
-        struct initialState
-        {
-            glm::vec3 initial_direction;
-        };
-        initialState* iniState;
+
 
 };

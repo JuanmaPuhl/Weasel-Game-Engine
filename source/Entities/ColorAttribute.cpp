@@ -4,12 +4,10 @@ ColorAttribute::ColorAttribute(glm::vec3 color)
 {
     this->color = color;
     this->setName("color");
-    this->iniState = (initialState*)malloc(sizeof(initialState));
 }
 
 ColorAttribute::~ColorAttribute()
 {
-    free(this->iniState);
 }
 
 void ColorAttribute::passToShader(Shader* shader, double deltaTime)

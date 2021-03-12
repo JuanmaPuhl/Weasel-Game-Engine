@@ -3,7 +3,6 @@
 Level::Level()
 {
     //Asigno espacio para el estado inicial
-    this->iniState = (initialState*)malloc(sizeof(initialState));
     
 }
 
@@ -14,7 +13,6 @@ Level::~Level()
     {
         delete((*(ptr)));
     }
-    free(this->iniState);
 }
 
 Entity* Level::addEntity()
@@ -88,6 +86,7 @@ void Level::save(std::ofstream& output)
     output << "\"camera\" : {";
     this->cameraEntity->save(output);
     output << "} , ";
+    output << "\"gammaCorrection\" : \"" << this->gammaCorrection << "\" , ";
     output << "\"cant_entidades\" : " << this->entities.size() << " , ";
     output << "\"entidades\" : [";
     //Ahora imprimo todas las entidades restantes
@@ -133,7 +132,7 @@ bool Level::registerInitialState()
         this->initial_attributes.push_back(e);
     } 
     this->cameraEntity->registerInitialState();
-    this->iniState->initial_cameraEntity = this->cameraEntity;
+    this->initial_cameraEntity = this->cameraEntity;
     return true;
 }
 
@@ -151,8 +150,8 @@ bool Level::recoverInitialState()
         this->attributes.push_back(e);
     } 
     this->cameraEntity = NULL;
-    this->iniState->initial_cameraEntity->recoverInitialState();
-    this->cameraEntity = this->iniState->initial_cameraEntity;
+    this->initial_cameraEntity->recoverInitialState();
+    this->cameraEntity = this->initial_cameraEntity;
 }
 
 std::vector<GraphicAttribute*> Level::getAttributes()
@@ -188,4 +187,14 @@ int Level::getCantAttributesSameType(std::string type)
         }
     }
     return i;
+}
+
+
+void Level::setGammaCorrection(bool b)
+{
+    this->gammaCorrection = b;
+}
+bool Level::getGammaCorrection()
+{
+    return this->gammaCorrection;
 }

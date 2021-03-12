@@ -5,15 +5,11 @@ ComponentScript::ComponentScript(ScriptComponent* scr)
     this->scr = scr;
     this->setName("script");
     this->onCreate();
-    //this->iniState = (initialState*)malloc(sizeof(initialState));
-    initialState iniStateAux{NULL,""};
-    this->iniState = &iniStateAux;
 }
 
 ComponentScript::~ComponentScript()
 {
     delete(this->scr);
-    free(this->iniState);
 }
 
 void ComponentScript::onCreate()

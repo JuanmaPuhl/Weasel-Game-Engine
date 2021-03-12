@@ -5,9 +5,7 @@ ComponentMusic::ComponentMusic(irrklang::ISoundEngine* soundEngine)
     this->setName("music");
     this->music = " ";
     this->SoundEngine = soundEngine;
-    //this = (initialState*)malloc(sizeof(initialState));
-    //initialState iniState{"","",1.0};
-    //this = &iniStateAux;
+
 }
 
 ComponentMusic::~ComponentMusic()

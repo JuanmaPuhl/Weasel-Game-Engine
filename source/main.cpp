@@ -220,13 +220,15 @@ int metodoPrincipal()
   bird->addComponent(new ComponentCollisionBox(bird->getPosition().x,bird->getPosition().y,bird->getScale().x,bird->getScale().y,bird));
 
   personaje->setName("JIM");
-  personaje->addComponent(new ComponentParticle(500,2,personaje));
+  //personaje->addComponent(new ComponentParticle(500,2,personaje));
   personaje->addAttribute(new ColorAttribute(glm::vec3(0.0f)));
   //level1->addAttribute(new Sharpen());
   
   //executeLuaScript(lua_state);
   personaje->addComponent(new ComponentMusic(SoundEngine));
   ((ComponentMusic*)(personaje->getComponent("music")))->setMusic("res/audio/01 - New Junk City.mp3");
+  ((ComponentMusic*)(personaje->getComponent("music")))->setPlaying(true);
+  ((ComponentMusic*)(personaje->getComponent("music")))->setLoop(true);
   //((ComponentMusic*)(personaje->getComponent("music")))->playMusic(true);
   personaje->addComponent(new ComponentMusic(irrklang::createIrrKlangDevice()));
   personaje->addComponent(new LuaScriptComponent("res/scripts/jim_script.lua", lua_state));
