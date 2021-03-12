@@ -52,6 +52,7 @@ class Level
     };
     initialState* iniState;
     std::vector<GraphicAttribute*> attributes;
+    std::vector<GraphicAttribute*> initial_attributes;
 
 };
 

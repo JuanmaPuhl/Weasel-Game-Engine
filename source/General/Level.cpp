@@ -101,6 +101,20 @@ void Level::save(std::ofstream& output)
             output << " , ";
         ent_index++;
     }
+    output << "],";
+    //Ahora guardo los atributos
+    output << "\"cant_atributos\" : " << this->attributes.size() << " , ";
+    output << "\"atributos\" : [";
+    int attr_index = 0;
+    for(GraphicAttribute* e : this->attributes)
+    {
+        output << "{";
+        e->save(output);
+        output << "}";
+        if(attr_index + 1 < this->attributes.size())
+            output << " , ";
+        attr_index++;
+    }
     output << "]";
 }
 
@@ -108,10 +122,15 @@ bool Level::registerInitialState()
 {
     //Primero tengo que agarrar todas las entidades y agregarlas al estado inicial
     this->initial_entities.clear();
-     for(Entity* e : this->entities)
+    for(Entity* e : this->entities)
     {
         e->registerInitialState();
         this->initial_entities.push_back(e);
+    } 
+    for(GraphicAttribute* e : this->attributes)
+    {
+        e->registerInitialState();
+        this->initial_attributes.push_back(e);
     } 
     this->cameraEntity->registerInitialState();
     this->iniState->initial_cameraEntity = this->cameraEntity;
@@ -126,6 +145,11 @@ bool Level::recoverInitialState()
         e->recoverInitialState();
         this->entities.push_back(e);
     }
+    for(GraphicAttribute* e : this->initial_attributes)
+    {
+        e->recoverInitialState();
+        this->attributes.push_back(e);
+    } 
     this->cameraEntity = NULL;
     this->iniState->initial_cameraEntity->recoverInitialState();
     this->cameraEntity = this->iniState->initial_cameraEntity;
