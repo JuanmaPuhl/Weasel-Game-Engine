@@ -1,9 +1,9 @@
 LIBRERIAS = -llua54 -lglew32 -lglfw3 -lopengl32 -lcomdlg32 -lirrKlang
 CODIGO = source/
-all: main.exe quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o  Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o ComponentCollisionBox.o ComponentParticle.o Particle.o Lua_Keyboard.o Lua_Attribute.o Lua_Sprite.o ComponentMusic.o Lua_Component.o PixelizationAttribute.o
+all: main.exe quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o  Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o ComponentCollisionBox.o ComponentParticle.o Particle.o Lua_Keyboard.o Lua_Attribute.o Lua_Sprite.o ComponentMusic.o Lua_Component.o PixelizationAttribute.o Sharpen.o
 .PHONY: all
-main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui_widgets.o imgui.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o Gui.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o  ComponentCollisionBox.o  Lua_Component.o ComponentParticle.o Particle.o ComponentMusic.o Lua_Keyboard.o Lua_Attribute.o Lua_Sprite.o PixelizationAttribute.o $(CODIGO)Entities/Scripts.h 
-	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui.o imgui_widgets.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o Gui.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o ComponentCollisionBox.o Lua_Component.o ComponentParticle.o ComponentMusic.o Particle.o Lua_Keyboard.o Lua_Attribute.o Lua_Sprite.o PixelizationAttribute.o -I .$(CODIGO)ScriptComponent.h -I.$(CODIGO)Entities/Scripts.h -I ./libs/  -L ./libs/ $(LIBRERIAS)
+main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui_widgets.o imgui.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o Gui.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o  ComponentCollisionBox.o  Lua_Component.o ComponentParticle.o Particle.o ComponentMusic.o Lua_Keyboard.o Lua_Attribute.o Lua_Sprite.o PixelizationAttribute.o Sharpen.o $(CODIGO)Entities/Scripts.h 
+	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui.o imgui_widgets.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o Gui.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o ComponentCollisionBox.o Lua_Component.o ComponentParticle.o ComponentMusic.o Particle.o Lua_Keyboard.o Lua_Attribute.o Lua_Sprite.o PixelizationAttribute.o Sharpen.o -I .$(CODIGO)ScriptComponent.h -I.$(CODIGO)Entities/Scripts.h -I ./libs/  -L ./libs/ $(LIBRERIAS)
 quad.o: $(CODIGO)Graphics/quad.cpp $(CODIGO)Graphics/quad.h
 	g++ -c  $(CODIGO)Graphics/quad.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS) 
 window.o: $(CODIGO)Graphics/window.cpp $(CODIGO)Graphics/window.h
@@ -40,6 +40,8 @@ ColorAttribute.o: $(CODIGO)Entities/ColorAttribute.cpp $(CODIGO)Entities/ColorAt
 	g++ -c  $(CODIGO)Entities/ColorAttribute.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 PixelizationAttribute.o: $(CODIGO)Entities/PixelizationAttribute.cpp $(CODIGO)Entities/PixelizationAttribute.h $(CODIGO)Entities/GraphicAttribute.h
 	g++ -c  $(CODIGO)Entities/PixelizationAttribute.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+Sharpen.o: $(CODIGO)Entities/Sharpen.cpp $(CODIGO)Entities/Sharpen.h $(CODIGO)Entities/GraphicAttribute.h
+	g++ -c  $(CODIGO)Entities/Sharpen.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 imgui.o:
 	g++ -c ./libs/imgui/imgui.cpp -I ./libs/
 imgui_draw.o:
@@ -116,6 +118,7 @@ clean:
 	del ComponentMusic.o
 	del Lua_Component.o
 	del PixelizationAttribute.o
+	del Sharpen.o
 	del main.exe
 
         

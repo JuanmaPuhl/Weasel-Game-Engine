@@ -32,6 +32,7 @@
 #include "FileManagement/FileManager.h"
 #include "Entities/ComponentMusic.h"
 #include "Entities/PixelizationAttribute.h"
+#include "Entities/Sharpen.h"
 #define DEBUG
 extern "C" {
   #include "lua/include/lua.h"
@@ -222,7 +223,7 @@ int metodoPrincipal()
   personaje->setName("JIM");
   personaje->addComponent(new ComponentParticle(500,2,personaje));
   personaje->addAttribute(new ColorAttribute(glm::vec3(0.0f)));
-  level1->addAttribute(new PixelizationAttribute());
+  level1->addAttribute(new Sharpen());
   
   //executeLuaScript(lua_state);
   personaje->addComponent(new ComponentMusic(SoundEngine));
