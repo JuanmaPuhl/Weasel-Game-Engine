@@ -821,6 +821,7 @@ void showLevelPopup()
     bool gc = levelClicked->getGammaCorrection();
     ImGui::Checkbox("gammaCorrection",&gc);
     levelClicked->setGammaCorrection(gc);
+    ImGui::Separator();
     for(GraphicAttribute* attr : levelClicked->getAttributes())
     {
         bool openAttribute = ImGui::CollapsingHeader(attr->getName().c_str(), ImGuiTreeNodeFlags_None);
@@ -871,8 +872,8 @@ void showLevelPopup()
     }
 
 
-
-    ImGui::Button("Insertar...");
+    ImGui::Separator();
+    ImGui::Button("Insertar atributo...");
     if(ImGui::IsItemClicked())
     {
         ImGui::OpenPopup("addLevelAttr");

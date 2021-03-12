@@ -96,6 +96,9 @@ void Game::onUpdate(double deltaTime)
 
 void Game::render(double deltaTime)
 {
+    int w,h;
+    glfwGetFramebufferSize(gamedata->window, &w, &h);
+    glViewport(0,0,1280,720);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);   
     glEnable(GL_DEPTH_TEST); // enable depth testing (is disabled for rendering screen-space quad)
     glClearColor(18.0f/255, 18.0f/255, 27.0f/255, 1.0f);
@@ -114,6 +117,7 @@ void Game::render(double deltaTime)
     glBindFramebuffer(GL_FRAMEBUFFER, fbo2);
     //glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
     glClearColor(1.0f,1.0f,1.0f, 1.0f);
+    
     glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
     gamedata->shaderGeneral->use();   
@@ -131,7 +135,7 @@ void Game::render(double deltaTime)
         GLint gammaCorrectionLocalization = glGetUniformLocation(gamedata->shaderGeneral->getShaderProgram(), "gammaCorrection");
         glUniform1i(gammaCorrectionLocalization, 1);
     }
-
+    
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     for(GraphicAttribute* attr : gamedata->currentLevel->getAttributes())
     {

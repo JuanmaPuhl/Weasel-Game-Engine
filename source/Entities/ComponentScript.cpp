@@ -44,6 +44,7 @@ bool ComponentScript::registerInitialState()
 {
     this->initial_name = this->getVisibleName();
     this->initial_scr = this->scr;
+    this->onCreate();
     return true;
 }
 bool ComponentScript::recoverInitialState()
