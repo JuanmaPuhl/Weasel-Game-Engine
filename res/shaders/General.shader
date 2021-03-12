@@ -66,4 +66,42 @@ void main()
             ;
         FragColor = vec4(color, texture(ourTexture, TexCoord).a);
     }
+
+
+
+    /* int   size       = 5;
+    float separation = 0.5f;
+    float threshold  = 0.1f;
+    float amountbloom = 1.0f;
+    //vec2 texSize = textureSize(colorTexture, 0).xy;
+
+    float value = 0.0f;
+    float count = 0.0f;
+
+    vec4 result = vec4(0.0f,0.0f,0.0f,1.0f);
+    vec4 colorbloom  = vec4(0.0f,0.0f,0.0f,1.0f);
+
+    for (int i = -size; i <= size; ++i) {
+        for (int j = -size; j <= size; ++j) {
+            colorbloom =
+        texture
+          ( ourTexture
+          ,   ( gl_FragCoord.xy
+              + (vec2(i, j) * separation)
+              )
+            / texSize
+          );
+
+      value = max(colorbloom.r, max(colorbloom.g, colorbloom.b));
+      if (value < threshold) { colorbloom = vec4(0.0f,0.0f,0.0f,1.0f); }
+
+      result += colorbloom;
+      count  += 1.0f;
+        }
+    }
+
+    result /= count;
+
+    //FragColor = mix(vec4(0.0f,0.0f,0.0f,1.0f), result, amountbloom);
+    FragColor = result; */
 } 
