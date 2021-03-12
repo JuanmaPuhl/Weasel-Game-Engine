@@ -112,6 +112,10 @@ void ComponentParticle::setMaxParticles(int maxParticles)
     this->maxParticles = maxParticles;
 }
 
+void ComponentParticle::setNewParticles(int newParticles)
+{
+    this->newparticles = newParticles;
+}
 std::vector<Particle*> ComponentParticle::getParticles()
 {
     return this->particles;
@@ -148,4 +152,30 @@ bool ComponentParticle::recoverInitialState()
         this->particles.push_back(new Particle());
     }
     return true;
+}
+
+void ComponentParticle::setDirection(glm::vec3 dir)
+{
+    this->dir = dir;
+}
+glm::vec3 ComponentParticle::getDirection()
+{
+    return this->dir;
+}
+glm::vec4 ComponentParticle::getColor()
+{
+    return this->color;
+}
+void ComponentParticle::setColor(glm::vec4 color)
+{
+    this->color = color;
+}
+
+void ComponentParticle::setLifetime(float life)
+{
+    this->max_life = life;
+}
+float ComponentParticle::getLifetime()
+{
+    return this->max_life;
 }

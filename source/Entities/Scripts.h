@@ -10,7 +10,7 @@
 #include <glm/glm.hpp>
 
 
-class CameraController : public ScriptComponent
+/* class CameraController : public ScriptComponent
 {
   public:
     Entity* camera;
@@ -84,7 +84,7 @@ class CameraController : public ScriptComponent
     bool activado = false;
     glm::vec2 direction;
     ComponentCamera* cameraComponent = NULL;
-};
+}; */
 
 class PlayerMovement : public ScriptComponent
 {

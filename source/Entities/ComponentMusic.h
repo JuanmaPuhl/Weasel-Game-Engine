@@ -18,6 +18,10 @@ class ComponentMusic : public Component
     void save(std::ofstream& output_dir);
     bool registerInitialState();
     bool recoverInitialState();
+    bool getLoop();
+    bool getPlaying();
+    void setLoop(bool loop);
+    void setPlaying(bool playing);
     private:
     std::string music;
     irrklang::ISoundEngine *SoundEngine;
@@ -30,5 +34,8 @@ class ComponentMusic : public Component
         std::string initial_track;
         float initial_volume;
     };
+    float volume = 1.0f;
+    bool isPlaying = false;
+    bool isLooping = false;
     initialState* iniState;
 };

@@ -6,9 +6,6 @@ ComponentCamera::ComponentCamera(int width, int height)
     this->height = height;
     this->setName("camera");
     this->onCreate();
-    //this->iniState = (initialState*)malloc(sizeof(initialState));
-    initialState iniStateAux{glm::vec3(0.0f)};
-    this->iniState = &iniStateAux;
 }
 
 ComponentCamera::~ComponentCamera()
@@ -42,7 +39,6 @@ void ComponentCamera::onCreate()
 
 void ComponentCamera::onUpdate()
 {
-    float deltaTime = 0.02;
     this->viewMatrix = glm::lookAt(this->position,this->position + this->front, this->up);    
     float zoom = this->getZoom();
     this->projectionMatrix = glm::ortho(
@@ -80,7 +76,7 @@ float ComponentCamera::getZoom()
 }
 glm::vec3 ComponentCamera::getPosition()
 {
-
+    return this->position;
 }
 glm::vec3 ComponentCamera::getDirection()
 {
@@ -120,8 +116,8 @@ void ComponentCamera::save(std::ofstream& output)
     //Guardo el nombre para poder diferenciar el componente
     output << "\"name\" : \"" << this->getName().c_str() << "\" , ";
     output << "\"visible_name\" : \"" << this->getVisibleName().c_str() << "\" ";
-    //output << "\"position\" : {" << "\"x\" : " << this->position.x << " , \"y\" : " << this->position.y << " , \"z\" : " << this->position.z << "} , ";
-    //output << "\"direction\" : {" << "\"x\" : " << this->direction.x << " , \"y\" : " << this->direction.y << " , \"z\" : " << this->direction.z << "} , ";
+    output << "\"position\" : {" << "\"x\" : " << this->position.x << " , \"y\" : " << this->position.y << " , \"z\" : " << this->position.z << "} , ";
+    output << "\"zoom\" : " << this->zoomValue;
     
     
 }
@@ -129,8 +125,19 @@ void ComponentCamera::save(std::ofstream& output)
 bool ComponentCamera::registerInitialState()
 {
     //Hasta que no haga el refactor no voy a tocar nada
+    this->initial_position = this->position;
+    this->initial_zoom = this->zoomValue;
 }
 bool ComponentCamera::recoverInitialState()
 {
     //Hasta que no haga el refactor no voy a tocar nada
+    this->position = this->initial_position;
+    this->zoomValue = this->initial_zoom;
+}
+
+
+void ComponentCamera::setPosition(glm::vec3 position)
+{
+    this->position = position;
+    this->onUpdate();
 }

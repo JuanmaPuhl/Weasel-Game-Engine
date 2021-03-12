@@ -139,9 +139,8 @@ int metodoPrincipal()
   ComponentCamera* cmpCamera = (ComponentCamera*)cameraEntity->getComponent("camera");
   cmpCamera->zoom(0.35f);
   cmpCamera->move(glm::vec3(-2610.0f,-185.5f,0.0f));
+  cmpCamera->onUpdate();
   //Creo el personaje
-  ScriptComponent* scrCamera = new CameraController();
-  ((CameraController*)(scrCamera))->camera = cameraEntity;
   const char* img[1] = {"res/sprites/undefined.png"};
   Sprite* sprUndefined = new Sprite(img,1,"undefined");
   Game::addSystemSprite(sprUndefined);
@@ -184,8 +183,8 @@ int metodoPrincipal()
   GraphicAttribute* attrFondo = new SpriteAttribute(fondo);
 
   entityBg->addAttribute(attrFondo);
-  entityBg->scale(glm::vec3(173.625f,86.98f,1.0f));
-  entityBg->setPosition(glm::vec3(-56.0f,0.0f,-2.0f));
+  entityBg->scale(glm::vec3(500.0f/32.0f,289.36f/32.0f,1.0f));
+  entityBg->setPosition(glm::vec3(-2586.0f,-192.0f,-2.0f));
 
   const char* bgLevel[1] = {"res/sprites/level-bg.png"};
   Entity* entityLevelBg = level1->addEntity();
@@ -223,7 +222,7 @@ int metodoPrincipal()
   personaje->setName("JIM");
   personaje->addComponent(new ComponentParticle(500,2,personaje));
   personaje->addAttribute(new ColorAttribute(glm::vec3(0.0f)));
-  level1->addAttribute(new Sharpen());
+  //level1->addAttribute(new Sharpen());
   
   //executeLuaScript(lua_state);
   personaje->addComponent(new ComponentMusic(SoundEngine));

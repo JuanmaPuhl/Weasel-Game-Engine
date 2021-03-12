@@ -11,6 +11,7 @@
 #include "../FileManagement/FileManager.h"
 #include "../Entities/PixelizationAttribute.h"
 #include "../Entities/Sharpen.h"
+#include "../Entities/ComponentCamera.h"
 GLFWwindow* ventana;
 glm::vec3 vec;
 int height = 0, width = 0;
@@ -32,6 +33,8 @@ ImGuiTreeNodeFlags node_flags = base_flags;
 Sprite* system_undefined = NULL;
 Level* levelClicked;
 bool showLevelInfo = false;
+ComponentCamera* cameraClicked;
+bool showCameraInfo = false;
 //Dimensiones
 const int DISPLAY_GAME_WIDTH = 0;
 const int DISPLAY_GAME_HEIGHT = 0;
@@ -536,17 +539,30 @@ void showEntityPopup()
                 ImGui::Text("Particulas máximas: ");
                 ImGui::SameLine();
                 int max_particles = particleComponent->getMaxParticles();
-                if(ImGui::DragInt("Max_particles",&max_particles,1,1,9999,"%d"))
-                {
-
-                }
+                if(ImGui::DragInt("max",&max_particles,1,1,9999,"%d"))
+                particleComponent->setMaxParticles(max_particles);
                 ImGui::Text("Particulas por paso: ");
                 ImGui::SameLine();
                 int step_particles = particleComponent->getNewParticles();
-                if(ImGui::DragInt("Step_particles", &step_particles, 1, 1, max_particles, "%d"))
-                {
-                    
-                }
+                if(ImGui::DragInt("step", &step_particles, 1, 1, max_particles, "%d"))
+                particleComponent->setNewParticles(step_particles);
+                ImGui::Text("Color");
+                ImGui::SameLine();
+                ImVec4 color = ImVec4(particleComponent->getColor().x,particleComponent->getColor().y,particleComponent->getColor().z,particleComponent->getColor().a);
+                ImGui::ColorEdit4("MyColor##4", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel );
+                particleComponent->setColor(glm::vec4(color.x,color.y,color.z,color.w));
+                ImGui::Text("Dirección");
+                ImGui::SameLine();
+                float dir[3] = {particleComponent->getDirection().x,particleComponent->getDirection().y,particleComponent->getDirection().z};
+                ImGui::DragFloat3("dir",dir,0.05f,-1.0f,1.0f,"%.3f");
+                particleComponent->setDirection(glm::vec3(dir[0],dir[1],dir[2]));
+                ImGui::Text("Tiempo de vida");
+                ImGui::SameLine();
+                float life = particleComponent->getLifetime();
+                ImGui::DragFloat("Lifetime",&life,0.05f,0.0f,999.0f,"%.3f");
+                particleComponent->setLifetime(life);
+
+
 
             }
             if(strcmp(component->getName().c_str(),"music") == 0)
@@ -571,6 +587,12 @@ void showEntityPopup()
                 {
                     componentMusic->setVolume(volumen);
                 }
+                bool playAtStart = componentMusic->getPlaying();
+                ImGui::Checkbox("Reproducir al comienzo", &playAtStart);
+                componentMusic->setPlaying(playAtStart);
+                bool loop = componentMusic->getLoop();
+                ImGui::Checkbox("Loop", &loop);
+                componentMusic->setLoop(loop);
             }
             ImGui::Button("Eliminar componente");
             if(ImGui::IsItemClicked())
@@ -749,19 +771,12 @@ void showTreeView(ImGuiWindowFlags window_flags)
             if((*ptr)->getCamera()!=NULL)
             {
                 ImGui::TreeNodeEx("Cámara",node_flags);
-                /* if (ImGui::IsItemClicked())
+                if (ImGui::IsItemClicked())
                 {
-                    //Gui::writeToLog("Hice click en " + std::to_string(j)+"\n");
-                    item_clicked = true;
-                    item_index_clicked = j;
-                    entityClicked = (*ptr)->getCamera();
-                    drawPopup = false;
+                    cameraClicked = (ComponentCamera*)(*ptr)->getCamera()->getComponent("camera");
+                    showCameraInfo = true;
                 }
-                if (ImGui::BeginPopupContextItem("Cámara"))
-                {
-                    showEntityContextMenu(node_flags,(*ptr),j);
-                    ImGui::EndPopup();
-                } */
+
                 
             }
             ImGui::TreePop();
@@ -774,6 +789,25 @@ void showTreeView(ImGuiWindowFlags window_flags)
 
 }
 
+
+void showCameraPopup()
+{
+    //Tengo que abrir una ventana con datos de la entidad
+    //ImGui::SetNextWindowPos(ImVec2(width/4+50,height/2),ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(500,200),ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(width/2-250,height/2-100),ImGuiCond_Once);
+    std::string windowName = "Camara";//+std::to_string(item_index_clicked);
+    ImGui::Begin(windowName.c_str(),&showCameraInfo);
+    glm::vec3 p = cameraClicked->getPosition();
+    float pos[3] = {p.x,p.y,p.z};
+    ImGui::DragFloat3("pos",pos,1.0f,-FLT_MAX,FLT_MAX,"%.3f");
+    cameraClicked->setPosition(glm::vec3(pos[0],pos[1],pos[2]));
+    float zoom = cameraClicked->getZoom();
+    ImGui::DragFloat("zoom",&zoom,0.005f,0.1f,10.0f,"%.3f");
+    cameraClicked->zoom(zoom);
+     
+    ImGui::End();
+}
 
 void showLevelPopup()
 {
@@ -902,6 +936,8 @@ void Gui::draw(double deltaTime)
     showGameControls();
     if(showLevelInfo)
         showLevelPopup();
+    if(showCameraInfo)
+        showCameraPopup();
     ImGui::PopStyleColor();
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
