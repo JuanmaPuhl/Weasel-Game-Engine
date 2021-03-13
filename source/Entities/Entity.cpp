@@ -138,7 +138,7 @@ void Entity::render(Shader* shader, double deltaTime)
 void Entity::addComponent(Component* component)
 {
     int i = getCantComponentsSameType(component->getName());
-    std::string newName;
+    std::string newName = "";
     if(i == 0)
         newName = component->getName();
     else
@@ -236,7 +236,7 @@ std::vector<Component*> Entity::getAllComponents()
 int Entity::getCantComponentsSameType(std::string type)
 {
     int i = 0;
-    for(Component* c : this->components)
+    for(Component* c : this->getAllComponents())
     {
         if(c != NULL && !strcmp(type.c_str(),c->getName().c_str()))
         {

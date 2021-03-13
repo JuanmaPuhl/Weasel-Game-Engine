@@ -129,6 +129,7 @@ int metodoPrincipal()
   
   printf("Main::Creando ventana...\n");
   Game::init(WIDTH,HEIGHT);
+  Game::setLuaState(lua_state);
   GLFWimage icons[1];
   const char* dirIcon = "res/sprites/undefined.png";
   icons[0].pixels = stbi_load(dirIcon, &icons[0].width, &icons[0].height, 0, 0);

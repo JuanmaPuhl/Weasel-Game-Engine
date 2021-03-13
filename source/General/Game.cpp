@@ -358,3 +358,8 @@ void Game::save(std::ofstream& output)
     //Creo que ya está todo de Game
    
 }
+
+void Game::setLuaState(lua_State* L)
+{
+    gamedata->L = L;
+}

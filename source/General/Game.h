@@ -59,5 +59,6 @@ namespace Game
     void newGame();
     double getDeltaTime();
     Shader* getParticleShader();
+    void setLuaState(lua_State* L);
 }
 #endif

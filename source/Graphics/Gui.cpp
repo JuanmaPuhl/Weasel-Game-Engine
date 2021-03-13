@@ -523,7 +523,10 @@ void showEntityPopup()
             if(strcmp(component->getName().c_str(),"lua_script") == 0)
             {
                 LuaScriptComponent* scriptComponent = ((LuaScriptComponent*)component);
-                ImGui::Text(scriptComponent->getScript().c_str());
+                std::string text = scriptComponent->getScript();
+                if(!strcmp(text.c_str(),""))
+                    text = "undefined";
+                ImGui::Text(text.c_str());
                 ImGui::Button("Seleccionar");
                 if(ImGui::IsItemClicked())
                 {
