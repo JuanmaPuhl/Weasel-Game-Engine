@@ -8,6 +8,7 @@ int w,h;
 KeyboardControl* keyboardControl = new KeyboardControl();
 void Game::init(int width, int height)
 {
+    
     gamedata->width = width;
     gamedata->height = height;
     gamedata->window = window::window_init(width,height);
@@ -18,6 +19,7 @@ void Game::init(int width, int height)
     gamedata->status = STOP;
     w = width;
     h = height;
+    gamedata->generalQuad = new Quad();
    
     
     glGenFramebuffers(1,&fbo);
@@ -97,6 +99,8 @@ void Game::onUpdate(double deltaTime)
 void Game::render(double deltaTime)
 {
     int w,h;
+    printf("Cree el nuevo juego1.\n");
+
     glfwGetFramebufferSize(gamedata->window, &w, &h);
     glViewport(0,0,1280,720);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);   
@@ -105,7 +109,7 @@ void Game::render(double deltaTime)
     glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
     gamedata->shader->use();
-
+    printf("Cree el nuevo juego2.\n");
     while(glfwGetTime()<lastTimeForSleep+double(1.0/MAX_FRAMERATE))
     {
         //No hago nada. Limito fps.
@@ -117,42 +121,53 @@ void Game::render(double deltaTime)
     glBindFramebuffer(GL_FRAMEBUFFER, fbo2);
     //glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
     glClearColor(1.0f,1.0f,1.0f, 1.0f);
-    
+    printf("Cree el nuevo juego3.\n");
     glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
     gamedata->shaderGeneral->use();   
-    glBindVertexArray((gamedata->currentLevel->getEntities().at(0)->getQuad())->getVAO());
+    
     glBindTexture(GL_TEXTURE_2D, tex);
-    GLint pixelizationLocation = glGetUniformLocation(gamedata->shaderGeneral->getShaderProgram(), "pixelization");
     //glUniform1i(pixelizationLocation, b);
-
-    for(GraphicAttribute* attr : gamedata->currentLevel->getAttributes())
+    glBindVertexArray(gamedata->generalQuad->getVAO());
+    printf("Cree el nuevo juego4.\n");
+    if(gamedata->currentLevel != NULL)
     {
-        attr->passToShader(gamedata->shaderGeneral, gamedata->deltaTime);
+        
+        for(GraphicAttribute* attr : gamedata->currentLevel->getAttributes())
+        {
+            attr->passToShader(gamedata->shaderGeneral, gamedata->deltaTime);
+        }
+        if(gamedata->currentLevel->getGammaCorrection())
+        {
+            GLint gammaCorrectionLocalization = glGetUniformLocation(gamedata->shaderGeneral->getShaderProgram(), "gammaCorrection");
+            glUniform1i(gammaCorrectionLocalization, 1);
+        }
     }
-    if(gamedata->currentLevel->getGammaCorrection())
-    {
-        GLint gammaCorrectionLocalization = glGetUniformLocation(gamedata->shaderGeneral->getShaderProgram(), "gammaCorrection");
-        glUniform1i(gammaCorrectionLocalization, 1);
-    }
+    printf("Cree el nuevo juego5.\n");
     
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    for(GraphicAttribute* attr : gamedata->currentLevel->getAttributes())
+    printf("Cree el nuevo juego8.\n");
+    if(gamedata->currentLevel != NULL)
     {
-        attr->unbind(gamedata->shaderGeneral);
+        printf("Cree el nuevo juego9.\n");
+        for(GraphicAttribute* attr : gamedata->currentLevel->getAttributes())
+        {
+            attr->unbind(gamedata->shaderGeneral);
+        }
+        if(gamedata->currentLevel->getGammaCorrection())
+        {
+            GLint gammaCorrectionLocalization = glGetUniformLocation(gamedata->shaderGeneral->getShaderProgram(), "gammaCorrection");
+            glUniform1i(gammaCorrectionLocalization, 0);
+        }  
     }
-    if(gamedata->currentLevel->getGammaCorrection())
-    {
-        GLint gammaCorrectionLocalization = glGetUniformLocation(gamedata->shaderGeneral->getShaderProgram(), "gammaCorrection");
-        glUniform1i(gammaCorrectionLocalization, 0);
-    }
+    printf("Cree el nuevo juego6.\n");
     gamedata->texture = tex2;
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
     glClearColor(18.0f/255, 18.0f/255, 27.0f/255, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    
+    printf("Cree el nuevo juego7.\n");
     glBindTexture(GL_TEXTURE_2D, 0);
     glBindVertexArray(0);
 }
@@ -267,7 +282,11 @@ void Game::playGame()
     GAME_STATUS status = gamedata->status;
     Gui::writeToLog("STATUS: "+status);
     if(gamedata->status == STOP)
-        gamedata->currentLevel->registerInitialState();
+    {
+        if(gamedata->currentLevel != NULL)
+            gamedata->currentLevel->registerInitialState();
+    }
+       
     if(status != PLAY)
     {
         gamedata->status = PLAY;
@@ -303,7 +322,7 @@ void Game::newGame()
     gamedata->levels.clear();
     gamedata->currentLevel = NULL;
     gamedata->sprites.clear();
-
+    
 }
 
 double Game::getDeltaTime()

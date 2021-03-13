@@ -29,6 +29,7 @@ struct GameData
         int width, height;
         std::string saveFile = "";
         bool unsavedChanges = false;
+        Quad* generalQuad = NULL;
     };
     extern GameData* gamedata;
 namespace Game

@@ -293,14 +293,12 @@ void newProjectPopup()
         if (ImGui::Button("OK", ImVec2(120, 0))) 
         { 
             ImGui::CloseCurrentPopup(); 
-            ImGui::CloseCurrentPopup(); 
             Game::newGame();
         }
         ImGui::SetItemDefaultFocus();
         ImGui::SameLine();
         if (ImGui::Button("Cancelar", ImVec2(120, 0))) 
         { 
-            ImGui::CloseCurrentPopup(); 
             ImGui::CloseCurrentPopup(); 
         }
         ImGui::EndPopup();
