@@ -69,7 +69,11 @@
 			"array": "cpp",
 			"chrono": "cpp",
 			"ratio": "cpp",
-			"set": "cpp"
+			"set": "cpp",
+			"clocale": "cpp",
+			"forward_list": "cpp",
+			"numeric": "cpp",
+			"valarray": "cpp"
 		}
 	}
 }

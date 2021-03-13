@@ -49,5 +49,6 @@ class Sprite
     float initial_transparency;
     double initial_speed;
     std::string initial_name;
+    std::vector<std::string> listImages;
 };
 #endif

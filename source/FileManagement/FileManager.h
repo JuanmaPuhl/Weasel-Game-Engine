@@ -23,8 +23,9 @@ namespace file_manager
      */
     std::vector<std::string> parse_file(std::string& source);
 
+    /*Esto deberia ser un save file al cual le mando el string y lo imprime en un archivo. No que maneje todo.*/
     void save_project(std::string output_dir);
-}
+}   
 
 
 #endif

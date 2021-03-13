@@ -33,6 +33,7 @@
 #include "Entities/ComponentMusic.h"
 #include "Entities/PixelizationAttribute.h"
 #include "Entities/Sharpen.h"
+#include "nlohmann/json.hpp"
 #define DEBUG
 extern "C" {
   #include "lua/include/lua.h"
@@ -96,6 +97,10 @@ void executeLuaScript(lua_State* lua_state)
 
 int metodoPrincipal()
 {
+
+  nlohmann::json json = nlohmann::json::parse("{ \"happy\": true, \"pi\": 3.141 }");
+  std::string toPrint = to_string(json["happy"]);
+  printf("El json es: %s\n",toPrint.c_str());
   printf("%s\n",GetLastErrorAsString().c_str());
   // create new Lua state
 
@@ -135,16 +140,17 @@ int metodoPrincipal()
   icons[0].pixels = stbi_load(dirIcon, &icons[0].width, &icons[0].height, 0, 0);
   glfwSetWindowIcon(Game::getWindow(), 1, icons);
   stbi_image_free(icons[0].pixels);
-  Level* level1 = Game::addLevel();
+  const char* img[1] = {"res/sprites/undefined.png"};
+  Sprite* sprUndefined = new Sprite(img,1,"undefined");
+  Game::addSystemSprite(sprUndefined);
+  /* Level* level1 = Game::addLevel();
   Entity* cameraEntity = level1->addEntityCamera(WIDTH,HEIGHT);
   ComponentCamera* cmpCamera = (ComponentCamera*)cameraEntity->getComponent("camera");
   cmpCamera->zoom(0.35f);
   cmpCamera->move(glm::vec3(-2610.0f,-185.5f,0.0f));
   cmpCamera->onUpdate();
   //Creo el personaje
-  const char* img[1] = {"res/sprites/undefined.png"};
-  Sprite* sprUndefined = new Sprite(img,1,"undefined");
-  Game::addSystemSprite(sprUndefined);
+  
   //cameraEntity->addComponent(new ComponentScript(scrCamera));
   Entity* personaje = level1->addEntity();
   const char* arr[6] = {"res/sprites/e1.png","res/sprites/e2.png","res/sprites/e3.png","res/sprites/e4.png","res/sprites/e5.png","res/sprites/e6.png"};
@@ -233,14 +239,14 @@ int metodoPrincipal()
   //((ComponentMusic*)(personaje->getComponent("music")))->playMusic(true);
   personaje->addComponent(new ComponentMusic(irrklang::createIrrKlangDevice()));
   personaje->addComponent(new LuaScriptComponent("res/scripts/jim_script.lua", lua_state));
-  file_manager::save_project("savedproject.wsl");
-
+  file_manager::save_project("savedproject.wsl"); */
+  Game::loadProject("savedproject.wsl");
   Game::loop();
   printf("Main::Eliminando objetos...\n");
   Game::close();  
 
-  delete(level1);
-  delete(attrColor);
+/*   delete(level1);
+  delete(attrColor); */
   printf("Main::Cerrando estado de LUA...\n");
   // close the Lua state
   lua_close(lua_state);

@@ -1,5 +1,6 @@
 #include "Game.h"
-
+#include "../FileManagement/FileManager.h"
+#include "nlohmann/json.hpp"
 GameData* gamedata =new GameData();
 unsigned int fbo;
 unsigned int fbo2;
@@ -99,7 +100,6 @@ void Game::onUpdate(double deltaTime)
 void Game::render(double deltaTime)
 {
     int w,h;
-    printf("Cree el nuevo juego1.\n");
 
     glfwGetFramebufferSize(gamedata->window, &w, &h);
     glViewport(0,0,1280,720);
@@ -109,7 +109,6 @@ void Game::render(double deltaTime)
     glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
     gamedata->shader->use();
-    printf("Cree el nuevo juego2.\n");
     while(glfwGetTime()<lastTimeForSleep+double(1.0/MAX_FRAMERATE))
     {
         //No hago nada. Limito fps.
@@ -121,7 +120,6 @@ void Game::render(double deltaTime)
     glBindFramebuffer(GL_FRAMEBUFFER, fbo2);
     //glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
     glClearColor(1.0f,1.0f,1.0f, 1.0f);
-    printf("Cree el nuevo juego3.\n");
     glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
     gamedata->shaderGeneral->use();   
@@ -129,7 +127,6 @@ void Game::render(double deltaTime)
     glBindTexture(GL_TEXTURE_2D, tex);
     //glUniform1i(pixelizationLocation, b);
     glBindVertexArray(gamedata->generalQuad->getVAO());
-    printf("Cree el nuevo juego4.\n");
     if(gamedata->currentLevel != NULL)
     {
         
@@ -143,13 +140,10 @@ void Game::render(double deltaTime)
             glUniform1i(gammaCorrectionLocalization, 1);
         }
     }
-    printf("Cree el nuevo juego5.\n");
     
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    printf("Cree el nuevo juego8.\n");
     if(gamedata->currentLevel != NULL)
     {
-        printf("Cree el nuevo juego9.\n");
         for(GraphicAttribute* attr : gamedata->currentLevel->getAttributes())
         {
             attr->unbind(gamedata->shaderGeneral);
@@ -160,14 +154,12 @@ void Game::render(double deltaTime)
             glUniform1i(gammaCorrectionLocalization, 0);
         }  
     }
-    printf("Cree el nuevo juego6.\n");
     gamedata->texture = tex2;
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
     glClearColor(18.0f/255, 18.0f/255, 27.0f/255, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    printf("Cree el nuevo juego7.\n");
     glBindTexture(GL_TEXTURE_2D, 0);
     glBindVertexArray(0);
 }
@@ -214,7 +206,8 @@ void Game::loopFunction(double deltaTime)
     
     }
     Game::render(gamedata->deltaTime);
-    Gui::draw(gamedata->deltaTime);
+    gamedata->deltaTime = deltaTime;
+    Gui::draw(deltaTime);
 }    
 void Game::loop()
 {
@@ -381,4 +374,51 @@ void Game::save(std::ofstream& output)
 void Game::setLuaState(lua_State* L)
 {
     gamedata->L = L;
+}
+
+
+void Game::loadProject(std::string input_dir)
+{
+    std::string input_dat = file_manager::read_file(input_dir);
+    printf("El contenido del archivo es: %s\n",input_dat.c_str());
+    nlohmann::json json = nlohmann::json::parse(input_dat.c_str())["Game"];
+    //Tengo que cargar sprites
+    //printf("%s\n",json["cant_sprites"].dump().c_str());
+    int cant_sprites = json["cant_sprites"];
+    for(int i = 0; i < cant_sprites; i++)
+    {
+        printf("Ingresando sprite: %d \n",i);
+        nlohmann::json sprite = json["sprites"][i];
+        printf("%s\n",sprite.dump().c_str());
+        int cant_imagenes = sprite["cant_imagenes"];
+        printf("%d\n",cant_imagenes);
+        std::string name = sprite["name"];
+        printf("%s\n",name.c_str());
+        std::vector<std::string> images;
+        for(int j = 0; j < cant_imagenes; j++)
+        {
+            //Tengo que retirar los quotes
+            std::string str = (sprite["imagenes"][j]).dump();
+            str.erase(std::remove(str.begin(), str.end(), '"'), str.end());
+            images.push_back(str);
+        }
+        for(std::string s : images)
+        {
+            printf("%s,",s.c_str());
+        }
+        printf("\n");
+        std::vector<const char*> cstrings;
+        cstrings.reserve(images.size());
+
+        for(size_t i = 0; i < images.size(); ++i)
+            cstrings.push_back(const_cast<const char*>(images[i].c_str()));
+        Sprite* spr = new Sprite(&cstrings[0],cant_imagenes,name); 
+        spr->setSpeed(sprite["speed"]);
+        spr->setTransparency(sprite["transparency"]);
+        gamedata->sprites.push_back(spr);
+        printf("sprite ingresado\n");
+    }
+    
+
+
 }

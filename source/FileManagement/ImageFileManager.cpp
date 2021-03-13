@@ -3,6 +3,7 @@ Image* imageFileManager::loadImage(const char* dir)
 {
     Image* img = (Image*)malloc(sizeof(Image));
     img->dir = dir;
+
     stbi_set_flip_vertically_on_load(true); 
     unsigned char *data = stbi_load(img->dir, &img->width, &img->height, &img->nr_channels, 0);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);	

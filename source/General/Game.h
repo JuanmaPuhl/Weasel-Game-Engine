@@ -61,5 +61,6 @@ namespace Game
     double getDeltaTime();
     Shader* getParticleShader();
     void setLuaState(lua_State* L);
+    void loadProject(std::string input_dir);
 }
 #endif

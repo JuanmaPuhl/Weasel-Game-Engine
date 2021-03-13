@@ -1,14 +1,21 @@
 #include "Sprite.h"
-
+#include <string.h>
 
 Sprite::Sprite(const char** dir,int size, std::string name)
 {
     this->size = size;
     this->name = name;
+    this->listImages.reserve(20);
     //this->spriteImage = loadImage(dir,mode);
     for(int i = 0; i < size; i++)
     {
-        this->spriteImage.push_back( imageFileManager::loadImage(dir[i])) ;
+        printf("imagen desde sprite: %s\n",dir[i]);
+        Image* img = imageFileManager::loadImage(dir[i]);
+        
+        this->spriteImage.push_back( img);
+        char c[256];
+        strcpy(c,dir[i]);
+        this->listImages.push_back(c);
     }
 }
     
@@ -105,6 +112,7 @@ bool Sprite::removeImage(int i)
     if(i > this->spriteImage.size() || i < 0 || this->spriteImage.size() == 0)
         return false;
     this->spriteImage.erase(this->spriteImage.begin() + (i));
+    this->listImages.erase(this->listImages.begin() + (i));
     this->size--;
     return true;
 }
@@ -128,17 +136,20 @@ void Sprite::setName(std::string name)
 
 void Sprite::save(std::ofstream& output)
 {
-    output << "\"name\" : \"" << this->name << "\" , ";
+    output << "\"name\" : \"" << this->name.c_str() << "\" , ";
     output << "\"speed\" : " << this->speed << " , ";
     output << "\"transparency\" : " << this->transparency << " , ";
     output << "\"cant_imagenes\" : " << this->size << " , ";
     //Ahora tengo que guardar las imagenes
     output << "\"imagenes\" : [";
     int img_index = 0;
-    for(Image* img : this->spriteImage)
+    for(int i = 0; i < this->listImages.size(); i++)
     {
-        output << " \"" << img->dir << "\"";
-        if(img_index + 1 < this->spriteImage.size())
+        char c[256];
+        strcpy(c,this->listImages.at(i).c_str());
+        printf("dir imagen: %s\n",c);
+        output << " \"" << this->listImages.at(i) << "\"";
+        if(img_index + 1 < this->listImages.size())
             output << " , ";
         img_index++;
     }
