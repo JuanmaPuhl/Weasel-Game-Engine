@@ -322,7 +322,7 @@ static void ShowExampleMenuFile()
             //printf("Direccion: %s\n",toReturn);
             char buffer [261];
             sprintf (buffer, "%s",toReturn);
-            Game::loadProject("savedproject.wsl");
+            Game::loadProject(buffer);
         }
     }
     if (ImGui::MenuItem("Save")) 
