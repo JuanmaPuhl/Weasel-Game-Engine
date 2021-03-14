@@ -9,7 +9,7 @@
 #include "irrklang/include/irrKlang.h"
 #include "../Entities/ComponentMusic.h"
 #include "../Entities/LuaScriptComponent.h"
-
+#include "../Graphics/Sprite.h"
 Entity::Entity()
 {
     this->quad = new Quad();
@@ -443,12 +443,13 @@ void Entity::loadProject(nlohmann::json entity)
         printf("El problema no es la particulas.\n");
         if(!strcmp(name.c_str(),"lua_script"))
         {
+            
             std::string visible_name = cmp["visible_name"];
             std::string script = cmp["script"];
             //Si estoy cargando una cámara entonces la unica posibilidad es que sea la camara del nivel
             //Yo ya le asigno la cámara cuando creo la entidad, entonces la busco nomas
             LuaScriptComponent* mus = new LuaScriptComponent(script, Game::getLuaState());
-            mus->setVisibleName(visible_name);
+            mus->setVisibleName(visible_name); 
             this->addComponent(mus);
         }
         printf("El problema no es la script.\n");
@@ -463,9 +464,18 @@ void Entity::loadProject(nlohmann::json entity)
         std::string name = attr["name"];
         if(!strcmp(name.c_str(),"sprite"))
         {
+            printf("QUE PASA ACA.\n");
             std::string spr = attr["sprite"];
-            SpriteAttribute* sprAttr = new SpriteAttribute(Game::findSpriteByName(spr));
-            this->addAttribute(sprAttr);
+            printf("QUE PASA ACA1.\n");
+            Sprite* s = Game::findSpriteByName(spr);
+            if(s!=NULL)
+            {
+                SpriteAttribute* sprAttr = new SpriteAttribute(s);
+                printf("QUE PASA ACA2.\n");
+                this->addAttribute(sprAttr);
+                printf("QUE PASA ACA3.\n");
+            }
+                
         }
         if(!strcmp(name.c_str(),"color"))
         {

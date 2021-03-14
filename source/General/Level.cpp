@@ -215,6 +215,7 @@ void Level::loadProject(nlohmann::json level)
     printf("cargue camara.\n");
     //Tengo que cargar las entidades
     int cant_entities = level["cant_entidades"];
+    printf("Cantidad entidades: %d.\n",cant_entities);
     nlohmann::json entities = level["entidades"];
     printf("Voy a cargar entidades.\n");
     for(int i = 0; i < cant_entities; i++)

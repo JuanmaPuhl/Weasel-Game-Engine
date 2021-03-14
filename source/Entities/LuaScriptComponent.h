@@ -17,6 +17,9 @@ class LuaScriptComponent : public Component
     void save(std::ofstream& output_dir);
     bool registerInitialState();
     bool recoverInitialState();
+    std::string& sReplaceAll(std::string& sS, 
+                         const std::string& sWhat, 
+                         const std::string& sReplacement);
     Component* copy();
     std::string getScript();
     private:

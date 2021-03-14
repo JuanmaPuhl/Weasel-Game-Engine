@@ -79,8 +79,10 @@ std::string LuaScriptComponent::getScript()
 
 void LuaScriptComponent::setScript(std::string script)
 {
-    this->scr = script;
-    printf("este script es: %s\n",script.c_str());
+    std::string aux = script;
+    aux = sReplaceAll(aux,"\\","/");
+    this->scr = aux;
+    printf("este script es: %s\n",aux.c_str());
     if(gamedata->status == PLAY)
         this->onCreate();
     printf("Ya llame al onCreate\n");
@@ -109,4 +111,17 @@ bool LuaScriptComponent::recoverInitialState()
     this->scr = this->initial_scr;
     this->setVisibleName(this->initial_visibleName);
     return true;
+}
+
+std::string& LuaScriptComponent::sReplaceAll(std::string& sS, 
+                         const std::string& sWhat, 
+                         const std::string& sReplacement)
+{
+    size_t pos = 0, fpos;
+    while ((fpos = sS.find(sWhat, pos)) != std::string::npos)
+    {
+        sS.replace(fpos, sWhat.size(), sReplacement);
+        pos = fpos + sReplacement.size();
+    }
+    return sS;
 }
