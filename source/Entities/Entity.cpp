@@ -359,13 +359,13 @@ void Entity::loadProject(nlohmann::json entity)
     std::string name = entity["name"];
     nlohmann::json position = entity["position"];
     glm::vec3 pos = glm::vec3(position["x"],position["y"],position["z"]);
-    this->position = pos;
+    this->setPosition(pos);
     nlohmann::json rotation = entity["rotation"];
     glm::vec3 rot = glm::vec3(rotation["x"],rotation["y"],rotation["z"]);
-    this->rotation = rot;
+    this->setRotation(rot);
     nlohmann::json scaling = entity["scaling"];
     glm::vec3 sca = glm::vec3(scaling["x"],scaling["y"],scaling["z"]);
-    this->scaling = sca;
+    this->setScale(sca);
     printf("Obtuve todos los datos.\n");
     //Tengo que meter los componentes
     int cant_componentes = entity["cant_componentes"];
@@ -423,6 +423,7 @@ void Entity::loadProject(nlohmann::json entity)
             ComponentMusic* mus = new ComponentMusic(irrklang::createIrrKlangDevice());
             printf("Aver7.\n");
             mus->setVisibleName(visible_name);
+            mus->setMusic(track),
             printf("Aver8.\n");
             mus->setLoop(loop);
             mus->setPlaying(start);

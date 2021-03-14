@@ -53,6 +53,7 @@ void ComponentCamera::onUpdate()
 void ComponentCamera::zoom(float factor)
 {
     this->zoomValue = factor;
+    this->onUpdate();
 }
 
 void ComponentCamera::move(glm::vec3 dir)
@@ -72,6 +73,7 @@ Component* ComponentCamera::copy()
 float ComponentCamera::getZoom()
 {
     return this->zoomValue;
+    
 }
 glm::vec3 ComponentCamera::getPosition()
 {

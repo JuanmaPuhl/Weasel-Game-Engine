@@ -1,5 +1,5 @@
 #include "ComponentMusic.h"
-
+#include "../Utils/Utils.h"
 ComponentMusic::ComponentMusic(irrklang::ISoundEngine* soundEngine)
 {
     this->setName("music");
@@ -30,7 +30,9 @@ Component* ComponentMusic::copy()
 
 void ComponentMusic::setMusic(std::string dir)
 {
-    this->music = dir;
+    std::string aux = dir;
+    aux = sReplaceAll(aux,"\\","/");
+    this->music = aux;
 }
 
 std::string ComponentMusic::getMusic()

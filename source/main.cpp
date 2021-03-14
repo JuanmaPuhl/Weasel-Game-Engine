@@ -143,7 +143,11 @@ int metodoPrincipal()
   const char* img[1] = {"res/sprites/undefined.png"};
   Sprite* sprUndefined = new Sprite(img,1,"undefined");
   Game::addSystemSprite(sprUndefined);
-  const char* arr[6] = {"res/sprites/e1.png","res/sprites/e2.png","res/sprites/e3.png","res/sprites/e4.png","res/sprites/e5.png","res/sprites/e6.png"};
+  const char* birdSprite[5] = {"res/sprites/c1.png","res/sprites/c2.png","res/sprites/c3.png","res/sprites/c4.png","res/sprites/c5.png"};
+  Sprite* sprBird = new Sprite(birdSprite,5,"bird");
+  sprBird->setSpeed(0.2*60); 
+  Game::addSprite(sprBird);
+  /* const char* arr[6] = {"res/sprites/e1.png","res/sprites/e2.png","res/sprites/e3.png","res/sprites/e4.png","res/sprites/e5.png","res/sprites/e6.png"};
   Sprite* sprIdle = new Sprite(arr,6,"idle");
   Game::addSprite(sprIdle);
   sprIdle->setSpeed(0.16*60);
@@ -165,9 +169,7 @@ int metodoPrincipal()
   const char* bgLevel[1] = {"res/sprites/level-bg.png"};
   Sprite* fondo2 = new Sprite(bgLevel,1,"fondo2");
   Game::addSprite(fondo2);
-  const char* birdSprite[5] = {"res/sprites/c1.png","res/sprites/c2.png","res/sprites/c3.png","res/sprites/c4.png","res/sprites/c5.png"};
-  Sprite* sprBird = new Sprite(birdSprite,5,"bird");
-  sprBird->setSpeed(0.2*60); 
+   */
   /* Level* level1 = Game::addLevel();
   Entity* cameraEntity = level1->addEntityCamera(WIDTH,HEIGHT);
   ComponentCamera* cmpCamera = (ComponentCamera*)cameraEntity->getComponent("camera");
