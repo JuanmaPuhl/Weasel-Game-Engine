@@ -1,5 +1,5 @@
 #include "Lua_Attribute.h"
-
+#include "../Graphics/Gui.h"
 int attribute_set_sprite(lua_State* L)
 {
     int n = lua_gettop(L);  // Number of arguments
@@ -7,8 +7,10 @@ int attribute_set_sprite(lua_State* L)
         return luaL_error(L, "Got %d arguments expected 2", n);
     SpriteAttribute** sprAttr = (SpriteAttribute**) lua_touserdata(L, -2);
     Sprite** spr = (Sprite**) lua_touserdata(L, -1);
-    if(*sprAttr != NULL)
+    if(*sprAttr != NULL && *spr != NULL)
         (*sprAttr)->setSprite((*spr));
+    else
+        printf("LUA_ERROR::attribute_set_sprite. NULL PARAMETER.\n");
     return 1;
 }
 
@@ -21,6 +23,8 @@ int attribute_get_sprite(lua_State* L)
     Sprite** sprite = (Sprite**)lua_newuserdata(L, sizeof(Sprite*));  
     if(*sprAttr != NULL)
         *sprite = (*sprAttr)->getSprite();
+    else
+        printf("LUA_ERROR::attribute_get_sprite. NULL PARAMETER.\n");
     return 1;
 }
 
@@ -36,6 +40,8 @@ int attribute_set_color(lua_State* L)
     float b = luaL_checknumber(L, -1);
     if(*colAttr != NULL)
         (*colAttr)->setColor(glm::vec3(r,g,b));
+    else
+        printf("LUA_ERROR::attribute_set_color. NULL PARAMETER.\n");
     return 1;
 }
 
@@ -58,8 +64,8 @@ int attribute_get_color(lua_State* L)
         lua_pushnumber(L, color.z);
         lua_rawseti(L, newTable, 3);
     }
-        
-    
+    else
+        printf("LUA_ERROR::attribute_get_color. NULL PARAMETER.\n");
     return 1;
 }
 

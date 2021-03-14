@@ -1,11 +1,12 @@
 #include "LuaScriptComponent.h"
-
+#include "../General/Game.h"
 LuaScriptComponent::LuaScriptComponent(std::string scr, lua_State* L)
 {
     this->scr = scr; //La dirección del script
     this->lua_state = L;
     this->setName("lua_script");
-    this->onCreate();
+    if(gamedata->status == PLAY)
+        this->onCreate();
 }
 LuaScriptComponent::~LuaScriptComponent()
 {
@@ -80,7 +81,8 @@ void LuaScriptComponent::setScript(std::string script)
 {
     this->scr = script;
     printf("este script es: %s\n",script.c_str());
-    this->onCreate();
+    if(gamedata->status == PLAY)
+        this->onCreate();
     printf("Ya llame al onCreate\n");
 }
 
@@ -98,10 +100,12 @@ bool LuaScriptComponent::registerInitialState()
     this->initial_visibleName = this->getVisibleName().c_str();
     this->initial_scr = this->scr.c_str();
     this->onCreate(); //Tengo que llamar a eso cada vez que se inicia
+    this->active = true;
     return true;
 }
 bool LuaScriptComponent::recoverInitialState()
 {
+    this->active = false;
     this->scr = this->initial_scr;
     this->setVisibleName(this->initial_visibleName);
     return true;

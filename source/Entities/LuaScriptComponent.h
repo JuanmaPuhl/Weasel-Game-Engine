@@ -24,5 +24,6 @@ class LuaScriptComponent : public Component
     std::string scr;
     std::string initial_visibleName;
     std::string initial_scr;
+    bool active = false;
 
 };

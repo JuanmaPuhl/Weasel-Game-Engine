@@ -9,6 +9,8 @@ function on_create()
     sprite_idle = game_find_sprite("idle")
     sprite_walking = game_find_sprite("walking")
     sprite_shooting = game_find_sprite("shooting")
+    print(sprite_idle)
+    print(sprite_walking)
     local count = 0
     print("llegue")
     for _ in pairs(entities) do count = count + 1 end
@@ -21,7 +23,9 @@ function on_create()
         sprite_fire = attribute_get_sprite(fire_attr)
         col_attr = entity_get_attribute(entity,"color")
         music_component = entity_get_component(entity, "music1");
-        print(col_attr)
+        print(sprite_attribute)
+        print(fire_attr)
+
         sprite_set_transparency(sprite_fire,0.0)
         collision = false
     end

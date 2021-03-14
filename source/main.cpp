@@ -152,15 +152,15 @@ int metodoPrincipal()
   //Creo el personaje
   
   //cameraEntity->addComponent(new ComponentScript(scrCamera));
-  Entity* personaje = level1->addEntity();
+  Entity* personaje = level1->addEntity(); */
   const char* arr[6] = {"res/sprites/e1.png","res/sprites/e2.png","res/sprites/e3.png","res/sprites/e4.png","res/sprites/e5.png","res/sprites/e6.png"};
   Sprite* sprIdle = new Sprite(arr,6,"idle");
   Game::addSprite(sprIdle);
   sprIdle->setSpeed(0.16*60);
-  GraphicAttribute* attrColor1 = new SpriteAttribute(sprIdle);
+  /* GraphicAttribute* attrColor1 = new SpriteAttribute(sprIdle);
   personaje->addAttribute(attrColor1);
   Game::setLevel(0);
-  Gui::writeToLog("Holiwi\n");
+  Gui::writeToLog("Holiwi\n"); */
   const char* walkingAnimation[9] = {"res/sprites/ew1.png","res/sprites/ew2.png","res/sprites/ew3.png","res/sprites/ew4.png","res/sprites/ew5.png","res/sprites/ew6.png","res/sprites/ew7.png","res/sprites/ew8.png","res/sprites/ew9.png"};
   Sprite* walkingSpr = new Sprite(walkingAnimation,9,"walking");
   Game::addSprite(walkingSpr);
@@ -173,42 +173,42 @@ int metodoPrincipal()
   Game::addSprite(fireSpr);
   fireSpr->setSpeed(0.3*60.0);
   walkingSpr->setSpeed(0.2*60.0);
-  Entity* fireEntity = level1->addEntity();
+  /* Entity* fireEntity = level1->addEntity();
   personaje->scale(glm::vec3(1.4f,1.8f,1.0f));
   personaje->setPosition(glm::vec3(-2755.0f,-210.0f,0.0f));
   fireEntity->setPosition(glm::vec3(-2755.0f,-210.0f,0.0f));
   GraphicAttribute* fireAttr = new SpriteAttribute(fireSpr);
-  fireEntity->addAttribute(fireAttr);
+  fireEntity->addAttribute(fireAttr); */
   //Creo el piso
-  GraphicAttribute* attrColor = new ColorAttribute(glm::vec3(0.5f,0.1f,0.2f));
+  //GraphicAttribute* attrColor = new ColorAttribute(glm::vec3(0.5f,0.1f,0.2f));
 
   //Creo el fondo
   const char* bg[1] = {"res/sprites/background.png"};
-  Entity* entityBg = level1->addEntity();
+  //Entity* entityBg = level1->addEntity();
   Sprite* fondo = new Sprite(bg,1,"fondo");
   Game::addSprite(fondo);
-  GraphicAttribute* attrFondo = new SpriteAttribute(fondo);
+  //GraphicAttribute* attrFondo = new SpriteAttribute(fondo);
 
-  entityBg->addAttribute(attrFondo);
+  /* entityBg->addAttribute(attrFondo);
   entityBg->scale(glm::vec3(500.0f/32.0f,289.36f/32.0f,1.0f));
   entityBg->setPosition(glm::vec3(-2586.0f,-192.0f,-2.0f));
-
+ */
   const char* bgLevel[1] = {"res/sprites/level-bg.png"};
-  Entity* entityLevelBg = level1->addEntity();
+  //Entity* entityLevelBg = level1->addEntity();
   Sprite* fondo2 = new Sprite(bgLevel,1,"fondo2");
   Game::addSprite(fondo2);
-  GraphicAttribute* attrFondoLevel = new SpriteAttribute(fondo2);
+  /* GraphicAttribute* attrFondoLevel = new SpriteAttribute(fondo2);
   entityLevelBg->addAttribute(attrFondoLevel);
   entityLevelBg->scale(glm::vec3(173.625f,26.75f,1.0f));
   entityLevelBg->setPosition(glm::vec3(-56.0f,0.0f,-1.0f));
-
+ */
   //Creo el pajaro
   const char* birdSprite[5] = {"res/sprites/c1.png","res/sprites/c2.png","res/sprites/c3.png","res/sprites/c4.png","res/sprites/c5.png"};
-  Entity* bird = level1->addEntity();
+  //Entity* bird = level1->addEntity();
   Sprite* sprBird = new Sprite(birdSprite,5,"bird");
   sprBird->setSpeed(0.2*60);
-  GraphicAttribute* attrBird = new SpriteAttribute(sprBird);
-  bird->addAttribute(attrBird);
+  //GraphicAttribute* attrBird = new SpriteAttribute(sprBird);
+  /* bird->addAttribute(attrBird);
   bird->scale(glm::vec3(-1.0f,0.6f,0.0f));
   bird->setPosition(glm::vec3(-2460.0f,-80.0f,0.0f));
   BirdMovement* birdScr = new BirdMovement();
@@ -239,8 +239,9 @@ int metodoPrincipal()
   //((ComponentMusic*)(personaje->getComponent("music")))->playMusic(true);
   personaje->addComponent(new ComponentMusic(irrklang::createIrrKlangDevice()));
   personaje->addComponent(new LuaScriptComponent("res/scripts/jim_script.lua", lua_state));
-  file_manager::save_project("savedproject.wsl"); */
-  Game::loadProject("savedproject.wsl");
+  file_manager::save_project("savedproject.wsl");
+   *///Game::loadProject("savedproject.wsl");
+  //Game::setLevel(0);
   Game::loop();
   printf("Main::Eliminando objetos...\n");
   Game::close();  

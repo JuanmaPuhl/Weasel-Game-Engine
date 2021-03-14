@@ -64,7 +64,9 @@ void ComponentMusic::save(std::ofstream& output)
 {
     output << "\"name\" : \"" << this->getName() << "\" , ";
     output << "\"visible_name\" : \"" << this->getVisibleName() << "\" , ";
-    output << "\"track\" : \"" << this->music << "\"";
+    output << "\"track\" : \"" << this->music << "\" , ";
+    output << "\"loop\" : \"" << this->isLooping << "\" , ";
+    output << "\"start\" : \"" << this->isPlaying << "\""; 
 }
 
 bool ComponentMusic::registerInitialState()

@@ -318,7 +318,12 @@ static void ShowExampleMenuFile()
         TCHAR toReturn [260] = {0};
         Utils::openFileDialog(toReturn,260);
         if(toReturn != NULL)
-            printf("Direccion: %s\n",toReturn);
+        {
+            //printf("Direccion: %s\n",toReturn);
+            char buffer [261];
+            sprintf (buffer, "%s",toReturn);
+            Game::loadProject("savedproject.wsl");
+        }
     }
     if (ImGui::MenuItem("Save")) 
     {

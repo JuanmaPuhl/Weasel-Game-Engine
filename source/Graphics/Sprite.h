@@ -50,5 +50,8 @@ class Sprite
     double initial_speed;
     std::string initial_name;
     std::vector<std::string> listImages;
+    std::string& sReplaceAll(std::string& sS, 
+                         const std::string& sWhat, 
+                         const std::string& sReplacement);
 };
 #endif

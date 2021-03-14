@@ -1,6 +1,6 @@
 #include "Sprite.h"
 #include <string.h>
-
+#include <string>
 Sprite::Sprite(const char** dir,int size, std::string name)
 {
     this->size = size;
@@ -10,11 +10,12 @@ Sprite::Sprite(const char** dir,int size, std::string name)
     for(int i = 0; i < size; i++)
     {
         printf("imagen desde sprite: %s\n",dir[i]);
-        Image* img = imageFileManager::loadImage(dir[i]);
+        std::string aux = dir[i];
+        Image* img = imageFileManager::loadImage(aux.c_str());
         
         this->spriteImage.push_back( img);
         char c[256];
-        strcpy(c,dir[i]);
+        strcpy(c,aux.c_str());
         this->listImages.push_back(c);
     }
 }
@@ -124,7 +125,11 @@ Image* Sprite::getProperties(int i)
 
 bool Sprite::addImage(const char* dir)
 {
-    this->spriteImage.push_back( imageFileManager::loadImage(dir)) ;
+    std::string aux = dir;
+    aux = sReplaceAll(aux,"\\","/");
+    //std::replace(aux.begin(), aux.end(), '\\', '/'); // replace all 'x' to 'y'
+    this->spriteImage.push_back( imageFileManager::loadImage(aux.c_str())) ;
+    this->listImages.push_back(aux);
     this->size++;
     return true;
 }
@@ -173,4 +178,17 @@ bool Sprite::recoverInitialState()
     this->speed = this->initial_speed;
     this->name = this->initial_name;
     return true;
+}
+
+std::string& Sprite::sReplaceAll(std::string& sS, 
+                         const std::string& sWhat, 
+                         const std::string& sReplacement)
+{
+    size_t pos = 0, fpos;
+    while ((fpos = sS.find(sWhat, pos)) != std::string::npos)
+    {
+        sS.replace(fpos, sWhat.size(), sReplacement);
+        pos = fpos + sReplacement.size();
+    }
+    return sS;
 }

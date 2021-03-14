@@ -5,7 +5,10 @@
 #include "ComponentCamera.h"
 #include "ComponentParticle.h"
 #include "Particle.h"
-
+#include "../Entities/ComponentCollisionBox.h"
+#include "irrklang/include/irrKlang.h"
+#include "../Entities/ComponentMusic.h"
+#include "../Entities/LuaScriptComponent.h"
 
 Entity::Entity()
 {
@@ -348,4 +351,128 @@ bool Entity::recoverInitialState()
         this->attributes.push_back(a);
     }
     return true;
+}
+
+void Entity::loadProject(nlohmann::json entity)
+{
+    //Tengo que setear el nombre
+    std::string name = entity["name"];
+    nlohmann::json position = entity["position"];
+    glm::vec3 pos = glm::vec3(position["x"],position["y"],position["z"]);
+    this->position = pos;
+    nlohmann::json rotation = entity["rotation"];
+    glm::vec3 rot = glm::vec3(rotation["x"],rotation["y"],rotation["z"]);
+    this->rotation = rot;
+    nlohmann::json scaling = entity["scaling"];
+    glm::vec3 sca = glm::vec3(scaling["x"],scaling["y"],scaling["z"]);
+    this->scaling = sca;
+    printf("Obtuve todos los datos.\n");
+    //Tengo que meter los componentes
+    int cant_componentes = entity["cant_componentes"];
+    nlohmann::json componentes = entity["componentes"];
+    for(int i = 0; i < cant_componentes; i++)
+    {
+        nlohmann::json cmp = componentes[i];
+        std::string name = cmp["name"];
+        if(!strcmp(name.c_str(),"camera"))
+        {
+            std::string visible_name = cmp["visible_name"];
+            nlohmann::json c_pos = cmp["position"];
+            glm::vec3 c_position = glm::vec3(c_pos["x"],c_pos["y"],c_pos["z"]);
+            float zoom = cmp["zoom"];
+            printf("A ver.\n");
+            //Si estoy cargando una cámara entonces la unica posibilidad es que sea la camara del nivel
+            //Yo ya le asigno la cámara cuando creo la entidad, entonces la busco nomas
+            ComponentCamera* cam = (ComponentCamera*) this->getComponent("camera");
+            //El width y el height ya lo tiene metido.
+            cam->setPosition(c_position);
+            cam->zoom(zoom);
+            cam->setVisibleName(visible_name);
+        }
+        printf("El problema no es la cámara\n");
+        if(!strcmp(name.c_str(),"collision"))
+        {
+            std::string visible_name = cmp["visible_name"];
+            int width = cmp["width"];
+            int height = cmp["height"];
+            int x = cmp["x"];
+            int y = cmp["y"];
+            //Si estoy cargando una cámara entonces la unica posibilidad es que sea la camara del nivel
+            //Yo ya le asigno la cámara cuando creo la entidad, entonces la busco nomas
+            ComponentCollisionBox* box = new ComponentCollisionBox(x,y,width,height,this);
+            box->setVisibleName(visible_name);
+            this->addComponent(box);
+        }
+        printf("El problema no es la colision.\n");
+        if(!strcmp(name.c_str(),"music"))
+        {
+            std::string visible_name = cmp["visible_name"];
+            printf("Aver1.\n");
+            std::string track = cmp["track"];
+            printf("Aver2.\n");
+            std::string loop_str = cmp["loop"];
+            printf("Aver3.\n");
+            std::string start_str = cmp["start"];
+            printf("Aver4.\n");
+            bool loop = (loop_str == "1");
+            printf("Aver5.\n");
+            bool start = (start_str == "1");
+            printf("Aver6.\n");
+            //Si estoy cargando una cámara entonces la unica posibilidad es que sea la camara del nivel
+            //Yo ya le asigno la cámara cuando creo la entidad, entonces la busco nomas
+            ComponentMusic* mus = new ComponentMusic(irrklang::createIrrKlangDevice());
+            printf("Aver7.\n");
+            mus->setVisibleName(visible_name);
+            printf("Aver8.\n");
+            mus->setLoop(loop);
+            mus->setPlaying(start);
+            this->addComponent(mus);
+        }
+        printf("El problema no es la musica.\n");
+        if(!strcmp(name.c_str(),"particle"))
+        {
+            std::string visible_name = cmp["visible_name"];
+            int max_particles = cmp["max_particles"];
+            int step_particles = cmp["step_particles"];
+            //Si estoy cargando una cámara entonces la unica posibilidad es que sea la camara del nivel
+            //Yo ya le asigno la cámara cuando creo la entidad, entonces la busco nomas
+            ComponentParticle* mus = new ComponentParticle(max_particles,step_particles,this);
+            mus->setVisibleName(visible_name);
+            this->addComponent(mus);
+        }
+        printf("El problema no es la particulas.\n");
+        if(!strcmp(name.c_str(),"lua_script"))
+        {
+            std::string visible_name = cmp["visible_name"];
+            std::string script = cmp["script"];
+            //Si estoy cargando una cámara entonces la unica posibilidad es que sea la camara del nivel
+            //Yo ya le asigno la cámara cuando creo la entidad, entonces la busco nomas
+            LuaScriptComponent* mus = new LuaScriptComponent(script, Game::getLuaState());
+            mus->setVisibleName(visible_name);
+            this->addComponent(mus);
+        }
+        printf("El problema no es la script.\n");
+    }
+    //Tengo que meter los atributos
+    int cant_atributos = entity["cant_atributos"];
+    nlohmann::json atributos = entity["atributos"];
+    for(int i = 0; i < cant_atributos; i++)
+    {   
+        printf("Entre.\n");
+        nlohmann::json attr = atributos[i];
+        std::string name = attr["name"];
+        if(!strcmp(name.c_str(),"sprite"))
+        {
+            std::string spr = attr["sprite"];
+            SpriteAttribute* sprAttr = new SpriteAttribute(Game::findSpriteByName(spr));
+            this->addAttribute(sprAttr);
+        }
+        if(!strcmp(name.c_str(),"color"))
+        {
+            nlohmann::json color = attr["color"];
+            glm::vec3 colorcito = glm::vec3(color["x"],color["y"],color["z"]);
+            ColorAttribute* colAttr = new ColorAttribute(colorcito);
+            this->addAttribute(colAttr);
+        }
+    }
 }

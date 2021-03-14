@@ -315,6 +315,7 @@ void Game::newGame()
     gamedata->levels.clear();
     gamedata->currentLevel = NULL;
     gamedata->sprites.clear();
+    gamedata->status = STOP;
     
 }
 
@@ -385,15 +386,12 @@ void Game::loadProject(std::string input_dir)
     //Tengo que cargar sprites
     //printf("%s\n",json["cant_sprites"].dump().c_str());
     int cant_sprites = json["cant_sprites"];
+    printf("Ingresando sprites\n");
     for(int i = 0; i < cant_sprites; i++)
     {
-        printf("Ingresando sprite: %d \n",i);
         nlohmann::json sprite = json["sprites"][i];
-        printf("%s\n",sprite.dump().c_str());
         int cant_imagenes = sprite["cant_imagenes"];
-        printf("%d\n",cant_imagenes);
         std::string name = sprite["name"];
-        printf("%s\n",name.c_str());
         std::vector<std::string> images;
         for(int j = 0; j < cant_imagenes; j++)
         {
@@ -402,23 +400,29 @@ void Game::loadProject(std::string input_dir)
             str.erase(std::remove(str.begin(), str.end(), '"'), str.end());
             images.push_back(str);
         }
-        for(std::string s : images)
-        {
-            printf("%s,",s.c_str());
-        }
-        printf("\n");
         std::vector<const char*> cstrings;
         cstrings.reserve(images.size());
-
         for(size_t i = 0; i < images.size(); ++i)
             cstrings.push_back(const_cast<const char*>(images[i].c_str()));
         Sprite* spr = new Sprite(&cstrings[0],cant_imagenes,name); 
         spr->setSpeed(sprite["speed"]);
         spr->setTransparency(sprite["transparency"]);
         gamedata->sprites.push_back(spr);
-        printf("sprite ingresado\n");
     }
     
+    //Ahora tengo que cargar los niveles
+    int cant_niveles = json["cant_niveles"];
+    for(int i = 0; i < cant_niveles; i++)
+    {
+        nlohmann::json level = json["niveles"][i];
+        Level* l = Game::addLevel();
+        printf("Voy a entrar a cargar level.\n");
+        l->loadProject(level);
+        printf("Aver.\n");
+    }
+    int current_level = json["nivel_actual"];
+    Game::setLevel(current_level);
+
 
 
 }

@@ -6,6 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <fstream>
+#include "nlohmann/json.hpp"
 
 class Level
 {
@@ -43,6 +44,7 @@ class Level
     void save(std::ofstream& output_dir);
     void setGammaCorrection(bool b);
     bool getGammaCorrection();
+    void loadProject(nlohmann::json level);
     private:
     std::vector<Entity*> entities;
     Entity* cameraEntity = NULL;

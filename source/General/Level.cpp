@@ -1,5 +1,9 @@
 #include "Level.h"
 #include "../Entities/ComponentCamera.h"
+#include "../Entities/PixelizationAttribute.h"
+#include "../Entities/Sharpen.h"
+#include "../Entities/DilationAttribute.h"
+
 Level::Level()
 {
     //Asigno espacio para el estado inicial
@@ -197,4 +201,65 @@ void Level::setGammaCorrection(bool b)
 bool Level::getGammaCorrection()
 {
     return this->gammaCorrection;
+}
+
+void Level::loadProject(nlohmann::json level)
+{
+    //Tengo que cargar la cámara
+    nlohmann::json camera = level["camera"];
+    /* int width = camera["width"];
+    int height = camera["height"]; */
+    Entity* entity_camera = Level::addEntityCamera(1280, 720);
+    printf("cargo camara.\n");
+    entity_camera->loadProject(camera);
+    printf("cargue camara.\n");
+    //Tengo que cargar las entidades
+    int cant_entities = level["cant_entidades"];
+    nlohmann::json entities = level["entidades"];
+    printf("Voy a cargar entidades.\n");
+    for(int i = 0; i < cant_entities; i++)
+    {
+        nlohmann::json entity = entities[i];
+        Entity* e = Level::addEntity();
+        e->loadProject(entity);
+    }
+    printf("Termine de cargar entidades.\n");
+    //Tengo que cargar los atributos
+    int cant_atributos = level["cant_atributos"];
+    nlohmann::json atributos = level["atributos"];
+    printf("Voy a cargar atributos.\n");
+    for(int i = 0; i < cant_atributos; i++)
+    {
+        nlohmann::json a = atributos[i];
+        std::string name = a["name"];
+        if(!strcmp(name.c_str(), "pixelization"))
+        {
+            PixelizationAttribute* pixelization = new PixelizationAttribute();
+            int pixelSize = a["pixelSize"];
+            pixelization->setPixelSize(pixelSize);
+            Level::addAttribute(pixelization);
+        }
+        if(!strcmp(name.c_str(), "sharpen"))
+        {
+            Sharpen* sharpen = new Sharpen();
+            float amount = a["amount"];
+            sharpen->setAmount(amount);
+            Level::addAttribute(sharpen);
+        }
+        if(!strcmp(name.c_str(), "dilation"))
+        {
+            DilationAttribute* dilation = new DilationAttribute();
+            int size = a["size"];
+            float separation = a["separation"];
+            float minThreshold = a["minThreshold"];
+            float maxThreshold = a["maxThreshold"];
+            Level::addAttribute(dilation);
+        }
+    }
+    printf("Termino de cargar atributos.\n");
+    //Tengo que cargar el gamma correction
+    std::string gamma = level["gammaCorrection"];
+    bool gamma_correction = (gamma == "1");
+    this->gammaCorrection = gamma_correction;
+    printf("Seteo correccion de gama.\n");
 }

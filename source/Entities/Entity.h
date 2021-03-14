@@ -15,7 +15,7 @@
 #include "ColorAttribute.h"
 #include <iostream>
 #include <fstream>
-
+#include "nlohmann/json.hpp"
 class Entity
 {
     public:
@@ -46,6 +46,7 @@ class Entity
     void save(std::ofstream& output_dir);
     bool registerInitialState();
     bool recoverInitialState();
+    void loadProject(nlohmann::json entity);
     private:
     glm::vec3 position;
     glm::vec3 rotation;
