@@ -30,11 +30,12 @@ struct GameData
         std::string saveFile = "";
         bool unsavedChanges = false;
         Quad* generalQuad = NULL;
+        bool exported = false;
     };
     extern GameData* gamedata;
 namespace Game
 {
-    void init(int width, int height);
+    void init(int width, int height,bool fullscr);
     Level* addLevel();
     Level* getCurrentLevel();
     void addSprite(Sprite* sprite);
@@ -62,5 +63,6 @@ namespace Game
     Shader* getParticleShader();
     void setLuaState(lua_State* L);
     void loadProject(std::string input_dir);
+    void exportedGame(bool e);
 }
 #endif

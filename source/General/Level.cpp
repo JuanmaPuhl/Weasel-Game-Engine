@@ -209,7 +209,7 @@ void Level::loadProject(nlohmann::json level)
     nlohmann::json camera = level["camera"];
     /* int width = camera["width"];
     int height = camera["height"]; */
-    Entity* entity_camera = Level::addEntityCamera(1280, 720);
+    Entity* entity_camera = Level::addEntityCamera(1920, 1080);
     printf("cargo camara.\n");
     entity_camera->loadProject(camera);
     printf("cargue camara.\n");

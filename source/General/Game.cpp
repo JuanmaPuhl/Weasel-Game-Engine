@@ -7,12 +7,12 @@ unsigned int fbo2;
 unsigned int tex,tex2;
 int w,h;
 KeyboardControl* keyboardControl = new KeyboardControl();
-void Game::init(int width, int height)
+void Game::init(int width, int height,bool fullscr)
 {
     
     gamedata->width = width;
     gamedata->height = height;
-    gamedata->window = window::window_init(width,height);
+    gamedata->window = window::window_init(1920,1080,fullscr);
     gamedata->shader = new Shader(DEFAULT_SHADER_FILE);
     gamedata->shaderParticles = new Shader(PARTICLE_SHADER_FILE);
     gamedata->shaderGeneral = new Shader(GENERAL_SHADER_FILE);
@@ -21,7 +21,11 @@ void Game::init(int width, int height)
     w = width;
     h = height;
     gamedata->generalQuad = new Quad();
-   
+    if(gamedata->exported)
+    {
+        w = 1920;
+        h = 1080;
+    }
     
     glGenFramebuffers(1,&fbo);
     
@@ -51,6 +55,7 @@ void Game::init(int width, int height)
     glGenFramebuffers(1,&fbo2);
     glGenTextures(1, &tex2);
     glBindTexture(GL_TEXTURE_2D, tex2);
+    
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);  
@@ -102,7 +107,7 @@ void Game::render(double deltaTime)
     int w,h;
 
     glfwGetFramebufferSize(gamedata->window, &w, &h);
-    glViewport(0,0,1280,720);
+        glViewport(0,0,1920,1080);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);   
     glEnable(GL_DEPTH_TEST); // enable depth testing (is disabled for rendering screen-space quad)
     glClearColor(18.0f/255, 18.0f/255, 27.0f/255, 1.0f);
@@ -160,6 +165,14 @@ void Game::render(double deltaTime)
     glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
     glClearColor(18.0f/255, 18.0f/255, 27.0f/255, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+    if(gamedata->exported)
+    {
+        int nwidth, nheight;
+        glfwGetFramebufferSize(gamedata->window, &nwidth, &nheight);
+        //glViewport(0,0,nwidth,nheight);
+        glBindTexture(GL_TEXTURE_2D, tex2);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    }
     glBindTexture(GL_TEXTURE_2D, 0);
     glBindVertexArray(0);
 }
@@ -207,7 +220,8 @@ void Game::loopFunction(double deltaTime)
     }
     Game::render(gamedata->deltaTime);
     gamedata->deltaTime = deltaTime;
-    Gui::draw(deltaTime);
+    if(!gamedata->exported)
+        Gui::draw(deltaTime);
 }    
 void Game::loop()
 {
@@ -425,4 +439,9 @@ void Game::loadProject(std::string input_dir)
 
 
 
+}
+
+void Game::exportedGame(bool e)
+{
+    gamedata->exported = e;
 }

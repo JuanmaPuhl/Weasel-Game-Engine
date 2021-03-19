@@ -1,6 +1,6 @@
 LIBRERIAS = -llua54 -lglew32 -lglfw3 -lopengl32 -lcomdlg32 -lirrKlang
 CODIGO = source/
-all: main.exe quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o  Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o ComponentCollisionBox.o ComponentParticle.o Particle.o Lua_Keyboard.o Lua_Attribute.o Lua_Sprite.o ComponentMusic.o Lua_Component.o PixelizationAttribute.o Sharpen.o DilationAttribute.o
+all: main.exe quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o  Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o ComponentCollisionBox.o ComponentParticle.o Particle.o Lua_Keyboard.o Lua_Attribute.o Lua_Sprite.o ComponentMusic.o Lua_Component.o PixelizationAttribute.o Sharpen.o DilationAttribute.o ejecutable.exe
 .PHONY: all
 main.exe:$(CODIGO)main.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui_widgets.o imgui.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o Gui.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o  ComponentCollisionBox.o  Lua_Component.o ComponentParticle.o Particle.o ComponentMusic.o Lua_Keyboard.o Lua_Attribute.o Lua_Sprite.o PixelizationAttribute.o Sharpen.o DilationAttribute.o $(CODIGO)Entities/Scripts.h 
 	g++  -o main.exe  $(CODIGO)main.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui.o imgui_widgets.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o Gui.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o ComponentCollisionBox.o Lua_Component.o ComponentParticle.o ComponentMusic.o Particle.o Lua_Keyboard.o Lua_Attribute.o Lua_Sprite.o PixelizationAttribute.o Sharpen.o DilationAttribute.o -I .$(CODIGO)ScriptComponent.h -I.$(CODIGO)Entities/Scripts.h -I ./libs/  -L ./libs/ $(LIBRERIAS)
@@ -82,6 +82,9 @@ Lua_Component.o: $(CODIGO)Scripts/Lua_Component.h $(CODIGO)Scripts/Lua_Component
 	g++ -c $(CODIGO)Scripts/Lua_Component.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
 ComponentMusic.o: $(CODIGO)Entities/ComponentMusic.h $(CODIGO)Entities/ComponentMusic.cpp
 	g++ -c $(CODIGO)Entities/ComponentMusic.cpp -I ./libs/ -L ./libs/ $(LIBRERIAS)
+ejecutable.exe:$(CODIGO)ejecutable.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui_widgets.o imgui.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o Gui.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o  ComponentCollisionBox.o  Lua_Component.o ComponentParticle.o Particle.o ComponentMusic.o Lua_Keyboard.o Lua_Attribute.o Lua_Sprite.o PixelizationAttribute.o Sharpen.o DilationAttribute.o $(CODIGO)Entities/Scripts.h 
+	g++  -o ejecutable.exe  $(CODIGO)ejecutable.cpp quad.o window.o FileManager.o Shader.o Entity.o Sprite.o Debug.o Game.o Level.o KeyboardControl.o Config.o ImageFileManager.o ComponentScript.o ComponentCamera.o SpriteAttribute.o ColorAttribute.o imgui.o imgui_widgets.o imgui_draw.o imgui_tables.o imgui_impl_opengl3.o imgui_impl_glfw.o imgui_demo.o Gui.o Lua_Entity.o Lua_Level.o Lua_Game.o LuaScriptComponent.o ComponentCollisionBox.o Lua_Component.o ComponentParticle.o ComponentMusic.o Particle.o Lua_Keyboard.o Lua_Attribute.o Lua_Sprite.o PixelizationAttribute.o Sharpen.o DilationAttribute.o -I .$(CODIGO)ScriptComponent.h -I.$(CODIGO)Entities/Scripts.h -I ./libs/  -L ./libs/ $(LIBRERIAS)
+
 clean:
 	del quad.o
 	del window.o
@@ -123,5 +126,6 @@ clean:
 	del Sharpen.o
 	del DilationAttribute.o
 	del main.exe
+	del ejecutable.exe
 
         

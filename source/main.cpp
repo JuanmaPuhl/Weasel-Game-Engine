@@ -133,7 +133,7 @@ int metodoPrincipal()
   printf("MAIN::Estado de LUA creado.\n");
   
   printf("Main::Creando ventana...\n");
-  Game::init(WIDTH,HEIGHT);
+  Game::init(WIDTH,HEIGHT,false);
   Game::setLuaState(lua_state);
   GLFWimage icons[1];
   const char* dirIcon = "res/sprites/undefined.png";
@@ -143,10 +143,10 @@ int metodoPrincipal()
   const char* img[1] = {"res/sprites/undefined.png"};
   Sprite* sprUndefined = new Sprite(img,1,"undefined");
   Game::addSystemSprite(sprUndefined);
-  const char* birdSprite[5] = {"res/sprites/c1.png","res/sprites/c2.png","res/sprites/c3.png","res/sprites/c4.png","res/sprites/c5.png"};
+/*   const char* birdSprite[5] = {"res/sprites/c1.png","res/sprites/c2.png","res/sprites/c3.png","res/sprites/c4.png","res/sprites/c5.png"};
   Sprite* sprBird = new Sprite(birdSprite,5,"bird");
   sprBird->setSpeed(0.2*60); 
-  Game::addSprite(sprBird);
+  Game::addSprite(sprBird); */
   /* const char* arr[6] = {"res/sprites/e1.png","res/sprites/e2.png","res/sprites/e3.png","res/sprites/e4.png","res/sprites/e5.png","res/sprites/e6.png"};
   Sprite* sprIdle = new Sprite(arr,6,"idle");
   Game::addSprite(sprIdle);

@@ -8,7 +8,7 @@ namespace window
     *@param width el ancho de la ventana
     *@param height el alto de la ventana
     *@return la ventana generada*/
-    GLFWwindow* window_init(int width, int height);
+    GLFWwindow* window_init(int width, int height,bool fullscr);
     /**
      * @brief Hace ciclar la ventana con la funcion que se haya determinado
      * @param loop_function la funcion que queremos que se ejecute en el loop

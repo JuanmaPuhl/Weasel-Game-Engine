@@ -17,7 +17,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 }
 
 
-GLFWwindow* window::window_init(int width, int height)
+GLFWwindow* window::window_init(int width, int height,bool fullscr)
 {
     /*=====================INICIA CREACION DE VENTANA==========================*/
     GLFWwindow* window;
@@ -31,7 +31,10 @@ GLFWwindow* window::window_init(int width, int height)
     glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
     
     //glfwWindowHint(GLFW_DOUBLEBUFFER, GL_FALSE);
-    window = glfwCreateWindow(width, height, "Weasel Engine", NULL, NULL);
+    if(fullscr)
+      window = glfwCreateWindow(width, height, "Weasel Engine", glfwGetPrimaryMonitor(), NULL);
+    else
+      window = glfwCreateWindow(width, height, "Weasel Engine", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
