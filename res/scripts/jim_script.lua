@@ -1,22 +1,35 @@
 function on_create()
     print("JIM::OnCreate")
+    gravity = -96
+    falling = true
     disparando = false
     status = 1
     count = 1
     walking = false
+    prueba = "Esto es una prueba"
     level = game_get_current_level()
     entities = level_get_entities(level)
     sprite_idle = game_find_sprite("idle")
     sprite_walking = game_find_sprite("walking")
     sprite_shooting = game_find_sprite("shooting")
+    sprite_ducking = game_find_sprite("ducking")
+    ducking_speed = sprite_get_speed(sprite_ducking)
+    print(ducking_speed)
+    ducking = false
     print(sprite_idle)
     print(sprite_walking)
     local count = 0
     print("llegue")
+    camera = level_get_camera(level)
+    component_camera = entity_get_component(camera,"camera")
+    e_pos = component_camera_get_position(component_camera)
+    print(e_pos[1])
+    entity_set_position(camera,e_pos[1],e_pos[2], e_pos[3])
     for _ in pairs(entities) do count = count + 1 end
-    if count >= 2 then
+    if count >= 3 then
         entity = entities[1]
         fire = entities[2]
+        fondo = entities[3]
         print("llegue")
         sprite_attribute = entity_get_attribute(entity,"sprite")
         fire_attr = entity_get_attribute(fire, "sprite")
@@ -28,6 +41,7 @@ function on_create()
 
         sprite_set_transparency(sprite_fire,0.0)
         collision = false
+        
     end
     log_print("Esto es una prueba desde LUA")
 end
@@ -39,6 +53,9 @@ function on_update()
         end
         local deltaTime = game_get_delta_time()
         local speed = 96.0
+        if falling then
+            entity_translate(entity,0.0, gravity * deltaTime,0.0)
+        end
         if is_pressed(KEY_RIGHT) then
             if not walking then
                 attribute_set_sprite(sprite_attribute, sprite_walking)
@@ -51,6 +68,10 @@ function on_update()
                 entity_scale(fire, -1.0,1.0,1.0)
             end
             entity_translate(entity, speed * deltaTime,0.0,0.0)
+            entity_translate(camera, speed * deltaTime,0.0,0.0);
+            entity_translate(fondo, speed * deltaTime,0.0,0.0);
+            local camera_pos = entity_get_position(camera)
+            component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
         end
         if is_pressed(KEY_LEFT) then
             if not walking then
@@ -64,14 +85,39 @@ function on_update()
                 entity_scale(fire, -1.0,1.0,1.0)
             end
             entity_translate(entity,-speed * deltaTime,0.0,0.0)
+            entity_translate(camera, -speed * deltaTime,0.0,0.0);
+            entity_translate(fondo, -speed * deltaTime,0.0,0.0);
+            local camera_pos = entity_get_position(camera)
+            component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
         end
         if is_pressed(KEY_UP) then
             entity_translate(entity,0.0,speed * deltaTime,0.0)
+            entity_translate(camera,0.0, speed * deltaTime,0.0);
+            entity_translate(fondo,0.0, speed * deltaTime,0.0);
+            local camera_pos = entity_get_position(camera)
+            component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
         end
         if is_pressed(KEY_DOWN) then
-            entity_translate(entity,0.0,-speed * deltaTime,0.0)
-        end
-        if not is_pressed(KEY_RIGHT) and not is_pressed(KEY_LEFT) and not is_pressed(KEY_Z) then
+            if not ducking then
+                sprite_set_speed(sprite_ducking,ducking_speed)
+                sprite_restart(sprite_ducking)
+                --Cambio el sprite a ducking
+                attribute_set_sprite(sprite_attribute,sprite_ducking)
+                --seteo ducking true
+                ducking = true
+            else
+                index_ducking = sprite_get_current_image(sprite_ducking)
+                if index_ducking == 3 then
+                    sprite_set_speed(sprite_ducking,0.0)
+                end
+            end
+--[[             entity_translate(entity,0.0,-speed * deltaTime,0.0)
+            entity_translate(fondo,0.0, -speed * deltaTime,0.0);
+            entity_translate(camera,0.0, -speed * deltaTime,0.0);
+            local camera_pos = entity_get_position(camera)
+            component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
+ ]]      end
+        if not is_pressed(KEY_RIGHT) and not is_pressed(KEY_LEFT) and not is_pressed(KEY_Z) and not is_pressed(KEY_DOWN) then
             if walking then
                 walking = false
                 attribute_set_sprite(sprite_attribute, sprite_idle)
@@ -80,6 +126,12 @@ function on_update()
                 print("disparando")
                 disparando = false
                 attribute_set_sprite(sprite_attribute, sprite_idle)
+            end
+            if ducking then
+                ducking = false
+                attribute_set_sprite(sprite_attribute, sprite_idle)
+                sprite_set_speed(sprite_ducking,11.4)
+                sprite_restart(sprite_ducking)
             end
         end
         if is_pressed(KEY_Z) then
@@ -103,6 +155,11 @@ function on_update()
             sprite_set_transparency(sprite_fire,0.0)
     
         end
+        if is_pressed(KEY_C) and not falling then
+            print("C")
+            entity_translate(entity, 0.0,100.0,0.0 )
+            falling = true
+        end
     end
     
     
@@ -112,4 +169,5 @@ end
 function on_collision(other)
     print("JIM::COLISION")
     collision = true
+    falling = false
 end

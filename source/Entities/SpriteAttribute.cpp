@@ -29,8 +29,8 @@ void SpriteAttribute::passToShader(Shader* shader, double deltaTime)
 
 void SpriteAttribute::setSprite(Sprite* sprite)
 {
-    Sprite* a = sprite->copy(sprite);
-    this->sprite = a;
+    //Sprite* a = sprite->copy(sprite);
+    this->sprite = sprite;
 }
 
 Sprite* SpriteAttribute::getSprite()

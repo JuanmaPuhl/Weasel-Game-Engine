@@ -17,6 +17,7 @@ int sprite_set_speed(lua_State* L)
         return luaL_error(L, "Got %d arguments expected 2", n);
     Sprite** spr = (Sprite**) lua_touserdata(L, -2);
     float speed = luaL_checknumber(L, -1);
+    printf("%d\n",speed);
     (*spr)->setSpeed(speed);
     return 1; 
 }
@@ -62,6 +63,15 @@ int sprite_get_name(lua_State* L)
     return 1; 
 }
 
+int sprite_restart(lua_State* L)
+{
+    int n = lua_gettop(L);
+    if (n != 1)
+        return luaL_error(L, "Got %d arguments expected 1", n);
+    Sprite** spr = (Sprite**) lua_touserdata(L, -1);
+    (*spr)->restart();
+    return 1;
+}
 
 void sprite_script_init(lua_State* L)
 {
@@ -77,4 +87,6 @@ void sprite_script_init(lua_State* L)
     lua_setglobal(L, "sprite_get_speed");
     lua_pushcfunction(L, sprite_get_name);
     lua_setglobal(L, "sprite_get_name");
+    lua_pushcfunction(L, sprite_restart);
+    lua_setglobal(L, "sprite_restart");
 }

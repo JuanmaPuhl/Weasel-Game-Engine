@@ -92,7 +92,10 @@ double Sprite::getSpeed()
 {
     return this->speed;
 }
-
+void Sprite::restart()
+{
+    this->index_aux = 0;
+}
 void Sprite::setTransparency(float transparency)
 {
     this->transparency = transparency;

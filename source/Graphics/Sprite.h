@@ -26,6 +26,7 @@ class Sprite
     int getCurrentSpriteIndex();
     void setSpeed(double speed);
     int getSize();
+    void restart();
     Image* getProperties(int i);
     std::vector<Image*> getImages();
     float getTransparency();

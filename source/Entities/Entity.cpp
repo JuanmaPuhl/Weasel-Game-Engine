@@ -390,7 +390,7 @@ void Entity::loadProject(nlohmann::json entity)
             cam->setVisibleName(visible_name);
         }
         printf("El problema no es la cámara\n");
-        if(!strcmp(name.c_str(),"collision"))
+        if(!strcmp(name.c_str(),"collider"))
         {
             std::string visible_name = cmp["visible_name"];
             int width = cmp["width"];

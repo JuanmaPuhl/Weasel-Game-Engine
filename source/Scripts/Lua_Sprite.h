@@ -16,5 +16,5 @@ int sprite_get_transparency(lua_State* L);
 int sprite_set_transparency(lua_State* L);
 int sprite_get_speed(lua_State* L);
 int sprite_get_name(lua_State* L);
-
+int sprite_restart(lua_State* L);
 void sprite_script_init(lua_State* L);

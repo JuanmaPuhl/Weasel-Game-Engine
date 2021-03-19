@@ -13,8 +13,9 @@ static int game_find_sprite(lua_State* L)
     if (n != 1)
         return luaL_error(L, "Got %d arguments expected 1", n);
     const char* sprite_name = lua_tostring(L, -1);
-    Sprite** sprite = (Sprite**)lua_newuserdata(L, sizeof(Sprite*));  
-    *sprite = Game::findSpriteByName(sprite_name);
+    Sprite** sprite = (Sprite**)lua_newuserdata(L, sizeof(Sprite*));
+    Sprite* s = Game::findSpriteByName(sprite_name);
+    *sprite =s->copy(s);
     return 1;
 }
 

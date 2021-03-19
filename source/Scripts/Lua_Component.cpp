@@ -40,13 +40,34 @@ int component_camera_set_zoom(lua_State* L)
 
 int component_camera_get_position(lua_State* L)
 {
-    
+    int n = lua_gettop(L);  // Number of arguments
+    if (n != 1)
+        return luaL_error(L, "Got %d arguments expected 1", n);
+    ComponentCamera** entity = (ComponentCamera**) lua_touserdata(L, -1);
+    glm::vec3 position = (*entity)->getPosition();
+    //Paso la tabla con las coordenadas
+    lua_createtable(L, 3, 0);
+    int newTable = lua_gettop(L);
+    lua_pushnumber(L, position.x);
+    lua_rawseti(L, newTable, 1);
+    lua_pushnumber(L, position.y);
+    lua_rawseti(L, newTable, 2);
+    lua_pushnumber(L, position.z);
+    lua_rawseti(L, newTable, 3);
+    return 1;
 }
 
 //TODO: Creo que es mejor hacer un setPosition
 int component_camera_move(lua_State* L)
 {
-
+    int n = lua_gettop(L);  // Number of arguments
+    if (n != 4)
+        return luaL_error(L, "Got %d arguments expected 4", n);
+    ComponentCamera** camera = (ComponentCamera**) lua_touserdata(L, -4);
+    float x = luaL_checknumber(L,-3);
+    float y = luaL_checknumber(L,-2);
+    float z = luaL_checknumber(L,-1);
+    (*camera)->setPosition(glm::vec3(x,y,z));
 }
 
 int component_camera_get_direction(lua_State* L)
