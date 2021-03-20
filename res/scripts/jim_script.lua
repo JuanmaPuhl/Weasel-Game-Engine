@@ -1,6 +1,7 @@
 function on_create()
     print("JIM::OnCreate")
-    gravity = -96
+    gravity = -9.8
+    vspeed = 0
     falling = true
     disparando = false
     status = 1
@@ -13,6 +14,9 @@ function on_create()
     sprite_walking = game_find_sprite("walking")
     sprite_shooting = game_find_sprite("shooting")
     sprite_ducking = game_find_sprite("ducking")
+    jumping1 = game_find_sprite("jumping1")
+    jumping2 = game_find_sprite("jumping2")
+    jumping3 = game_find_sprite("jumping3")
     ducking_speed = sprite_get_speed(sprite_ducking)
     print(ducking_speed)
     ducking = false
@@ -54,9 +58,11 @@ function on_update()
         local deltaTime = game_get_delta_time()
         local speed = 96.0
         if falling then
-            entity_translate(entity,0.0, gravity * deltaTime,0.0)
+            entity_translate(entity,0.0, vspeed * deltaTime,0.0)
+            vspeed = vspeed + gravity
         end
         if is_pressed(KEY_RIGHT) then
+            falling = true
             if not walking then
                 attribute_set_sprite(sprite_attribute, sprite_walking)
                 walking = true
@@ -74,6 +80,7 @@ function on_update()
             component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
         end
         if is_pressed(KEY_LEFT) then
+            falling = true
             if not walking then
                 attribute_set_sprite(sprite_attribute, sprite_walking)
                 walking = true
@@ -118,6 +125,9 @@ function on_update()
             component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
  ]]      end
         if not is_pressed(KEY_RIGHT) and not is_pressed(KEY_LEFT) and not is_pressed(KEY_Z) and not is_pressed(KEY_DOWN) then
+            if not falling and not walking then
+                attribute_set_sprite(sprite_attribute, sprite_idle)
+            end
             if walking then
                 walking = false
                 attribute_set_sprite(sprite_attribute, sprite_idle)
@@ -133,6 +143,7 @@ function on_update()
                 sprite_set_speed(sprite_ducking,11.4)
                 sprite_restart(sprite_ducking)
             end
+            
         end
         if is_pressed(KEY_Z) then
             if not disparando then
@@ -157,9 +168,20 @@ function on_update()
         end
         if is_pressed(KEY_C) and not falling then
             print("C")
-            entity_translate(entity, 0.0,100.0,0.0 )
+            vspeed = 500
+            attribute_set_sprite(sprite_attribute,jumping1)
+            --entity_translate(entity, 0.0,100.0,0.0 )
             falling = true
         end
+        if vspeed < 200  and vspeed>0 then
+            attribute_set_sprite(sprite_attribute,jumping2)
+        end
+        if vspeed < 0 and not walking then 
+            attribute_set_sprite(sprite_attribute, jumping3)
+        end
+        --[[ if vspeed == 0 and not is_pressed(KEY_RIGHT) and not is_pressed(KEY_LEFT) and not is_pressed(KEY_Z) and not is_pressed(KEY_DOWN) then
+            attribute_set_sprite(sprite_attribute, sprite_idle)
+        end ]]
     end
     
     
@@ -168,6 +190,13 @@ end
 
 function on_collision(other)
     print("JIM::COLISION")
-    collision = true
-    falling = false
+    --collision = true
+    if falling then
+        falling = false
+        local collision_position = entity_get_position(other)
+        local entiy_pos = entity_get_position(entity)
+        entity_translate(entity,0,1,0)
+        vspeed = 0
+    end
+    --vspeed = 0
 end
