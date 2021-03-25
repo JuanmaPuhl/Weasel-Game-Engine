@@ -6,18 +6,18 @@
 class ColorAttribute : public GraphicAttribute
 {
     public:
-    ColorAttribute(glm::vec3 color);
+    ColorAttribute(glm::vec4 color);
     ~ColorAttribute();
     void passToShader(Shader* shader, double deltaTime);
     GraphicAttribute* copy();
     void unbind(Shader* shader);
-    glm::vec3 getColor();
+    glm::vec4 getColor();
     void save(std::ofstream& output_dir);
-    void setColor(glm::vec3 color);
+    void setColor(glm::vec4 color);
     bool registerInitialState();
     bool recoverInitialState();
     private:
-    glm::vec3 color = glm::vec3(0.0f);
-    glm::vec3 initial_color;
+    glm::vec4 color = glm::vec4(0.0f,0.0f,0.0f,0.0f);
+    glm::vec4 initial_color;
 
 };

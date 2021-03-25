@@ -410,6 +410,10 @@ void showEntityPopup()
     std::string windowName = "Entidad"+std::to_string(item_index_clicked);
     ImGui::Begin(windowName.c_str(),&item_clicked);
     vec = entityClicked->getPosition();
+    char* arr = (char*)malloc(sizeof(char)*64);
+    arr = strdup(entityClicked->getName().c_str());
+    ImGui::InputText("Nombre ", arr, 64);
+    entityClicked->setName(arr);
     float vecRotacion[3] = {entityClicked->getRotation().x,entityClicked->getRotation().y,entityClicked->getRotation().z};
     float vecScaling[3] = {entityClicked->getScale().x,entityClicked->getScale().y,entityClicked->getScale().z};
     //Gui::writeToLog(std::to_string(vec.x));
@@ -493,11 +497,12 @@ void showEntityPopup()
             if(strcmp(attr->getName().c_str(),"color") == 0)
             {
                 ColorAttribute* colAttr = ((ColorAttribute*)attr);
-                ImVec4 color = ImVec4(colAttr->getColor().x,colAttr->getColor().y,colAttr->getColor().z,1.0f);
+                ImVec4 color = ImVec4(colAttr->getColor().x,colAttr->getColor().y,colAttr->getColor().z,colAttr->getColor().a);
                 ImGui::ColorEdit4("MyColor##3", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel );
                 if(colAttr!=NULL)
                 {   
-                    colAttr->setColor(glm::vec3(color.x,color.y,color.z));
+                    printf("El color alpha es: %f.\n",color.w);
+                    colAttr->setColor(glm::vec4(color.x,color.y,color.z,color.w));
                 }
 
             }
@@ -557,6 +562,7 @@ void showEntityPopup()
                 ImGui::SameLine();
                 ImVec4 color = ImVec4(particleComponent->getColor().x,particleComponent->getColor().y,particleComponent->getColor().z,particleComponent->getColor().a);
                 ImGui::ColorEdit4("MyColor##4", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel );
+                printf("El color alpha es: %f.\n",color.w);
                 particleComponent->setColor(glm::vec4(color.x,color.y,color.z,color.w));
                 ImGui::Text("Dirección");
                 ImGui::SameLine();
@@ -648,7 +654,7 @@ void showEntityPopup()
                 }
                 if(i == 4)
                 {
-                    entityClicked->addAttribute(new ColorAttribute(glm::vec3(0.0f)));
+                    entityClicked->addAttribute(new ColorAttribute(glm::vec4(0.0f,0.0f,0.0f,1.0f)));
                 }
                 if(i == 5)
                 {

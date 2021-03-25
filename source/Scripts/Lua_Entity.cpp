@@ -192,6 +192,17 @@ static int entity_get_scale(lua_State* L)
     return 1;
 }
 
+static int entity_get_name(lua_State* L)
+{
+    int n = lua_gettop(L);  // Number of arguments
+    if (n != 1)
+        return luaL_error(L, "Got %d arguments expected 1", n);
+    Entity** entity = (Entity**) lua_touserdata(L, -1);
+    std::string name = (*entity)->getName();
+    lua_pushstring(L,name.c_str());
+    return 1;
+}
+
 void entity_script_init(lua_State *L)
 {
     lua_pushcfunction(L, entity_new);
@@ -222,4 +233,6 @@ void entity_script_init(lua_State *L)
     lua_setglobal(L, "entity_get_rotation");
     lua_pushcfunction(L, entity_get_scale);
     lua_setglobal(L, "entity_get_scale");
+    lua_pushcfunction(L, entity_get_name);
+    lua_setglobal(L, "entity_get_name");
 }

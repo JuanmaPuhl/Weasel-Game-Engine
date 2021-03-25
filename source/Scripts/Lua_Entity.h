@@ -125,3 +125,5 @@ static int entity_get_scale(lua_State* L);
  * @param L Estado de LUA
  */
 void entity_script_init(lua_State *L);
+
+static int entity_get_name(lua_State* L);

@@ -17,6 +17,10 @@ function on_create()
     jumping1 = game_find_sprite("jumping1")
     jumping2 = game_find_sprite("jumping2")
     jumping3 = game_find_sprite("jumping3")
+    sprite_clinging = game_find_sprite("clinging")
+    sprite_walking_clinging = game_find_sprite("walking_clinging")
+    walking_clinging = false
+    clinging = false
     ducking_speed = sprite_get_speed(sprite_ducking)
     print(ducking_speed)
     ducking = false
@@ -53,7 +57,7 @@ end
 function on_update()
     if(entity ~= nil and fire ~= nil ) then
         if collision then
-            attribute_set_color(col_attr,1.0,0.0,0.0)
+            attribute_set_color(col_attr,1.0,0.0,0.0,0.0)
         end
         local deltaTime = game_get_delta_time()
         local speed = 96.0
@@ -62,62 +66,101 @@ function on_update()
             vspeed = vspeed + gravity
         end
         if is_pressed(KEY_RIGHT) then
-            falling = true
-            if not walking then
-                attribute_set_sprite(sprite_attribute, sprite_walking)
-                walking = true
+            if not clinging then
+                falling = true
+                if not walking then
+                    attribute_set_sprite(sprite_attribute, sprite_walking)
+                    walking = true
+                end
+                if status == -1 then
+                    status = 1
+                    entity_scale(entity, -1.0,1.0,1.0)
+                    entity_set_position(fire, 0.0,0.0,0.0)
+                    entity_scale(fire, -1.0,1.0,1.0)
+                end
+                entity_translate(entity, speed * deltaTime,0.0,0.0)
+                entity_translate(camera, speed * deltaTime,0.0,0.0);
+                entity_translate(fondo, speed * deltaTime,0.0,0.0);
+                local camera_pos = entity_get_position(camera)
+                component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
+            else
+                if not walking_clinging then
+                    attribute_set_sprite(sprite_attribute, sprite_walking_clinging)
+                    walking_clinging = true
+                end
+                if status == -1 then
+                    status = 1
+                    entity_scale(entity, -1.0,1.0,1.0)
+                    entity_set_position(fire, 0.0,0.0,0.0)
+                    entity_scale(fire, -1.0,1.0,1.0)
+                end
+                    entity_translate(entity,speed * deltaTime,0.0,0.0)
+                    entity_translate(camera, speed * deltaTime,0.0,0.0);
+                    entity_translate(fondo, speed * deltaTime,0.0,0.0);
+                    local camera_pos = entity_get_position(camera)
+                    component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
             end
-            if status == -1 then
-                status = 1
-                entity_scale(entity, -1.0,1.0,1.0)
-                entity_set_position(fire, 0.0,0.0,0.0)
-                entity_scale(fire, -1.0,1.0,1.0)
-            end
-            entity_translate(entity, speed * deltaTime,0.0,0.0)
-            entity_translate(camera, speed * deltaTime,0.0,0.0);
-            entity_translate(fondo, speed * deltaTime,0.0,0.0);
-            local camera_pos = entity_get_position(camera)
-            component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
         end
         if is_pressed(KEY_LEFT) then
-            falling = true
-            if not walking then
-                attribute_set_sprite(sprite_attribute, sprite_walking)
-                walking = true
+            if not clinging then
+                falling = true
+                if not walking then
+                    attribute_set_sprite(sprite_attribute, sprite_walking)
+                    walking = true
+                end
+                if status == 1 then
+                    status = -1
+                    entity_scale(entity, -1.0,1.0,1.0)
+                    entity_set_position(fire, 0.0,0.0,0.0)
+                    entity_scale(fire, -1.0,1.0,1.0)
+                end
+                entity_translate(entity,-speed * deltaTime,0.0,0.0)
+                entity_translate(camera, -speed * deltaTime,0.0,0.0);
+                entity_translate(fondo, -speed * deltaTime,0.0,0.0);
+                local camera_pos = entity_get_position(camera)
+                component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
+            else
+                if not walking_clinging then
+                    attribute_set_sprite(sprite_attribute, sprite_walking_clinging)
+                    walking_clinging = true
+                end
+                if status == 1 then
+                    status = -1
+                    entity_scale(entity, -1.0,1.0,1.0)
+                    entity_set_position(fire, 0.0,0.0,0.0)
+                    entity_scale(fire, -1.0,1.0,1.0)
+                end
+                    entity_translate(entity,-speed * deltaTime,0.0,0.0)
+                    entity_translate(camera, -speed * deltaTime,0.0,0.0);
+                    entity_translate(fondo, -speed * deltaTime,0.0,0.0);
+                    local camera_pos = entity_get_position(camera)
+                    component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
             end
-            if status == 1 then
-                status = -1
-                entity_scale(entity, -1.0,1.0,1.0)
-                entity_set_position(fire, 0.0,0.0,0.0)
-                entity_scale(fire, -1.0,1.0,1.0)
-            end
-            entity_translate(entity,-speed * deltaTime,0.0,0.0)
-            entity_translate(camera, -speed * deltaTime,0.0,0.0);
-            entity_translate(fondo, -speed * deltaTime,0.0,0.0);
-            local camera_pos = entity_get_position(camera)
-            component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
         end
         if is_pressed(KEY_UP) then
-            entity_translate(entity,0.0,speed * deltaTime,0.0)
+            --[[ entity_translate(entity,0.0,speed * deltaTime,0.0)
             entity_translate(camera,0.0, speed * deltaTime,0.0);
             entity_translate(fondo,0.0, speed * deltaTime,0.0);
             local camera_pos = entity_get_position(camera)
-            component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
+            component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3]) ]]
         end
         if is_pressed(KEY_DOWN) then
-            if not ducking then
-                sprite_set_speed(sprite_ducking,ducking_speed)
-                sprite_restart(sprite_ducking)
-                --Cambio el sprite a ducking
-                attribute_set_sprite(sprite_attribute,sprite_ducking)
-                --seteo ducking true
-                ducking = true
-            else
-                index_ducking = sprite_get_current_image(sprite_ducking)
-                if index_ducking == 3 then
-                    sprite_set_speed(sprite_ducking,0.0)
+            if not clinging then
+                if not ducking then
+                    sprite_set_speed(sprite_ducking,ducking_speed)
+                    sprite_restart(sprite_ducking)
+                    --Cambio el sprite a ducking
+                    attribute_set_sprite(sprite_attribute,sprite_ducking)
+                    --seteo ducking true
+                    ducking = true
+                else
+                    index_ducking = sprite_get_current_image(sprite_ducking)
+                    if index_ducking == 3 then
+                        sprite_set_speed(sprite_ducking,0.0)
+                    end
                 end
             end
+            
 --[[             entity_translate(entity,0.0,-speed * deltaTime,0.0)
             entity_translate(fondo,0.0, -speed * deltaTime,0.0);
             entity_translate(camera,0.0, -speed * deltaTime,0.0);
@@ -142,6 +185,13 @@ function on_update()
                 attribute_set_sprite(sprite_attribute, sprite_idle)
                 sprite_set_speed(sprite_ducking,11.4)
                 sprite_restart(sprite_ducking)
+            end
+            if clinging and not walking_clinging then
+                attribute_set_sprite(sprite_attribute, sprite_clinging)
+            end
+            if clinging and walking_clinging then
+                walking_clinging = false
+                attribute_set_sprite(sprite_attribute, sprite_clinging)
             end
             
         end
@@ -170,6 +220,7 @@ function on_update()
             print("C")
             vspeed = 500
             attribute_set_sprite(sprite_attribute,jumping1)
+            clinging = false
             --entity_translate(entity, 0.0,100.0,0.0 )
             falling = true
         end
@@ -189,14 +240,32 @@ function on_update()
 end
 
 function on_collision(other)
-    print("JIM::COLISION")
+    local entity_name = entity_get_name(other)
     --collision = true
-    if falling then
-        falling = false
-        local collision_position = entity_get_position(other)
-        local entiy_pos = entity_get_position(entity)
-        entity_translate(entity,0,1,0)
-        vspeed = 0
+    --print(entity_name)
+    if entity_name == "floor" then
+        if falling then
+            falling = false
+            local collision_position = entity_get_position(other)
+            local entiy_pos = entity_get_position(entity)
+            entity_translate(entity,0,1,0)
+            vspeed = 0
+        end
+    end
+    if entity_name == "bird" then
+        print("BIRD")
+    end
+    --print(entity_name)
+    if entity_name == "rope" then
+        if not clinging then
+            clinging = true
+            vspeed = 0
+            local collision_position = entity_get_position(other)
+            local entiy_pos = entity_get_position(entity)
+            print(clinging)
+            --entity_translate(entity,0,-1,0)
+            falling = false
+        end
     end
     --vspeed = 0
 end

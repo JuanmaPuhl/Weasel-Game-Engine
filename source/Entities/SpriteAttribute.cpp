@@ -22,9 +22,9 @@ void SpriteAttribute::passToShader(Shader* shader, double deltaTime)
         unsigned int img = this->sprite->getSpriteImage(this->sprite->getCurrentSprite(deltaTime));
         glBindTexture(GL_TEXTURE_2D, img);
         float transparency = this->sprite->getTransparency();
+        printf("La transparencia es: %f\n",transparency);
         shader->setUniform("transparency",&transparency);
     }
-    
 }
 
 void SpriteAttribute::setSprite(Sprite* sprite)
@@ -47,7 +47,7 @@ GraphicAttribute* SpriteAttribute::copy()
 void SpriteAttribute::unbind(Shader* shader)
 {
     glBindTexture(GL_TEXTURE_2D, 0);
-    float transparency = 1.0f;
+    float transparency = 0.0f;
     shader->setUniform("transparency",&(transparency));
 }
 

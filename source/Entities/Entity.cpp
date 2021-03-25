@@ -357,6 +357,8 @@ void Entity::loadProject(nlohmann::json entity)
 {
     //Tengo que setear el nombre
     std::string name = entity["name"];
+    if(name.c_str()!=NULL)
+        this->setName(name.c_str());
     nlohmann::json position = entity["position"];
     glm::vec3 pos = glm::vec3(position["x"],position["y"],position["z"]);
     this->setPosition(pos);
@@ -481,8 +483,13 @@ void Entity::loadProject(nlohmann::json entity)
         if(!strcmp(name.c_str(),"color"))
         {
             nlohmann::json color = attr["color"];
-            glm::vec3 colorcito = glm::vec3(color["x"],color["y"],color["z"]);
+            glm::vec4 colorcito ;
+            printf("Llegue aca");
+            float alpha = color["a"];
+            colorcito = glm::vec4(color["x"],color["y"],color["z"],alpha);
+            printf("Y tambien llegue aca.\n");
             ColorAttribute* colAttr = new ColorAttribute(colorcito);
+            
             this->addAttribute(colAttr);
         }
     }
