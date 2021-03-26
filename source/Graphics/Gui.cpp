@@ -294,6 +294,7 @@ void newProjectPopup()
         { 
             ImGui::CloseCurrentPopup(); 
             Game::newGame();
+            gamedata->saveFile = "";
         }
         ImGui::SetItemDefaultFocus();
         ImGui::SameLine();
@@ -310,6 +311,7 @@ static void ShowExampleMenuFile()
     ImGui::MenuItem("New");
     if(ImGui::IsItemClicked()){
         ImGui::OpenPopup("New?");  
+        
     }
     
     newProjectPopup();
@@ -323,6 +325,7 @@ static void ShowExampleMenuFile()
             char buffer [261];
             sprintf (buffer, "%s",toReturn);
             Game::loadProject(buffer);
+            gamedata->saveFile = buffer;
         }
     }
     if (ImGui::MenuItem("Save")) 
