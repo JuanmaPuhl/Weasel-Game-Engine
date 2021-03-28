@@ -7,6 +7,7 @@ function on_create()
     status = 1
     count = 1
     walking = false
+    trepando = false
     prueba = "Esto es una prueba"
     level = game_get_current_level()
     entities = level_get_entities(level)
@@ -17,11 +18,14 @@ function on_create()
     jumping1 = game_find_sprite("jumping1")
     jumping2 = game_find_sprite("jumping2")
     jumping3 = game_find_sprite("jumping3")
+    climbing_sprite = game_find_sprite("climbing")
     sprite_clinging = game_find_sprite("clinging")
     sprite_walking_clinging = game_find_sprite("walking_clinging")
+    damage_sprite = game_find_sprite("jim_damage")
     walking_clinging = false
     clinging = false
     ducking_speed = sprite_get_speed(sprite_ducking)
+    jim_being_hurt = false
     print(ducking_speed)
     ducking = false
     print(sprite_idle)
@@ -46,12 +50,14 @@ function on_create()
         music_component = entity_get_component(entity, "music1")
         rebote_music_component = entity_get_component(entity, "music2")
         inodoro_music_component = entity_get_component(entity, "music3")
+        damage_music_component = entity_get_component(entity, "music4")
         print(sprite_attribute)
         print(fire_attr)
 
         sprite_set_transparency(sprite_fire,0.0)
         collision = false
-        
+        disparo_collider = entities[56]
+
     end
     log_print("Esto es una prueba desde LUA")
 end
@@ -66,6 +72,28 @@ function on_update()
         if falling then
             entity_translate(entity,0.0, vspeed * deltaTime,0.0)
             vspeed = vspeed + gravity
+        end
+        if jim_being_hurt then
+            local sp = attribute_get_sprite(sprite_attribute)
+            local curr_sprite = sprite_get_current_image(sp)
+            if curr_sprite == 6 then
+                jim_being_hurt = false
+            end
+            return 1
+        end
+        if trepando then
+            local sp = attribute_get_sprite(sprite_attribute)
+            local curr_sprite = sprite_get_current_image(sp)
+            if curr_sprite == 7 then
+                trepando = false
+                entity_translate(entity,offset_x,offset_y,0)
+                sprite_restart(climbing_sprite)
+                attribute_set_sprite(sprite_attribute,sprite_idle)
+                clinging = false
+                walking_clinging = false
+                falling = true
+            end
+            return 1
         end
         if is_pressed(KEY_RIGHT) then
             if not clinging then
@@ -198,22 +226,31 @@ function on_update()
             
         end
         if is_pressed(KEY_Z) then
-            if not disparando then
-                component_music_set_track(music_component, "res/audio/disparo.wav")
-                print("la direccion es: ")
-                component_music_get_track(music_component)
-                component_music_play_track(music_component,true)
-                --print(track)
+            if not moving and not clinging and not jumping and not jim_being_hurt then
+                if not disparando then
+                    component_music_set_track(music_component, "res/audio/disparo.wav")
+                    print("la direccion es: ")
+                    component_music_get_track(music_component)
+                    component_music_play_track(music_component,true)
+                    --print(track)
+                    sprite_set_transparency(sprite_fire,1.0)
+                    disparando = true
+                    attribute_set_sprite(sprite_attribute, sprite_shooting)
+    
+    
+                    
+                end
                 
-                sprite_set_transparency(sprite_fire,1.0)
-                disparando = true
-                attribute_set_sprite(sprite_attribute, sprite_shooting)
-            end
+                pos = entity_get_position(entity)
+                entity_set_position(fire, pos[1] + status * 36.0, pos[2] + 15.0, pos[3])
+                --Tengo que mover el collider de disparo a la posición deseada
+                entity_set_position(disparo_collider, pos[1], pos[2], pos[3])
+                entity_translate(disparo_collider,status * 200.0,0.0,0.0)
+            end 
             
-            pos = entity_get_position(entity)
-            entity_set_position(fire, pos[1] + status * 36.0, pos[2] + 15.0, pos[3])
         else
             disparando = false
+            entity_set_position(disparo_collider,10000.0,10000.0,20)
             component_music_stop_track(music_component)
             sprite_set_transparency(sprite_fire,0.0)
     
@@ -232,6 +269,7 @@ function on_update()
         if vspeed < 0 and not walking then 
             attribute_set_sprite(sprite_attribute, jumping3)
         end
+        
         --[[ if vspeed == 0 and not is_pressed(KEY_RIGHT) and not is_pressed(KEY_LEFT) and not is_pressed(KEY_Z) and not is_pressed(KEY_DOWN) then
             attribute_set_sprite(sprite_attribute, sprite_idle)
         end ]]
@@ -281,6 +319,29 @@ function on_collision(other)
         component_music_play_track(inodoro_music_component,false)
         bin_activated = true
         entity_set_position(entity,1626.0,168.0,0.0)
+    end
+    if entity_name == "basura" then
+        if not jim_being_hurt then
+            attribute_set_sprite(sprite_attribute,damage_sprite)
+            jim_being_hurt = true
+            component_music_stop_track(damage_music_component)
+            --component_music_set_volume(damage_music_component,0.5)
+            component_music_play_track(damage_music_component,false)
+        end
+    end
+    if entity_name == "border" then
+        if not trepando then
+            trepando = true
+            attribute_set_sprite(sprite_attribute,climbing_sprite)
+            scale = entity_get_scale(other)
+            local entity_scaling = entity_get_scale(entity)
+            offset_x = status * scale[1] --+ entity_scaling[1]/2
+            offset_y = scale[2] --+ entity_scaling[2]
+            falling = false
+            vspeed = 0
+            clinging = false
+            walking_clinging = false
+        end
     end
     --vspeed = 0
 end
