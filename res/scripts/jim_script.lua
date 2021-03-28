@@ -45,6 +45,7 @@ function on_create()
         col_attr = entity_get_attribute(entity,"color")
         music_component = entity_get_component(entity, "music1")
         rebote_music_component = entity_get_component(entity, "music2")
+        inodoro_music_component = entity_get_component(entity, "music3")
         print(sprite_attribute)
         print(fire_attr)
 
@@ -80,10 +81,10 @@ function on_update()
                     entity_scale(fire, -1.0,1.0,1.0)
                 end
                 entity_translate(entity, speed * deltaTime,0.0,0.0)
-                entity_translate(camera, speed * deltaTime,0.0,0.0);
+                --entity_translate(camera, speed * deltaTime,0.0,0.0);
                 entity_translate(fondo, speed * deltaTime,0.0,0.0);
-                local camera_pos = entity_get_position(camera)
-                component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
+                --local camera_pos = entity_get_position(camera)
+                --component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
             else
                 if not walking_clinging then
                     attribute_set_sprite(sprite_attribute, sprite_walking_clinging)
@@ -96,10 +97,10 @@ function on_update()
                     entity_scale(fire, -1.0,1.0,1.0)
                 end
                     entity_translate(entity,speed * deltaTime,0.0,0.0)
-                    entity_translate(camera, speed * deltaTime,0.0,0.0);
+                    --entity_translate(camera, speed * deltaTime,0.0,0.0);
                     entity_translate(fondo, speed * deltaTime,0.0,0.0);
-                    local camera_pos = entity_get_position(camera)
-                    component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
+                    --local camera_pos = entity_get_position(camera)
+                    --component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
             end
         end
         if is_pressed(KEY_LEFT) then
@@ -116,10 +117,10 @@ function on_update()
                     entity_scale(fire, -1.0,1.0,1.0)
                 end
                 entity_translate(entity,-speed * deltaTime,0.0,0.0)
-                entity_translate(camera, -speed * deltaTime,0.0,0.0);
+                --entity_translate(camera, -speed * deltaTime,0.0,0.0);
                 entity_translate(fondo, -speed * deltaTime,0.0,0.0);
-                local camera_pos = entity_get_position(camera)
-                component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
+                --local camera_pos = entity_get_position(camera)
+                --component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
             else
                 if not walking_clinging then
                     attribute_set_sprite(sprite_attribute, sprite_walking_clinging)
@@ -132,10 +133,10 @@ function on_update()
                     entity_scale(fire, -1.0,1.0,1.0)
                 end
                     entity_translate(entity,-speed * deltaTime,0.0,0.0)
-                    entity_translate(camera, -speed * deltaTime,0.0,0.0);
+                    --entity_translate(camera, -speed * deltaTime,0.0,0.0);
                     entity_translate(fondo, -speed * deltaTime,0.0,0.0);
-                    local camera_pos = entity_get_position(camera)
-                    component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
+                    --local camera_pos = entity_get_position(camera)
+                    --component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
             end
         end
         if is_pressed(KEY_UP) then
@@ -275,6 +276,11 @@ function on_collision(other)
         component_music_play_track(rebote_music_component,false)
         vspeed = 500
         falling = true
+    end
+    if entity_name == "inodoro" then
+        component_music_play_track(inodoro_music_component,false)
+        bin_activated = true
+        entity_set_position(entity,1626.0,168.0,0.0)
     end
     --vspeed = 0
 end
