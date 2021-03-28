@@ -79,8 +79,7 @@ static int entity_get_component(lua_State* L)
     {
         std::string indice = lua_tostring(L,-1);
         Component** component = (Component**)lua_newuserdata(L, sizeof(Component*));  
-        if(*component != NULL)
-            *component = (*entity)->getComponent(indice);
+        *component = (*entity)->getComponent(indice);
     }
     
     return 1;
@@ -95,9 +94,9 @@ static int entity_get_attribute(lua_State* L)
     std::string indice = lua_tostring(L,-1);
     if(*entity != NULL)
     {
+
         GraphicAttribute** attribute = (GraphicAttribute**)lua_newuserdata(L, sizeof(GraphicAttribute*));  
-        if(*attribute != NULL)
-            *attribute = (*entity)->getAttribute(indice);   
+        *attribute = (*entity)->getAttribute(indice);   
     }
     
     return 1;
