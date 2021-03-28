@@ -11,7 +11,7 @@ function on_create()
     bin_attack_animation = game_find_sprite("robot_attack")
     bin_initial_sprite_speed = sprite_get_speed(bin_attack_animation)
     bin_music_component = entity_get_component(billy,"music")
-    bin_basura_music_component = entity_get_component(billy, "music2")
+    bin_basura_music_component = entity_get_component(billy, "music1")
     bin_play_sound = false
     bin_attack_counter = 0
     being_hit = false
