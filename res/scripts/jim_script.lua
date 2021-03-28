@@ -267,5 +267,10 @@ function on_collision(other)
             falling = false
         end
     end
+    if entity_name == "rebote" then
+        attribute_set_sprite(sprite_attribute,jumping1)
+        vspeed = 500
+        falling = true
+    end
     --vspeed = 0
 end

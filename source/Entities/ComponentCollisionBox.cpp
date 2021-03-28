@@ -91,8 +91,8 @@ void ComponentCollisionBox::onCreate()
 
 void ComponentCollisionBox::onUpdate()
 {
-    this->x = this->entity->getPosition().x;
-    this->y = this->entity->getPosition().y;
+    this->x = this->entity->getPosition().x - this->width / 2;
+    this->y = this->entity->getPosition().y - this->height / 2;
     Level* level = Game::getCurrentLevel();
     this->list = level->getEntities();
     std::vector<Entity*>::iterator ptr;

@@ -10,6 +10,7 @@
 #include "../Entities/ComponentMusic.h"
 #include "../Entities/LuaScriptComponent.h"
 #include "../Graphics/Sprite.h"
+#include <iomanip>
 Entity::Entity()
 {
     this->quad = new Quad();
@@ -97,12 +98,47 @@ void Entity::render(Shader* shader, double deltaTime)
     {
         (*(ptr))->passToShader(shader,deltaTime);
     }
+    
+    
+    ComponentCollisionBox* cb = (ComponentCollisionBox*) this->getComponent("collider");
     //glBindTexture(GL_TEXTURE_2D, this->sprite->getSpriteImage(this->sprite->getCurrentSprite(deltaTime)));
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    if(cb != NULL)
+    {
+        glm::vec3 posOriginal = this->position;
+        float xb = cb->getX();
+        float yb = cb->getY();
+        float wb = cb->getWidth();
+        float hb = cb->getHeight();
+        std::setprecision(2);
+        glm::vec3 original_scale = this->getScale();
+        printf("xb : %f, yb : %f, wb : %f, hb : %f\n",xb,yb,wb,hb);
+        printf("OLD xb : %f, yb : %f, wb : %f, hb : %f\n",posOriginal.x,posOriginal.y,wb,hb);
+        //this->setPosition(glm::vec3(0.0,0.0,0.0));
+        glm::vec3 new_scale = glm::vec3(wb,hb,1.0);
+        printf("old wb : %f, hb : %f, zb : %f\n",original_scale.x,original_scale.y,original_scale.z);
+        printf(" wb : %f, hb : %f, zb : %f\n",new_scale.x,new_scale.y,new_scale.z);
+        this->scaling = new_scale;
+        this->updateModelMatrix();
+
+        //this->setPosition(glm::vec3(posOriginal.x+float(wb/2.0f),posOriginal.y+float(hb/2.0f),posOriginal.z));
+        glBindTexture(GL_TEXTURE_2D, 0);
+        shader->setUniform("color",glm::value_ptr(glm::vec4(235.0/255.0,183.0/255.0,52.0/255.0,0.5)));
+        shader->setUniform("model",glm::value_ptr(this->modelMatrix));
+        //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        shader->setUniform("color",glm::value_ptr(glm::vec4(0.0,0.0,0.0,0.0)));
+        //this->setPosition(glm::vec3(0.0,0.0,0.0));
+        this->scaling = original_scale;
+        this->updateModelMatrix();
+        //this->setPosition(posOriginal);
+    }
     for(ptr = this->attributes.begin(); ptr<this->attributes.end(); ptr++)
     {
         (*(ptr))->unbind(shader);
     }
+
+    
+
 
     ComponentParticle* cp = (ComponentParticle*)this->getComponent("particle");
     if(cp!=NULL)
