@@ -287,7 +287,6 @@ void newProjectPopup()
 
     if (ImGui::BeginPopupModal("New?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
     {
-        printf("HELLO DARKNESS MY OLD FRIEND\n");
         ImGui::Text("Todo el progreso no guardado se perderá.\n ¿Quieres crear un proyecto nuevo?\n\n");
         ImGui::Separator();
         if (ImGui::Button("OK", ImVec2(120, 0))) 
@@ -321,7 +320,6 @@ static void ShowExampleMenuFile()
         Utils::openFileDialog(toReturn,260);
         if(toReturn != NULL)
         {
-            //printf("Direccion: %s\n",toReturn);
             char buffer [261];
             sprintf (buffer, "%s",toReturn);
             Game::loadProject(buffer);
@@ -504,7 +502,6 @@ void showEntityPopup()
                 ImGui::ColorEdit4("MyColor##3", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel );
                 if(colAttr!=NULL)
                 {   
-                    printf("El color alpha es: %f.\n",color.w);
                     colAttr->setColor(glm::vec4(color.x,color.y,color.z,color.w));
                 }
 
@@ -565,7 +562,6 @@ void showEntityPopup()
                 ImGui::SameLine();
                 ImVec4 color = ImVec4(particleComponent->getColor().x,particleComponent->getColor().y,particleComponent->getColor().z,particleComponent->getColor().a);
                 ImGui::ColorEdit4("MyColor##4", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel );
-                printf("El color alpha es: %f.\n",color.w);
                 particleComponent->setColor(glm::vec4(color.x,color.y,color.z,color.w));
                 ImGui::Text("Dirección");
                 ImGui::SameLine();

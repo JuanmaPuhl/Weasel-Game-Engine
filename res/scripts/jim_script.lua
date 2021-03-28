@@ -43,7 +43,8 @@ function on_create()
         fire_attr = entity_get_attribute(fire, "sprite")
         sprite_fire = attribute_get_sprite(fire_attr)
         col_attr = entity_get_attribute(entity,"color")
-        music_component = entity_get_component(entity, "music1");
+        music_component = entity_get_component(entity, "music1")
+        rebote_music_component = entity_get_component(entity, "music2")
         print(sprite_attribute)
         print(fire_attr)
 
@@ -269,6 +270,9 @@ function on_collision(other)
     end
     if entity_name == "rebote" then
         attribute_set_sprite(sprite_attribute,jumping1)
+        --component_music_stop_track(rebote_music_component)
+        component_music_set_volume(rebote_music_component,0.3)
+        component_music_play_track(rebote_music_component,false)
         vspeed = 500
         falling = true
     end

@@ -222,7 +222,6 @@ class BirdMovement : public ScriptComponent
       this->lasttime = time;
       glm::vec3 pos = bird->getPosition();
       
-      //printf("BIRD::pos: x:%f y:%f z:%f\n",pos.x,pos.y,pos.z);
       
       bird->translate(glm::vec3(this->speed*deltaTime,0.0f,0.0f));
       if(pos.x<-2600)

@@ -82,10 +82,8 @@ void LuaScriptComponent::setScript(std::string script)
     std::string aux = script;
     aux = sReplaceAll(aux,"\\","/");
     this->scr = aux;
-    printf("este script es: %s\n",aux.c_str());
     if(gamedata->status == PLAY)
         this->onCreate();
-    printf("Ya llame al onCreate\n");
 }
 
 

@@ -210,25 +210,19 @@ void Level::loadProject(nlohmann::json level)
     /* int width = camera["width"];
     int height = camera["height"]; */
     Entity* entity_camera = Level::addEntityCamera(1920, 1080);
-    printf("cargo camara.\n");
     entity_camera->loadProject(camera);
-    printf("cargue camara.\n");
     //Tengo que cargar las entidades
     int cant_entities = level["cant_entidades"];
-    printf("Cantidad entidades: %d.\n",cant_entities);
     nlohmann::json entities = level["entidades"];
-    printf("Voy a cargar entidades.\n");
     for(int i = 0; i < cant_entities; i++)
     {
         nlohmann::json entity = entities[i];
         Entity* e = Level::addEntity();
         e->loadProject(entity);
     }
-    printf("Termine de cargar entidades.\n");
     //Tengo que cargar los atributos
     int cant_atributos = level["cant_atributos"];
     nlohmann::json atributos = level["atributos"];
-    printf("Voy a cargar atributos.\n");
     for(int i = 0; i < cant_atributos; i++)
     {
         nlohmann::json a = atributos[i];
@@ -257,10 +251,8 @@ void Level::loadProject(nlohmann::json level)
             Level::addAttribute(dilation);
         }
     }
-    printf("Termino de cargar atributos.\n");
     //Tengo que cargar el gamma correction
     std::string gamma = level["gammaCorrection"];
     bool gamma_correction = (gamma == "1");
     this->gammaCorrection = gamma_correction;
-    printf("Seteo correccion de gama.\n");
 }

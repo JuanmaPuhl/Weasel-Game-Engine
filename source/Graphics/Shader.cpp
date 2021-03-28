@@ -111,7 +111,6 @@ void Shader::getUniforms()
       glGetActiveUniform(shaderProgram, (GLuint)i, bufSize, &length, &size, &type, name);
       names[indexSaved] = name;
       types[indexSaved] = type;
-      printf("Uniform: %s %d\n",name,type);
       locations[indexSaved] = glGetUniformLocation(shaderProgram,name);
       indexSaved++;
   }

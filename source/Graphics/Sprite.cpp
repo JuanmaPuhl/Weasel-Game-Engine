@@ -9,7 +9,6 @@ Sprite::Sprite(const char** dir,int size, std::string name)
     //this->spriteImage = loadImage(dir,mode);
     for(int i = 0; i < size; i++)
     {
-        printf("imagen desde sprite: %s\n",dir[i]);
         std::string aux = dir[i];
         Image* img = imageFileManager::loadImage(aux.c_str());
         
@@ -155,7 +154,6 @@ void Sprite::save(std::ofstream& output)
     {
         char c[256];
         strcpy(c,this->listImages.at(i).c_str());
-        printf("dir imagen: %s\n",c);
         output << " \"" << this->listImages.at(i) << "\"";
         if(img_index + 1 < this->listImages.size())
             output << " , ";

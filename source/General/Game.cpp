@@ -398,9 +398,7 @@ void Game::loadProject(std::string input_dir)
     printf("El contenido del archivo es: %s\n",input_dat.c_str());
     nlohmann::json json = nlohmann::json::parse(input_dat.c_str())["Game"];
     //Tengo que cargar sprites
-    //printf("%s\n",json["cant_sprites"].dump().c_str());
     int cant_sprites = json["cant_sprites"];
-    printf("Ingresando sprites\n");
     for(int i = 0; i < cant_sprites; i++)
     {
         nlohmann::json sprite = json["sprites"][i];
@@ -430,9 +428,7 @@ void Game::loadProject(std::string input_dir)
     {
         nlohmann::json level = json["niveles"][i];
         Level* l = Game::addLevel();
-        printf("Voy a entrar a cargar level.\n");
         l->loadProject(level);
-        printf("Aver.\n");
     }
     int current_level = json["nivel_actual"];
     Game::setLevel(current_level);

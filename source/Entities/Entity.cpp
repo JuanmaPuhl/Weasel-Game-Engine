@@ -105,32 +105,21 @@ void Entity::render(Shader* shader, double deltaTime)
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     if(cb != NULL)
     {
-        glm::vec3 posOriginal = this->position;
         float xb = cb->getX();
         float yb = cb->getY();
         float wb = cb->getWidth();
         float hb = cb->getHeight();
-        std::setprecision(2);
         glm::vec3 original_scale = this->getScale();
-        printf("xb : %f, yb : %f, wb : %f, hb : %f\n",xb,yb,wb,hb);
-        printf("OLD xb : %f, yb : %f, wb : %f, hb : %f\n",posOriginal.x,posOriginal.y,wb,hb);
-        //this->setPosition(glm::vec3(0.0,0.0,0.0));
         glm::vec3 new_scale = glm::vec3(wb,hb,1.0);
-        printf("old wb : %f, hb : %f, zb : %f\n",original_scale.x,original_scale.y,original_scale.z);
-        printf(" wb : %f, hb : %f, zb : %f\n",new_scale.x,new_scale.y,new_scale.z);
         this->scaling = new_scale;
         this->updateModelMatrix();
-
-        //this->setPosition(glm::vec3(posOriginal.x+float(wb/2.0f),posOriginal.y+float(hb/2.0f),posOriginal.z));
         glBindTexture(GL_TEXTURE_2D, 0);
         shader->setUniform("color",glm::value_ptr(glm::vec4(235.0/255.0,183.0/255.0,52.0/255.0,0.5)));
         shader->setUniform("model",glm::value_ptr(this->modelMatrix));
-        //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         shader->setUniform("color",glm::value_ptr(glm::vec4(0.0,0.0,0.0,0.0)));
-        //this->setPosition(glm::vec3(0.0,0.0,0.0));
         this->scaling = original_scale;
         this->updateModelMatrix();
-        //this->setPosition(posOriginal);
     }
     for(ptr = this->attributes.begin(); ptr<this->attributes.end(); ptr++)
     {
@@ -404,7 +393,6 @@ void Entity::loadProject(nlohmann::json entity)
     nlohmann::json scaling = entity["scaling"];
     glm::vec3 sca = glm::vec3(scaling["x"],scaling["y"],scaling["z"]);
     this->setScale(sca);
-    printf("Obtuve todos los datos.\n");
     //Tengo que meter los componentes
     int cant_componentes = entity["cant_componentes"];
     nlohmann::json componentes = entity["componentes"];
@@ -418,7 +406,6 @@ void Entity::loadProject(nlohmann::json entity)
             nlohmann::json c_pos = cmp["position"];
             glm::vec3 c_position = glm::vec3(c_pos["x"],c_pos["y"],c_pos["z"]);
             float zoom = cmp["zoom"];
-            printf("A ver.\n");
             //Si estoy cargando una cámara entonces la unica posibilidad es que sea la camara del nivel
             //Yo ya le asigno la cámara cuando creo la entidad, entonces la busco nomas
             ComponentCamera* cam = (ComponentCamera*) this->getComponent("camera");
@@ -427,7 +414,6 @@ void Entity::loadProject(nlohmann::json entity)
             cam->zoom(zoom);
             cam->setVisibleName(visible_name);
         }
-        printf("El problema no es la cámara\n");
         if(!strcmp(name.c_str(),"collider"))
         {
             std::string visible_name = cmp["visible_name"];
@@ -441,33 +427,23 @@ void Entity::loadProject(nlohmann::json entity)
             box->setVisibleName(visible_name);
             this->addComponent(box);
         }
-        printf("El problema no es la colision.\n");
         if(!strcmp(name.c_str(),"music"))
         {
             std::string visible_name = cmp["visible_name"];
-            printf("Aver1.\n");
             std::string track = cmp["track"];
-            printf("Aver2.\n");
             std::string loop_str = cmp["loop"];
-            printf("Aver3.\n");
             std::string start_str = cmp["start"];
-            printf("Aver4.\n");
             bool loop = (loop_str == "1");
-            printf("Aver5.\n");
             bool start = (start_str == "1");
-            printf("Aver6.\n");
             //Si estoy cargando una cámara entonces la unica posibilidad es que sea la camara del nivel
             //Yo ya le asigno la cámara cuando creo la entidad, entonces la busco nomas
             ComponentMusic* mus = new ComponentMusic(irrklang::createIrrKlangDevice());
-            printf("Aver7.\n");
             mus->setVisibleName(visible_name);
-            mus->setMusic(track),
-            printf("Aver8.\n");
+            mus->setMusic(track);
             mus->setLoop(loop);
             mus->setPlaying(start);
             this->addComponent(mus);
         }
-        printf("El problema no es la musica.\n");
         if(!strcmp(name.c_str(),"particle"))
         {
             std::string visible_name = cmp["visible_name"];
@@ -479,7 +455,6 @@ void Entity::loadProject(nlohmann::json entity)
             mus->setVisibleName(visible_name);
             this->addComponent(mus);
         }
-        printf("El problema no es la particulas.\n");
         if(!strcmp(name.c_str(),"lua_script"))
         {
             
@@ -491,28 +466,22 @@ void Entity::loadProject(nlohmann::json entity)
             mus->setVisibleName(visible_name); 
             this->addComponent(mus);
         }
-        printf("El problema no es la script.\n");
     }
     //Tengo que meter los atributos
     int cant_atributos = entity["cant_atributos"];
     nlohmann::json atributos = entity["atributos"];
     for(int i = 0; i < cant_atributos; i++)
     {   
-        printf("Entre.\n");
         nlohmann::json attr = atributos[i];
         std::string name = attr["name"];
         if(!strcmp(name.c_str(),"sprite"))
         {
-            printf("QUE PASA ACA.\n");
             std::string spr = attr["sprite"];
-            printf("QUE PASA ACA1.\n");
             Sprite* s = Game::findSpriteByName(spr);
             if(s!=NULL)
             {
                 SpriteAttribute* sprAttr = new SpriteAttribute(s);
-                printf("QUE PASA ACA2.\n");
                 this->addAttribute(sprAttr);
-                printf("QUE PASA ACA3.\n");
             }
                 
         }
@@ -520,10 +489,8 @@ void Entity::loadProject(nlohmann::json entity)
         {
             nlohmann::json color = attr["color"];
             glm::vec4 colorcito ;
-            printf("Llegue aca");
             float alpha = color["a"];
             colorcito = glm::vec4(color["x"],color["y"],color["z"],alpha);
-            printf("Y tambien llegue aca.\n");
             ColorAttribute* colAttr = new ColorAttribute(colorcito);
             
             this->addAttribute(colAttr);
