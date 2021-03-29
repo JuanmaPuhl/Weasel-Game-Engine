@@ -113,9 +113,10 @@ int metodoPrincipal()
   static const luaL_Reg lualibs[] =
   {
       { "base", luaopen_base },
+      { "math", luaopen_math},
       { NULL, NULL}
   };
-
+  luaL_openlibs(lua_state);
   const luaL_Reg *lib = lualibs;
   for(; lib->func != NULL; lib++)
   {
