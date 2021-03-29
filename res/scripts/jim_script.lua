@@ -143,7 +143,7 @@ function on_update()
                 end
                 entity_translate(entity, speed * deltaTime,0.0,0.0)
                 --entity_translate(camera, speed * deltaTime,0.0,0.0);
-                entity_translate(fondo, speed * deltaTime,0.0,0.0);
+                --entity_translate(fondo, speed * deltaTime,0.0,0.0);
                 --local camera_pos = entity_get_position(camera)
                 --component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
             else
@@ -159,7 +159,7 @@ function on_update()
                 end
                     entity_translate(entity,speed * deltaTime,0.0,0.0)
                     --entity_translate(camera, speed * deltaTime,0.0,0.0);
-                    entity_translate(fondo, speed * deltaTime,0.0,0.0);
+                    --entity_translate(fondo, speed * deltaTime,0.0,0.0);
                     --local camera_pos = entity_get_position(camera)
                     --component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
             end
@@ -179,7 +179,7 @@ function on_update()
                 end
                 entity_translate(entity,-speed * deltaTime,0.0,0.0)
                 --entity_translate(camera, -speed * deltaTime,0.0,0.0);
-                entity_translate(fondo, -speed * deltaTime,0.0,0.0);
+                --entity_translate(fondo, -speed * deltaTime,0.0,0.0);
                 --local camera_pos = entity_get_position(camera)
                 --component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
             else
@@ -195,7 +195,7 @@ function on_update()
                 end
                     entity_translate(entity,-speed * deltaTime,0.0,0.0)
                     --entity_translate(camera, -speed * deltaTime,0.0,0.0);
-                    entity_translate(fondo, -speed * deltaTime,0.0,0.0);
+                    --entity_translate(fondo, -speed * deltaTime,0.0,0.0);
                     --local camera_pos = entity_get_position(camera)
                     --component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
             end
