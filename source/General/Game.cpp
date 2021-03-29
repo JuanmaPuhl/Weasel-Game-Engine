@@ -190,7 +190,10 @@ Level* Game::getCurrentLevel()
 void Game::setLevel(int level)
 {
     if(level>=0 && level<gamedata->levels.size())
+    {
         gamedata->currentLevel=gamedata->levels.at(level);
+        gamedata->levels.at(level)->createAllScripts();
+    }
     else
     {
         printf("ERROR: Nivel invalido.\n");

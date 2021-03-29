@@ -193,7 +193,13 @@ int Level::getCantAttributesSameType(std::string type)
     return i;
 }
 
-
+void Level::createAllScripts()
+{
+    for(Entity* e : this->entities)
+    {
+        e->createScript();
+    }
+}
 void Level::setGammaCorrection(bool b)
 {
     this->gammaCorrection = b;

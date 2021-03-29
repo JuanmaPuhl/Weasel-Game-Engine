@@ -45,6 +45,7 @@ class Level
     void setGammaCorrection(bool b);
     bool getGammaCorrection();
     void loadProject(nlohmann::json level);
+    void createAllScripts();
     private:
     std::vector<Entity*> entities;
     Entity* cameraEntity = NULL;

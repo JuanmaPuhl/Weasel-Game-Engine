@@ -336,6 +336,18 @@ void Entity::save(std::ofstream& output)
     output << "]";
 }
 
+void Entity::createScript()
+{
+    for(Component* c : this->components)
+    {
+        if(!strcmp(c->getName().c_str(),"lua_script"))
+        {
+            LuaScriptComponent* l = (LuaScriptComponent*)c;
+            l->onCreate();
+        }
+    }
+}
+
 bool Entity::registerInitialState()
 {
     this->initial_position = this->position;

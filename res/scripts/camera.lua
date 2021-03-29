@@ -25,11 +25,16 @@ function on_update()
         fondo_pos = entity_get_position(fondo)
         entity_set_position(camera, ent_pos[1],camera_pos[2],camera_pos[3]);
         entity_set_position(fondo, ent_pos[1], fondo_pos[2],fondo_pos[3])
-        entity_translate(camera,509,0.0,0.0)
-        
-        entity_translate(fondo,200,0.0,0.0)
+        entity_translate(camera,300,0.0,0.0)
+        --entity_translate(fondo,100,0.0,0.0)
         camera_pos = entity_get_position(camera)
-
+        print(camera_pos[1] - 600.0)
+        if camera_pos[1] - 600.0 <= -2853.0 then
+            print("Entre")
+            entity_translate(camera,200.0,0.0,0.0)
+            entity_translate(fondo,200.0,0.0,0.0)
+        end
+        camera_pos = entity_get_position(camera)
         component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
     end
 end

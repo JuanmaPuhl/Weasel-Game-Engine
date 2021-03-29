@@ -47,6 +47,7 @@ class Entity
     bool registerInitialState();
     bool recoverInitialState();
     void loadProject(nlohmann::json entity);
+    void createScript();
     private:
     glm::vec3 position;
     glm::vec3 rotation;
