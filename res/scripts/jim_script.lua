@@ -4,6 +4,7 @@ function on_create()
     vspeed = 0
     falling = true
     disparando = false
+    jefe_final = false
     status = 1
     count = 1
     walking = false
@@ -18,6 +19,7 @@ function on_create()
     jumping1 = game_find_sprite("jumping1")
     jumping2 = game_find_sprite("jumping2")
     jumping3 = game_find_sprite("jumping3")
+    animacion_final = game_find_sprite("jim_ending")
     climbing_sprite = game_find_sprite("climbing")
     sprite_clinging = game_find_sprite("clinging")
     sprite_walking_clinging = game_find_sprite("walking_clinging")
@@ -60,10 +62,41 @@ function on_create()
 
     end
     log_print("Esto es una prueba desde LUA")
+    seteada_animacion = false
+    seteada_musica = false
+    finalizar_juego = false
 end
 
 function on_update()
-    if(entity ~= nil and fire ~= nil ) then
+    if chuck_fin then
+        if finalizar_juego then
+            game_set_current_level(1)
+        else
+            if not seteada_animacion then 
+                attribute_set_sprite(sprite_attribute, animacion_final)
+                seteada_animacion = true
+            end
+            local sp = attribute_get_sprite(sprite_attribute)
+            local curr_sprite = sprite_get_current_image(sp)
+            if curr_sprite == 39 then
+                if not seteada_musica then
+                    seteada_musica = true
+                    component_music_stop_track(entity_get_component(entity, "music"))
+                    component_music_set_track(inodoro_music_component,"C:/Users/juanm/Documents/WeaselEngine/res/audio/yeejaw.wav")
+                    component_music_stop_track(inodoro_music_component)
+                    component_music_play_track(inodoro_music_component,false)
+                    
+                end
+            end
+            if curr_sprite >= 39 then
+                entity_scale(entity,1.05,1.05,1.0)
+            end
+            if curr_sprite == 42 then
+                finalizar_juego = true
+            end
+        end
+    end
+    if(entity ~= nil and fire ~= nil and not chuck_fin) then
         if collision then
             attribute_set_color(col_attr,1.0,0.0,0.0,0.0)
         end
@@ -329,6 +362,15 @@ function on_collision(other)
             component_music_play_track(damage_music_component,false)
         end
     end
+    if entity_name == "pescado" then
+        if not jim_being_hurt then
+            attribute_set_sprite(sprite_attribute,damage_sprite)
+            jim_being_hurt = true
+            component_music_stop_track(damage_music_component)
+            --component_music_set_volume(damage_music_component,0.5)
+            component_music_play_track(damage_music_component,false)
+        end
+    end
     if entity_name == "border" then
         if not trepando then
             trepando = true
@@ -341,6 +383,12 @@ function on_collision(other)
             vspeed = 0
             clinging = false
             walking_clinging = false
+        end
+    end
+    if entity_name == "trigger_chuck" then
+        if not chuck_activated and not jefe_final then
+            chuck_activated = true
+            jefe_final = true
         end
     end
     --vspeed = 0
