@@ -9,7 +9,9 @@ function on_create()
     bird_music_component = entity_get_component(bird,"music")
     bird_sprite_attribute = entity_get_attribute(bird,"sprite")
     speed_bird = 96.0
-    entity_scale(bird,-1.0,1.0,1.0)
+    if entity_get_scale(bird)[1]>0 then
+        entity_scale(bird,-1.0,1.0,1.0)
+    end
     bird_count_hits = 45
     bird_life = 2
     bird_interludio = 100
@@ -35,11 +37,15 @@ function on_update()
     bird_pos = entity_get_position(bird)
     if bird_pos[1] < limit_izq then
         speed_bird = 96.0
-        entity_scale(bird,-1.0,1.0,1.0)
+        if entity_get_scale(bird)[1]<0 then
+            entity_scale(bird,-1.0,1.0,1.0)
+        end
     end
     if bird_pos[1] > limit_der then
         speed_bird = -96.0
-        entity_scale(bird,-1.0,1.0,1.0)
+        if entity_get_scale(bird)[1]>0 then
+            entity_scale(bird,-1.0,1.0,1.0)
+        end
     end
     entity_translate(bird, speed_bird * deltaTime,0.0,0.0);
     

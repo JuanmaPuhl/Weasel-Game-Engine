@@ -103,7 +103,7 @@ void Entity::render(Shader* shader, double deltaTime)
     ComponentCollisionBox* cb = (ComponentCollisionBox*) this->getComponent("collider");
     //glBindTexture(GL_TEXTURE_2D, this->sprite->getSpriteImage(this->sprite->getCurrentSprite(deltaTime)));
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    if(cb != NULL)
+    if(cb != NULL && !gamedata->exported)
     {
         float xb = cb->getX();
         float yb = cb->getY();

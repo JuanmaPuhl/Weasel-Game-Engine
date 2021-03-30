@@ -35,6 +35,14 @@ function on_update()
             entity_translate(fondo,200.0,0.0,0.0)
         end
         camera_pos = entity_get_position(camera)
+        fondo_pos = entity_get_position(fondo)
+        print(camera_pos[1])
+        --[[ if camera_pos[1] + 200 >= 2710 then
+            print("Entre2")
+            entity_translate(camera,-math.abs(camera_pos[1]-2710)+70,0.0,0.0)
+            --entity_translate(fondo, -math.abs(fondo_pos[1]-2710)+100,0.0,0.0)
+        end ]]
+        camera_pos = entity_get_position(camera)
         component_camera_move(component_camera,camera_pos[1],camera_pos[2],camera_pos[3])
     end
 end

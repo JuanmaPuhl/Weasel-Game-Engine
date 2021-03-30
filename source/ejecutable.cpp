@@ -56,7 +56,7 @@ int metodoPrincipal()
       { "base", luaopen_base },
       { NULL, NULL}
   };
-
+  luaL_openlibs(lua_state);
   const luaL_Reg *lib = lualibs;
   for(; lib->func != NULL; lib++)
   {
