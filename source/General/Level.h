@@ -22,24 +22,58 @@ class Level
      */
     ~Level();
     /**
-     * @brief Renderiza el nivel
+     * @brief Renderiza todas las entidades
      * 
+     * @param shader shader utilizado
+     * @param deltaTime Tiempo que paso entre cuadros
      */
     void render(Shader* shader, double deltaTime);
+    /**
+     * @brief Añade una entidad al nivel
+     * 
+     * @return Entity* Referencia a la entidad creada
+     */
     Entity* addEntity();
+    /**
+     * @brief Añade una cámara al nivel
+     * 
+     * @param width ancho de la cámara
+     * @param height alto de la cámara
+     * @return Entity* referencia a la cámara
+     */
     Entity* addEntityCamera(int width, int height);
+    /**
+     * @brief Elimina una entidad
+     * 
+     * @param entity indice a eliminar
+     * @return true si fue exitoso
+     * @return false si fallo
+     */
     bool removeEntity(int entity);
+    /**
+     * @brief Get the Entities object
+     * 
+     * @return std::vector<Entity*> 
+     */
     std::vector<Entity*> getEntities();
+    /**
+     * @brief Guarda en distintas variables el valor inicial antes de empezar a ejecutar
+     * 
+     * @return true 
+     * @return false 
+     */
     bool registerInitialState();
+    /**
+     * @brief Restaura los valores iniciales luego de detener el juego
+     * 
+     * @return true 
+     * @return false 
+     */
     bool recoverInitialState();
     void addAttribute(GraphicAttribute* attr);
     std::vector<GraphicAttribute*> getAttributes();
     void removeAttribute(std::string name);
     Entity* getCamera();
-    /**
-     * @brief Actualiza todas las entidades del nivel
-     * 
-     */
     void onUpdate(double deltaTime);
     void save(std::ofstream& output_dir);
     void setGammaCorrection(bool b);
