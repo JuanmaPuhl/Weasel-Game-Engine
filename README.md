@@ -1,14 +1,14 @@
 # Weasel-Game-Engine
-**Proyecto final de carrera**  
+**Final project of Computer Engineering degree**  
 
-**Requisitos:**
-- Tener instalado cmake o alguna herramienta similar.
-- Tener instalado OpenGL (Preferible última versión disponible).
+**Requirements:**
+- Have installed make or a similar tool.
+- Have installed OpenGL (latest version desirable).
 
-**Como ejecutar:**  
-Ejecutar el comando Make y luego main (WINDOWS)
+**How to run:**  
+Use the command make and then main (WINDOWS)
 
-**Librerias utilizadas:**
+**Used libraries:**
 - GLFW3
 - Glew
 - stbImage
