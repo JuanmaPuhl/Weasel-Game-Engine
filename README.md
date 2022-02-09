@@ -24,6 +24,15 @@ To show that it can be used for development I recreated the first level of Earth
 
 I presented this on March 30 2021 and everyone loved it. I'm officially a Computer Engineer now 😃.
 
+![1](images/1.png)
+
+![2](images/2.png)
+
+![demostration_1](images/Demostracion_Weasel_Engine.gif)
+
+![demostration_2](images/Demostracion_Weasel_Engine2.gif)
+
+
 **Future work**
 
 I took a time focused in other projects and work, but I'm planning on getting back to this engine and make a better version of it. Expect some new commits in the near future.
